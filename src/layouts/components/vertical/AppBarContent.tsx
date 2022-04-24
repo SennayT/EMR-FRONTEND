@@ -56,7 +56,6 @@ const AppBarContent = (props: Props) => {
         />
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-
         <NotificationDropdown />
         <UserDropdown />
       </Box>
