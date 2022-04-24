@@ -8,6 +8,8 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
+// import 'styles/global.css'
+
 // ** Icons Imports
 import DotsVertical from 'mdi-material-ui/DotsVertical'
 
@@ -86,6 +88,7 @@ const WeeklyOverview = () => {
   return (
     <Card>
       <CardHeader
+        className='card-white'
         title='Weekly Overview'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
@@ -96,7 +99,7 @@ const WeeklyOverview = () => {
           </IconButton>
         }
       />
-      <CardContent sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
+      <CardContent className='card-white' sx={{ '& .apexcharts-xcrosshairs.apexcharts-active': { opacity: 0 } }}>
         <ReactApexcharts type='bar' height={205} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
         <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
           <Typography variant='h5' sx={{ mr: 4 }}>

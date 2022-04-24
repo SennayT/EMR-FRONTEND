@@ -22,6 +22,9 @@ code:not([class*='language-']):after {
 code[class*='language-'] {
   padding: 0;
 }
-.container-grid{
+.container-grid {
   background-color: transparent;
+}
+.card-white {
+  background-color: white;
 }
