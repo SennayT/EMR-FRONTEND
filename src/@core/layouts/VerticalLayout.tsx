@@ -18,15 +18,13 @@ import { LayoutProps } from 'src/@core/layouts/types'
 // ** Components
 import AppBar from './components/vertical/appBar'
 import Navigation from './components/vertical/navigation'
-import Footer from './components/shared-components/footer'
+
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 
-// ** Styled Component
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex'
+  display: 'flex',
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -91,13 +89,7 @@ const VerticalLayout = (props: LayoutProps) => {
             {children}
           </ContentWrapper>
 
-          {/* Footer Component */}
-          <Footer {...props} />
 
-          {/* Portal for React Datepicker */}
-          <DatePickerWrapper sx={{ zIndex: 11 }}>
-            <Box id='react-datepicker-portal'></Box>
-          </DatePickerWrapper>
         </MainContentWrapper>
       </VerticalLayoutWrapper>
 
