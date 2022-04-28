@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { ReactChild, ReactFragment, ReactPortal, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -21,7 +21,7 @@ const ImgStyled = styled('img')(({ theme }) => ({
 
 
 
-const PatientDiagnosis = (props) => {
+const PatientDiagnosis = (props: { user: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined } }) => {
   // ** State
   const [imgSrc] = useState<string>('/images/avatars/1.png')
 

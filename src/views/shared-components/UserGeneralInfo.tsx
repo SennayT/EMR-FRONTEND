@@ -7,10 +7,10 @@ import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
 
 import Card from '@mui/material/Card'
-import { User } from 'src/data/models/UserModel'
+import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 
-const UserGeneralInfo = (props) => {
+const UserGeneralInfo = (props: { user: { email: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; phone: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; gender: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; address: { subCity: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; wereda: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; kebele: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined } } }) => {
 
 
   return (

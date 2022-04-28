@@ -7,9 +7,10 @@ import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
 
 import Card from '@mui/material/Card'
+import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 
-const EmployeeGeneralInfo = (props) => {
+const EmployeeGeneralInfo = (props: { healthCenter: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; email: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; type: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; address: { subCity: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; wereda: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; kebele: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined } } }) => {
 
 
   return (
@@ -71,7 +72,7 @@ const EmployeeGeneralInfo = (props) => {
             </Typography>
             <Divider/>
             <Typography sx={{ fontWeight: 'bold', marginBottom: 5}}>
-              Emergency Contact
+              Specialization
             </Typography>
 
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
@@ -81,9 +82,9 @@ const EmployeeGeneralInfo = (props) => {
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Phone : {' '}
+              Date : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              +2345677654345
+              12/12/21 - 12/12/22
               </Box>
             </Typography>
 

@@ -26,6 +26,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Profile',
       icon: AccountCogOutline,
       path: '/profile'
+    },
+    {
+      title: 'Doctor Dashboard',
+      icon: AccountCogOutline,
+      path: '/doctor'
     }
 
     // {

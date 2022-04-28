@@ -1,5 +1,5 @@
 
-import { Card, CardContent, Typography, Divider} from '@mui/material'
+import { Card, CardContent, Typography} from '@mui/material'
 
 import { useState } from 'react'
 
@@ -9,12 +9,13 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/system'
 import UserGeneralInfo from '../shared-components/UserGeneralInfo'
+
 // import { LockOpenOutline } from 'mdi-material-ui'
 
 
 
 import user from 'src/data/userData'
-import
+
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -36,13 +37,14 @@ const ProfileDetail = () => {
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <ImgStyled src={imgSrc} alt='Profile Pic' />
               <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h5'>Robert Meyer</Typography>
+            <Typography variant='h5'>{user.name}</Typography>
             </Box>
             </Box>
 
       </CardContent>
 
       <UserGeneralInfo user={user}/>
+
     </Card>
   )
 }
