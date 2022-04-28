@@ -7,14 +7,15 @@ import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
 
 import Card from '@mui/material/Card'
+import { User } from 'src/data/models/UserModel'
 
 
-const UserGeneralInfo = () => {
+const UserGeneralInfo = (props) => {
 
 
   return (
     <Card sx = {{backgroundColor: 'white'}}>
-      <CardContent>
+      <CardContent  sx={{marginLeft: '-20px'}}>
         <Grid
           item
           xs={12}
@@ -30,20 +31,20 @@ const UserGeneralInfo = () => {
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Email: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              example@mail.com
+              {props.user.email}
               </Box>
             </Typography>
 
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Phone: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              +8765434567
+              {props.user.phone}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Gender: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              Fluid
+              {props.user.gender}
               </Box>
             </Typography>
             <Divider />
@@ -53,19 +54,19 @@ const UserGeneralInfo = () => {
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Sub-city: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              Arada
+              {props.user.address.subCity}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Wereda: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              10
+              {props.user.address.wereda}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Kebele : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              10
+              {props.user.address.kebele}
               </Box>
             </Typography>
             <Divider/>

@@ -8,7 +8,13 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/system'
+import UserGeneralInfo from '../shared-components/UserGeneralInfo'
 // import { LockOpenOutline } from 'mdi-material-ui'
+
+
+
+import user from 'src/data/userData'
+import
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -36,33 +42,7 @@ const ProfileDetail = () => {
 
       </CardContent>
 
-      <CardContent>
-      {/* <Typography variant='h6'  sx={{ fontWeight: '500' }}>
-              Details
-            </Typography> */}
-            <Divider  sx={{ marginBottom: 2 }} />
-
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Email: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              example@mail.com
-              </Box>
-            </Typography>
-
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Phone: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              +8765434567
-              </Box>
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Gender: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              Fluid
-              </Box>
-            </Typography>
-
-      </CardContent>
+      <UserGeneralInfo user={user}/>
     </Card>
   )
 }

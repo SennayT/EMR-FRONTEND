@@ -1,12 +1,10 @@
-import { User } from "./models/UserModel";
+import { HealthCenter } from "./models/HealthCenterModel";
 
-const user: User = {
+const healthCenter: HealthCenter = {
   id: 1,
-  name: "Ruth Getachew",
-  dateOfBirth: 23,
-  gender: "mayo in a chair",
+  name: "Zewditu Hospital",
+  type: "mayo in a chair",
   email: "example@gmail.com",
-  role: "Doctor",
   phone:"+98765456",
   address: {
     id: 1,
@@ -19,4 +17,4 @@ const user: User = {
     kebele: "10"
   }
 }
-export default user;
+export default healthCenter;

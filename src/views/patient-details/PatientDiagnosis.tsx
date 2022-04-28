@@ -21,7 +21,7 @@ const ImgStyled = styled('img')(({ theme }) => ({
 
 
 
-const PatientDiagnosis = () => {
+const PatientDiagnosis = (props) => {
   // ** State
   const [imgSrc] = useState<string>('/images/avatars/1.png')
 
@@ -36,7 +36,7 @@ const PatientDiagnosis = () => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <ImgStyled src={imgSrc} alt='Profile Pic' />
               <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h3'>Robert Meyer</Typography>
+            <Typography variant='h3'>{props.user.name}</Typography>
             <Typography variant='subtitle2'>Last Data Entry: April 20, 2021</Typography>
           </Box>
 

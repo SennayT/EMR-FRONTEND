@@ -9,12 +9,12 @@ import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card'
 
 
-const PatientGeneralInfo = () => {
+const EmployeeGeneralInfo = (props) => {
 
 
   return (
     <Card sx = {{backgroundColor: 'white'}}>
-      <CardContent>
+      <CardContent  sx={{marginLeft: '-20px'}}>
         <Grid
           item
           xs={12}
@@ -24,26 +24,27 @@ const PatientGeneralInfo = () => {
           <CardContent>
 
           <Typography variant='h5'  sx={{ fontWeight: 'bold', marginBottom: 5 }}>
-              Basic Information
+              Employee Information
+            </Typography>
+
+            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
+              Name: {' '}
+              <Box component='span' sx={{ fontWeight: '400' }}>
+              {props.healthCenter.name}
+              </Box>
             </Typography>
 
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Email: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              example@mail.com
+              {props.healthCenter.email}
               </Box>
             </Typography>
 
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Phone: {' '}
+              Type: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              +8765434567
-              </Box>
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Gender: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              Fluid
+              {props.healthCenter.type}
               </Box>
             </Typography>
             <Divider />
@@ -53,19 +54,19 @@ const PatientGeneralInfo = () => {
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Sub-city: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              Arada
+              {props.healthCenter.address.subCity}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Wereda: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              10
+              {props.healthCenter.address.wereda}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Kebele : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              10
+              {props.healthCenter.address.kebele}
               </Box>
             </Typography>
             <Divider/>
@@ -96,4 +97,4 @@ const PatientGeneralInfo = () => {
   )
 }
 
-export default PatientGeneralInfo
+export default EmployeeGeneralInfo

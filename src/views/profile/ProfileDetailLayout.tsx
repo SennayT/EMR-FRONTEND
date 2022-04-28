@@ -18,7 +18,7 @@ const ProfileDetailLayout = () => {
   return (
    <Grid container>
      <Grid item xs={4}>
-        <ProfileDetail></ProfileDetail>
+        <ProfileDetail ></ProfileDetail>
      </Grid>
      <Grid item xs={6}>
      </Grid>
