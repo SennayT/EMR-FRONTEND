@@ -18,11 +18,11 @@ const PatientDetail = () => {
     <Grid className="container-grid" spacing={5} container item>
       <Grid item xs={4}>
         <PatientGeneralInfo/>
-      <DiagnosisHistory />
       </Grid>
       <Divider />
-      <Grid item xs={8}>
+      <Grid item xs={8} >
         <PatientDiagnosis/>
+      <DiagnosisHistory  />
 
       </Grid>
     </Grid>

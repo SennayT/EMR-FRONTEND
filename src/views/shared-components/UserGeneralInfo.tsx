@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card'
 
 
-const PatientGeneralInfo = () => {
+const UserGeneralInfo = () => {
 
 
   return (
@@ -96,4 +96,4 @@ const PatientGeneralInfo = () => {
   )
 }
 
-export default PatientGeneralInfo
+export default UserGeneralInfo

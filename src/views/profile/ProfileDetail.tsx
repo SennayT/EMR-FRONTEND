@@ -1,5 +1,5 @@
 
-import { Card, CardContent, Grid, Typography} from '@mui/material'
+import { Card, CardContent, Typography, Divider} from '@mui/material'
 
 import { useState } from 'react'
 
@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import { styled } from '@mui/material/styles'
 import { Box } from '@mui/system'
-import { LockOpenOutline } from 'mdi-material-ui'
+// import { LockOpenOutline } from 'mdi-material-ui'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -37,34 +37,31 @@ const ProfileDetail = () => {
       </CardContent>
 
       <CardContent>
-      <Grid>
-        <Grid>
-        <Box>
-          <Box>
-          <LockOpenOutline sx={{ color: 'primary.main', marginRight: 2.75 }} fontSize='small' />
-          <Box>
-            <Typography variant='h6'>
-              Some Some
+      {/* <Typography variant='h6'  sx={{ fontWeight: '500' }}>
+              Details
+            </Typography> */}
+            <Divider  sx={{ marginBottom: 2 }} />
+
+            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
+              Email: {' '}
+              <Box component='span' sx={{ fontWeight: '400' }}>
+              example@mail.com
+              </Box>
             </Typography>
-            <p>ewsdf</p>
-          </Box>
-          </Box>
-        </Box>
-        </Grid>
-        <Grid>
-        <Box>
-          <Box>
-          <LockOpenOutline sx={{ color: 'primary.main', marginRight: 2.75 }} fontSize='small' />
-          <Box>
-            <Typography variant='h6'>
-              Some Some
+
+            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
+              Phone: {' '}
+              <Box component='span' sx={{ fontWeight: '400' }}>
+              +8765434567
+              </Box>
             </Typography>
-            <p>ewsdf</p>
-          </Box>
-          </Box>
-        </Box>
-        </Grid>
-      </Grid>
+            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
+              Gender: {' '}
+              <Box component='span' sx={{ fontWeight: '400' }}>
+              Fluid
+              </Box>
+            </Typography>
+
       </CardContent>
     </Card>
   )
