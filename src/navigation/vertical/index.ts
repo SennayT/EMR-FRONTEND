@@ -31,7 +31,13 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Doctor Dashboard',
       icon: AccountCogOutline,
       path: '/doctor'
+    },
+    {
+      title: 'Lab Expert Dashboard',
+      icon: AccountCogOutline,
+      path: '/lab-expert'
     }
+
 
     // {
     //   sectionTitle: 'Pages'
