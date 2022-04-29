@@ -4,6 +4,7 @@ import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
+import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -13,14 +14,20 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
-      title: 'Account Settings',
-      icon: AccountCogOutline,
-      path: '/account-settings'
+      sectionTitle: 'Pages'
     },
     {
       title: 'Patient Details',
       icon: AccountCogOutline,
       path: '/patient-details'
+    },
+    {
+      title: 'Register Patient',
+      icon: AccountEditOutline,
+      path: '/reception/register-patient'
+    },
+    {
+      sectionTitle: 'Account'
     },
     {
       title: 'Profile',
