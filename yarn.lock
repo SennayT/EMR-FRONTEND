@@ -594,7 +594,7 @@
     "prop-types" "^15.8.1"
     "reselect" "^4.1.5"
 
-"@mui/x-data-grid@5.10.0":
+"@mui/x-data-grid@^5.10.0", "@mui/x-data-grid@5.10.0":
   "integrity" "sha512-+NELUtA+6RAVFHR8sGrSxtJC8+3NQMLflYBm816DXjQvPA8vvCPI50SPKCUYUpBuepQtTBQWcty0Tdm9tjzInA=="
   "resolved" "https://registry.npmjs.org/@mui/x-data-grid/-/x-data-grid-5.10.0.tgz"
   "version" "5.10.0"

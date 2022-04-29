@@ -2,7 +2,7 @@
 // import { ChangeEvent, forwardRef, MouseEvent, useState } from 'react'
 
 // ** MUI Imports
-import PatientRegistrationForm from 'src/views/reception/registration-form'
+import PatientRegistrationForm from 'src/views/reception/RegistrationForm'
 
 // interface State {
 //   password: string
