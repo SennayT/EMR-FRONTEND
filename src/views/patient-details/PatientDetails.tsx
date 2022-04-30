@@ -7,6 +7,7 @@ import DiagnosisHistory from './DiagnosisHistory'
 import UserGeneralInfo from '../shared-components/UserGeneralInfo'
 
 import user from 'src/data/userData'
+import PatientActionsBar from '../doctor/component/PatientActionsBar'
 
 const PatientDetail = () => {
   // ** State
@@ -16,6 +17,9 @@ const PatientDetail = () => {
   return (
 
     <Grid className="container-grid" spacing={5} container item>
+      <Grid item xs={12}>
+        <PatientActionsBar />
+      </Grid>
       <Grid item xs={4}>
         <UserGeneralInfo user={user}/>
       </Grid>
