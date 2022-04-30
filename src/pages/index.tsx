@@ -24,6 +24,8 @@
 
 import ReceptionDashboard from './reception'
 
+// import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
+
 const Dashboard = () => {
   return (
     <ReceptionDashboard />

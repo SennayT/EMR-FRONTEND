@@ -1,10 +1,12 @@
 // ** Icon imports
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import AccountCogOutline from 'mdi-material-ui/AccountCogOutline'
+import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
+import Account from 'mdi-material-ui/Account'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
+import HospitalIcon from 'mdi-material-ui/HospitalBoxOutline'
 
 const navigation = (): VerticalNavItemsType => {
   return [
@@ -14,11 +16,26 @@ const navigation = (): VerticalNavItemsType => {
       path: '/'
     },
     {
+      title: 'System Admin Dashboard',
+      icon: HomeOutline,
+      path: '/system-admin'
+    },
+    {
+      title: 'Doctor Dashboard',
+      icon: HomeOutline,
+      path: '/doctor'
+    },
+    {
+      title: 'Lab Expert Dashboard',
+      icon: HomeOutline,
+      path: '/lab-expert'
+    },
+    {
       sectionTitle: 'Pages'
     },
     {
       title: 'Patient Details',
-      icon: AccountCogOutline,
+      icon: AccountDetails,
       path: '/patient-details'
     },
     {
@@ -27,24 +44,18 @@ const navigation = (): VerticalNavItemsType => {
       path: '/reception/register-patient'
     },
     {
+      title: 'Add Hospital',
+      icon: HospitalIcon,
+      path: '/system-admin/add-hospital'
+    },
+    {
       sectionTitle: 'Account'
     },
     {
       title: 'Profile',
-      icon: AccountCogOutline,
+      icon: Account,
       path: '/profile'
-    },
-    {
-      title: 'Doctor Dashboard',
-      icon: AccountCogOutline,
-      path: '/doctor'
-    },
-    {
-      title: 'Lab Expert Dashboard',
-      icon: AccountCogOutline,
-      path: '/lab-expert'
     }
-
 
     // {
     //   sectionTitle: 'Pages'
