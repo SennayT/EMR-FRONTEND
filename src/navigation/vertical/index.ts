@@ -3,6 +3,8 @@ import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
 import Account from 'mdi-material-ui/Account'
 
+// import AccountOutline from 'mdi-material-ui/AccountOutline'
+
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
@@ -29,6 +31,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Lab Expert Dashboard',
       icon: HomeOutline,
       path: '/lab-expert'
+    },
+    {
+      title: 'Patient Dashboard',
+      icon: HomeOutline,
+      path: '/patient'
     },
     {
       sectionTitle: 'Pages'
