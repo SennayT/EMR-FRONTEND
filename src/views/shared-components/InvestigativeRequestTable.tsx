@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Typography } from '@mui/material';
-import InvestigativeRequestResultFrom from './form-components/InvestigativeRequestResultForm';
+import InvestigativeRequestResultFrom from './form-components/LabResultForm';
 
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
