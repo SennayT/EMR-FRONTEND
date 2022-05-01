@@ -1,69 +1,66 @@
 import { Fragment, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { Button, Grid, Typography } from '@mui/material'
-import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
+import AddEmployee from 'src/views/shared-components/form-components/AddEmployeeForm'
 
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
-// import Magnify from 'mdi-material-ui/Magnify'
-// import InputAdornment from '@mui/material/InputAdornment'
-
 const rows = [
   {
     id: 1,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 2,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 3,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 4,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 5,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 6,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 7,
-    HealthCenterName: 'St. Paul Hospital',
+    EmployeesName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
-    City: 'Addis Ababa'
+    HealthCenter: 'St. Paul Hospital'
   }
 ]
 
-const HealthCenters = () => {
+const Employees = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleClickOpen = () => setOpen(true)
@@ -72,8 +69,8 @@ const HealthCenters = () => {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'HealthCenterName',
-      headerName: 'Health Center',
+      field: 'EmployeesName',
+      headerName: 'Employee',
       width: 150,
       editable: false
     },
@@ -91,8 +88,8 @@ const HealthCenters = () => {
       editable: false
     },
     {
-      field: 'City',
-      headerName: 'City',
+      field: 'HealthCenter',
+      headerName: 'Health Center',
       width: 150,
       editable: false
     }
@@ -103,12 +100,12 @@ const HealthCenters = () => {
       <Grid container>
         <Grid item xs={8}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
-            Health Centers
+            Employees
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add Health Center
+            Add Employee
           </Button>
         </Grid>
       </Grid>
@@ -125,9 +122,9 @@ const HealthCenters = () => {
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
-          <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
+          <DialogTitle id='max-width-dialog-title'>Employee Registration Form </DialogTitle>
           <DialogContent>
-            <AddHealthCenter />
+            <AddEmployee />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
@@ -136,4 +133,4 @@ const HealthCenters = () => {
   )
 }
 
-export default HealthCenters
+export default Employees

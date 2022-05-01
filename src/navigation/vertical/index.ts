@@ -2,6 +2,7 @@
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
 import Account from 'mdi-material-ui/Account'
+import EmployeeIcon from 'mdi-material-ui/AccountMultiple'
 
 // import AccountOutline from 'mdi-material-ui/AccountOutline'
 
@@ -21,6 +22,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'System Admin Dashboard',
       icon: HomeOutline,
       path: '/system-admin'
+    },
+    {
+      title: 'Hospital Admin Dashboard',
+      icon: HomeOutline,
+      path: '/hospital-admin'
     },
     {
       title: 'Doctor Dashboard',
@@ -54,6 +60,11 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Health Centers',
       icon: HospitalIcon,
       path: '/system-admin/health-centers'
+    },
+    {
+      title: 'Employees',
+      icon: EmployeeIcon,
+      path: '/hospital-admin/employees'
     },
     {
       sectionTitle: 'Account'
