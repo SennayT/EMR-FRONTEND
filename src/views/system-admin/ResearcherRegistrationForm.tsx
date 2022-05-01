@@ -9,7 +9,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
 import AddressInformationForm from '../shared-components/AddressInformationForm'
 
-export default function EmRegistrationForm() {
+export default function ResearcherRegistrationForm() {
   return (
     <Grid container spacing={6}>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>

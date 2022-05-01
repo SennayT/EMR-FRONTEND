@@ -67,6 +67,11 @@ const navigation = (): VerticalNavItemsType => {
       path: '/hospital-admin/employees'
     },
     {
+      title: 'Researchers',
+      icon: EmployeeIcon,
+      path: '/system-admin/researchers'
+    },
+    {
       sectionTitle: 'Account'
     },
     {
