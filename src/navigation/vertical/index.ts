@@ -51,9 +51,9 @@ const navigation = (): VerticalNavItemsType => {
       path: '/reception/register-patient'
     },
     {
-      title: 'Add Hospital',
+      title: 'Health Centers',
       icon: HospitalIcon,
-      path: '/system-admin/add-hospital'
+      path: '/system-admin/health-centers'
     },
     {
       sectionTitle: 'Account'
