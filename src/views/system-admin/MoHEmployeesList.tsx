@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { Button, Grid, Typography } from '@mui/material'
-import AddResearcher from 'src/views/shared-components/form-components/AddResearcherForm'
+import AddMoHEmployee from 'src/views/shared-components/form-components/AddMoHEmployeeForm'
 
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -11,56 +11,56 @@ import DialogContent from '@mui/material/DialogContent'
 const rows = [
   {
     id: 1,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 2,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 3,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 4,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 5,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 6,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   },
   {
     id: 7,
-    ResearchersName: 'Rediet Demisse',
+    MoHEmployeeName: 'Rediet Demisse',
     note: 'Lorem ipsum sth sth they always write on the templates',
     date: '12/12/2022',
     City: 'Addis Ababa'
   }
 ]
 
-const Researchers = () => {
+const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleClickOpen = () => setOpen(true)
@@ -69,8 +69,8 @@ const Researchers = () => {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'ResearchersName',
-      headerName: 'Researcher',
+      field: 'MoHEmployeeName',
+      headerName: 'MoH Employee',
       width: 150,
       editable: false
     },
@@ -100,12 +100,12 @@ const Researchers = () => {
       <Grid container>
         <Grid item xs={8}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
-            Researchers
+            MoH Employees
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add Researcher
+            Add MoH Employee
           </Button>
         </Grid>
       </Grid>
@@ -122,9 +122,9 @@ const Researchers = () => {
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
-          <DialogTitle id='max-width-dialog-title'>Researcher Registration Form </DialogTitle>
+          <DialogTitle id='max-width-dialog-title'>MoH Employee Registration Form </DialogTitle>
           <DialogContent>
-            <AddResearcher />
+            <AddMoHEmployee />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
@@ -133,4 +133,4 @@ const Researchers = () => {
   )
 }
 
-export default Researchers
+export default MoHEmployees

@@ -72,6 +72,11 @@ const navigation = (): VerticalNavItemsType => {
       path: '/system-admin/researchers'
     },
     {
+      title: 'MoH Employees',
+      icon: EmployeeIcon,
+      path: '/system-admin/moh-employees'
+    },
+    {
       sectionTitle: 'Account'
     },
     {
