@@ -1,6 +1,6 @@
 
 // ** MUI Imports
-import {Grid, Button} from '@mui/material'
+import {Grid, Button, Link} from '@mui/material'
 
 const PatientActionsBar = () => {
   // ** State
@@ -11,7 +11,7 @@ const PatientActionsBar = () => {
     handler: ""
   },
   {name: 'other',
-    handler: ""
+    path: '/doctor/issue-investigation/'
   }
   ]
 
@@ -22,6 +22,8 @@ const PatientActionsBar = () => {
         return (
 
       <Grid item key={action.name} >
+      <Link  href={action.path === undefined ? '/' : `${action.path}`}>
+
       <Button
           variant="outlined"
           color="primary"
@@ -30,6 +32,7 @@ const PatientActionsBar = () => {
           >
           {action.name}
         </Button>
+        </Link>
       </Grid>
       );
         }

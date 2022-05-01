@@ -13,7 +13,7 @@ import FileUploaderSingle from './FileUploaderSingle'
 import Switch from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-const InvestigativeRequestResultFrom = () => {
+const LabResultForm = () => {
   // ** States
 
   return (
@@ -89,4 +89,4 @@ const InvestigativeRequestResultFrom = () => {
   )
 }
 
-export default InvestigativeRequestResultFrom
+export default LabResultForm
