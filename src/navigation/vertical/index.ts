@@ -3,6 +3,7 @@ import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
 import Account from 'mdi-material-ui/Account'
 import EmployeeIcon from 'mdi-material-ui/AccountMultiple'
+import ResearcherIcon from 'mdi-material-ui/AccountMultipleOutline'
 
 // import AccountOutline from 'mdi-material-ui/AccountOutline'
 
@@ -68,7 +69,7 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       title: 'Researchers',
-      icon: EmployeeIcon,
+      icon: ResearcherIcon,
       path: '/system-admin/researchers'
     },
     {
