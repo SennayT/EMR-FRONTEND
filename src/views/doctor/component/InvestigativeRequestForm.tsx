@@ -3,14 +3,7 @@ import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Button, CardActions, Divider, Select, MenuItem , SelectChangeEvent, FormControlLabel, Checkbox } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
-
-import Phone from 'mdi-material-ui/Phone'
-import EmailOutline from 'mdi-material-ui/EmailOutline'
-import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
-import CityIcon from 'mdi-material-ui/City'
-import HouseIcon from 'mdi-material-ui/Home'
-import StreetIcon from 'mdi-material-ui/RoadVariant'
 
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
 
@@ -127,7 +120,7 @@ const MenuProps = {
                 </Typography>
                     {tests.map( function(test) {
                       return(
-                        <FormControlLabel sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
+                        <FormControlLabel key={test} sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
                       );
                     }
                     )
@@ -141,7 +134,7 @@ const MenuProps = {
                 </Typography>
                     {tests.map( function(test) {
                       return(
-                        <FormControlLabel sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
+                        <FormControlLabel key={test} sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
                       );
                     }
                     )

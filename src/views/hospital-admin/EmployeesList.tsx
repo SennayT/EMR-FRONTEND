@@ -122,8 +122,7 @@ const Employees = () => {
       renderCell: (params: GridRenderCellParams<string>) => {
 
         return(
-        <Chip label={params.value ?  "active" : "inactive"} sx={{backgroundColor:  params.value ?  '#e5f7d0' : '#f7d6d0'}}>
-        </Chip>
+        <Chip label={params.value ?  "active" : "inactive"} sx={{backgroundColor:  params.value ?  '#e5f7d0' : '#f7d6d0'}}/>
         );
       }
     },
