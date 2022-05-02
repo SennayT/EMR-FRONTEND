@@ -96,7 +96,7 @@ export default function PrescriptionForm() {
             </Grid>
           </CardActions>
 
-          <Grid item xs={8} sx={{ mx: 8, my: 4 }}>
+          <Grid item xs={12} sx={{ mx: 8, my: 4 }}>
             <PrescriptionTable prescriptions={prescriptions} />
           </Grid>
           <Grid item>
@@ -141,7 +141,7 @@ function PrescriptionTable({ prescriptions }: PrescriptionTableProps) {
   const rows = prescriptions.map((p, index) => ({ ...p, id: index + 1 }))
 
   return (
-    <div style={{ height: 400 }}>
+    <div style={{ height: 400, width: '100%' }}>
       <DataGrid columns={columns} rows={rows} pageSize={10} rowsPerPageOptions={[10]} />
     </div>
   )
