@@ -31,6 +31,11 @@ const navigation = (): VerticalNavItemsType => {
       path: '/lab-expert'
     },
     {
+      title: 'Nurse Dashboard',
+      icon: HomeOutline,
+      path: '/nurse'
+    },
+    {
       sectionTitle: 'Pages'
     },
     {
@@ -47,6 +52,16 @@ const navigation = (): VerticalNavItemsType => {
       title: 'Add Hospital',
       icon: HospitalIcon,
       path: '/system-admin/add-hospital'
+    },
+    {
+      title: 'Create Prescription',
+      icon: Account,
+      path: '/doctor/create-prescription'
+    },
+    {
+      title: 'Register Vitals',
+      icon: Account,
+      path: '/nurse/register-vitals'
     },
     {
       sectionTitle: 'Account'

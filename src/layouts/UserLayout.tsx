@@ -12,7 +12,6 @@ import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 // ** Navigation Imports
 import VerticalNavItems from 'src/navigation/vertical'
 
-
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
@@ -35,8 +34,6 @@ const UserLayout = ({ children }: Props) => {
    *  ! Do not change this value unless you know what you are doing. It can break the template.
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
-
-
 
   return (
     <VerticalLayout
