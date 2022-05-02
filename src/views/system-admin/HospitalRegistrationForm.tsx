@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBox'
-import AddressInformationForm from '../shared-components/AddressInformationForm'
+import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 export default function HospitalRegistrationForm() {
   return (
