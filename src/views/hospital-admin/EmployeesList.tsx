@@ -84,7 +84,7 @@ const Employees = () => {
       renderCell: (params: GridRenderCellParams<string>) => (
         <Grid container spacing={2} alignItems='center'>
           <Grid item xs={3}>
-            <Avatar sx={{ backgroundColor: '#e5f7d0' }} />
+            <Avatar  sx={{ backgroundColor: '#e5f7d0' , padding: 1}} />
           </Grid>
           <Grid item xs={6}>
             <Typography variant='body1'>{params.value}</Typography>
