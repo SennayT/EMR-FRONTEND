@@ -25,20 +25,20 @@ export default function HospitalAdminDashboard() {
       <Grid container spacing={3}>
         <Grid item xs={12} md={3} lg={12}>
           <Grid container spacing={12}>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <CardStatisticsVerticalComponent
                 stats='1,476'
                 icon={<HospitalIcon />}
                 color='success'
                 trendNumber='+42%'
-                title='Hospitals'
+                title='Patients'
                 subtitle='Past Month'
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <CardStatisticsVerticalComponent
                 stats='201K'
-                title='Patients'
+                title='Staff'
                 trend='positive'
                 color='secondary'
                 trendNumber='+15%'
@@ -46,24 +46,46 @@ export default function HospitalAdminDashboard() {
                 icon={<PatientIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <CardStatisticsVerticalComponent
                 stats='862'
                 trend='negative'
                 trendNumber='-18%'
-                title='Researchers'
+                title='Lab Reports'
                 subtitle='Past Month'
                 icon={<ResearcherIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <CardStatisticsVerticalComponent
                 stats='153'
                 color='warning'
                 trend='negative'
                 trendNumber='+8%'
                 subtitle='Past Month'
-                title='MoH Employees'
+                title='Radiology'
+                icon={<MoHIcon />}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <CardStatisticsVerticalComponent
+                stats='153'
+                color='warning'
+                trend='negative'
+                trendNumber='+8%'
+                subtitle='Past Month'
+                title='Prescriptions'
+                icon={<MoHIcon />}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <CardStatisticsVerticalComponent
+                stats='153'
+                color='warning'
+                trend='negative'
+                trendNumber='+8%'
+                subtitle='Past Month'
+                title='Admins'
                 icon={<MoHIcon />}
               />
             </Grid>

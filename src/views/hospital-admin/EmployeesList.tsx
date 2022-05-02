@@ -1,9 +1,9 @@
 import { Fragment, useState } from 'react'
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid'
-import { Avatar, Button, Grid, Typography, Chip, IconButton  } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid'
+import { Avatar, Button, Grid, Typography, Chip, IconButton } from '@mui/material'
 import AddEmployee from 'src/views/shared-components/form-components/AddEmployeeForm'
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
@@ -84,7 +84,7 @@ const Employees = () => {
       renderCell: (params: GridRenderCellParams<string>) => (
         <Grid container spacing={2} alignItems='center'>
           <Grid item xs={3}>
-            <Avatar  sx={{ backgroundColor: '#e5f7d0' , padding: 1}} />
+            <Avatar sx={{ backgroundColor: '#e5f7d0', padding: 1 }} />
           </Grid>
           <Grid item xs={6}>
             <Typography variant='body1'>{params.value}</Typography>
@@ -105,13 +105,7 @@ const Employees = () => {
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
-        return(
-          <Typography variant='subtitle2'>
-
-            {params.value}
-          </Typography>
-
-        );
+        return <Typography variant='subtitle2'>{params.value}</Typography>
       }
     },
     {
@@ -120,10 +114,12 @@ const Employees = () => {
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
-
-        return(
-        <Chip label={params.value ?  "active" : "inactive"} sx={{backgroundColor:  params.value ?  '#e5f7d0' : '#f7d6d0'}}/>
-        );
+        return (
+          <Chip
+            label={params.value ? 'active' : 'inactive'}
+            sx={{ backgroundColor: params.value ? '#e5f7d0' : '#f7d6d0' }}
+          />
+        )
       }
     },
 
@@ -133,16 +129,16 @@ const Employees = () => {
       width: 150,
       editable: false,
       renderCell: () => {
-        return(
+        return (
           <div>
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-          <IconButton>
-          <DeleteIcon/>
-        </IconButton>
-        </div>
-        );
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        )
       }
     }
   ]
@@ -162,7 +158,7 @@ const Employees = () => {
         </Grid>
       </Grid>
 
-      <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
+      <div style={{ height: 420, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -172,7 +168,6 @@ const Employees = () => {
           disableSelectionOnClick
           components={{ Toolbar: CustomToolbar }}
         />
-
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
@@ -191,7 +186,7 @@ export default Employees
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
-      <GridToolbarExport sx={{margin: 1}}/>
+      <GridToolbarExport sx={{ margin: 1 }} />
     </GridToolbarContainer>
-  );
+  )
 }
