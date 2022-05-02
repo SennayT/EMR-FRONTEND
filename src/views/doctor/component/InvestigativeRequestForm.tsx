@@ -1,5 +1,6 @@
+import {useState} from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions } from '@mui/material'
+import { Card, Typography, CardContent, Button, CardActions, Divider, Select, MenuItem , SelectChangeEvent, FormControlLabel, Checkbox } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -11,13 +12,55 @@ import CityIcon from 'mdi-material-ui/City'
 import HouseIcon from 'mdi-material-ui/Home'
 import StreetIcon from 'mdi-material-ui/RoadVariant'
 
-import SubcityIcon from 'mdi-material-ui/TownHall'
-
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
 
 // import LocationCityIcon from '@mui/icons-material/LocationCity'
 
 export default function InvestigativeRequestForm() {
+
+  const [personName, setPersonName] = useState<string[]>([])
+
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
+    setPersonName(event.target.value as string[])
+  }
+
+const names = [
+  'Oliver Hansen',
+  'Van Henry',
+  'April Tucker',
+  'Ralph Hubbard',
+  'Omar Alexander',
+  'Carlos Abbott',
+  'Miriam Wagner',
+  'Bradley Wilkerson',
+  'Virginia Andrews',
+  'Kelly Snyder'
+]
+
+const tests = [
+  'blood test',
+  'urine test',
+  'blood test',
+  'urine test',
+  'blood test',
+  'urine test',
+  'blood test',
+  'urine test',
+  'blood test',
+  'urine test',
+]
+
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
+const MenuProps = {
+  PaperProps: {
+    style: {
+      width: 250,
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+    }
+  }
+}
+
   return (
     <Grid container spacing={6}>
       <Grid sx={{ mx: 12, my: 4 }} item xs={12}>
@@ -27,56 +70,23 @@ export default function InvestigativeRequestForm() {
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>
             <Grid sx={{ px: 4 }} container spacing={5}>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
-                  Personal Information
-                </Typography>
-              </Grid>
+
               <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Full Name'
-                  placeholder='Rediet Demisse'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  type='email'
-                  label='Email'
-                  placeholder='ruthgd2000@gmail.com'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <EmailOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Phone Number'
-                  placeholder='+251 987654321'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Phone />
-                      </InputAdornment>
-                    )
-                  }}
-                />
+              <Select
+
+            label='Vitals'
+            value={personName}
+            MenuProps={MenuProps}
+            onChange={handleChange}
+            fullWidth
+            size='small'
+          >
+            {names.map(name => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -94,154 +104,51 @@ export default function InvestigativeRequestForm() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
+              <TextField
+                  rows={5}
+                  multiline
                   fullWidth
-                  label='Gender'
-                  placeholder='Female'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
+                  label='Comment'
+                  defaultValue='no comment'
+                  id='textarea-outlined-static'
                 />
               </Grid>
+
+
+
               <Grid item xs={12}>
                 {/* <Divider sx={{ marginBottom: 0 }} /> */}
               </Grid>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
-                  Emergency Contacts
+
+
+                  <Grid item xs={6} >
+                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
+                  Lab tests
                 </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Full Name'
-                  placeholder='Rediet Demisse'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
+                    {tests.map( function(test) {
+                      return(
+                        <FormControlLabel sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
+                      );
+                    }
                     )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Phone'
-                  placeholder='+251 987654321'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Phone />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12}></Grid>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
-                  Address Information
+                    }
+
+                  </Grid>
+                  <Divider />
+                  <Grid item xs={6} >
+                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
+                  Radiology tests
                 </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='City'
-                  placeholder='Addis Ababa'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <CityIcon />
-                      </InputAdornment>
+                    {tests.map( function(test) {
+                      return(
+                        <FormControlLabel sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
+                      );
+                    }
                     )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Woreda'
-                  placeholder='04'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <HouseIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Sub City'
-                  placeholder='Bole'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <SubcityIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Kebele'
-                  placeholder='32'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <CityIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item sx={{ mb: 8 }} xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Street'
-                  placeholder='Mauritania street'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <StreetIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item sx={{ mb: 8 }} xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='House Number'
-                  placeholder='432'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <HouseIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
+                    }
+
+                  </Grid>
+
             </Grid>
           </CardContent>
           {/* <Divider sx={{ margin: 0 }} /> */}
@@ -258,3 +165,4 @@ export default function InvestigativeRequestForm() {
     </Grid>
   )
 }
+

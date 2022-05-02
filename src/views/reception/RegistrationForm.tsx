@@ -7,7 +7,7 @@ import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
-import AddressInformationForm from '../shared-components/AddressInformationForm'
+import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 export default function PatientRegistrationForm() {
   return (

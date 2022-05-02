@@ -7,7 +7,7 @@ import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
-import AddressInformationForm from '../shared-components/AddressInformationForm'
+import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 export default function EmRegistrationForm() {
   return (
@@ -102,7 +102,7 @@ export default function EmRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Role'
-                  placeholder='Female'
+                  placeholder='Doctor'
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>

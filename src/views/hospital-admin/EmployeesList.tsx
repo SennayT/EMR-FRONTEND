@@ -1,8 +1,9 @@
 import { Fragment, useState } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { Button, Grid, Typography } from '@mui/material'
+import { DataGrid, GridColDef, GridRenderCellParams, GridToolbarContainer, GridToolbarExport} from '@mui/x-data-grid'
+import { Avatar, Button, Grid, Typography, Chip, IconButton  } from '@mui/material'
 import AddEmployee from 'src/views/shared-components/form-components/AddEmployeeForm'
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
@@ -12,50 +13,57 @@ const rows = [
   {
     id: 1,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 2,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Radiologist',
+    status: 'in active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 3,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 4,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 5,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 6,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   },
   {
     id: 7,
     EmployeesName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
+    email: 'example@gmail.com',
+    role: 'Doctor',
+    status: 'active',
     HealthCenter: 'St. Paul Hospital'
   }
 ]
@@ -67,31 +75,76 @@ const Employees = () => {
   const handleClickClose = () => setOpen(false)
 
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: 70 },
     {
       field: 'EmployeesName',
       headerName: 'Employee',
-      width: 150,
+      width: 200,
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => (
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs={3}>
+            <Avatar sx={{ backgroundColor: '#e5f7d0' }} />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant='body1'>{params.value}</Typography>
+          </Grid>
+        </Grid>
+      )
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      type: 'string',
+      width: 200,
       editable: false
     },
     {
-      field: 'date',
-      headerName: 'Date',
-      type: 'number',
+      field: 'role',
+      headerName: 'Role',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => {
+        return(
+          <Typography variant='subtitle2'>
+
+            {params.value}
+          </Typography>
+
+        );
+      }
     },
     {
-      field: 'note',
-      headerName: 'Note',
-      width: 400,
-      editable: false
-    },
-    {
-      field: 'HealthCenter',
-      headerName: 'Health Center',
+      field: 'status',
+      headerName: 'Status',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => {
+        return(
+        <Chip label={params.value} sx={{backgroundColor:  '#dbf2bf'}}>
+            {params.value}
+        </Chip>
+        );
+      }
+    },
+
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 150,
+      editable: false,
+      renderCell: () => {
+        return(
+          <div>
+          <IconButton>
+            <EditIcon />
+          </IconButton>
+          <IconButton>
+          <DeleteIcon/>
+        </IconButton>
+        </div>
+        );
+      }
     }
   ]
 
@@ -118,7 +171,9 @@ const Employees = () => {
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
+          components={{ Toolbar: CustomToolbar }}
         />
+
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
@@ -134,3 +189,10 @@ const Employees = () => {
 }
 
 export default Employees
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarExport sx={{margin: 1}}/>
+    </GridToolbarContainer>
+  );
+}
