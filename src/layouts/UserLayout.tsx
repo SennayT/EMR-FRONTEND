@@ -16,6 +16,7 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import userData from '../data/userData'
 
 interface Props {
   children: ReactNode
@@ -40,7 +41,7 @@ const UserLayout = ({ children }: Props) => {
       hidden={hidden}
       settings={settings}
       saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
+      verticalNavItems={VerticalNavItems(userData)} // Navigation Items
       verticalAppBarContent={(
         props // AppBar Content
       ) => (
