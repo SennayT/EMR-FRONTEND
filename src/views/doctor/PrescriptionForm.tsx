@@ -77,6 +77,7 @@ export default function PrescriptionForm() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   multiline
+                  size='small'
                   label='Instructions'
                   placeholder='Usage'
                   fullWidth
