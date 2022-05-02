@@ -15,7 +15,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -23,7 +23,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Radiologist',
-    status: 'in active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -31,7 +31,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -39,7 +39,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: false,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -47,7 +47,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -55,7 +55,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   },
   {
@@ -63,7 +63,7 @@ const rows = [
     EmployeesName: 'Rediet Demisse',
     email: 'example@gmail.com',
     role: 'Doctor',
-    status: 'active',
+    status: true,
     HealthCenter: 'St. Paul Hospital'
   }
 ]
@@ -120,9 +120,9 @@ const Employees = () => {
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
+
         return(
-        <Chip label={params.value} sx={{backgroundColor:  '#dbf2bf'}}>
-            {params.value}
+        <Chip label={params.value ?  "active" : "inactive"} sx={{backgroundColor:  params.value ?  '#e5f7d0' : '#f7d6d0'}}>
         </Chip>
         );
       }
