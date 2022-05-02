@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import InvestigativeRequestForm from 'src/views/doctor/component/InvestigativeRequestForm'
 
 
-const DoctorDashboard = () => {
+const IssueInvestigation = () => {
   // ** State
 
 
@@ -21,4 +21,4 @@ const DoctorDashboard = () => {
   )
 }
 
-export default DoctorDashboard
+export default IssueInvestigation

@@ -8,10 +8,13 @@ const PatientActionsBar = () => {
 
   const actions = [
     {name: 'Issue Investigation',
-    handler: ""
+    path:'/doctor/issue-investigation/'
   },
-  {name: 'other',
-    path: '/doctor/issue-investigation/'
+  {name: 'Examine',
+    path: '/doctor/examination-symptoms/'
+  },
+  {name: 'Diagnose',
+    path: '/doctor/register-diagnosis/'
   }
   ]
 
