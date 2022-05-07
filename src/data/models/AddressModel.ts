@@ -1,4 +1,4 @@
-export class Address{
+export class Address {
 
   id: number;
   city: string;
@@ -17,16 +17,16 @@ export class Address{
     zone: string,
     kebele: string,
     street: string,
-    houseNumber: string){
+    houseNumber: string) {
 
-      this.id = id;
-      this.city = city;
-      this.subCity = subCity;
-      this.wereda = wereda;
-      this.kebele = kebele;
-      this.street = street;
-      this.houseNumber = houseNumber;
-      this.zone = zone;
+    this.id = id;
+    this.city = city;
+    this.subCity = subCity;
+    this.wereda = wereda;
+    this.kebele = kebele;
+    this.street = street;
+    this.houseNumber = houseNumber;
+    this.zone = zone;
 
   }
 

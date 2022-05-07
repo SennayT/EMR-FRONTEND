@@ -1,6 +1,6 @@
 import { Address } from "./AddressModel";
 
-export class User{
+export class User {
 
   id: number;
   name: string;
@@ -11,7 +11,7 @@ export class User{
   phone: string;
   address: Address;
 
-  constructor(id:number, name:string, dateOfBirth:number, gender: string, email: string, role: string, phone:string, address: Address ){
+  constructor(id: number, name: string, dateOfBirth: number, gender: string, email: string, role: string, phone: string, address: Address) {
     this.id = id;
     this.name = name;
     this.dateOfBirth = dateOfBirth;
