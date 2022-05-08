@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { Button, Grid, Typography } from '@mui/material'
 import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
@@ -7,92 +7,51 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
+import HealthCenter from 'src/data/models/HealthCenterModel'
 
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
-const rows = [
-  {
-    id: 1,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 2,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 3,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 4,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 5,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 6,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 7,
-    HealthCenterName: 'St. Paul Hospital',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  }
-]
+import axios from 'axios'
+
+
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const [healthCenters, setHealthCenters] = useState([])
 
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
 
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`).then(response => {
+        setHealthCenters(response.data)
+         })
+  });
+
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'HealthCenterName',
+      field: 'name',
       headerName: 'Health Center',
+      width: 450,
+      editable: false
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      type: 'string',
+      width: 250,
+      editable: false
+    },
+    {
+      field: 'type',
+      headerName: 'Type',
       width: 150,
       editable: false
     },
     {
-      field: 'date',
-      headerName: 'Date',
-      type: 'number',
-      width: 150,
-      editable: false
-    },
-    {
-      field: 'note',
-      headerName: 'Note',
-      width: 400,
-      editable: false
-    },
-    {
-      field: 'City',
-      headerName: 'City',
+      field: 'phone',
+      headerName: 'Phone',
       width: 150,
       editable: false
     }
@@ -115,7 +74,7 @@ const HealthCenters = () => {
 
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
-          rows={rows}
+          rows={healthCenters}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

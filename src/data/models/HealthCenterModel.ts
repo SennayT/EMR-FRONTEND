@@ -1,6 +1,6 @@
 import { Address } from "./AddressModel";
 
-export class HealthCenter {
+export default class HealthCenter {
 
   id: number;
   name: string;
