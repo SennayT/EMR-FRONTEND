@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Button, CardActions } from '@mui/material'
 import TextField from '@mui/material/TextField'
@@ -9,14 +10,64 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import axios from 'axios'
+import { User } from 'src/data/models/UserModel'
+import { Address } from 'src/data/models/AddressModel'
+
 export default function PatientRegistrationForm() {
+
+  const [address, setAddress] = useState<Address>({
+    id: 0,
+    city: "",
+    subCity: "",
+    woreda: "",
+    zone: "",
+    kebelle: "",
+    street: "",
+    houseNumber: "",
+  });
+  const [currentUser, setUser] = useState<User>({
+    id: 0,
+    name: "name",
+    age: 32,
+    gender: "female",
+    email: "email",
+    role: "patient",
+    phone: "",
+    address: address,
+    isActive: false,
+    isResearcher: false,
+    isAdmin: false,
+    healthCeterId: 0,
+
+
+  });
+  const [emergencyName, setEmergencyName] = useState("");
+  const [emergencyPhone, setEmergencyPhone] = useState("");
+
+  const registerPatient = () => {
+    // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
+
+    console.log("jere");
+    const body = {
+      user: currentUser,
+      emergencyContactName: emergencyName,
+      emergencyContactPhone: emergencyPhone,
+      healthCenterId: 0,
+      registeredBy: 1
+    }
+
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`, body).then(response => {
+      console.log(response.data)
+    })
+  };
   return (
     <Grid container spacing={6}>
       <Grid sx={{ mx: 12, my: 4 }} item xs={12}>
         <Typography variant='h5'>Patient Registration</Typography>
       </Grid>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
-        <form onSubmit={e => e.preventDefault()}>
+        <form>
           <CardContent sx={{ px: 4 }}>
             <Grid sx={{ px: 4 }} container spacing={5}>
               <Grid item xs={12}>
@@ -30,6 +81,10 @@ export default function PatientRegistrationForm() {
                   fullWidth
                   label='Full Name'
                   placeholder='Rediet Demisse'
+                  value={currentUser.name}
+                  onChange={(e) => {
+                    setUser({ ...currentUser, name: e.target.value });
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -45,6 +100,10 @@ export default function PatientRegistrationForm() {
                   fullWidth
                   type='email'
                   label='Email'
+                  value={currentUser.email}
+                  onChange={(e) => {
+                    setUser({ ...currentUser, email: e.target.value });
+                  }}
                   placeholder='ruthgd2000@gmail.com'
                   InputProps={{
                     startAdornment: (
@@ -61,6 +120,10 @@ export default function PatientRegistrationForm() {
                   fullWidth
                   label='Phone Number'
                   placeholder='+251 987654321'
+                  value={currentUser.phone}
+                  onChange={(e) => {
+                    setUser({ ...currentUser, phone: e.target.value });
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -74,8 +137,12 @@ export default function PatientRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
-                  label='Date of Birth'
-                  placeholder='01/01/2000'
+                  label='Age'
+                  placeholder='34'
+                  value={currentUser.age}
+                  onChange={(e) => {
+                    setUser({ ...currentUser, age: Number(e.target.value) });
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -91,6 +158,10 @@ export default function PatientRegistrationForm() {
                   fullWidth
                   label='Gender'
                   placeholder='Female'
+                  value={currentUser.gender}
+                  onChange={(e) => {
+                    setUser({ ...currentUser, gender: e.target.value });
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -110,6 +181,10 @@ export default function PatientRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Full Name'
+                  value={emergencyName}
+                  onChange={(e) => {
+                    setEmergencyName(e.target.value);
+                  }}
                   placeholder='Rediet Demisse'
                   InputProps={{
                     startAdornment: (
@@ -125,6 +200,10 @@ export default function PatientRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Phone'
+                  value={emergencyPhone}
+                  onChange={(e) => {
+                    setEmergencyPhone(e.target.value);
+                  }}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -135,18 +214,9 @@ export default function PatientRegistrationForm() {
                   }}
                 />
               </Grid>
-              <AddressInformationForm />
+              <AddressInformationForm onSubmit={registerPatient} setAddress={setAddress} />
             </Grid>
           </CardContent>
-          {/* <Divider sx={{ margin: 0 }} /> */}
-          <CardActions sx={{ mx: 80 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-            {/* <Button size='large' color='secondary' variant='outlined'>
-            Cancel
-          </Button> */}
-          </CardActions>
         </form>
       </Card>
     </Grid>
