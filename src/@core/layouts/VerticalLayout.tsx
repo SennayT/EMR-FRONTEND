@@ -21,10 +21,9 @@ import Navigation from './components/vertical/navigation'
 
 import ScrollToTop from 'src/@core/components/scroll-to-top'
 
-
 const VerticalLayoutWrapper = styled('div')({
   height: '100%',
-  display: 'flex',
+  display: 'flex'
 })
 
 const MainContentWrapper = styled(Box)<BoxProps>({
@@ -88,8 +87,6 @@ const VerticalLayout = (props: LayoutProps) => {
           >
             {children}
           </ContentWrapper>
-
-
         </MainContentWrapper>
       </VerticalLayoutWrapper>
 

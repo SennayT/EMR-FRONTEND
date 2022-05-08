@@ -12,11 +12,11 @@ import VerticalLayout from 'src/@core/layouts/VerticalLayout'
 // ** Navigation Imports
 import VerticalNavItems from 'src/navigation/vertical'
 
-
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import userData from '../data/userData'
 
 interface Props {
   children: ReactNode
@@ -36,14 +36,12 @@ const UserLayout = ({ children }: Props) => {
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
-
-
   return (
     <VerticalLayout
       hidden={hidden}
       settings={settings}
       saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
+      verticalNavItems={VerticalNavItems(userData)} // Navigation Items
       verticalAppBarContent={(
         props // AppBar Content
       ) => (

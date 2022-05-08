@@ -2,81 +2,83 @@
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
 import Account from 'mdi-material-ui/Account'
-import EmployeeIcon from 'mdi-material-ui/AccountMultiple'
-import ResearcherIcon from 'mdi-material-ui/AccountMultipleOutline'
-
-// import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBoxOutline'
+import { User } from '../../data/models/UserModel'
 
-const navigation = (): VerticalNavItemsType => {
+const navigation = (user: User): VerticalNavItemsType => {
+  const pagesSection: VerticalNavItemsType = [
+    {
+      sectionTitle: 'pages'
+    }
+  ]
+  if (user.role === 'Receptionist') {
+    pagesSection.push({
+      title: 'Patient Details',
+      icon: AccountDetails,
+      path: '/patient-details'
+    })
+    pagesSection.push({
+      title: 'Register Patient',
+      icon: AccountEditOutline,
+      path: '/reception/register-patient'
+    })
+  }
+  if (user.role === 'SystemAdmin') {
+    pagesSection.push({
+      title: 'Add Hospital',
+      icon: HospitalIcon,
+      path: '/system-admin/add-hospital'
+    })
+  }
+
+  if (user.role === 'Doctor') {
+    pagesSection.push({
+      title: 'Create Prescription',
+      icon: Account,
+      path: '/doctor/create-prescription'
+    })
+  }
+
+  if (user.role === 'Nurse') {
+    pagesSection.push({
+      title: 'Register Vitals',
+      icon: Account,
+      path: '/nurse/register-vitals'
+    })
+  }
+
   return [
     {
       title: 'Dashboard',
       icon: HomeOutline,
       path: '/'
     },
-    {
-      title: 'System Admin Dashboard',
-      icon: HomeOutline,
-      path: '/system-admin'
-    },
-    {
-      title: 'Hospital Admin Dashboard',
-      icon: HomeOutline,
-      path: '/hospital-admin'
-    },
-    {
-      title: 'Doctor Dashboard',
-      icon: HomeOutline,
-      path: '/doctor'
-    },
-    {
-      title: 'Lab Expert Dashboard',
-      icon: HomeOutline,
-      path: '/lab-expert'
-    },
-    {
-      title: 'Patient Dashboard',
-      icon: HomeOutline,
-      path: '/patient'
-    },
-    {
-      sectionTitle: 'Pages'
-    },
-    {
-      title: 'Patient Details',
-      icon: AccountDetails,
-      path: '/patient-details'
-    },
-    {
-      title: 'Register Patient',
-      icon: AccountEditOutline,
-      path: '/reception/register-patient'
-    },
-    {
-      title: 'Health Centers',
-      icon: HospitalIcon,
-      path: '/system-admin/health-centers'
-    },
-    {
-      title: 'Employees',
-      icon: EmployeeIcon,
-      path: '/hospital-admin/employees'
-    },
-    {
-      title: 'Researchers',
-      icon: ResearcherIcon,
-      path: '/system-admin/researchers'
-    },
-    {
-      title: 'MoH Employees',
-      icon: EmployeeIcon,
-      path: '/system-admin/moh-employees'
-    },
+
+    // {
+    //   title: 'System Admin Dashboard',
+    //   icon: HomeOutline,
+    //   path: '/system-admin'
+    // },
+    // {
+    //   title: 'Doctor Dashboard',
+    //   icon: HomeOutline,
+    //   path: '/doctor'
+    // },
+    // {
+    //   title: 'Lab Expert Dashboard',
+    //   icon: HomeOutline,
+    //   path: '/lab-expert'
+    // },
+    // {
+    //   title: 'Nurse Dashboard',
+    //   icon: HomeOutline,
+    //   path: '/nurse'
+    // },
+    ...pagesSection,
     {
       sectionTitle: 'Account'
     },
