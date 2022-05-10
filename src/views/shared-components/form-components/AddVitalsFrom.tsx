@@ -1,32 +1,35 @@
-import { Button, Card, CardActions, CardContent, Grid, TextField, Typography } from '@mui/material'
+
+
+
+import { Button, Card, CardActions, CardContent, Grid, TextField } from '@mui/material'
 import { useState } from 'react'
+import { Vitals } from 'src/data/models/VitalsModel'
+import user from 'src/data/userData'
+import axios from 'axios'
 
-type VitalSigns = {
-  temperature: number
-  pulse: number
-  respiratoryRate: number
-  systolic: number
-  diastolic: number
-  weight: number
-  spo2: number
-}
-
-const RegisterVitals = () => {
-  const [vitals, setVitals] = useState<VitalSigns>({
+const AddVitalsForm = () => {
+  const [vitals, setVitals] = useState<Vitals>({
     temperature: 0,
     pulse: 0,
     respiratoryRate: 0,
-    systolic: 0,
-    diastolic: 0,
+    bloodPressure: 0,
     weight: 0,
-    spo2: 0
+    spo2Level: 0,
+    patientId: 0,
+    requestedById: user.id
   })
+
+  const handleVitalsSubmit = () => {
+
+
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`, vitals).then(response => {
+      console.log(response.data)
+    })
+  };
+
 
   return (
     <Grid container spacing={6}>
-      <Grid sx={{ mx: 12, my: 4 }} item xs={12}>
-        <Typography variant='h5'>Register Vitals</Typography>
-      </Grid>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>
@@ -55,20 +58,13 @@ const RegisterVitals = () => {
                   setVitals({ ...vitals, respiratoryRate: value })
                 }}
               />
+
               <VitalItem
-                label='Systolic'
-                placeholder='Systolic Blood Pressure'
-                value={vitals.systolic}
-                onChange={value => {
-                  setVitals({ ...vitals, systolic: value })
-                }}
-              />
-              <VitalItem
-                label='Diastolic'
+                label='bloodPressure'
                 placeholder='Diastolic Blood Pressure'
-                value={vitals.diastolic}
+                value={vitals.bloodPressure}
                 onChange={value => {
-                  setVitals({ ...vitals, diastolic: value })
+                  setVitals({ ...vitals, bloodPressure: value })
                 }}
               />
               <VitalItem
@@ -80,20 +76,20 @@ const RegisterVitals = () => {
                 }}
               />
               <VitalItem
-                label='SPo2 Level'
-                placeholder='SPo2 Level'
-                value={vitals.spo2}
+                label='spo2Level Level'
+                placeholder='spo2Level Level'
+                value={vitals.spo2Level}
                 onChange={value => {
-                  setVitals({ ...vitals, spo2: value })
+                  setVitals({ ...vitals, spo2Level: value })
                 }}
               />
             </Grid>
           </CardContent>
           <CardActions>
             <Grid container spacing={5}>
-              <Grid item xs={4}>
-                <Button variant='contained' size='large' sx={{}}>
-                  Add
+              <Grid item xs={12}>
+                <Button onClick={handleVitalsSubmit} variant='contained' size='large' sx={{}}>
+                  Register
                 </Button>
               </Grid>
             </Grid>
@@ -103,6 +99,8 @@ const RegisterVitals = () => {
     </Grid>
   )
 }
+
+
 
 type VitalItemProps = {
   label: string
@@ -132,4 +130,4 @@ function VitalItem({ value, onChange, label, placeholder }: VitalItemProps) {
   )
 }
 
-export default RegisterVitals
+export default AddVitalsForm

@@ -41,13 +41,18 @@ const navigation = (user: User): VerticalNavItemsType => {
       icon: Account,
       path: '/doctor/create-prescription'
     })
+    pagesSection.push({
+      title: 'Patient Details',
+      icon: AccountDetails,
+      path: '/patient-details'
+    })
   }
 
   if (user.role === 'Nurse') {
     pagesSection.push({
-      title: 'Register Vitals',
+      title: 'Vitals',
       icon: Account,
-      path: '/nurse/register-vitals'
+      path: '/nurse/vitals'
     })
   }
 
