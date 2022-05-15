@@ -1,5 +1,5 @@
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions } from '@mui/material'
+import { Card, Typography, CardContent } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -138,15 +138,6 @@ export default function PatientRegistrationForm() {
               <AddressInformationForm />
             </Grid>
           </CardContent>
-          {/* <Divider sx={{ margin: 0 }} /> */}
-          <CardActions sx={{ mx: 80 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-            {/* <Button size='large' color='secondary' variant='outlined'>
-            Cancel
-          </Button> */}
-          </CardActions>
         </form>
       </Card>
     </Grid>
