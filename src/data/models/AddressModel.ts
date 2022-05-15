@@ -3,9 +3,9 @@ export class Address {
   id: number;
   city: string;
   subCity: string;
-  wereda: string;
+  woreda: string;
   zone: string;
-  kebele: string;
+  kebelle: string;
   street: string;
   houseNumber: string;
 
@@ -13,17 +13,17 @@ export class Address {
   constructor(id: number,
     city: string,
     subCity: string,
-    wereda: string,
+    woreda: string,
     zone: string,
-    kebele: string,
+    kebelle: string,
     street: string,
     houseNumber: string) {
 
     this.id = id;
     this.city = city;
     this.subCity = subCity;
-    this.wereda = wereda;
-    this.kebele = kebele;
+    this.woreda = woreda;
+    this.kebelle = kebelle;
     this.street = street;
     this.houseNumber = houseNumber;
     this.zone = zone;

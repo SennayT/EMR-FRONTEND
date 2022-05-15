@@ -9,9 +9,13 @@ import Divider from '@mui/material/Divider';
 import Card from '@mui/material/Card'
 import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
+import { User } from 'src/data/models/UserModel'
+import { Patient } from 'src/data/models/PatientModel'
 
-const UserGeneralInfo = (props: { user: { email: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; phone: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; gender: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; address: { subCity: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; wereda: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; kebele: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined } } }) => {
 
+const UserGeneralInfo = (props: {user: User, emergencyContactName?: string, emergencyContactPhone?: string}) => {
+
+  console.log(props.user)
 
   return (
     <Card sx = {{backgroundColor: 'white'}}>
@@ -60,13 +64,13 @@ const UserGeneralInfo = (props: { user: { email: boolean | ReactChild | ReactFra
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Wereda: {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              {props.user.address.wereda}
+              {props.user.address.woreda}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Kebele : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              {props.user.address.kebele}
+              {props.user.address.kebelle}
               </Box>
             </Typography>
             <Divider/>
@@ -77,13 +81,13 @@ const UserGeneralInfo = (props: { user: { email: boolean | ReactChild | ReactFra
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Name : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              Lorem Ipsumit
+              {props.emergencyContactName}
               </Box>
             </Typography>
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
               Phone : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              +2345677654345
+              {props.emergencyContactPhone}
               </Box>
             </Typography>
 

@@ -18,9 +18,8 @@ import { workerData } from 'worker_threads'
 const AddressInformationForm = (props: any) => {
   const submitForm = (event: any) => {
     props.setAddress({ city: city, subCity: subCity, woreda: woreda, zone: zone, street: street, kebelle: kebelle, houseNo: houseNo })
-    console.log("here")
-    props.registerHealthCenter();
-    // event.preventDefault();
+    console.log({ city: city, subCity: subCity, woreda: woreda, zone: zone, street: street, kebelle: kebelle, houseNo: houseNo })
+    props.onSubmit();
   }
   const [city, setCity] = useState("");
   const [subCity, setSubCity] = useState("");

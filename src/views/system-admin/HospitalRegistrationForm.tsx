@@ -128,7 +128,7 @@ export default function HospitalRegistrationForm() {
             </Grid>
 
             <Grid item xs={12}>
-              <AddressInformationForm registerHealthCenter={registerHealthCenter} setAddress={setAddress} />
+              <AddressInformationForm onSubmit={registerHealthCenter} setAddress={setAddress} />
             </Grid>
           </CardContent>
         </form>
