@@ -9,7 +9,6 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBox'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
-// import HealthCenter from '../../data/models/HealthCenterModel'
 
 import axios from 'axios'
 

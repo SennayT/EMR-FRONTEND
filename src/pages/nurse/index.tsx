@@ -1,11 +1,11 @@
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import NurseLayout from '../../views/nurse/NurseLayout'
+import ReceptionDashboard from 'src/views/dashboard/reception-dashboard/ReceptionDashboard'
 
 const NurseDashboard = () => {
   // ** State
 
-  return <NurseLayout />
+  return <ReceptionDashboard/>
 }
 
 export default NurseDashboard

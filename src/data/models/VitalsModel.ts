@@ -8,6 +8,7 @@ export class Vitals {
   patientId: number;
   requestedById: number;
 
+
   constructor(temperature: number,
     pulse: number,
     respiratoryRate: number,

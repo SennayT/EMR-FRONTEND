@@ -3,7 +3,7 @@ import { User } from './models/UserModel'
 const user: User = {
   id: 1,
   name: 'Ruth Getachew',
-  dateOfBirth: 23,
+  age: 23,
   gender: 'mayo in a chair',
   email: 'example@gmail.com',
   role: 'Doctor',
@@ -15,8 +15,12 @@ const user: User = {
     zone: 'Arada',
     street: 'Piassa',
     houseNumber: 'someNum',
-    wereda: '10',
-    kebele: '10'
-  }
+    woreda: '10',
+    kebelle: '10'
+  },
+  isActive: false,
+  isResearcher: false,
+  isAdmin: false,
+  healthCeterId: 0
 }
 export default user

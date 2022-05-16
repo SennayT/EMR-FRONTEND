@@ -1,9 +1,12 @@
-import {useState} from 'react'
+import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions, Divider, Select, MenuItem , SelectChangeEvent, FormControlLabel, Checkbox } from '@mui/material'
+import { Card, Typography, CardContent, Button, CardActions, Select, MenuItem, SelectChangeEvent, FormControlLabel, Checkbox } from '@mui/material'
 import TextField from '@mui/material/TextField'
-import InputAdornment from '@mui/material/InputAdornment'
-import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
+import axios from 'axios'
+import { LabTest } from 'src/data/models/LabTestModel'
+import { InvestigationRequest } from 'src/data/models/InvestigationRequestModel'
+
+import  user  from '../../../data/userData'
 
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
 
@@ -11,48 +14,49 @@ import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
 
 export default function InvestigativeRequestForm() {
 
-  const [personName, setPersonName] = useState<string[]>([])
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
-    setPersonName(event.target.value as string[])
+    setCurrentCategory(event.target.value.toString())
   }
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder'
-]
+  const handleChangeVitals = (event: SelectChangeEvent<string[]>) => {
+    setCurrentCategory(event.target.value.toString())
+  }
 
-const tests = [
-  'blood test',
-  'urine test',
-  'blood test',
-  'urine test',
-  'blood test',
-  'urine test',
-  'blood test',
-  'urine test',
-  'blood test',
-  'urine test',
-]
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-  PaperProps: {
-    style: {
-      width: 250,
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+
+  const [tests, setTests] = useState<LabTest[]>([])
+  const [currentCategory, setCurrentCategory ] = useState<string>("Chemistry");
+  const ITEM_HEIGHT = 48
+  const ITEM_PADDING_TOP = 8
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        width: 250,
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+      }
     }
   }
-}
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/lab-test`).then(response => {
+        setTests(response.data)
+         })
+  });
+
+  const testCategories =  [...new Set(tests.map(item => item.testCategory))]
+
+  const [invReq, setInvReq] = useState<InvestigationRequest>({
+    note: "",
+    labTests: [],
+    registeredById: user.id,
+    vitalId: 1
+  })
+
+  const registerInvestigationRequest = () => {
+    console.log(invReq)
+    axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/investigation-request', invReq)
+  }
 
   return (
     <Grid container spacing={6}>
@@ -61,46 +65,20 @@ const MenuProps = {
       </Grid>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
-          <CardContent sx={{ px: 4 }}>
-            <Grid sx={{ px: 4 }} container spacing={5}>
+          <CardContent sx={{ p: 10 }}>
+            <Grid container spacing={5}>
 
-              <Grid item xs={12} sm={6}>
-              <Select
 
-            label='Vitals'
-            value={personName}
-            MenuProps={MenuProps}
-            onChange={handleChange}
-            fullWidth
-            size='small'
-          >
-            {names.map(name => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  size='small'
-                  fullWidth
-                  label='Date of Birth'
-                  placeholder='01/01/2000'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <CalendarMonthIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-              <TextField
                   rows={5}
+                  type = 'text'
                   multiline
                   fullWidth
+                  value={invReq.note}
+                  onChange={e => {
+                    setInvReq({ ...invReq, note: e.target.value })
+                  }}
                   label='Comment'
                   defaultValue='no comment'
                   id='textarea-outlined-static'
@@ -109,44 +87,63 @@ const MenuProps = {
 
 
 
-              <Grid item xs={12}>
-                {/* <Divider sx={{ marginBottom: 0 }} /> */}
+              <Grid container spacing={5} sx={{ px: 4 , mt: 2 }} >
+                <Grid item xs={12} sm={6}>
+                  <Select
+                    value={[currentCategory]}
+                    label='Vitals'
+                    MenuProps={MenuProps}
+                    onChange={handleChangeVitals}
+                    fullWidth
+                    size='small'
+                  >
+                    {testCategories.map(name => (
+                      <MenuItem key={name} value={name}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <Select
+                  value={[currentCategory]}
+                  label='Test Category'
+                  onChange={handleChange}
+                  fullWidth
+                  size='small'
+                >
+                  {testCategories.map(test => (
+                    <MenuItem key={test} value={test}>
+                      {test}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Grid>
               </Grid>
 
-
-                  <Grid item xs={6} >
-                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
-                  Lab tests
+              <Grid item xs={12} >
+                <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
+                  Available tests
                 </Typography>
-                    {tests.map( function(test) {
-                      return(
-                        <FormControlLabel key={test} sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
-                      );
-                    }
-                    )
-                    }
+                {tests.filter(test => test.testCategory == currentCategory).map(function (test) {
+                  return (
+                    <FormControlLabel key={test.id} sx={{ marginRight: 10, marginBottom: 3 }} label={test.name} value={test.id} control={<Checkbox
+                      onChange={e => {
+                      setInvReq({ ...invReq, labTests: [ ...invReq.labTests, Number(e.target.value)]})
+                    }} name='basic-checked' />} />
+                  );
+                }
+                )
+                }
 
-                  </Grid>
-                  <Divider />
-                  <Grid item xs={6} >
-                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 3 }}>
-                  Radiology tests
-                </Typography>
-                    {tests.map( function(test) {
-                      return(
-                        <FormControlLabel key={test} sx={{marginRight: 3, marginBottom: 3}} label={test} control={<Checkbox defaultChecked name='basic-checked' />} />
-                      );
-                    }
-                    )
-                    }
+              </Grid>
 
-                  </Grid>
 
             </Grid>
           </CardContent>
           {/* <Divider sx={{ margin: 0 }} /> */}
           <CardActions sx={{ mx: 80 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
+            <Button onClick={registerInvestigationRequest} size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
               Register
             </Button>
             {/* <Button size='large' color='secondary' variant='outlined'>

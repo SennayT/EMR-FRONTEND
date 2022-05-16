@@ -1,4 +1,5 @@
 export class LabTest {
+  id: number;
   name: string;
   normalRange: string;
   measuredIn: string;
@@ -9,9 +10,11 @@ export class LabTest {
   constructor(name: string,
     normalRange: string,
     measuredIn: string,
+    id: number,
     testCategory: string,
     investigationRequestId: number
   ) {
+    this.id = id;
     this.name = name;
     this.normalRange = normalRange;
     this.measuredIn = measuredIn;
