@@ -13,26 +13,28 @@ import AddressInformationForm from '../shared-components/form-components/Address
 import axios from 'axios'
 
 export default function HospitalRegistrationForm() {
-
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [name, setName] = useState('')
+  const [type, setType] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState({})
 
   const registerHealthCenter = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
-    console.log({ name: name, type: type, phone: phone, email: email, address: address });
+    console.log({ name: name, type: type, phone: phone, email: email, address: address })
     const body = {
-      name: name, type: type, email: email,  phone: phone, address: address
+      name: name,
+      type: type,
+      email: email,
+      phone: phone,
+      address: address
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`, body).then(response => {
       console.log(response.data)
     })
-  };
-
+  }
 
   return (
     <Grid container spacing={6} sx={{ backgroundColor: 'white' }}>
@@ -49,8 +51,8 @@ export default function HospitalRegistrationForm() {
                 <TextField
                   size='small'
                   value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
+                  onChange={e => {
+                    setName(e.target.value)
                   }}
                   fullWidth
                   label='Health Center Name'
@@ -69,8 +71,8 @@ export default function HospitalRegistrationForm() {
                   size='small'
                   fullWidth
                   value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
+                  onChange={e => {
+                    setEmail(e.target.value)
                   }}
                   type='email'
                   label='Email'
@@ -90,8 +92,8 @@ export default function HospitalRegistrationForm() {
                   fullWidth
                   label='Type'
                   value={type}
-                  onChange={(e) => {
-                    setType(e.target.value);
+                  onChange={e => {
+                    setType(e.target.value)
                   }}
                   placeholder='General Hospital'
                   InputProps={{
@@ -109,8 +111,8 @@ export default function HospitalRegistrationForm() {
                   fullWidth
                   label='Phone'
                   value={phone}
-                  onChange={(e) => {
-                    setPhone(e.target.value);
+                  onChange={e => {
+                    setPhone(e.target.value)
                   }}
                   placeholder='+251 987654321'
                   InputProps={{
@@ -124,7 +126,6 @@ export default function HospitalRegistrationForm() {
               </Grid>
             </Grid>
 
-
             <Grid item xs={12}>
               <AddressInformationForm onSubmit={registerHealthCenter} setAddress={setAddress} />
             </Grid>
@@ -133,6 +134,4 @@ export default function HospitalRegistrationForm() {
       </Card>
     </Grid>
   )
-
-
 }
