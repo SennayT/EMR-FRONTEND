@@ -1,4 +1,4 @@
-import { HealthCenter } from "./models/HealthCenterModel";
+import { HealthCenter } from "./models/HealthCenterModel"
 
 const healthCenter: HealthCenter = {
   id: 1,
