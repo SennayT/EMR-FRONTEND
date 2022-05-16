@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { useState } from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions } from '@mui/material'
+import { Card, Typography, CardContent } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -19,7 +20,30 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import axios from 'axios'
+
 export default function ResearcherRegistrationForm() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState({})
+
+  const registerMoHEmployee = () => {
+    // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
+
+    console.log({ name: name, phone: phone, email: email, address: address })
+    const body = {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address
+    }
+
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`, body).then(response => {
+      console.log(response.data)
+    })
+  }
+
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
   const handleDateChange = (newValue: Date | null) => {
@@ -41,7 +65,11 @@ export default function ResearcherRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  value={name}
                   label='Full Name'
+                  onChange={e => {
+                    setName(e.target.value)
+                  }}
                   placeholder='Rediet Demisse'
                   InputProps={{
                     startAdornment: (
@@ -57,6 +85,10 @@ export default function ResearcherRegistrationForm() {
                   size='small'
                   fullWidth
                   type='email'
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
                   label='Email'
                   placeholder='ruthgd2000@gmail.com'
                   InputProps={{
@@ -72,6 +104,10 @@ export default function ResearcherRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  value={phone}
+                  onChange={e => {
+                    setPhone(e.target.value)
+                  }}
                   label='Phone Number'
                   placeholder='+251 987654321'
                   InputProps={{
@@ -104,14 +140,9 @@ export default function ResearcherRegistrationForm() {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <AddressInformationForm />
+              <AddressInformationForm onSubmit={registerMoHEmployee} setAddress={setAddress} />
             </Grid>
           </CardContent>
-          <CardActions sx={{ mx: 70 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-          </CardActions>
         </form>
       </Card>
     </Grid>

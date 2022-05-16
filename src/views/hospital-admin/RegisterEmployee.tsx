@@ -12,7 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -21,7 +21,35 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import axios from 'axios'
+
 export default function EmRegistrationForm() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+
+  // const [role, setRole] = useState('')
+  // const [isAdmin, setIsAdmin] = useState('')
+  const [emName, setEmName] = useState('')
+  const [emPhone, setEmPhone] = useState('')
+  const [address, setAddress] = useState({})
+
+  const registerEmployee = () => {
+    // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
+
+    console.log({ name: name, phone: phone, email: email, address: address })
+    const body = {
+      name: name,
+      email: email,
+      phone: phone,
+      address: address
+    }
+
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`, body).then(response => {
+      console.log(response.data)
+    })
+  }
+
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
   const handleDateChange = (newValue: Date | null) => {
@@ -61,6 +89,10 @@ export default function EmRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <TextField
                   size='small'
+                  value={name}
+                  onChange={e => {
+                    setName(e.target.value)
+                  }}
                   fullWidth
                   label='Full Name'
                   placeholder='Rediet Demisse'
@@ -77,9 +109,13 @@ export default function EmRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
                   type='email'
                   label='Email'
-                  placeholder='ruthgd2000@gmail.com'
+                  placeholder='stpaul@gmail.com'
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -93,7 +129,11 @@ export default function EmRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
-                  label='Phone Number'
+                  label='Phone'
+                  value={phone}
+                  onChange={e => {
+                    setPhone(e.target.value)
+                  }}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -161,7 +201,11 @@ export default function EmRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Full Name'
+                  value={emName}
                   placeholder='Rediet Demisse'
+                  onChange={e => {
+                    setEmName(e.target.value)
+                  }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -176,6 +220,10 @@ export default function EmRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Phone'
+                  value={emPhone}
+                  onChange={e => {
+                    setEmPhone(e.target.value)
+                  }}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -186,14 +234,9 @@ export default function EmRegistrationForm() {
                   }}
                 />
               </Grid>
-              <AddressInformationForm />
+              <AddressInformationForm onSubmit={registerEmployee} setAddress={setAddress} />
             </Grid>
           </CardContent>
-          <CardActions sx={{ mx: 70 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-          </CardActions>
         </form>
       </Card>
     </Grid>

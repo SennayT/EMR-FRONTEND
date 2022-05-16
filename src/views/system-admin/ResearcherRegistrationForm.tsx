@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { useState } from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions } from '@mui/material'
+import { Card, Typography, CardContent } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -19,7 +20,32 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import axios from 'axios'
+
 export default function ResearcherRegistrationForm() {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [gender, setGender] = useState('')
+  const [address, setAddress] = useState({})
+
+  const registerResearcher = () => {
+    console.log({ name: name, phone: phone, email: email, gender: gender, address: address })
+    const body = {
+      name: name,
+      email: email,
+      password: 1234,
+      age: 23,
+      phone: phone,
+      gender: gender,
+      address: address
+    }
+
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/researcher`, body).then(response => {
+      console.log(response.data)
+    })
+  }
+
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
   const handleDateChange = (newValue: Date | null) => {
@@ -40,6 +66,10 @@ export default function ResearcherRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <TextField
                   size='small'
+                  value={name}
+                  onChange={e => {
+                    setName(e.target.value)
+                  }}
                   fullWidth
                   label='Full Name'
                   placeholder='Rediet Demisse'
@@ -56,6 +86,10 @@ export default function ResearcherRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
                   type='email'
                   label='Email'
                   placeholder='ruthgd2000@gmail.com'
@@ -73,6 +107,10 @@ export default function ResearcherRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Phone Number'
+                  value={phone}
+                  onChange={e => {
+                    setPhone(e.target.value)
+                  }}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -88,9 +126,9 @@ export default function ResearcherRegistrationForm() {
                   <MobileDatePicker
                     label='Date of Birth'
                     openTo='year'
-                    inputFormat='MM/dd/yyyy'
                     value={value}
                     onChange={handleDateChange}
+                    inputFormat='MM/dd/yyyy'
                     renderInput={params => <TextField size='small' fullWidth {...params} />}
                   />
                 </LocalizationProvider>
@@ -98,20 +136,23 @@ export default function ResearcherRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <FormControl>
                   <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                  <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='row-radio-buttons-group'>
+                  <RadioGroup
+                    onChange={e => {
+                      setGender(e.target.value)
+                    }}
+                    value={gender}
+                    row
+                    aria-labelledby='demo-row-radio-buttons-group-label'
+                    name='row-radio-buttons-group'
+                  >
                     <FormControlLabel value='female' control={<Radio />} label='Female' />
                     <FormControlLabel value='male' control={<Radio />} label='Male' />
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <AddressInformationForm />
+              <AddressInformationForm registerHealthCenter={registerResearcher} setAddress={setAddress} />
             </Grid>
           </CardContent>
-          <CardActions sx={{ mx: 70 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-          </CardActions>
         </form>
       </Card>
     </Grid>
