@@ -21,6 +21,6 @@ const user: User = {
   isActive: false,
   isResearcher: false,
   isAdmin: false,
-  healthCeterId: 0
+  healthCeterId: 4
 }
 export default user

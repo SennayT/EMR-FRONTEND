@@ -60,7 +60,7 @@ export default function PatientDashboard() {
                 item
                 height={140}
                 xs={5}
-                sx={{ backgroundColor: 'white', borderRadius: 1, px: 4, mx: 5 }}
+                sx={{ backgroundColor: 'white', borderRadius: 2, px: 4, mx: 5 }}
               >
                 <Grid container>
                   <Grid item xs={12}>

@@ -23,6 +23,8 @@ import AddressInformationForm from '../shared-components/form-components/Address
 
 import axios from 'axios'
 
+import user from '../../data/userData'
+
 export default function EmRegistrationForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -37,12 +39,13 @@ export default function EmRegistrationForm() {
   const registerEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
-    console.log({ name: name, phone: phone, email: email, address: address })
+    console.log({ name: name, phone: phone, email: email, address: address, healthCenterId: user.healthCeterId })
     const body = {
       name: name,
       email: email,
       phone: phone,
-      address: address
+      address: address,
+      age: 23
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`, body).then(response => {

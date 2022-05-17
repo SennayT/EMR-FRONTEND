@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react'
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid'
+import { useEffect } from 'react'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Avatar, Button, Grid, Typography, Chip, IconButton } from '@mui/material'
 import AddEmployee from 'src/views/shared-components/form-components/AddEmployeeForm'
 import EditIcon from '@mui/icons-material/Edit'
@@ -9,77 +10,26 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
-const rows = [
-  {
-    id: 1,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 2,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Radiologist',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 3,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 4,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: false,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 5,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 6,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  },
-  {
-    id: 7,
-    EmployeesName: 'Rediet Demisse',
-    email: 'example@gmail.com',
-    role: 'Doctor',
-    status: true,
-    HealthCenter: 'St. Paul Hospital'
-  }
-]
+import axios from 'axios'
 
 const Employees = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const [employees, setEmployees] = useState([])
 
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
 
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`).then(response => {
+      setEmployees(response.data)
+    })
+  })
+
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'EmployeesName',
+      field: 'name',
       headerName: 'Employee',
-      width: 200,
+      width: 250,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => (
         <Grid container spacing={2} alignItems='center'>
@@ -96,17 +46,14 @@ const Employees = () => {
       field: 'email',
       headerName: 'Email',
       type: 'string',
-      width: 200,
+      width: 250,
       editable: false
     },
     {
       field: 'role',
       headerName: 'Role',
       width: 150,
-      editable: false,
-      renderCell: (params: GridRenderCellParams<string>) => {
-        return <Typography variant='subtitle2'>{params.value}</Typography>
-      }
+      editable: false
     },
     {
       field: 'status',
@@ -122,7 +69,6 @@ const Employees = () => {
         )
       }
     },
-
     {
       field: 'actions',
       headerName: 'Actions',
@@ -160,13 +106,12 @@ const Employees = () => {
 
       <div style={{ height: 420, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
-          rows={rows}
+          rows={employees}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
-          components={{ Toolbar: CustomToolbar }}
         />
       </div>
       <Fragment>
@@ -183,10 +128,3 @@ const Employees = () => {
 }
 
 export default Employees
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport sx={{ margin: 1 }} />
-    </GridToolbarContainer>
-  )
-}
