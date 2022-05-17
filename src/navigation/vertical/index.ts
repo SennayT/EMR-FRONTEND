@@ -35,6 +35,16 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
   }
 
+  if (user.role === 'hospitalAdmin') {
+    pagesSection.push({
+      title: 'Employees',
+      icon: Account,
+      path: '/hospital-admin/employees'
+    })
+
+  }
+
+
   if (user.role === 'Doctor') {
     pagesSection.push({
       title: 'Create Prescription',

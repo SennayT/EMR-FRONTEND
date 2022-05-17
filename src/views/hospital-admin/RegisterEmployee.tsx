@@ -12,7 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Button, CardActions, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -49,6 +49,9 @@ export default function EmRegistrationForm() {
 
   return (
     <Grid container spacing={6}>
+      <Typography variant='h5' sx={{ fontWeight: 600, mt: 2 }}>
+        Employee Registration
+      </Typography>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>
@@ -189,11 +192,6 @@ export default function EmRegistrationForm() {
               <AddressInformationForm />
             </Grid>
           </CardContent>
-          <CardActions sx={{ mx: 70 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained'>
-              Register
-            </Button>
-          </CardActions>
         </form>
       </Card>
     </Grid>
