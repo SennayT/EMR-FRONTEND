@@ -150,7 +150,7 @@ export default function ResearcherRegistrationForm() {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <AddressInformationForm registerHealthCenter={registerResearcher} setAddress={setAddress} />
+              <AddressInformationForm onSubmit={registerResearcher} setAddress={registerResearcher} />
             </Grid>
           </CardContent>
         </form>

@@ -80,6 +80,9 @@ export default function EmRegistrationForm() {
 
   return (
     <Grid container spacing={6}>
+      <Typography variant='h5' sx={{ fontWeight: 600, mt: 2 }}>
+        Employee Registration
+      </Typography>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>

@@ -32,13 +32,8 @@ const NurseLayout = () => {
       <PatientNurseBar />
     </Grid>
     <Grid item xs={8} >
-      {vitals.map((vital) => {
-        return <PatientVitals key={vital}/>
-      })
-
-      }
-
-    </Grid>
+       <PatientVitals />
+        </Grid>
   </Grid>
   )
 }

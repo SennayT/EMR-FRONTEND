@@ -29,11 +29,31 @@ const navigation = (user: User): VerticalNavItemsType => {
   }
   if (user.role === 'SystemAdmin') {
     pagesSection.push({
-      title: 'Add Hospital',
+      title: 'Hospitals',
       icon: HospitalIcon,
-      path: '/system-admin/add-hospital'
+      path: '/system-admin/hospitals'
+    })
+    pagesSection.push({
+      title: 'Researchers',
+      icon: HospitalIcon,
+      path: '/system-admin/researchers'
+    })
+    pagesSection.push({
+      title: 'MOH',
+      icon: HospitalIcon,
+      path: '/system-admin/MOH'
     })
   }
+
+  if (user.role === 'hospitalAdmin') {
+    pagesSection.push({
+      title: 'Employees',
+      icon: Account,
+      path: '/hospital-admin/employees'
+    })
+
+  }
+
 
   if (user.role === 'Doctor') {
     pagesSection.push({
