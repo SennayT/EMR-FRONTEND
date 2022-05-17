@@ -1,49 +1,12 @@
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
 
 import PatientDiagnosis from 'src/views/patient-details/PatientDiagnosis'
 import user from 'src/data/userData'
+import PatientVitals from 'src/views/patient-details/PatientVitals'
 
 export default function PatientDashboard() {
-  const vitalCategories = [
-    {
-      name: 'Heart Rate',
-      value: '117',
-      measuredBy: '/87',
-      image: '/images/heart.png'
-    },
-    {
-      name: 'Fever',
-      value: '40',
-      measuredBy: 'c',
-      image: '/images/fever.png'
-    },
-    {
-      name: 'Blood Pressure',
-      value: '75',
-      measuredBy: '/123',
-      image: '/images/bp.jpg'
-    },
-    {
-      name: 'Height',
-      value: '170',
-      measuredBy: 'cm',
-      image: '/images/height.jpg'
-    },
-    {
-      name: 'Weight',
-      value: '123',
-      measuredBy: 'c',
-      image: '/images/weight.jpg'
-    },
-    {
-      name: 'BMI',
-      value: '20',
-      measuredBy: '.3',
-      image: '/images/bmi.jpg'
-    }
-  ]
+
 
   return (
     <Card>
@@ -52,38 +15,7 @@ export default function PatientDashboard() {
           <PatientDiagnosis user={user} />
         </Grid>
         <Grid item sx={{ mx: 4, my: 4, px: 4, py: 4 }} container xs={6}>
-          {vitalCategories.map(function (vital) {
-            return (
-              <Grid
-                spacing={3}
-                key={vital.name}
-                item
-                height={140}
-                xs={5}
-                sx={{ backgroundColor: 'white', borderRadius: 1, px: 4, mx: 5 }}
-              >
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography sx={{ mx: 3, my: 5, display: 'block' }} variant='subtitle1'>
-                      {vital.name}
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <img src={vital.image} alt='heart rate' height={70} />
-                  </Grid>
-                  <Grid item xs={5}>
-                    <Typography sx={{ display: 'inline' }} variant='h4'>
-                      {vital.value}
-                      <Typography sx={{ display: 'inline' }} variant='subtitle1'>
-                        {vital.measuredBy}
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-            )
-          })}
+          <PatientVitals />
           {/* <Grid item height={140} xs={5} sx={{ backgroundColor: 'white', borderRadius: 2, mx: 5, my: 4 }}>
             <Grid container sx={{ mx: 4 }}>
               <Grid item xs={12}>

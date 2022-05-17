@@ -32,7 +32,7 @@ const NurseLayout = () => {
       <PatientNurseBar />
     </Grid>
     <Grid item xs={8} >
-       <PatientVitals vital={vitals}/>
+       <PatientVitals />
         </Grid>
   </Grid>
   )
