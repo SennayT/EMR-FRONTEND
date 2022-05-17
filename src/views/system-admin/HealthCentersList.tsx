@@ -7,14 +7,12 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import HealthCenter from 'src/data/models/HealthCenterModel'
 
+// import HealthCenter from 'src/data/models/HealthCenterModel'
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
 import axios from 'axios'
-
-
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -25,9 +23,9 @@ const HealthCenters = () => {
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`).then(response => {
-        setHealthCenters(response.data)
-         })
-  });
+      setHealthCenters(response.data)
+    })
+  })
 
   const columns: GridColDef[] = [
     {

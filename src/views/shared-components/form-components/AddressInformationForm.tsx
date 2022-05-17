@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 
 // import { ReactChild, ReactFragment, ReactPortal } from 'react'
 import Grid from '@mui/material/Grid'
-import {TextField, CardActions, Button} from '@mui/material'
+import { TextField, CardActions, Button } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 import CardContent from '@mui/material/CardContent'
 
@@ -17,22 +17,37 @@ import { workerData } from 'worker_threads'
 
 const AddressInformationForm = (props: any) => {
   const submitForm = (event: any) => {
-    props.setAddress({ city: city, subCity: subCity, woreda: woreda, zone: zone, street: street, kebelle: kebelle, houseNo: houseNo })
-    console.log({ city: city, subCity: subCity, woreda: woreda, zone: zone, street: street, kebelle: kebelle, houseNo: houseNo })
-    props.onSubmit();
+    props.setAddress({
+      city: city,
+      subCity: subCity,
+      woreda: woreda,
+      zone: zone,
+      street: street,
+      kebelle: kebelle,
+      houseNo: houseNo
+    })
+    console.log({
+      city: city,
+      subCity: subCity,
+      woreda: woreda,
+      zone: zone,
+      street: street,
+      kebelle: kebelle,
+      houseNo: houseNo
+    })
+    props.onSubmit()
   }
-  const [city, setCity] = useState("");
-  const [subCity, setSubCity] = useState("");
-  const [woreda, setWoreda] = useState("");
-  const [kebelle, setKebelle] = useState("");
-  const [zone, setZone] = useState("");
-  const [street, setStreet] = useState("");
-  const [houseNo, setHouseNo] = useState("");
-
+  const [city, setCity] = useState('')
+  const [subCity, setSubCity] = useState('')
+  const [woreda, setWoreda] = useState('')
+  const [kebelle, setKebelle] = useState('')
+  const [zone, setZone] = useState('')
+  const [street, setStreet] = useState('')
+  const [houseNo, setHouseNo] = useState('')
 
   return (
     <CardContent>
-      <form >
+      <form>
         <Grid container>
           <Grid item xs={12} sx={{ px: 2 }}>
             <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
@@ -44,8 +59,8 @@ const AddressInformationForm = (props: any) => {
               size='small'
               fullWidth
               value={city}
-              onChange={(e) => {
-                setCity(e.target.value);
+              onChange={e => {
+                setCity(e.target.value)
               }}
               label='City'
               placeholder='Addis Ababa'
@@ -58,15 +73,15 @@ const AddressInformationForm = (props: any) => {
               }}
             />
           </Grid>
-          <Grid sx={{ mb: 8, px: 2 }} xs={12} sm={6}>
+          <Grid item sx={{ mb: 8, px: 2 }} xs={12} sm={6}>
             <TextField
               size='small'
               fullWidth
               label='Woreda'
               placeholder='04'
               value={woreda}
-              onChange={(e) => {
-                setWoreda(e.target.value);
+              onChange={e => {
+                setWoreda(e.target.value)
               }}
               InputProps={{
                 startAdornment: (
@@ -77,15 +92,15 @@ const AddressInformationForm = (props: any) => {
               }}
             />
           </Grid>
-          <Grid sx={{ mb: 8, pr: 2 }} xs={12} sm={6}>
+          <Grid item sx={{ mb: 8, pr: 2 }} xs={12} sm={6}>
             <TextField
               size='small'
               fullWidth
               label='Sub City'
               placeholder='Bole'
               value={subCity}
-              onChange={(e) => {
-                setSubCity(e.target.value);
+              onChange={e => {
+                setSubCity(e.target.value)
               }}
               InputProps={{
                 startAdornment: (
@@ -96,15 +111,15 @@ const AddressInformationForm = (props: any) => {
               }}
             />
           </Grid>
-          <Grid sx={{ mb: 8, px: 2 }} xs={12} sm={6}>
+          <Grid item sx={{ mb: 8, px: 2 }} xs={12} sm={6}>
             <TextField
               size='small'
               fullWidth
               label='Kebele'
               placeholder='32'
               value={kebelle}
-              onChange={(e) => {
-                setKebelle(e.target.value);
+              onChange={e => {
+                setKebelle(e.target.value)
               }}
               InputProps={{
                 startAdornment: (
@@ -121,8 +136,8 @@ const AddressInformationForm = (props: any) => {
               fullWidth
               label='Street'
               value={street}
-              onChange={(e) => {
-                setStreet(e.target.value);
+              onChange={e => {
+                setStreet(e.target.value)
               }}
               placeholder='Mauritania street'
               InputProps={{
@@ -141,8 +156,8 @@ const AddressInformationForm = (props: any) => {
               label='House Number'
               placeholder='432'
               value={houseNo}
-              onChange={(e) => {
-                setHouseNo(e.target.value);
+              onChange={e => {
+                setHouseNo(e.target.value)
               }}
               InputProps={{
                 startAdornment: (
@@ -158,8 +173,8 @@ const AddressInformationForm = (props: any) => {
               size='small'
               fullWidth
               value={zone}
-              onChange={(e) => {
-                setZone(e.target.value);
+              onChange={e => {
+                setZone(e.target.value)
               }}
               label='Zone'
               placeholder='zone'
@@ -175,10 +190,10 @@ const AddressInformationForm = (props: any) => {
         </Grid>
       </form>
       <CardActions sx={{ mx: 70 }}>
-            <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={submitForm}>
-              Register
-            </Button>
-          </CardActions>
+        <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={submitForm}>
+          Register
+        </Button>
+      </CardActions>
     </CardContent>
   )
 }
