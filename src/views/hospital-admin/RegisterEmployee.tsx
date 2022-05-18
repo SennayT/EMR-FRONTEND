@@ -10,6 +10,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
+import InputLabel from '@mui/material/InputLabel'
 
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent } from '@mui/material'
@@ -29,9 +30,9 @@ export default function EmRegistrationForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-
-  // const [role, setRole] = useState('')
-  // const [isAdmin, setIsAdmin] = useState('')
+  const [role, setRole] = useState<string[]>([])
+  const [gender, setGender] = React.useState('female')
+  const [isAdmin, setIsAdmin] = useState(false)
   const [emName, setEmName] = useState('')
   const [emPhone, setEmPhone] = useState('')
   const [address, setAddress] = useState({})
@@ -39,13 +40,26 @@ export default function EmRegistrationForm() {
   const registerEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
-    console.log({ name: name, phone: phone, email: email, address: address, healthCenterId: user.healthCeterId })
+    console.log({
+      name: name,
+      phone: phone,
+      email: email,
+      address: address,
+      isAdmin: isAdmin,
+      healthCenterId: user.healthCeterId,
+      role: role,
+      gender: gender
+    })
     const body = {
       name: name,
       email: email,
       phone: phone,
       address: address,
-      age: 23
+      age: 23,
+      role: role,
+      isAdmin: isAdmin,
+      password: '4te44wed',
+      healthCenterId: user.healthCeterId
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`, body).then(response => {
@@ -59,10 +73,16 @@ export default function EmRegistrationForm() {
     setValue(newValue)
   }
 
-  const [roleType, setPersonName] = useState<string[]>([])
+  const switchHandler = event => {
+    setIsAdmin(event.target.checked)
+  }
 
   const handleRoleChange = (event: SelectChangeEvent<string[]>) => {
-    setPersonName(event.target.value as string[])
+    setRole(event.target.value as string[])
+  }
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGender((event.target as HTMLInputElement).value)
   }
 
   const roles = ['Doctor', 'Reception', 'Nurse', 'Lab Technician', 'Radiologist']
@@ -165,7 +185,14 @@ export default function EmRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <FormControl>
                   <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                  <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='row-radio-buttons-group'>
+                  <RadioGroup
+                    row
+                    aria-labelledby='demo-row-radio-buttons-group-label'
+                    defaultValue='female'
+                    name='row-radio-buttons-group'
+                    value={gender}
+                    onChange={handleGenderChange}
+                  >
                     <FormControlLabel value='female' control={<Radio />} label='Female' />
                     <FormControlLabel value='male' control={<Radio />} label='Male' />
                   </RadioGroup>
@@ -173,28 +200,34 @@ export default function EmRegistrationForm() {
               </Grid>
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}></Grid>
               <Grid sx={{ mb: 1, pr: 2, mt: 1 }} item xs={12} sm={6}>
-                <Select
-                  label='Role'
-                  value={roleType}
-                  MenuProps={MenuProps}
-                  onChange={handleRoleChange}
-                  placeholder='Doctor'
-                  fullWidth
-                  size='small'
-                >
-                  {roles.map(role => (
-                    <MenuItem key={role} value={role}>
-                      {role}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <FormControl fullWidth>
+                  <InputLabel sx={{ mt: -2 }} id='demo-simple-select-label'>
+                    Role
+                  </InputLabel>
+                  <Select
+                    label='Role'
+                    value={role}
+                    MenuProps={MenuProps}
+                    onChange={handleRoleChange}
+                    placeholder='Doctor'
+                    fullWidth
+                    size='small'
+                  >
+                    {roles.map(role => (
+                      <MenuItem key={role} value={role}>
+                        {role}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <FormControlLabel
-                  value='start'
+                  checked={isAdmin}
                   control={<Switch color='primary' />}
                   label='Is Administrator'
                   labelPlacement='start'
+                  onChange={switchHandler}
                 />
               </Grid>
               <Grid item xs={12}>
