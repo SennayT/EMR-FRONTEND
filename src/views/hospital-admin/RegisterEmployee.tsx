@@ -55,10 +55,10 @@ export default function EmRegistrationForm() {
       email: email,
       phone: phone,
       address: address,
+      gender: gender,
       age: 23,
       role: role,
       isAdmin: isAdmin,
-      password: '4te44wed',
       healthCenterId: user.healthCeterId
     }
 
