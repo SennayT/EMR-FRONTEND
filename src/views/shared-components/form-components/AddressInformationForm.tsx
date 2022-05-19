@@ -13,7 +13,6 @@ import StreetIcon from 'mdi-material-ui/RoadVariant'
 
 import SubcityIcon from 'mdi-material-ui/TownHall'
 import { useState } from 'react'
-import { workerData } from 'worker_threads'
 
 const AddressInformationForm = (props: any) => {
   const submitForm = (event: any) => {

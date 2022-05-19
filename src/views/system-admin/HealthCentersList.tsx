@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { Button, Grid, Typography } from '@mui/material'
+import { Button, Grid, Typography, IconButton } from '@mui/material'
 import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -11,6 +11,9 @@ import DialogContent from '@mui/material/DialogContent'
 // import HealthCenter from 'src/data/models/HealthCenterModel'
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
+
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 import axios from 'axios'
 
@@ -44,14 +47,32 @@ const HealthCenters = () => {
     {
       field: 'type',
       headerName: 'Type',
-      width: 150,
+      width: 100,
       editable: false
     },
     {
       field: 'phone',
       headerName: 'Phone',
-      width: 150,
+      width: 160,
       editable: false
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      editable: false,
+      renderCell: () => {
+        return (
+          <div>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        )
+      }
     }
   ]
 
