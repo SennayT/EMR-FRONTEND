@@ -17,7 +17,7 @@ import { Address } from 'src/data/models/AddressModel'
 export default function PatientRegistrationForm() {
 
   const [address, setAddress] = useState<Address>({
-    id: 0,
+
     city: "",
     subCity: "",
     woreda: "",
@@ -27,19 +27,15 @@ export default function PatientRegistrationForm() {
     houseNumber: "",
   });
   const [currentUser, setUser] = useState<User>({
-    id: 0,
     name: "name",
     age: 32,
     gender: "female",
     email: "email",
-    role: "patient",
+    role: "Patient",
     phone: "",
     address: address,
-    isActive: false,
-    isResearcher: false,
     isAdmin: false,
     healthCeterId: 0,
-
 
   });
   const [emergencyName, setEmergencyName] = useState("");
@@ -48,26 +44,26 @@ export default function PatientRegistrationForm() {
   const registerPatient = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
-    console.log("jere");
     const body = {
       user: currentUser,
       emergencyContactName: emergencyName,
       emergencyContactPhone: emergencyPhone,
-      healthCenterId: 0,
       registeredBy: 1
     }
+    console.log(body);
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`, body).then(response => {
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/patient`, body).then(response => {
       console.log(response.data)
     })
   };
+
   return (
     <Grid container spacing={6}>
       <Grid sx={{ mx: 12, my: 4 }} item xs={12}>
         <Typography variant='h5'>Patient Registration</Typography>
       </Grid>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
-        <form>
+        <div>
           <CardContent sx={{ px: 4 }}>
             <Grid sx={{ px: 4 }} container spacing={5}>
               <Grid item xs={12}>
@@ -217,7 +213,7 @@ export default function PatientRegistrationForm() {
               <AddressInformationForm onSubmit={registerPatient} setAddress={setAddress} />
             </Grid>
           </CardContent>
-        </form>
+        </div>
       </Card>
     </Grid>
   )

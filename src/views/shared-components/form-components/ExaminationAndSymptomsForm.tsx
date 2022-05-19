@@ -1,12 +1,27 @@
 // ** React Imports
+import { useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import { Button, Card, CardContent, CardActions } from '@mui/material'
 import TextField from '@mui/material/TextField'
+import axios from 'axios';
 
 const ExaminationAndSymptomsForm = () => {
-  // ** States
+
+  const [examination, setExamination] = useState("");
+  const [symptoms, setSymptoms] = useState("");
+
+  const registerExamination = () => {
+    const data = {
+      physical_examination: examination,
+      symptom: symptoms
+    }
+    console.log(data)
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/examination`, data).then(response => {
+      console.log(response.data)
+    })
+  };
 
   return (
     <Grid container >
@@ -19,7 +34,11 @@ const ExaminationAndSymptomsForm = () => {
                   fullWidth
                   multiline
                   rows={8}
+                  value={symptoms}
                   label='symptoms'
+                  onChange={e => {
+                    setSymptoms(e.target.value)
+                  }}
                   placeholder='patient feels'
 
                 />
@@ -28,6 +47,10 @@ const ExaminationAndSymptomsForm = () => {
                   fullWidth
                   rows={8}
                   multiline
+                  value={examination}
+                  onChange={e => {
+                    setExamination(e.target.value)
+                  }}
                   label='physical examination'
                   placeholder='physically shown indications'
 
@@ -36,7 +59,7 @@ const ExaminationAndSymptomsForm = () => {
 
           </CardContent>
           <CardActions sx={{ mx: 80 }}>
-            <Button size='large' type='submit' variant='contained' sx={{padding:2}}>
+            <Button size='large' type='submit' onClick={registerExamination} variant='contained' sx={{padding:2}}>
               Register
             </Button>
             {/* <Button size='large' color='secondary' variant='outlined'>

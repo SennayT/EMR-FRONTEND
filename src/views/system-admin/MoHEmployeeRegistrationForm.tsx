@@ -20,6 +20,8 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import user from '../../data/userData'
+
 import axios from 'axios'
 
 export default function ResearcherRegistrationForm() {
@@ -38,9 +40,18 @@ export default function ResearcherRegistrationForm() {
         name: name,
         email: email,
         phone: phone,
+<<<<<<< HEAD
         gender: gender,
         address: address
       }
+=======
+        gender: 'female',
+        age: 32,
+        healthCenterId: 4,
+        address: address
+      },
+      registeredBy: user.id
+>>>>>>> d44ba0255da364f564a8dfdcd21845f161d54fc2
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`, body).then(response => {

@@ -20,6 +20,8 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
+import user from '../../data/userData'
+
 import axios from 'axios'
 
 export default function ResearcherRegistrationForm() {
@@ -34,11 +36,11 @@ export default function ResearcherRegistrationForm() {
     const body = {
       name: name,
       email: email,
-      password: 1234,
       age: 23,
       phone: phone,
       gender: gender,
-      address: address
+      address: address,
+      healthCenterId: user.healthCeterId
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/researcher`, body).then(response => {
@@ -150,7 +152,7 @@ export default function ResearcherRegistrationForm() {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <AddressInformationForm onSubmit={registerResearcher} setAddress={registerResearcher} />
+              <AddressInformationForm onSubmit={registerResearcher} setAddress={setAddress} />
             </Grid>
           </CardContent>
         </form>

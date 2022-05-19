@@ -1,6 +1,6 @@
 export class Address {
 
-  id: number;
+  id?: number;
   city: string;
   subCity: string;
   woreda: string;
@@ -10,14 +10,13 @@ export class Address {
   houseNumber: string;
 
 
-  constructor(id: number,
-    city: string,
+  constructor(city: string,
     subCity: string,
     woreda: string,
     zone: string,
     kebelle: string,
     street: string,
-    houseNumber: string) {
+    houseNumber: string, id?: number) {
 
     this.id = id;
     this.city = city;

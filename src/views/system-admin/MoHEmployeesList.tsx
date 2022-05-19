@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Avatar, Button, Grid, Typography, IconButton } from '@mui/material'
+import { Button, Grid, Typography, Avatar, IconButton } from '@mui/material'
 import AddMoHEmployee from 'src/views/shared-components/form-components/AddMoHEmployeeForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -8,10 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
+import axios from 'axios'
+
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-
-import axios from 'axios'
 
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -21,15 +21,14 @@ const MoHEmployees = () => {
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
-      setMohEmployees(response.data.map(moh => moh.user))
+      setMohEmployees(response.data.map(res => res.user))
     })
   })
-
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
       field: 'name',
-      headerName: 'Employee',
+      headerName: 'Researcher',
       width: 200,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => (
