@@ -85,7 +85,7 @@ export default function EmRegistrationForm() {
     setGender((event.target as HTMLInputElement).value)
   }
 
-  const roles = ['Doctor', 'Reception', 'Nurse', 'Lab Technician', 'Radiologist']
+  const roles = ['Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Radiologist']
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8

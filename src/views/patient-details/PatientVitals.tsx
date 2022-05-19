@@ -2,8 +2,6 @@
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-
-
 const vitalCategories = [
   {
     name: 'Heart Rate',
@@ -45,41 +43,40 @@ const vitalCategories = [
 
 const PatientVitals = () => {
   return (
-    <div>
-
-{vitalCategories.map(function (vital) {
-            return (
-              <Grid
-                spacing={3}
-                key={vital.name}
-                item
-                height={140}
-                xs={5}
-                sx={{ backgroundColor: 'white', borderRadius: 1, px: 4, mx: 5 }}
-              >
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography sx={{ mx: 3, my: 5, display: 'block' }} variant='subtitle1'>
-                      {vital.name}
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <img src={vital.image} alt='heart rate' height={70} />
-                  </Grid>
-                  <Grid item xs={5}>
-                    <Typography sx={{ display: 'inline' }} variant='h4'>
-                      {vital.value}
-                      <Typography sx={{ display: 'inline' }} variant='subtitle1'>
-                        {vital.measuredBy}
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                </Grid>
+    <>
+      {vitalCategories.map(function (vital) {
+        return (
+          <Grid
+            spacing={3}
+            key={vital.name}
+            item
+            height={140}
+            xs={5}
+            sx={{ backgroundColor: 'white', borderRadius: 1, px: 4, mx: 5 }}
+          >
+            <Grid container>
+              <Grid item xs={12}>
+                <Typography sx={{ mx: 3, my: 5, display: 'block' }} variant='subtitle1'>
+                  {vital.name}
+                </Typography>
               </Grid>
-            )
-          })}
-    </div>
+
+              <Grid item xs={6}>
+                <img src={vital.image} alt='heart rate' height={70} />
+              </Grid>
+              <Grid item xs={5}>
+                <Typography sx={{ display: 'inline' }} variant='h4'>
+                  {vital.value}
+                  <Typography sx={{ display: 'inline' }} variant='subtitle1'>
+                    {vital.measuredBy}
+                  </Typography>
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        )
+      })}
+    </>
   )
 }
 
