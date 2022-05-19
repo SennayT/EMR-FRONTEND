@@ -2,7 +2,7 @@ import { Address } from "./AddressModel";
 
 export class User {
 
-  id: number;
+  id?: number;
   name: string;
   age: number;
   gender: string;
@@ -10,13 +10,13 @@ export class User {
   role: string;
   phone: string;
   address: Address;
-  isActive: boolean;
-  isResearcher: boolean;
+  isActive?: boolean;
+  isResearcher?: boolean;
   isAdmin: boolean;
   healthCeterId: number;
 
 
-  constructor(id: number, name: string, age: number, gender: string, email: string, role: string, phone: string, address: Address, isActive: boolean, isResearcher: boolean, isAdmin: boolean, healthCeterId: number) {
+  constructor({ name, age, gender, email, role, phone, address, isActive, isAdmin, healthCeterId, id, isResearcher }: { name: string; age: number; gender: string; email: string; role: string; phone: string; address: Address; isActive: boolean; isAdmin: boolean; healthCeterId: number; id?: number; isResearcher?: boolean; }) {
     this.id = id;
     this.name = name;
     this.age = age;
