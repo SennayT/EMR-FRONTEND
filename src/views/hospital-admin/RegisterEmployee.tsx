@@ -73,7 +73,7 @@ export default function EmRegistrationForm() {
     setValue(newValue)
   }
 
-  const switchHandler = event => {
+  const switchHandler = (event:any) => {
     setIsAdmin(event.target.checked)
   }
 
