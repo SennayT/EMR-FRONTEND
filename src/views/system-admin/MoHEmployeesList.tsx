@@ -1,6 +1,6 @@
-import { Fragment, useState } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { Button, Grid, Typography } from '@mui/material'
+import { Fragment, useState, useEffect } from 'react'
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { Button, Grid, Typography, Avatar, IconButton } from '@mui/material'
 import AddMoHEmployee from 'src/views/shared-components/form-components/AddMoHEmployeeForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -8,57 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
-const rows = [
-  {
-    id: 1,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 2,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 3,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 4,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 5,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 6,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  },
-  {
-    id: 7,
-    MoHEmployeeName: 'Rediet Demisse',
-    note: 'Lorem ipsum sth sth they always write on the templates',
-    date: '12/12/2022',
-    City: 'Addis Ababa'
-  }
-]
+import axios from 'axios'
+
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+
 
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -66,32 +20,71 @@ const MoHEmployees = () => {
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
 
+  const [mohEmployees, setMohEmployees] = useState([])
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
+      setMohEmployees(response.data.map(res => res.user))
+    })
+  })
   const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'MoHEmployeeName',
-      headerName: 'MoH Employee',
-      width: 150,
+      field: 'name',
+      headerName: 'Researcher',
+      width: 200,
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => (
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs={3}>
+            <Avatar sx={{ backgroundColor: '#e5f7d0', padding: 1 }} />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant='body1'>{params.value}</Typography>
+          </Grid>
+        </Grid>
+      )
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      type: 'string',
+      width: 200,
       editable: false
     },
     {
-      field: 'date',
-      headerName: 'Date',
-      type: 'number',
+      field: 'age',
+      headerName: 'Age',
+      width: 150,
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => {
+        return <Typography variant='subtitle2'>{params.value}</Typography>
+      }
+    },
+    {
+      field: 'phone',
+      headerName: 'Phone',
       width: 150,
       editable: false
     },
+
     {
-      field: 'note',
-      headerName: 'Note',
-      width: 400,
-      editable: false
-    },
-    {
-      field: 'City',
-      headerName: 'City',
+      field: 'actions',
+      headerName: 'Actions',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: () => {
+        return (
+          <div>
+            <IconButton>
+              <EditIcon />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        )
+      }
     }
   ]
 
@@ -112,7 +105,7 @@ const MoHEmployees = () => {
 
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
-          rows={rows}
+          rows={mohEmployees}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}

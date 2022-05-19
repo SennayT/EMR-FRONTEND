@@ -18,7 +18,7 @@ const ExaminationAndSymptomsForm = () => {
       symptom: symptoms
     }
     console.log(data)
-    axios.post(`http://localhost:4000/examination`, data).then(response => {
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/examination`, data).then(response => {
       console.log(response.data)
     })
   };

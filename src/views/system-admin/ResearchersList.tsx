@@ -32,7 +32,7 @@ const Researchers = () => {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
-      field: 'Researcher Name',
+      field: 'name',
       headerName: 'Researcher',
       width: 200,
       editable: false,

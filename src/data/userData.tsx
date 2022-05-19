@@ -6,7 +6,7 @@ const user: User = {
   age: 23,
   gender: 'mayo in a chair',
   email: 'example@gmail.com',
-  role: 'SystemAdmin',
+  role: 'Doctor',
   phone: '+98765456',
   address: {
     id: 1,
