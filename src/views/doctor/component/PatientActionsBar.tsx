@@ -68,7 +68,7 @@ const handleClickClose = () => setOpen(false)
         onClose={handleClickClose}
         aria-labelledby='max-width-dialog-title'
       >
-        <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
+        <DialogTitle id='max-width-dialog-title'>Diagnosis Form </DialogTitle>
         <DialogContent>
          <DiagnosisForm/>
         </DialogContent>

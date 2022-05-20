@@ -3,19 +3,42 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions } from '@mui/material'
+import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const ExaminationAndSymptomsForm = () => {
 
+
+  const ITEM_HEIGHT = 48
+  const ITEM_PADDING_TOP = 8
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        width: 250,
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+      }
+    }
+  }
+
   const [examination, setExamination] = useState("");
   const [symptoms, setSymptoms] = useState("");
+  const [vitals, setVitals] = useState([{id: 0, requestedDate: ""}])
+  const [vital, setVital] = useState(0)
+
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then((response) => {
+      setVitals(response.data)
+    })
+  })
 
   const registerExamination = () => {
     const data = {
       physical_examination: examination,
-      symptom: symptoms
+      symptom: symptoms,
+      vitalId: vital
     }
     console.log(data)
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/examination`, data).then(response => {
@@ -28,7 +51,29 @@ const ExaminationAndSymptomsForm = () => {
       <Card sx={{  marginTop: 2, paddingRight: 2, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
+
               <Grid item xs={12}  >
+              <FormControl fullWidth>
+                  <InputLabel id='test-select-label'>Investigative Request</InputLabel>
+                  <Select
+                    labelId='test-select-label'
+                    label=''
+                    value={vital}
+                    MenuProps={MenuProps}
+                    onChange={e => {
+                      const id = Number(e.target.value);
+                      setVital(id)
+                    }}
+                    fullWidth
+                    size='small'
+                  >
+                    {vitals.map(name => (
+                      <MenuItem key={name.id} value={name.id}>
+                        {name.requestedDate}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <TextField
                 sx={{margin: 2}}
                   fullWidth
