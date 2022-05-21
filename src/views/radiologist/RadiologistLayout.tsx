@@ -1,7 +1,7 @@
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import InvestigativeRequestTable from '../shared-components/InvestigativeRequestTable';
+import InvestigativeRequestTableRadiology from '../shared-components/InvestigationRequestTableRadiology';
 
 const RadiologistLayout = () => {
   // ** State
@@ -12,7 +12,7 @@ const RadiologistLayout = () => {
 
     <Grid className="container-grid" container>
       <Grid item xs={12}>
-        <InvestigativeRequestTable/>
+        <InvestigativeRequestTableRadiology/>
       </Grid>
     </Grid>
   )

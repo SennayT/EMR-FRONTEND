@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
 import { Button, Typography, Chip } from '@mui/material'
-import LabResultFrom from './form-components/LabResultForm'
+import RadiologyResultFrom from './form-components/RadiologyResultForm'
 
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -13,11 +13,10 @@ import axios from 'axios'
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
-const InvestigativeRequestTable = () => {
+const InvestigativeRequestTableRadiology = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleClickOpen = (param) => {
-    // console.log(req)
     console.log(param)
     setCurrentInvReq(param)
     setOpen(true)
@@ -35,7 +34,7 @@ const InvestigativeRequestTable = () => {
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/investigation-request`).then(response => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/investigation-request/include/radiology`).then(response => {
       setInvReqs(response.data)
     })
   })
@@ -107,7 +106,7 @@ const InvestigativeRequestTable = () => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
           <DialogContent>
-            <LabResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id}  />
+            <RadiologyResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id}  />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
@@ -116,4 +115,4 @@ const InvestigativeRequestTable = () => {
   )
 }
 
-export default InvestigativeRequestTable
+export default InvestigativeRequestTableRadiology

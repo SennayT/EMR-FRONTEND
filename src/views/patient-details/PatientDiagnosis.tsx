@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactChild, ReactFragment, ReactPortal, useState } from 'react'
+import { ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -10,6 +10,8 @@ import CardContent from '@mui/material/CardContent'
 
 import PatientVitals from './PatientVitals'
 import { Card } from '@mui/material'
+
+import axios from 'axios'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -23,6 +25,28 @@ const PatientDiagnosis = (props: {
 }) => {
   // ** State
   const [imgSrc] = useState<string>('/images/avatars/1.png')
+
+  const [lastDiagnosis, setLastDiagnosis] = useState({
+    id: 1,
+    comment: '',
+    createdAt: '',
+    diseases: [
+      {
+        id: 0,
+        name: '',
+        description: ''
+      }
+    ]
+  })
+
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
+      setLastDiagnosis(response.data[0])
+
+      // console.log(lastDiagnosis.diseases)
+    })
+  })
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
@@ -42,12 +66,10 @@ const PatientDiagnosis = (props: {
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
                 Recent Diagnosis Note
               </Typography>
-              <Typography variant='body2'>
-                Here, I focus on a range of items and features that we use in life without giving them a second thought
-                such as Coca Cola, body muscles and holding ones own breath. Though, most of these notes are not
-                fundamentally necessary, they are such that you can use them for a good laugh, at a drinks party or for
-                picking up women or men.
-              </Typography>
+              <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
+              {lastDiagnosis.diseases.map((disease) => {
+                <Typography variant='body2'>{disease.name}</Typography>
+              })}
               <PatientVitals />
             </Grid>
           </Grid>
