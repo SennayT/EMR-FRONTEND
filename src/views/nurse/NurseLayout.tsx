@@ -27,12 +27,17 @@ const NurseLayout = () => {
   </Grid>
 </Grid>:
    (
-    <Grid className="container-grid" spacing={5} container item>
+    <Grid className="container-grid" spacing={2} container item>
     <Grid item xs={12}>
       <PatientNurseBar />
     </Grid>
-    <Grid item xs={8} >
-       <PatientVitals />
+    <Grid item xs={12}  >
+    {vitals.map(function (vital) {
+      return <div>
+        <p>vital number {vital.id}</p>
+        <PatientVitals vital={vital} />
+        </div>
+    })}
         </Grid>
   </Grid>
   )

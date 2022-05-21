@@ -1,5 +1,5 @@
 // ** React Imports
-import { ReactChild, ReactFragment, ReactPortal, useState } from 'react'
+import { ReactChild, ReactFragment, ReactPortal, useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -11,6 +11,8 @@ import CardContent from '@mui/material/CardContent'
 import PatientVitals from './PatientVitals'
 import { Card } from '@mui/material'
 
+import axios from 'axios'
+
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -18,11 +20,21 @@ const ImgStyled = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
+
+
 const PatientDiagnosis = (props: {
   user: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined }
 }) => {
   // ** State
   const [imgSrc] = useState<string>('/images/avatars/1.png')
+
+  const [vitals, setVitals] = useState([]);
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then(response => {
+      setVitals([response.data[4]])
+    })
+  });
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
@@ -48,7 +60,12 @@ const PatientDiagnosis = (props: {
                 fundamentally necessary, they are such that you can use them for a good laugh, at a drinks party or for
                 picking up women or men.
               </Typography>
-              <PatientVitals />
+              {vitals.map(function (vital) {
+                return <div>
+                  <p>vital number {vital.id}</p>
+                  <PatientVitals vital={vital} />
+                </div>
+              })}
             </Grid>
           </Grid>
         </form>
