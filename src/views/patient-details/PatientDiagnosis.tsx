@@ -35,6 +35,27 @@ const PatientDiagnosis = (props: {
       setVitals([response.data[4]])
     })
   });
+  const [lastDiagnosis, setLastDiagnosis] = useState({
+    id: 1,
+    comment: '',
+    createdAt: '',
+    diseases: [
+      {
+        id: 0,
+        name: '',
+        description: ''
+      }
+    ]
+  })
+
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
+      setLastDiagnosis(response.data[0])
+
+      // console.log(lastDiagnosis.diseases)
+    })
+  })
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
@@ -65,6 +86,10 @@ const PatientDiagnosis = (props: {
                   <p>vital number {vital.id}</p>
                   <PatientVitals vital={vital} />
                 </div>
+              })}
+              <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
+              {lastDiagnosis.diseases.map((disease) => {
+                <Typography variant='body2'>{disease.name}</Typography>
               })}
             </Grid>
           </Grid>
