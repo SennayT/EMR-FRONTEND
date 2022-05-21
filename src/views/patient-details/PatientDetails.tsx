@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -47,8 +48,10 @@ const PatientDetail = () => {
     }
   );
 
+  const router = useRouter();
+
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/patient/3`).then(response => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/patient/${router.query.pid}`).then(response => {
       setPatient(response.data)
     })
   });

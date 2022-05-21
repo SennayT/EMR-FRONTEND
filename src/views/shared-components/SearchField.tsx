@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+
 import Box from '@mui/material/Box'
 
 // import IconButton from '@mui/material/IconButton'
@@ -6,8 +9,20 @@ import TextField from '@mui/material/TextField'
 // import Magnify from 'mdi-material-ui/Magnify'
 
 // import InputAdornment from '@mui/material/InputAdornment'
+import axios from 'axios'
 
 const SearchField = () => {
+
+  const [refId, setRefId] = useState("")
+  const router = useRouter()
+
+  const searchByRefId = () =>{
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient/refId/${refId}`).then((response) => {
+      console.log(response.data)
+      router.push({pathname: "/patient-details", query: {pid: response.data.id}})
+    })
+  }
+
   return (
     <Box
       noValidate
@@ -20,8 +35,18 @@ const SearchField = () => {
       </IconButton> */}
       <TextField
         fullWidth
-        placeholder='Search Patient'
+        placeholder='Search Patient by Reference Code'
         id='outlined-full-width'
+        onChange={(e) => {
+          setRefId(e.target.value)
+        }}
+        onKeyPress={(ev) => {
+          if (ev.key === 'Enter') {
+            // Do code here
+            searchByRefId();
+            ev.preventDefault();
+          }
+        }}
         sx={{ backgroundColor: 'white', mt: 45 }}
       />
     </Box>
