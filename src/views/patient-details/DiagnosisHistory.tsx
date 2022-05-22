@@ -13,7 +13,7 @@ import TimelineContent from '@mui/lab/TimelineContent'
 import TimelineSeparator from '@mui/lab/TimelineSeparator'
 import TimelineConnector from '@mui/lab/TimelineConnector'
 import MuiTimeline, { TimelineProps } from '@mui/lab/Timeline'
-import {Card, CardContent} from '@mui/material'
+import {Card, CardContent, Button, Grid} from '@mui/material'
 
 // ** Icons Imports
 import ArrowRight from 'mdi-material-ui/ArrowRight'
@@ -75,29 +75,43 @@ const DiagnosisHistory = () => {
         </Typography>
     <Timeline >
       {diagnosis.map((singleDiagnosis) => {
-      <TimelineItem>
+     return <TimelineItem>
         <TimelineSeparator>
           <TimelineDot color='error' variant='outlined' />
           <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent>
           <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
+            <Typography variant='body1' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
               {singleDiagnosis.comment}
             </Typography>
-            <Typography variant='caption'>{singleDiagnosis.createdAt}</Typography>
+            <Typography variant='caption'>Created At {singleDiagnosis.createdAt}</Typography>
           </Box>
-          <Typography variant='body2' sx={{ color: 'text.primary' }}>
-            <span>Charles de Gaulle Airport, Paris</span>{' '}
-            <ArrowRight fontSize='small' sx={{ verticalAlign: 'bottom', mx: 4 }} />{' '}
-            <span>Heathrow Airport, London</span>
-          </Typography>
-          <Typography variant='caption'>6:30 AM</Typography>
-          <Box sx={{ mt: 2, display: 'flex', alignItems: 'center' }}>
-            <img width={28} height={28} alt='invoice.pdf' src='/materio-mui-react-nextjs-admin-template/demo-1/images/icons/file-icons/pdf.png' />
-            <Typography variant='subtitle2' sx={{ ml: 2, fontWeight: 600 }}>
-              bookingCard.pdf
-            </Typography>
+          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'start', justifyContent: 'stretch' }}>
+            <div>
+            {singleDiagnosis.createdAt}
+            <ArrowRight fontSize='small' sx={{ verticalAlign: 'bottom', mx: 4 }} />
+            </div>
+
+            <div>
+
+            Diagnosed Diseases
+            {singleDiagnosis.diseases.map((disease) => {
+                console.log("here", disease);
+                return (
+                  <div><Typography variant='body1'>{disease.name}</Typography>
+                    <Typography variant='body2'>{disease.description}</Typography></div>
+                );
+
+              })}
+            </div>
+          </Box>
+          {/* <Typography variant='caption'>6:30 AM</Typography> */}
+          <Box>
+            {/* <img width={28} height={28} alt='invoice.pdf' src='/materio-mui-react-nextjs-admin-template/demo-1/images/icons/file-icons/pdf.png' /> */}
+            <Button variant='text' color='primary' size='small' style={{ float: 'right' }}>
+            More
+          </Button>
           </Box>
         </TimelineContent>
       </TimelineItem>

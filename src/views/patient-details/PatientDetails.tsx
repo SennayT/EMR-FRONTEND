@@ -54,6 +54,9 @@ const PatientDetail = () => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/patient/${router.query.pid}`).then(response => {
       setPatient(response.data)
     })
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/prescription/export/pdf/2`).then(response => {
+      console.log("res", response.data)
+    })
   });
 
 

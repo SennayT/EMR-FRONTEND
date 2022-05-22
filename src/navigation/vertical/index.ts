@@ -45,6 +45,11 @@ const navigation = (user: User): VerticalNavItemsType => {
       icon: HospitalIcon,
       path: '/system-admin/MOH'
     })
+    pagesSection.push({
+      title: 'Report Generation',
+      icon: HospitalIcon,
+      path: '/system-admin/report'
+    })
   }
 
   if (user.role === 'hospitalAdmin') {

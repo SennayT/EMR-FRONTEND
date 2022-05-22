@@ -1,3 +1,6 @@
+
+import { useState, useEffect } from 'react'
+
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
@@ -23,7 +26,31 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // ** Demo Components Imports
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 
+
+import axios from 'axios'
+
 export default function SystemAdminDashboard() {
+
+  const [healthCenterNum, setHealthCenterNum] = useState(0)
+  const [patientNum, setPatientNum] = useState(0)
+  const [researcherNum, setResearcherNum] = useState(0)
+  const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
+
+  useEffect(() => {
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/health-center/number`).then((response) => {
+      setHealthCenterNum(response.data)
+    });
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient`).then((response) => {
+      setPatientNum(response.data.length)
+    });
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/researcher/number`).then((response) => {
+      setResearcherNum(response.data)
+    })
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then((response) => {
+      setMohEmployeeNum(response.data.length)
+    })
+  })
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
@@ -31,42 +58,42 @@ export default function SystemAdminDashboard() {
           <Grid container spacing={12}>
             <Grid item xs={3}>
               <CardStatisticsVerticalComponent
-                stats='1,476'
+                stats={healthCenterNum.toString()}
                 icon={<HospitalIcon />}
                 color='success'
                 trendNumber='+42%'
                 title='Hospitals'
-                subtitle='Past Month'
+                subtitle='Total'
               />
             </Grid>
             <Grid item xs={3}>
               <CardStatisticsVerticalComponent
-                stats='201K'
+                stats={patientNum.toString()}
                 title='Patients'
                 trend='positive'
                 color='secondary'
                 trendNumber='+15%'
-                subtitle='Past Month'
+                subtitle='Total'
                 icon={<PatientIcon />}
               />
             </Grid>
             <Grid item xs={3}>
               <CardStatisticsVerticalComponent
-                stats='862'
+                stats={researcherNum.toString()}
                 trend='negative'
                 trendNumber='-18%'
                 title='Researchers'
-                subtitle='Past Month'
+                subtitle='Total'
                 icon={<ResearcherIcon />}
               />
             </Grid>
             <Grid item xs={3}>
               <CardStatisticsVerticalComponent
-                stats='153'
+                stats={mohEmployeeNum.toString()}
                 color='warning'
                 trend='negative'
                 trendNumber='+8%'
-                subtitle='Past Month'
+                subtitle='Total'
                 title='MoH Employees'
                 icon={<MoHIcon />}
               />

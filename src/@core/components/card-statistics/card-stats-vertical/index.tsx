@@ -32,13 +32,13 @@ const CardStatsVertical = (props: CardStatsVerticalProps) => {
           <Typography variant='h6' sx={{ mr: 2 }}>
             {stats}
           </Typography>
-          <Typography
+          {/* <Typography
             component='sup'
             variant='caption'
             sx={{ color: trend === 'positive' ? 'success.main' : 'error.main' }}
           >
             {trendNumber}
-          </Typography>
+          </Typography> */}
         </Box>
         <Typography variant='caption'>{subtitle}</Typography>
       </CardContent>

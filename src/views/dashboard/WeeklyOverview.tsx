@@ -82,7 +82,7 @@ const WeeklyOverview = () => {
       tickAmount: 4,
       labels: {
         offsetX: -17,
-        formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
+        formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
       }
     }
   }
@@ -93,7 +93,7 @@ const WeeklyOverview = () => {
         <Card>
           <CardHeader
             className='card-white'
-            title='Weekly Overview'
+            title='Overview'
             titleTypographyProps={{
               sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
             }}
@@ -113,13 +113,13 @@ const WeeklyOverview = () => {
               type='bar'
               height={205}
               options={options}
-              series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]}
+              series={[{ data: [37, 57, 57, 40, 45, 75, 65] }, { data: [17, 72, 4, 75, 33, 43, 25] }, { data: [37, 57, 45, 75, 57, 40, 65] }]}
             />
             <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
               <Typography variant='h5' sx={{ mr: 4 }}>
                 45%
               </Typography>
-              <Typography variant='body2'>Your sales performance is 45% better compared to last month</Typography>
+              <Typography variant='body2'>caption goes here</Typography>
             </Box>
           </CardContent>
         </Card>

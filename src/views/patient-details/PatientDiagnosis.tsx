@@ -53,7 +53,7 @@ const PatientDiagnosis = (props: {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
       setLastDiagnosis(response.data[0])
 
-      // console.log(lastDiagnosis.diseases)
+
     })
   })
 
@@ -72,24 +72,28 @@ const PatientDiagnosis = (props: {
               </Box>
             </Grid>
             <Grid item>
-              <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
-                Recent Diagnosis Note
-              </Typography>
-              <Typography variant='body2'>
-                Here, I focus on a range of items and features that we use in life without giving them a second thought
-                such as Coca Cola, body muscles and holding ones own breath. Though, most of these notes are not
-                fundamentally necessary, they are such that you can use them for a good laugh, at a drinks party or for
-                picking up women or men.
-              </Typography>
               {vitals.map(function (vital) {
                 return <div>
                   <p>vital number {vital.id}</p>
                   <PatientVitals vital={vital} />
                 </div>
               })}
-              <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
+              <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
+                Recent Diagnosis Note
+              </Typography>
+              <Typography variant='body2'>
+                {lastDiagnosis.comment}
+              </Typography>
+              <Typography variant='h6' sx={{ marginBottom: 3.5, marginTop: 3.5 }}>
+                Diagnosed Diseases
+              </Typography>
               {lastDiagnosis.diseases.map((disease) => {
-                <Typography variant='body2'>{disease.name}</Typography>
+                console.log("here", disease);
+                return (
+                  <div><Typography variant='body1'>{disease.name}</Typography>
+                    <Typography variant='body2'>{disease.description}</Typography></div>
+                );
+
               })}
             </Grid>
           </Grid>
