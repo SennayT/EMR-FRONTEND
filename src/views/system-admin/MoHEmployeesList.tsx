@@ -13,14 +13,11 @@ import axios from 'axios'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
-
+  const [mohEmployees, setMohEmployees] = useState([])
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
-
-  const [mohEmployees, setMohEmployees] = useState([])
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {

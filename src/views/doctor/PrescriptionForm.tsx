@@ -1,14 +1,15 @@
 import { Button, Card, CardActions, CardContent, Grid, TextField, Typography } from '@mui/material'
 import { FormEvent, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import axios from "axios";
 
-type Prescription = {
+type Medication = {
   name: string
   dosage: string
   instructions: string
 }
 
-const samplePrescriptions: Prescription[] = [
+const sampleMedications: Medication[] = [
   {
     name: 'Panadol',
     dosage: '25mg',
@@ -27,17 +28,26 @@ const samplePrescriptions: Prescription[] = [
 ]
 
 export default function PrescriptionForm() {
-  const [prescriptions, setPrescriptions] = useState<Prescription[]>([...samplePrescriptions])
-  const [prescription, setPrescription] = useState<Prescription>({ name: '', dosage: '', instructions: '' })
-  const addButtonDisabled = prescription.name === '' || prescription.dosage === ''
-  const submitDisabled = prescriptions.length === 0
-  const submitHandler = (e: FormEvent) => {
+  const [medications, setMedications] = useState<Medication[]>([...sampleMedications])
+  const [medication, setMedication] = useState<Medication>({ name: '', dosage: '', instructions: '' })
+  const addButtonDisabled = medication.name === '' || medication.dosage === ''
+  const submitDisabled = medications.length === 0
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
+   try{
+     const res = await axios.post("https://capstone-backend-0957-11-v2.herokuapp.com/prescription",{
+       diagnosisId:1,
+       medications
+     })
+     console.log(res.data)
+   } catch (err) {
+     console.log(err)
+   }
   }
 
   const addItemHandler = (e: FormEvent) => {
     e.preventDefault()
-    setPrescriptions([...prescriptions, prescription])
+    setMedications([...medications, medication])
   }
 
   return (
@@ -60,8 +70,8 @@ export default function PrescriptionForm() {
                   fullWidth
                   label='Medication Name'
                   placeholder='Drug Name'
-                  value={prescription.name}
-                  onChange={e => setPrescription({ ...prescription, name: e.target.value })}
+                  value={medication.name}
+                  onChange={e => setMedication({ ...medication, name: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -70,8 +80,8 @@ export default function PrescriptionForm() {
                   fullWidth
                   label='Drug Dosage'
                   placeholder='Dosage'
-                  value={prescription.dosage}
-                  onChange={e => setPrescription({ ...prescription, dosage: e.target.value })}
+                  value={medication.dosage}
+                  onChange={e => setMedication({ ...medication, dosage: e.target.value })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -81,8 +91,8 @@ export default function PrescriptionForm() {
                   label='Instructions'
                   placeholder='Usage'
                   fullWidth
-                  value={prescription.instructions}
-                  onChange={e => setPrescription({ ...prescription, instructions: e.target.value })}
+                  value={medication.instructions}
+                  onChange={e => setMedication({ ...medication, instructions: e.target.value })}
                 />
               </Grid>
             </Grid>
@@ -98,7 +108,7 @@ export default function PrescriptionForm() {
           </CardActions>
 
           <Grid item xs={12} sx={{ mx: 8, my: 4 }}>
-            <PrescriptionTable prescriptions={prescriptions} />
+            <PrescriptionTable prescriptions={medications} />
           </Grid>
           <Grid item>
             <Button disabled={submitDisabled} variant='contained' size='large' type='submit' sx={{ mx: 8, my: 4 }}>
@@ -112,7 +122,7 @@ export default function PrescriptionForm() {
 }
 
 type PrescriptionTableProps = {
-  prescriptions: Prescription[]
+  prescriptions: Medication[]
 }
 
 function PrescriptionTable({ prescriptions }: PrescriptionTableProps) {

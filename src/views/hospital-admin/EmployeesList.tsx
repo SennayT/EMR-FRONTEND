@@ -1,22 +1,28 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Avatar, Button, Grid, Typography, Chip, IconButton, Link } from '@mui/material'
+import { Avatar, Button, Grid, Typography, Chip, IconButton, Link, Skeleton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { Paper } from '@mui/material'
 
 import axios from 'axios'
 
 const Employees = () => {
   const [employees, setEmployees] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const LoadingSkeleton = () => <Skeleton variant='rectangular' sx={{ my: 4, mx: 1 }} />
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`).then(response => {
       setEmployees(response.data)
+      setLoading(false)
     })
   })
 
   const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 70 },
     {
       field: 'name',
       headerName: 'Employee',
@@ -103,14 +109,20 @@ const Employees = () => {
       </Grid>
 
       <div style={{ height: 420, width: '100%', backgroundColor: 'white' }}>
-        <DataGrid
-          rows={employees}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-          disableSelectionOnClick
-        />
+        <Paper sx={{ width: '100%', height: '400px' }}>
+          <DataGrid
+            rows={employees}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+            disableSelectionOnClick
+            components={{
+              LoadingOverlay: LoadingSkeleton
+            }}
+            loading={loading}
+          />
+        </Paper>
       </div>
     </div>
   )

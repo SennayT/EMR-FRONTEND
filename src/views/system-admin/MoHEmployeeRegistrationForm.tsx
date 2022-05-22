@@ -28,23 +28,30 @@ export default function ResearcherRegistrationForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+  const [gender, setGender] = React.useState('female')
   const [address, setAddress] = useState({})
 
   const registerMoHEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
-    console.log({ name: name, phone: phone, email: email, address: address })
+    console.log({ name: name, phone: phone, email: email, address: address, gender: gender })
     const body = {
       user: {
         name: name,
         email: email,
         phone: phone,
+<<<<<<< HEAD
+        gender: gender,
+        address: address
+      }
+=======
         gender: 'female',
         age: 32,
         healthCenterId: 4,
         address: address
       },
       registeredBy: user.id
+>>>>>>> d44ba0255da364f564a8dfdcd21845f161d54fc2
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`, body).then(response => {
@@ -56,6 +63,10 @@ export default function ResearcherRegistrationForm() {
 
   const handleDateChange = (newValue: Date | null) => {
     setValue(newValue)
+  }
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGender((event.target as HTMLInputElement).value)
   }
 
   return (
@@ -142,7 +153,14 @@ export default function ResearcherRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                 <FormControl>
                   <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                  <RadioGroup row aria-labelledby='demo-row-radio-buttons-group-label' name='row-radio-buttons-group'>
+                  <RadioGroup
+                    row
+                    aria-labelledby='demo-row-radio-buttons-group-label'
+                    defaultValue='female'
+                    name='row-radio-buttons-group'
+                    value={gender}
+                    onChange={handleGenderChange}
+                  >
                     <FormControlLabel value='female' control={<Radio />} label='Female' />
                     <FormControlLabel value='male' control={<Radio />} label='Male' />
                   </RadioGroup>
