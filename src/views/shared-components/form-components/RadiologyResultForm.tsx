@@ -10,26 +10,23 @@ import InputAdornment from '@mui/material/InputAdornment'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import FileUploaderSingle from './FileUploaderSingle'
 
-import Switch from '@mui/material/Switch'
-import FormControlLabel from '@mui/material/FormControlLabel'
-
 import axios from 'axios'
 import user from 'src/data/userData'
 
-const LabResultForm = props => {
+const RadiologyResultForm = props => {
   const registerResult = () => {
     console.log(currentLabTest)
     const data = {
       name: currentLabTest.name,
-      type: currentLabTest.testCategory,
-      result: 'some result',
-      isAbnormal: true,
+      focalArea: "stomach",
+      report: 'some result',
+      images: ["/url"],
       comment: comment,
-      filledById: user.id,
+      requestedById: user.id,
       investigationRequestId: props.invReqId
-    };
-
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/lab-result`, data).then(response => {
+    }
+    console.log(data)
+    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/radiology`, data).then(response => {
       console.log(response)
     })
   }
@@ -52,7 +49,8 @@ const LabResultForm = props => {
     name: '',
     normalRange: '',
     measuredIn: '',
-    testCategory: ''
+    testCategory: '',
+    images: [""]
   })
 
   const [comment, setComment] = useState('')
@@ -91,7 +89,7 @@ const LabResultForm = props => {
                   size='small'
                   fullWidth
                   value={currentLabTest.normalRange}
-                  label='Normal Range'
+                  label='Focal Area'
                   InputProps={{
                     readOnly: true,
                     startAdornment: (
@@ -119,13 +117,6 @@ const LabResultForm = props => {
                   defaultValue='no comment'
                   id='textarea-outlined-static'
                 />
-                <FormControlLabel
-                  control={<Switch defaultChecked />}
-                  label='Normal range? '
-                  value='start'
-                  labelPlacement='start'
-                  sx={{ marginRight: 4 }}
-                />
               </Grid>
             </Grid>
           </CardContent>
@@ -143,4 +134,4 @@ const LabResultForm = props => {
   )
 }
 
-export default LabResultForm
+export default RadiologyResultForm

@@ -27,6 +27,8 @@ const navigation = (user: User): VerticalNavItemsType => {
       path: '/reception/register-patient'
     })
   }
+
+
   if (user.role === 'SystemAdmin') {
     pagesSection.push({
       title: 'Hospitals',

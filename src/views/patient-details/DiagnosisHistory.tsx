@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 // ** MUI Import
 import Box from '@mui/material/Box'
 import Avatar from '@mui/material/Avatar'
@@ -18,6 +20,8 @@ import ArrowRight from 'mdi-material-ui/ArrowRight'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
 
+import axios from 'axios'
+
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
   paddingLeft: 0,
@@ -35,7 +39,34 @@ const ImgShoe = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
+
+
+
 const DiagnosisHistory = () => {
+
+
+  const [ diagnosis, setDiagnosis ] = useState([{
+    id: 1,
+    comment: '',
+    createdAt: '',
+    diseases: [
+      {
+        id: 0,
+        name: '',
+        description: ''
+      }
+    ]
+  }])
+
+  useEffect(() => {
+    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
+      setDiagnosis(response.data)
+
+      console.log(diagnosis)
+    })
+  })
+
+
   return (
     <Card sx={{marginTop: 5}}>
       <CardContent sx={{backgroundColor: 'white'}}>
@@ -43,6 +74,7 @@ const DiagnosisHistory = () => {
           Diagnosis History
         </Typography>
     <Timeline >
+      {diagnosis.map((singleDiagnosis) => {
       <TimelineItem>
         <TimelineSeparator>
           <TimelineDot color='error' variant='outlined' />
@@ -51,9 +83,9 @@ const DiagnosisHistory = () => {
         <TimelineContent>
           <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              Get on the flight
+              {singleDiagnosis.comment}
             </Typography>
-            <Typography variant='caption'>Wednesday</Typography>
+            <Typography variant='caption'>{singleDiagnosis.createdAt}</Typography>
           </Box>
           <Typography variant='body2' sx={{ color: 'text.primary' }}>
             <span>Charles de Gaulle Airport, Paris</span>{' '}
@@ -69,119 +101,8 @@ const DiagnosisHistory = () => {
           </Box>
         </TimelineContent>
       </TimelineItem>
+      })}
 
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='primary' variant='outlined' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              Interview Schedule
-            </Typography>
-            <Typography variant='caption'>6th October</Typography>
-          </Box>
-          <Typography variant='body2' sx={{ color: 'text.primary' }}>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Possimus quos, voluptates voluptas rem.
-          </Typography>
-          <Divider sx={{ my: 3 }} />
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Box sx={{ display: 'flex' }}>
-              <Avatar src='/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/2.png' sx={{ width: '2rem', height: '2rem', marginRight: 2 }} />
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='body2' sx={{ fontWeight: 600 }}>
-                  Rebecca Godman
-                </Typography>
-                <Typography variant='caption'>Javascript Developer</Typography>
-              </Box>
-            </Box>
-            <div>
-              <IconButton sx={{ color: 'text.secondary' }}>
-                <MessageOutline fontSize='small' />
-              </IconButton>
-              <IconButton sx={{ color: 'text.secondary' }}>
-                <PhoneDialOutline fontSize='small' />
-              </IconButton>
-            </div>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
-
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='warning' variant='outlined' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 3, display: 'flex', flexDirection: { sm: 'row', xs: 'column' } }}>
-            <ImgShoe width='85' height='85' alt='Shoe img' src='/materio-mui-react-nextjs-admin-template/demo-1/images/misc/shoe.jpeg' />
-            <Box sx={{ ml: { sm: 3, xs: 0 } }}>
-              <Box
-                sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
-              >
-                <Typography
-                  variant='body2'
-                  sx={{ mr: 2, fontWeight: 600, color: 'text.primary', mt: { sm: 0, xs: 2 } }}
-                >
-                  Sold Puma POPX Blue Color
-                </Typography>
-                <Typography variant='caption' sx={{ mb: { sm: 0, xs: 2 } }}>
-                  4th October
-                </Typography>
-              </Box>
-              <Typography variant='body2' sx={{ mb: 2, color: 'text.primary' }}>
-                PUMA presents the latest shoes from its collection. Light & comfortable made with highly durable
-                material.
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', textAlign: 'center' }}>
-            <Box sx={{ mr: 2 }}>
-              <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>
-                Customer
-              </Typography>
-              <Typography variant='caption'>Micheal Scott</Typography>
-            </Box>
-            <Box sx={{ mr: 2 }}>
-              <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>
-                Price
-              </Typography>
-              <Typography variant='caption'>375.00</Typography>
-            </Box>
-            <Box>
-              <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>
-                Quantity
-              </Typography>
-              <Typography variant='caption'>1</Typography>
-            </Box>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
-
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color='success' variant='outlined' />
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography variant='body2' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-              Design Review
-            </Typography>
-            <Typography variant='caption'>4th October</Typography>
-          </Box>
-          <Typography variant='body2' sx={{ mb: 2, color: 'text.primary' }}>
-            Weekly review of freshly prepared design for our new application.
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar src='/materio-mui-react-nextjs-admin-template/demo-1/images/avatars/1.png' sx={{ width: '2rem', height: '2rem', marginRight: 2 }} />
-            <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>
-              John Doe (Client)
-            </Typography>
-          </Box>
-        </TimelineContent>
-      </TimelineItem>
     </Timeline>
     </CardContent>
     </Card>
