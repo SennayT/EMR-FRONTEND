@@ -20,6 +20,7 @@ import axios from 'axios'
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [healthCenters, setHealthCenters] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
@@ -27,6 +28,7 @@ const HealthCenters = () => {
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`).then(response => {
       setHealthCenters(response.data)
+      setLoading(false)
     })
   })
 
@@ -99,6 +101,7 @@ const HealthCenters = () => {
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
+          loading={loading}
         />
       </div>
       <Fragment>

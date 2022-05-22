@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Button, Grid, Typography, Avatar, IconButton} from '@mui/material'
+import { Button, Grid, Typography, Avatar, IconButton } from '@mui/material'
 import AddResearcher from 'src/views/shared-components/form-components/AddResearcherForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -12,22 +12,19 @@ import axios from 'axios'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-
-
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [researchers, setResearchers] = useState([])
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
-
-
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/researcher`).then(response => {
       setResearchers(response.data)
+      setLoading(false)
     })
   })
-
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -90,8 +87,6 @@ const Researchers = () => {
     }
   ]
 
-
-
   return (
     <div>
       <Grid container>
@@ -115,6 +110,7 @@ const Researchers = () => {
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
+          loading={loading}
         />
       </div>
       <Fragment>

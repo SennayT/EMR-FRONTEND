@@ -18,10 +18,12 @@ const MoHEmployees = () => {
   const [mohEmployees, setMohEmployees] = useState([])
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
       setMohEmployees(response.data.map(res => res.user))
+      setLoading(false)
     })
   })
   const columns: GridColDef[] = [
@@ -108,6 +110,7 @@ const MoHEmployees = () => {
           rowsPerPageOptions={[5]}
           checkboxSelection
           disableSelectionOnClick
+          loading={loading}
         />
       </div>
       <Fragment>
