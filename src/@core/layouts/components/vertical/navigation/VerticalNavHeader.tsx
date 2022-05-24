@@ -8,13 +8,14 @@ import Link from 'next/link'
 import Box, { BoxProps } from '@mui/material/Box'
 import { styled } from '@mui/material/styles'
 
-// import Typography, { TypographyProps } from '@mui/material/Typography'
+import Typography, { TypographyProps } from '@mui/material/Typography'
 
 // ** Type Import
 import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Configs
-// import themeConfig from 'src/configs/themeConfig'
+import themeConfig from 'src/configs/themeConfig'
+import { Grid } from '@mui/material'
 
 interface Props {
   hidden: boolean
@@ -34,13 +35,13 @@ const MenuHeaderWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   minHeight: theme.mixins.toolbar.minHeight
 }))
 
-// const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
-//   fontWeight: 600,
-//   lineHeight: 'normal',
-//   textTransform: 'uppercase',
-//   color: theme.palette.text.primary,
-//   transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
-// }))
+const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
+  fontWeight: 600,
+  lineHeight: 'normal',
+  textTransform: 'uppercase',
+  color: theme.palette.text.primary,
+  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
+}))
 
 const StyledLink = styled('a')({
   display: 'flex',
@@ -61,11 +62,13 @@ const VerticalNavHeader = (props: Props) => {
         userVerticalNavMenuBranding(props)
       ) : (
         <Link href='/' passHref>
-          <StyledLink sx={{ mt: 8, mb: 6, mx: 13 }}>
-            <img alt='logo' src='/images/logo.png' height='90' />
-            {/* <HeaderTitle variant='h6' sx={{ ml: 3 }}>
+          <StyledLink sx={{ mt: 8, mb: 6, mx: 4 }}>
+            <Grid sx={{ mt: 3 }}>
+              <img alt='logo' src='/images/logo.png' height='60' />
+            </Grid>
+            <HeaderTitle variant='h5' sx={{ ml: 3, fontFamily: '"Segoe UI Symbol"' }}>
               {themeConfig.templateName}
-            </HeaderTitle> */}
+            </HeaderTitle>
           </StyledLink>
         </Link>
       )}
