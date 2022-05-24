@@ -12,6 +12,7 @@ import axios from 'axios'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -96,8 +97,15 @@ const MoHEmployees = () => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add MoH Employee
+          <Button
+            variant='outlined'
+            color='primary'
+            size='small'
+            style={{ marginLeft: 128 }}
+            startIcon={<AddIcon />}
+            onClick={handleClickOpen}
+          >
+            MoH Employee
           </Button>
         </Grid>
       </Grid>

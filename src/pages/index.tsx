@@ -26,9 +26,11 @@ import user from '../data/userData'
 import DoctorDashboard from './doctor'
 import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 import LabExpertDashboard from './lab-expert'
-import NurseDashboard from './nurse'
-import ReceptionDashboard from '../views/dashboard/reception-dashboard/ReceptionDashboard'
+
+// import NurseDashboard from './nurse'
+// import ReceptionDashboard from '../views/dashboard/reception-dashboard/ReceptionDashboard'
 import RadiologistDashboard from './radiologist'
+import HospitalAdminDashboard from 'src/views/dashboard/hospital-admin-dashboard/HospitalAdminDashboard'
 
 // import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 
@@ -41,11 +43,13 @@ const Dashboard = () => {
     case 'LabExpert':
       return <LabExpertDashboard />
     case 'Nurse':
-      return <NurseDashboard />
+      return <DoctorDashboard />
     case 'Receptionist':
-      return <ReceptionDashboard />
+      return <DoctorDashboard />
     case 'Radiologist':
       return <RadiologistDashboard />
+    case 'hospitalAdmin':
+      return <HospitalAdminDashboard />
     default:
       return <p>add 404 here</p>
   }

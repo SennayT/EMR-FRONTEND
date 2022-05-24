@@ -11,6 +11,7 @@ import axios from 'axios'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -96,8 +97,15 @@ const Researchers = () => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add Researcher
+          <Button
+            variant='outlined'
+            color='primary'
+            size='small'
+            style={{ marginLeft: 128 }}
+            startIcon={<AddIcon />}
+            onClick={handleClickOpen}
+          >
+            Researcher
           </Button>
         </Grid>
       </Grid>

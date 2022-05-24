@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+import HelpCircleOutline from 'mdi-material-ui/InformationOutline'
 
 // import 'styles/global.css'
 
@@ -89,7 +89,7 @@ const WeeklyOverview = () => {
 
   return (
     <Grid container spacing={12}>
-      <Grid item xs={4} md={8} lg={8}>
+      <Grid item xs={12} md={8} lg={8}>
         <Card>
           <CardHeader
             className='card-white'
@@ -113,7 +113,11 @@ const WeeklyOverview = () => {
               type='bar'
               height={205}
               options={options}
-              series={[{ data: [37, 57, 57, 40, 45, 75, 65] }, { data: [17, 72, 4, 75, 33, 43, 25] }, { data: [37, 57, 45, 75, 57, 40, 65] }]}
+              series={[
+                { data: [37, 57, 57, 40, 45, 75, 65] },
+                { data: [17, 72, 4, 75, 33, 43, 25] },
+                { data: [37, 57, 45, 75, 57, 40, 65] }
+              ]}
             />
             <Box sx={{ mb: 7, display: 'flex', alignItems: 'center' }}>
               <Typography variant='h5' sx={{ mr: 4 }}>
@@ -125,14 +129,14 @@ const WeeklyOverview = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={4} md={4} lg={4}>
+      <Grid item xs={6} md={4} lg={4}>
         <CardStatisticsVerticalComponent
           stats='15'
-          color='warning'
+          color='info'
           trend='negative'
           trendNumber='-18%'
           subtitle='Last Week'
-          title='Sales Queries'
+          title='Keys'
           icon={<HelpCircleOutline />}
         />
       </Grid>

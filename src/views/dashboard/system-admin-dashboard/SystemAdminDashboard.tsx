@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
@@ -26,27 +25,25 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // ** Demo Components Imports
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 
-
 import axios from 'axios'
 
 export default function SystemAdminDashboard() {
-
   const [healthCenterNum, setHealthCenterNum] = useState(0)
   const [patientNum, setPatientNum] = useState(0)
   const [researcherNum, setResearcherNum] = useState(0)
   const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
 
   useEffect(() => {
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/health-center/number`).then((response) => {
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/health-center/number`).then(response => {
       setHealthCenterNum(response.data)
-    });
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient`).then((response) => {
+    })
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient`).then(response => {
       setPatientNum(response.data.length)
-    });
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/researcher/number`).then((response) => {
+    })
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/researcher/number`).then(response => {
       setResearcherNum(response.data)
     })
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then((response) => {
+    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
       setMohEmployeeNum(response.data.length)
     })
   })
@@ -54,9 +51,9 @@ export default function SystemAdminDashboard() {
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3} lg={12}>
+        <Grid item xs={12} md={12} lg={12}>
           <Grid container spacing={12}>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={healthCenterNum.toString()}
                 icon={<HospitalIcon />}
@@ -66,7 +63,7 @@ export default function SystemAdminDashboard() {
                 subtitle='Total'
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={patientNum.toString()}
                 title='Patients'
@@ -77,7 +74,7 @@ export default function SystemAdminDashboard() {
                 icon={<PatientIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={researcherNum.toString()}
                 trend='negative'
@@ -87,7 +84,7 @@ export default function SystemAdminDashboard() {
                 icon={<ResearcherIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={mohEmployeeNum.toString()}
                 color='warning'
@@ -101,7 +98,7 @@ export default function SystemAdminDashboard() {
           </Grid>
         </Grid>
 
-        <Grid sx={{ my: 8, mx: 12 }} item xs={12} md={6} lg={12}>
+        <Grid sx={{ my: 8, mx: 12 }} item xs={12}>
           <WeeklyOverview />
         </Grid>
       </Grid>

@@ -76,7 +76,7 @@ const ReportGenerationUI = () => {
       sx={{ backgroundColor: 'white', my: 2, mx: 2, pb: 16, pt: 8, px: 8 }}
       spacing={1}
     >
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} lg={6}>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id='demo-multiple-chip-label'>Included Info</InputLabel>
           <Select
@@ -103,7 +103,7 @@ const ReportGenerationUI = () => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} lg={6}>
         <FormControl sx={{ m: 1, width: 300 }}>
           <InputLabel id='demo-multiple-chip-label'>Type of Report</InputLabel>
           <Select
@@ -124,7 +124,7 @@ const ReportGenerationUI = () => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} lg={6}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             disableFuture
@@ -139,7 +139,7 @@ const ReportGenerationUI = () => {
           />
         </LocalizationProvider>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={12} md={6} lg={6}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             disableFuture
@@ -155,7 +155,7 @@ const ReportGenerationUI = () => {
           />
         </LocalizationProvider>
       </Grid>
-      <Grid item>
+      <Grid item xs={12} md={12} lg={12}>
         <Button variant='outlined' onSubmit={ReportGenerationUI}>
           Generate Report
         </Button>

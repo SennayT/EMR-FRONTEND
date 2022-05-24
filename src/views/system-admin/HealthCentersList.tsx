@@ -14,6 +14,7 @@ import DialogContent from '@mui/material/DialogContent'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 import axios from 'axios'
 
@@ -87,8 +88,15 @@ const HealthCenters = () => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add Health Center
+          <Button
+            variant='outlined'
+            color='primary'
+            size='small'
+            style={{ marginLeft: 128 }}
+            startIcon={<AddIcon />}
+            onClick={handleClickOpen}
+          >
+            Health Center
           </Button>
         </Grid>
       </Grid>
