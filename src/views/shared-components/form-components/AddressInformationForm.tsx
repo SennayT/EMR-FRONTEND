@@ -188,8 +188,8 @@ const AddressInformationForm = (props: any) => {
           </Grid>
         </Grid>
       </form>
-      <CardActions sx={{ mx: 70 }}>
-        <Button size='large' type='submit' sx={{ mr: 2 }} variant='contained' onClick={submitForm}>
+      <CardActions>
+        <Button size='large' type='submit' variant='contained' onClick={submitForm}>
           Register
         </Button>
       </CardActions>
