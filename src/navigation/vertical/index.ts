@@ -28,10 +28,9 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
   }
 
-
   if (user.role === 'SystemAdmin') {
     pagesSection.push({
-      title: 'Hospitals',
+      title: 'Health Centers',
       icon: HospitalIcon,
       path: '/system-admin/hospitals'
     })
@@ -58,9 +57,7 @@ const navigation = (user: User): VerticalNavItemsType => {
       icon: Account,
       path: '/hospital-admin/employees'
     })
-
   }
-
 
   if (user.role === 'Doctor') {
     pagesSection.push({
@@ -68,7 +65,6 @@ const navigation = (user: User): VerticalNavItemsType => {
       icon: Account,
       path: '/doctor/create-prescription'
     })
-
   }
 
   if (user.role === 'Nurse') {
