@@ -5,6 +5,7 @@ import { Avatar, Button, Grid, Typography, Chip, IconButton, Link } from '@mui/m
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Paper } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 
 import axios from 'axios'
 
@@ -90,15 +91,17 @@ const Employees = () => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={8}>
+        <Grid item xs={10} md={10} lg={10}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Employees
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={2} md={2} lg={2}>
           <Link href='/hospital-admin/employees/add'>
-            <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }}>
-              Add Employee
+            <Button variant='outlined' color='primary' size='small' startIcon={<AddIcon />}>
+              <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'block', lg: 'block' } }}>
+                Employee
+              </Typography>
             </Button>
           </Link>
         </Grid>
