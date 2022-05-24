@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 
 import PatientDiagnosis from 'src/views/patient-details/PatientDiagnosis'
 import user from 'src/data/userData'
-import PatientVitals from 'src/views/patient-details/PatientVitals'
+// import PatientVitals from 'src/views/patient-details/PatientVitals'
 
 export default function PatientDashboard() {
   return (
@@ -13,7 +13,7 @@ export default function PatientDashboard() {
           <PatientDiagnosis user={user} />
         </Grid>
         <Grid item sx={{ mx: 4, my: 4, px: 4, py: 4 }} container xs={6}>
-          <PatientVitals />
+          {/* <PatientVitals /> */}
         </Grid>
       </Grid>
     </Card>

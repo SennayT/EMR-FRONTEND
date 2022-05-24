@@ -16,7 +16,7 @@ const AddVitalsForm = () => {
     weight: 0,
     spo2Level: 0,
     patientId: 3,
-    requestedById: user.id
+    requestedById: 18
   })
 
   const handleVitalsSubmit = () => {

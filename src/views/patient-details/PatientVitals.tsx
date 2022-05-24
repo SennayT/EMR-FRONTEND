@@ -61,11 +61,11 @@ const vitalCategories = [
   }
 ]
 
-const PatientVitals = props => {
+const PatientVitals = (props: any) => {
   return (
     <Grid container>
       {vitalCategories.map(category => {
-        const fi = category.field
+        const fi = category.field ? category.field : "";
 
         return (
           <Grid key={props.vital.name} xs={3} item sx={{ backgroundColor: 'white', borderRadius: 1, px: 2, margin: 1 }}>

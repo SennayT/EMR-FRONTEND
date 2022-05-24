@@ -13,7 +13,7 @@ import FileUploaderSingle from './FileUploaderSingle'
 import axios from 'axios'
 import user from 'src/data/userData'
 
-const RadiologyResultForm = props => {
+const RadiologyResultForm = (props: any) => {
   const registerResult = () => {
     console.log(currentLabTest)
     const data = {
@@ -22,7 +22,7 @@ const RadiologyResultForm = props => {
       report: 'some result',
       images: ["/url"],
       comment: comment,
-      requestedById: user.id,
+      requestedById: 18,
       investigationRequestId: props.invReqId
     }
     console.log(data)
@@ -70,13 +70,13 @@ const RadiologyResultForm = props => {
                     value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      // const id = Number(e.target.value)
-                      setCurrentLabTest(e.target.value)
+                      const val = JSON.parse(e.target.value.toString())
+                      setCurrentLabTest(val)
                     }}
                     fullWidth
                     size='small'
                   >
-                    {props.labTests.map(name => (
+                    {props.labTests.map((name: any) => (
                       <MenuItem key={name.id} value={name}>
                         {name.name}
                       </MenuItem>

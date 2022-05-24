@@ -32,7 +32,7 @@ const PatientDiagnosis = (props: {
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then(response => {
-      setVitals([response.data[4]])
+      setVitals(response.data[4])
     })
   });
   const [lastDiagnosis, setLastDiagnosis] = useState({
@@ -74,7 +74,7 @@ const PatientDiagnosis = (props: {
             <Grid item>
               {vitals.map(function (vital) {
                 return <div>
-                  <p>vital number {vital.id}</p>
+                  <p>vital number {vital['id']}</p>
                   <PatientVitals vital={vital} />
                 </div>
               })}

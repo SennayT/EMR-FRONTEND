@@ -10,7 +10,7 @@ import Card from '@mui/material/Card'
 import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 
-const EmployeeGeneralInfo = (props: { healthCenter: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; email: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; type: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; address: { subCity: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; wereda: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined; kebele: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined } } }) => {
+const EmployeeGeneralInfo = (props: any) => {
 
 
   return (

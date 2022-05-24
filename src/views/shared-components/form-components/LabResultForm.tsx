@@ -16,7 +16,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import axios from 'axios'
 import user from 'src/data/userData'
 
-const LabResultForm = props => {
+const LabResultForm = (props: any) => {
   const registerResult = () => {
     console.log(currentLabTest)
     const data = {
@@ -69,18 +69,24 @@ const LabResultForm = props => {
                   <Select
                     labelId='labTest-select-label'
                     label=''
-                    value={currentLabTest}
+                    value={currentLabTest || ""}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      // const id = Number(e.target.value)
-                      setCurrentLabTest(e.target.value)
+                      const val = JSON.parse(e.target.value.toString());
+                      setCurrentLabTest(val)
                     }}
                     fullWidth
                     size='small'
                   >
-                    {props.labTests.map(name => (
-                      <MenuItem key={name.id} value={name}>
-                        {name.name}
+                    {props.labTests.map((item: any) => (
+                      <MenuItem key={item.id} value={JSON.stringify({
+                        id: 0,
+                        name: '',
+                        normalRange: '',
+                        measuredIn: '',
+                        testCategory: ''
+                      })}>
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>

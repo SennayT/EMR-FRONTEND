@@ -16,7 +16,7 @@ import axios from 'axios'
 const InvestigativeRequestTable = () => {
   const [open, setOpen] = useState<boolean>(false)
 
-  const handleClickOpen = (param) => {
+  const handleClickOpen = (param: any) => {
     // console.log(req)
     console.log(param)
     setCurrentInvReq(param)

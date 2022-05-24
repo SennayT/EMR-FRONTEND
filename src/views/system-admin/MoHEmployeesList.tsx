@@ -22,7 +22,7 @@ const MoHEmployees = () => {
 
   useEffect(() => {
     axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
-      setMohEmployees(response.data.map(res => res.user))
+      setMohEmployees(response.data.map((res: any) => res.user))
       setLoading(false)
     })
   })

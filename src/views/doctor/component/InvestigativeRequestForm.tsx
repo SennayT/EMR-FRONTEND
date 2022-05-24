@@ -6,7 +6,6 @@ import axios from 'axios'
 import { LabTest } from 'src/data/models/LabTestModel'
 import { InvestigationRequest } from 'src/data/models/InvestigationRequestModel'
 
-import  user  from '../../../data/userData'
 
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
 
@@ -49,7 +48,7 @@ export default function InvestigativeRequestForm() {
   const [invReq, setInvReq] = useState<InvestigationRequest>({
     note: "",
     labTests: [],
-    registeredById: user.id,
+    registeredById: 2,
     vitalId: 1
   })
 

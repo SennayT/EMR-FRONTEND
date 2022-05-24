@@ -48,8 +48,8 @@ const Employees = () => {
       field: 'role',
       headerName: 'Role',
       width: 150,
-      renderCell: (params: GridRenderCellParams<string>) => {
-        return <p>{params.value.name}</p>
+      renderCell: (params: GridRenderCellParams) => {
+        return <p>{params.value ? params.value.name.toString() : " "}</p>
       },
       editable: false
     },

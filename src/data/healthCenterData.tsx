@@ -1,4 +1,4 @@
-import { HealthCenter } from "./models/HealthCenterModel"
+import HealthCenter  from "./models/HealthCenterModel"
 
 const healthCenter: HealthCenter = {
   id: 1,
@@ -13,8 +13,8 @@ const healthCenter: HealthCenter = {
     zone: "Arada",
     street: "Piassa",
     houseNumber: "someNum",
-    wereda: "10",
-    kebele: "10"
+    woreda: "10",
+    kebelle: "10"
   }
 }
 export default healthCenter;

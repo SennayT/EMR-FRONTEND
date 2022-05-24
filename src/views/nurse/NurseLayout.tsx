@@ -34,7 +34,7 @@ const NurseLayout = () => {
     <Grid item xs={12}  >
     {vitals.map(function (vital) {
       return <div>
-        <p>vital number {vital.id}</p>
+        <p>vital number {vital['id']}</p>
         <PatientVitals vital={vital} />
         </div>
     })}
