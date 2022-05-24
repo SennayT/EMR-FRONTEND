@@ -36,7 +36,7 @@ const HealthCenters = () => {
     {
       field: 'name',
       headerName: 'Health Center',
-      width: 450,
+      width: 350,
       editable: false
     },
     {
