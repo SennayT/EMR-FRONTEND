@@ -105,7 +105,9 @@ const MoHEmployees = () => {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            MoH Employee
+            <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'none', lg: 'block' } }}>
+              MoH employee
+            </Typography>
           </Button>
         </Grid>
       </Grid>

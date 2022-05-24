@@ -105,7 +105,9 @@ const Researchers = () => {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            Researcher
+            <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'block', lg: 'block' } }}>
+              Researcher
+            </Typography>
           </Button>
         </Grid>
       </Grid>

@@ -96,7 +96,9 @@ const HealthCenters = () => {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            Health Center
+            <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'none', lg: 'block' } }}>
+              Health Center
+            </Typography>
           </Button>
         </Grid>
       </Grid>
