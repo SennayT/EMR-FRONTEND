@@ -59,7 +59,7 @@ export default function SystemAdminDashboard() {
                 icon={<HospitalIcon />}
                 color='success'
                 trendNumber='+42%'
-                title='Hospitals'
+                title='Health Centers'
                 subtitle='Total'
               />
             </Grid>
