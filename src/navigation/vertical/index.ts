@@ -8,14 +8,15 @@ import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBoxOutline'
 import { User } from '../../data/models/UserModel'
+import { Session } from 'next-auth'
 
-const navigation = (user: User): VerticalNavItemsType => {
+const navigation = (session: Session): VerticalNavItemsType => {
   const pagesSection: VerticalNavItemsType = [
     {
       sectionTitle: 'pages'
     }
   ]
-  if (user.role === 'Receptionist') {
+  if (session.role === 'Receptionist') {
     pagesSection.push({
       title: 'Patient Details',
       icon: AccountDetails,
@@ -29,7 +30,7 @@ const navigation = (user: User): VerticalNavItemsType => {
   }
 
 
-  if (user.role === 'SystemAdmin') {
+  if (session.role === 'SystemAdmin') {
     pagesSection.push({
       title: 'Hospitals',
       icon: HospitalIcon,
@@ -52,7 +53,7 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
   }
 
-  if (user.role === 'hospitalAdmin') {
+  if (session.role === 'hospitalAdmin') {
     pagesSection.push({
       title: 'Employees',
       icon: Account,
@@ -62,7 +63,7 @@ const navigation = (user: User): VerticalNavItemsType => {
   }
 
 
-  if (user.role === 'Doctor') {
+  if (session.role === 'Doctor') {
     pagesSection.push({
       title: 'Create Prescription',
       icon: Account,
@@ -71,7 +72,7 @@ const navigation = (user: User): VerticalNavItemsType => {
 
   }
 
-  if (user.role === 'Nurse') {
+  if (session.role === 'Nurse') {
     pagesSection.push({
       title: 'Vitals',
       icon: Account,

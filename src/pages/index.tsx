@@ -34,16 +34,17 @@ import type { NextPage } from 'next'
 import {signIn, signOut, useSession} from "next-auth/react";
 import {useEffect} from "react";
 import LoginPage from './pages/login'
+import { Button } from '@mui/material'
 
 
 // import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 
 const Dashboard = () => {
   const {data:session} = useSession()
+console.log(session)
 
-  if(session){
     console.log("session", session)
-    const role = session.role;
+    const role = session ? session.role : "NoNE";
   switch (role) {
     case 'Doctor':
       return <DoctorDashboard />
@@ -59,9 +60,6 @@ const Dashboard = () => {
       return <RadiologistDashboard />
     default:
       return <p>add 404 here</p>
-  }}else{
-    console.log("not")
-    return signIn()
   }
 
   // <ApexChartWrapper>

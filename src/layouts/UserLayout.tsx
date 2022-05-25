@@ -17,6 +17,9 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
 import userData from '../data/userData'
+import { signIn,  useSession } from 'next-auth/react'
+import LoginPage from 'src/pages/pages/login'
+import { Grid } from 'mdi-material-ui'
 
 interface Props {
   children: ReactNode
@@ -36,12 +39,15 @@ const UserLayout = ({ children }: Props) => {
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
+  const {data:session} = useSession()
+
+if(session){
   return (
     <VerticalLayout
       hidden={hidden}
       settings={settings}
       saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems(userData)} // Navigation Items
+      verticalNavItems={VerticalNavItems(session)} // Navigation Items
       verticalAppBarContent={(
         props // AppBar Content
       ) => (
@@ -55,7 +61,9 @@ const UserLayout = ({ children }: Props) => {
     >
       {children}
     </VerticalLayout>
-  )
+  )}else{
+    return <LoginPage/>
+  }
 }
 
 export default UserLayout

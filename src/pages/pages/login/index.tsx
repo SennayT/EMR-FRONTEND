@@ -100,7 +100,7 @@ const LoginPage = () => {
 
     console.log(credentials);
     console.log("here")
-    const res = signIn('credentials', { email: email, password: values.password, callbackUrl: `${window.location.origin}`})
+    const res = signIn('credentials', { email: email, password: values.password, callbackUrl: `http://localhost:3000/`})
     // router.push("/");
   }
 

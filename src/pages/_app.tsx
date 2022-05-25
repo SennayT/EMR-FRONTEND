@@ -40,7 +40,6 @@ import { Session } from "next-auth";
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
-  emotionCache: EmotionCache
   session: Session
 }
 
@@ -61,12 +60,12 @@ if (themeConfig.routingLoader) {
 
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props
+  const { Component, pageProps } = props
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
   return (
-        <SessionProvider  session={session}>
-    <CacheProvider value={emotionCache}>
+        <SessionProvider  session={props.session}>
+    {/* <CacheProvider value={emotionCache}> */}
       <Head>
         <title>{themeConfig.templateName}</title>
         <meta
@@ -88,20 +87,20 @@ const App = (props: ExtendedAppProps) => {
           }}
         </SettingsConsumer>
       </SettingsProvider>
-    </CacheProvider>
+    {/* </CacheProvider> */}
     </SessionProvider>
   )
 }
 
-export async function getServerSideProps() {
-  const res = await fetch(`https:/lo/data`)
-  const data = await res.json()
-  const session = await useSession();
+// export async function getServerSideProps() {
+//   const res = await fetch(`https:/lo/data`)
+//   const data = await res.json()
+//   // const session = await useSession();
 
 
-  // Pass data to the page via props
-  return { props: { data }, session: session }
+//   // Pass data to the page via props
+//   return { props: { data } }
 
-}
+// }
 
 export default App

@@ -69,7 +69,6 @@ CustomDocument.getInitialProps = async ctx => {
 
   return {
     ...initialProps,
-
     styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags]
   }
 }
