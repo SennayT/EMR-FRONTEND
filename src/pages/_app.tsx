@@ -24,16 +24,24 @@ import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsCo
 // ** Utils Imports
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 
+import { useSession } from 'next-auth/react'
+
+
 // ** React Perfect Scrollbar Style
 import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
 
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
+
+
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
   emotionCache: EmotionCache
+  session: Session
 }
 
 const clientSideEmotionCache = createEmotionCache()
@@ -53,12 +61,11 @@ if (themeConfig.routingLoader) {
 
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
-
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
-
   return (
+        <SessionProvider  session={session}>
     <CacheProvider value={emotionCache}>
       <Head>
         <title>{themeConfig.templateName}</title>
@@ -72,21 +79,28 @@ const App = (props: ExtendedAppProps) => {
 
       <SettingsProvider>
         <SettingsConsumer>
+
           {({ settings }) => {
-            return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+            return <ThemeComponent settings={settings}>{getLayout(
+                <Component {...pageProps} />
+            )}</ThemeComponent>
+
           }}
         </SettingsConsumer>
       </SettingsProvider>
     </CacheProvider>
+    </SessionProvider>
   )
 }
 
 export async function getServerSideProps() {
   const res = await fetch(`https:/lo/data`)
   const data = await res.json()
+  const session = await useSession();
+
 
   // Pass data to the page via props
-  return { props: { data } }
+  return { props: { data }, session: session }
 
 }
 

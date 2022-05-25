@@ -1,5 +1,5 @@
 // ** React Import
-import { Children } from 'react'
+import { Children, Component } from 'react'
 
 // ** Next Import
 import Document, { Html, Head, Main, NextScript } from 'next/document'
@@ -9,8 +9,10 @@ import createEmotionServer from '@emotion/server/create-instance'
 
 // ** Utils Imports
 import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
+import { useSession } from 'next-auth/react'
 
 class CustomDocument extends Document {
+
   render() {
     return (
       <Html lang='en'>
@@ -34,12 +36,15 @@ class CustomDocument extends Document {
 }
 
 CustomDocument.getInitialProps = async ctx => {
-  const originalRenderPage = ctx.renderPage
-  const cache = createEmotionCache()
+  const originalRenderPage =  ctx.renderPage
+  const cache =  createEmotionCache()
   const { extractCriticalToChunks } = createEmotionServer(cache)
 
-  ctx.renderPage = () =>
-    originalRenderPage({
+  ctx.renderPage = async () =>{
+
+    // const session = await useSession();
+
+   return  originalRenderPage({
       enhanceApp: App => props =>
         (
           <App
@@ -47,7 +52,8 @@ CustomDocument.getInitialProps = async ctx => {
             emotionCache={cache}
           />
         )
-    })
+    });
+  }
 
   const initialProps = await Document.getInitialProps(ctx)
   const emotionStyles = extractCriticalToChunks(initialProps.html)
@@ -63,6 +69,7 @@ CustomDocument.getInitialProps = async ctx => {
 
   return {
     ...initialProps,
+
     styles: [...Children.toArray(initialProps.styles), ...emotionStyleTags]
   }
 }

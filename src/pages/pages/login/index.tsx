@@ -38,6 +38,9 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { signIn } from 'next-auth/react'
+
+
 
 interface State {
   password: string
@@ -69,9 +72,12 @@ const LoginPage = () => {
     showPassword: false
   })
 
+  const [email, setEmail] = useState("")
+
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
+
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -83,6 +89,19 @@ const LoginPage = () => {
 
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+  }
+
+
+  const loginHandler = () => {
+    const credentials = {
+      email: email,
+      password: values.password
+    }
+
+    console.log(credentials);
+    console.log("here")
+    const res = signIn('credentials', { email: email, password: values.password, callbackUrl: `${window.location.origin}`})
+    // router.push("/");
   }
 
   return (
@@ -169,7 +188,9 @@ const LoginPage = () => {
             <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} />
+            <TextField autoFocus fullWidth id='email' label='Email' value={email} onChange={(e) => {
+              setEmail(e.target.value)
+            }} sx={{ marginBottom: 4 }} />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
@@ -205,7 +226,7 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              onClick={loginHandler}
             >
               Login
             </Button>

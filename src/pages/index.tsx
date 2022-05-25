@@ -30,10 +30,21 @@ import NurseDashboard from './nurse'
 import ReceptionDashboard from '../views/dashboard/reception-dashboard/ReceptionDashboard'
 import RadiologistDashboard from './radiologist'
 
+import type { NextPage } from 'next'
+import {signIn, signOut, useSession} from "next-auth/react";
+import {useEffect} from "react";
+import LoginPage from './pages/login'
+
+
 // import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 
 const Dashboard = () => {
-  switch (user.role) {
+  const {data:session} = useSession()
+
+  if(session){
+    console.log("session", session)
+    const role = session.role;
+  switch (role) {
     case 'Doctor':
       return <DoctorDashboard />
     case 'SystemAdmin':
@@ -48,6 +59,9 @@ const Dashboard = () => {
       return <RadiologistDashboard />
     default:
       return <p>add 404 here</p>
+  }}else{
+    console.log("not")
+    return signIn()
   }
 
   // <ApexChartWrapper>
