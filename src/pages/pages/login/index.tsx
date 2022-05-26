@@ -3,7 +3,6 @@ import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -76,7 +75,6 @@ const LoginPage = () => {
 
   // ** Hook
   const theme = useTheme()
-  const router = useRouter()
 
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -100,8 +98,7 @@ const LoginPage = () => {
 
     console.log(credentials);
     console.log("here")
-    const res = signIn('credentials', { email: email, password: values.password, callbackUrl: `http://localhost:3000/`})
-    // router.push("/");
+    signIn('credentials', { email: email, password: values.password, callbackUrl: `http://localhost:3000/`})
   }
 
   return (

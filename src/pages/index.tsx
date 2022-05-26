@@ -22,19 +22,13 @@
 // import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 // import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
-import user from '../data/userData'
 import DoctorDashboard from './doctor'
 import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 import LabExpertDashboard from './lab-expert'
 import NurseDashboard from './nurse'
-import ReceptionDashboard from '../views/dashboard/reception-dashboard/ReceptionDashboard'
 import RadiologistDashboard from './radiologist'
 
-import type { NextPage } from 'next'
-import {signIn, signOut, useSession} from "next-auth/react";
-import {useEffect} from "react";
-import LoginPage from './pages/login'
-import { Button } from '@mui/material'
+import {useSession} from "next-auth/react";
 
 
 // import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'

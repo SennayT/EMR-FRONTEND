@@ -22,9 +22,8 @@ import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 
 // ** Utils Imports
-import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
+// import { createEmotionCache } from 'src/@core/utils/create-emotion-cache'
 
-import { useSession } from 'next-auth/react'
 
 
 // ** React Perfect Scrollbar Style
@@ -40,10 +39,10 @@ import { Session } from "next-auth";
 // ** Extend App Props with Emotion
 type ExtendedAppProps = AppProps & {
   Component: NextPage
+  emotionCache: EmotionCache
   session: Session
 }
 
-const clientSideEmotionCache = createEmotionCache()
 
 // ** Pace Loader
 if (themeConfig.routingLoader) {
@@ -60,34 +59,36 @@ if (themeConfig.routingLoader) {
 
 // ** Configure JSS & ClassName
 const App = (props: ExtendedAppProps) => {
-  const { Component, pageProps } = props
+  const { Component, pageProps, session, emotionCache } = props
+
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+
   return (
-        <SessionProvider  session={props.session}>
-    {/* <CacheProvider value={emotionCache}> */}
-      <Head>
-        <title>{themeConfig.templateName}</title>
-        <meta
-          name='description'
-          content={themeConfig.templateName}
-        />
-        <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
-      </Head>
+    <SessionProvider session={session}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>{themeConfig.templateName}</title>
+          <meta
+            name='description'
+            content={themeConfig.templateName}
+          />
+          <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
+          <meta name='viewport' content='initial-scale=1, width=device-width' />
+        </Head>
 
-      <SettingsProvider>
-        <SettingsConsumer>
+        <SettingsProvider>
+          <SettingsConsumer>
 
-          {({ settings }) => {
-            return <ThemeComponent settings={settings}>{getLayout(
+            {({ settings }) => {
+              return <ThemeComponent settings={settings}>{getLayout(
                 <Component {...pageProps} />
-            )}</ThemeComponent>
+              )}</ThemeComponent>
 
-          }}
-        </SettingsConsumer>
-      </SettingsProvider>
-    {/* </CacheProvider> */}
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </CacheProvider>
     </SessionProvider>
   )
 }
