@@ -28,7 +28,7 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
   }
 
-  if (user.role === 'SystemAdmin') {
+  if (user.role === 'System Admin') {
     pagesSection.push({
       title: 'Health Centers',
       icon: HospitalIcon,
@@ -51,7 +51,7 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
   }
 
-  if (user.role === 'hospitalAdmin') {
+  if (user.role === 'Hospital Admin') {
     pagesSection.push({
       title: 'Employees',
       icon: Account,
