@@ -55,7 +55,7 @@ console.log(session)
     case 'Nurse':
       return <NurseDashboard />
     case 'Receptionist':
-      return <ReceptionDashboard />
+      return <DoctorDashboard />
     case 'Radiologist':
       return <RadiologistDashboard />
     default:
