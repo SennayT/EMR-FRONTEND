@@ -102,8 +102,8 @@ const LoginPage = () => {
   }
 
   return (
-    <Box className='content-center'>
-      <Card sx={{ zIndex: 1 }}>
+    <Box >
+      <Card sx={{ zIndex: 1, mx: '35%' }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg
