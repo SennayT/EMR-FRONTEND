@@ -27,7 +27,7 @@ const LabResultForm = props => {
       comment: comment,
       filledById: user.id,
       investigationRequestId: props.invReqId
-    };
+    }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/lab-result`, data).then(response => {
       console.log(response)
@@ -68,7 +68,7 @@ const LabResultForm = props => {
                   <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label=''
+                    label='Investigative Request'
                     value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {

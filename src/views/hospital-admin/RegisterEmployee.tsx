@@ -73,7 +73,7 @@ export default function EmRegistrationForm() {
     setValue(newValue)
   }
 
-  const switchHandler = (event:any) => {
+  const switchHandler = (event: any) => {
     setIsAdmin(event.target.checked)
   }
 
@@ -201,9 +201,7 @@ export default function EmRegistrationForm() {
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}></Grid>
               <Grid sx={{ mb: 1, pr: 2, mt: 1 }} item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel sx={{ mt: -2 }} id='demo-simple-select-label'>
-                    Role
-                  </InputLabel>
+                  <InputLabel id='demo-simple-select-label'>Role</InputLabel>
                   <Select
                     label='Role'
                     value={role}

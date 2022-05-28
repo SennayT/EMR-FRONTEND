@@ -112,7 +112,7 @@ const ReportGenerationUI = () => {
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
           <FormControl sx={{ m: 1, width: 300 }}>
-            <InputLabel id='demo-multiple-chip-label'>Type of Report</InputLabel>
+            <InputLabel id='demo-multiple-chip-label'>Report Type</InputLabel>
             <Select
               labelId='demo-multiple-chip-label'
               id='demo-multiple-chip'
