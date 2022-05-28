@@ -26,6 +26,7 @@ import DoctorDashboard from './doctor'
 import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 import LabExpertDashboard from './lab-expert'
 import NurseDashboard from './nurse'
+import HospitalAdminDashboard from 'src/views/dashboard/hospital-admin-dashboard/HospitalAdminDashboard'
 import RadiologistDashboard from './radiologist'
 
 import {useSession} from "next-auth/react";
@@ -42,9 +43,11 @@ console.log(session)
   switch (role) {
     case 'Doctor':
       return <DoctorDashboard />
-    case 'SystemAdmin':
+    case 'System Admin':
       return <SystemAdminDashboard />
-    case 'LabExpert':
+    case 'Hospital Admin':
+      return <HospitalAdminDashboard />
+    case 'Lab Technician':
       return <LabExpertDashboard />
     case 'Nurse':
       return <NurseDashboard />

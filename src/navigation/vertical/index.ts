@@ -30,7 +30,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
 
-  if (session.role === 'SystemAdmin') {
+  if (session.role === 'System Admin') {
     pagesSection.push({
       title: 'Hospitals',
       icon: HospitalIcon,
@@ -53,7 +53,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
     })
   }
 
-  if (session.role === 'hospitalAdmin') {
+  if (session.role === 'Hospital Admin') {
     pagesSection.push({
       title: 'Employees',
       icon: Account,
