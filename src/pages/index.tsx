@@ -12,7 +12,7 @@ const Dashboard = () => {
   switch (user.role) {
     case 'Doctor':
       return <DoctorDashboard />
-    case 'SystemAdmin':
+    case 'System Admin':
       return <SystemAdminDashboard />
     case 'LabExpert':
       return <LabExpertDashboard />

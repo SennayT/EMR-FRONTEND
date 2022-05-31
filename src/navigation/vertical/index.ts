@@ -7,6 +7,9 @@ import Account from 'mdi-material-ui/Account'
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBoxOutline'
+import ResearcherIcon from 'mdi-material-ui/AccountMultiple'
+import MoHIcon from 'mdi-material-ui/AccountMultipleOutline'
+import ReportIcon from '@mui/icons-material/AssessmentOutlined'
 import { User } from '../../data/models/UserModel'
 
 const navigation = (user: User): VerticalNavItemsType => {
@@ -36,17 +39,17 @@ const navigation = (user: User): VerticalNavItemsType => {
     })
     pagesSection.push({
       title: 'Researchers',
-      icon: HospitalIcon,
+      icon: ResearcherIcon,
       path: '/system-admin/researchers'
     })
     pagesSection.push({
       title: 'MOH',
-      icon: HospitalIcon,
+      icon: MoHIcon,
       path: '/system-admin/MOH'
     })
     pagesSection.push({
       title: 'Report Generation',
-      icon: HospitalIcon,
+      icon: ReportIcon,
       path: '/system-admin/report'
     })
   }
