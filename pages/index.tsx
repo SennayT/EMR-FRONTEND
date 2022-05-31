@@ -24,6 +24,8 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
+        <div className='d-flex'>
+
         <Link href='../basicCharts/basicCharts'>
                   <Button color='primary' variant='contained' style={{margin:'10px'}}>
                       Home
@@ -44,13 +46,10 @@ const Home: NextPage = () => {
                       Searched Medication
                   </Button>
               </Link> */}
+        </div>
         <h1 className={styles.title}>
           Disease Name
         </h1>
-        <Link href='/searching/disease'>
-        
-           <button>Search</button>
-        </Link>
         <p className={styles.description}>
           Disease Description
         </p>
