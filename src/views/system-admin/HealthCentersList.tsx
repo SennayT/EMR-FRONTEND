@@ -101,8 +101,8 @@ const HealthCenters = () => {
           rows={healthCenters}
           columns={columns}
           pageSize={5}
+          sx={{ px: 2 }}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           loading={loading}
         />

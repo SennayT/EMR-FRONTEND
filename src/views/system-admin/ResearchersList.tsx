@@ -107,11 +107,11 @@ const Researchers = () => {
 
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
+          sx={{ px: 4 }}
           rows={researchers}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           loading={loading}
         />
