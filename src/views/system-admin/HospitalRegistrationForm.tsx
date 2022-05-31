@@ -1,13 +1,20 @@
 import { useState, ChangeEvent } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent } from '@mui/material'
-import TextField from '@mui/material/TextField'
+import { TextField, CardActions, Button } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 
 import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import HospitalIcon from 'mdi-material-ui/HospitalBox'
-import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
+
+import CityIcon from 'mdi-material-ui/City'
+import HouseIcon from 'mdi-material-ui/Home'
+import StreetIcon from 'mdi-material-ui/RoadVariant'
+
+import SubcityIcon from 'mdi-material-ui/TownHall'
+
+// import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 import axios from 'axios'
 
@@ -16,11 +23,21 @@ export default function HospitalRegistrationForm() {
   const [type, setType] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState({})
+  const [city, setCity] = useState('')
+  const [subCity, setSubCity] = useState('')
+  const [woreda, setWoreda] = useState('')
+  const [kebelle, setKebelle] = useState('')
+  const [zone, setZone] = useState('')
+  const [street, setStreet] = useState('')
+  const [houseNo, setHouseNo] = useState('')
+
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [typeErrors, setTypeErrors] = useState<{ type: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
+
+  const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
+  console.log(disableButton)
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -28,10 +45,14 @@ export default function HospitalRegistrationForm() {
     } = event
     setNameErrors({ name: '' })
     setName(value)
-    const reg = new RegExp(/^[A-Za-z]+$/).test(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!reg) {
-      setNameErrors({ name: 'Invalid Name' })
+    if (!regName) {
+      setNameErrors({ name: 'Invalid name' })
+    }
+
+    if (value == '') {
+      setNameErrors({ name: 'Name field cannot be empty' })
     }
   }
 
@@ -44,7 +65,11 @@ export default function HospitalRegistrationForm() {
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
     if (!reg) {
-      setEmailErrors({ email: 'Invalid Email' })
+      setEmailErrors({ email: 'Invalid email' })
+    }
+
+    if (value == '') {
+      setEmailErrors({ email: 'Email field cannot be empty' })
     }
   }
 
@@ -54,10 +79,14 @@ export default function HospitalRegistrationForm() {
     } = event
     setTypeErrors({ type: '' })
     setType(value)
-    const reg = new RegExp(/^[A-Za-z]+$/).test(value)
+    const reg = new RegExp(/^[A-Za-z]{3,10}$/).test(value)
 
     if (!reg) {
-      setTypeErrors({ type: 'Invalid Type' })
+      setTypeErrors({ type: 'Invalid type' })
+    }
+
+    if (value == '') {
+      setTypeErrors({ type: 'Type field cannot be empty' })
     }
   }
 
@@ -67,23 +96,34 @@ export default function HospitalRegistrationForm() {
     } = event
     setPhoneErrors({ phone: '' })
     setPhone(value)
-    const reg = new RegExp(/^\d{9}$/).test(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
 
     if (!reg) {
       setPhoneErrors({ phone: 'Invalid phone number' })
+    }
+
+    if (value == '') {
+      setPhoneErrors({ phone: 'Phone field cannot be empty' })
     }
   }
 
   const registerHealthCenter = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
-
-    console.log({ name: name, type: type, phone: phone, email: email, address: address })
+    console.log({ name: name, type: type, phone: phone, email: email, city: city, subCity: subCity })
     const body = {
       name: name,
       type: type,
       email: email,
       phone: phone,
-      address: address
+      address: {
+        city: city,
+        subCity: subCity,
+        woreda: woreda,
+        zone: zone,
+        street: street,
+        kebelle: kebelle,
+        houseNo: houseNo
+      }
     }
 
     axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`, body).then(response => {
@@ -111,6 +151,7 @@ export default function HospitalRegistrationForm() {
                   fullWidth
                   required
                   label='Health Center Name'
+                  helperText={nameErrors?.name}
                   placeholder='St. Paulos Hospital'
                   InputProps={{
                     startAdornment: (
@@ -128,6 +169,7 @@ export default function HospitalRegistrationForm() {
                   value={email}
                   onChange={handleEmailChange}
                   error={Boolean(emailErrors?.email)}
+                  helperText={emailErrors?.email}
                   type='email'
                   label='Email'
                   required
@@ -168,6 +210,7 @@ export default function HospitalRegistrationForm() {
                   label='Phone'
                   value={phone}
                   error={Boolean(phoneErrors?.phone)}
+                  helperText={phoneErrors?.phone}
                   onChange={handlePhoneChange}
                   placeholder='987654321'
                   InputProps={{
@@ -181,10 +224,161 @@ export default function HospitalRegistrationForm() {
                 />
               </Grid>
             </Grid>
-
+            <Grid item xs={12} sx={{ px: 2 }}>
+              <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
+                Address Information
+              </Typography>
+            </Grid>
+            <Grid sx={{ px: 4 }} container spacing={5}>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  value={city}
+                  onChange={e => {
+                    setCity(e.target.value)
+                  }}
+                  label='City'
+                  placeholder='Addis Ababa'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CityIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  label='Woreda'
+                  placeholder='04'
+                  value={woreda}
+                  onChange={e => {
+                    setWoreda(e.target.value)
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <HouseIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  label='Sub City'
+                  placeholder='Bole'
+                  value={subCity}
+                  onChange={e => {
+                    setSubCity(e.target.value)
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <SubcityIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  label='Kebele'
+                  placeholder='32'
+                  value={kebelle}
+                  onChange={e => {
+                    setKebelle(e.target.value)
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CityIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  label='Street'
+                  value={street}
+                  onChange={e => {
+                    setStreet(e.target.value)
+                  }}
+                  placeholder='Mauritania street'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <StreetIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  label='House Number'
+                  placeholder='432'
+                  value={houseNo}
+                  onChange={e => {
+                    setHouseNo(e.target.value)
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <HouseIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <TextField
+                  size='small'
+                  fullWidth
+                  value={zone}
+                  onChange={e => {
+                    setZone(e.target.value)
+                  }}
+                  label='Zone'
+                  placeholder='zone'
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position='start'>
+                        <CityIcon />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+            </Grid>
+            {/*
             <Grid item xs={12}>
               <AddressInformationForm onSubmit={registerHealthCenter} setAddress={setAddress} />
-            </Grid>
+            </Grid> */}
+            <CardActions>
+              <Button
+                disabled={disableButton ? true : false}
+                size='large'
+                type='submit'
+                variant='contained'
+                onClick={registerHealthCenter}
+              >
+                Register
+              </Button>
+            </CardActions>
           </CardContent>
         </form>
       </Card>
