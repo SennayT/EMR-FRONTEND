@@ -22,7 +22,7 @@ const Dashboard = () => {
       return <DoctorDashboard />
     case 'Radiologist':
       return <RadiologistDashboard />
-    case 'hospitalAdmin':
+    case 'Hospital Admin':
       return <HospitalAdminDashboard />
     default:
       return <p>add 404 here</p>
