@@ -49,7 +49,7 @@ const Researchers = () => {
       field: 'email',
       headerName: 'Email',
       type: 'string',
-      width: 200,
+      width: 230,
       editable: false
     },
     {
@@ -64,7 +64,7 @@ const Researchers = () => {
     {
       field: 'phone',
       headerName: 'Phone',
-      width: 150,
+      width: 200,
       editable: false
     },
 

@@ -110,11 +110,11 @@ const Employees = () => {
       <div style={{ height: 420, width: '100%', backgroundColor: 'white' }}>
         <Paper sx={{ width: '100%', height: '400px' }}>
           <DataGrid
+            sx={{ px: 4 }}
             rows={employees}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
             disableSelectionOnClick
             loading={loading}
           />
