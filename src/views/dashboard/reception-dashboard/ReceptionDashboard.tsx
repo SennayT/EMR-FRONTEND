@@ -61,7 +61,7 @@ export default function ReceptionDashboard() {
                 trend='negative'
                 trendNumber='-18%'
                 subtitle='Last Week'
-                title='Sales Queries'
+                title='Keys'
                 icon={<HelpCircleOutline />}
               />
             </Grid>

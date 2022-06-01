@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Paper } from '@mui/material'
 import Link from 'next/link'
+import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
 
@@ -97,7 +98,7 @@ const Employees = () => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={8}>
+        <Grid item xs={10} md={10} lg={10}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Employees
           </Typography>
@@ -120,11 +121,11 @@ const Employees = () => {
       <div style={{ height: 420, width: '100%', backgroundColor: 'white' }}>
         <Paper sx={{ width: '100%', height: '400px' }}>
           <DataGrid
+            sx={{ px: 4 }}
             rows={employees}
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            checkboxSelection
             disableSelectionOnClick
             loading={loading}
           />

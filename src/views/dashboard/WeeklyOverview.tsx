@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import CardStatisticsVerticalComponent from 'src/@core/components/card-statistics/card-stats-vertical'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+import HelpCircleOutline from 'mdi-material-ui/InformationOutline'
 
 // import 'styles/global.css'
 

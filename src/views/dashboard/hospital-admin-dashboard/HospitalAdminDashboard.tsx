@@ -23,9 +23,9 @@ export default function HospitalAdminDashboard() {
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3} lg={12}>
+        <Grid item xs={12} md={12} lg={12}>
           <Grid container spacing={12}>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='1,476'
                 icon={<HospitalIcon />}
@@ -35,7 +35,7 @@ export default function HospitalAdminDashboard() {
                 subtitle='Past Month'
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='201K'
                 title='Staff'
@@ -46,7 +46,7 @@ export default function HospitalAdminDashboard() {
                 icon={<PatientIcon />}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='862'
                 trend='negative'
@@ -56,7 +56,7 @@ export default function HospitalAdminDashboard() {
                 icon={<ResearcherIcon />}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='153'
                 color='warning'
@@ -67,7 +67,7 @@ export default function HospitalAdminDashboard() {
                 icon={<MoHIcon />}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='153'
                 color='warning'
@@ -78,7 +78,7 @@ export default function HospitalAdminDashboard() {
                 icon={<MoHIcon />}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
                 stats='153'
                 color='warning'
@@ -92,7 +92,7 @@ export default function HospitalAdminDashboard() {
           </Grid>
         </Grid>
 
-        <Grid sx={{ my: 8, mx: 12 }} item xs={12} md={6} lg={12}>
+        <Grid sx={{ my: 8, mx: 12 }} item xs={12}>
           <WeeklyOverview />
         </Grid>
       </Grid>

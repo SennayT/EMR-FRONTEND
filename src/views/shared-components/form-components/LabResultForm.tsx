@@ -27,7 +27,7 @@ const LabResultForm = (props: any) => {
       comment: comment,
       filledById: user.id,
       investigationRequestId: props.invReqId
-    };
+    }
 
     console.log(data)
     requests.post(`/lab-result`, data).then(response => {
@@ -79,8 +79,8 @@ const LabResultForm = (props: any) => {
                   <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label=''
-                    value={currentLabTest || ""}
+                    label='Investigative Request'
+                    value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {
                       const val = JSON.parse(e.target.value.toString());

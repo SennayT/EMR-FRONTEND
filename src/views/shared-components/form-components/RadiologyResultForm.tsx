@@ -18,9 +18,9 @@ const RadiologyResultForm = (props: any) => {
     console.log(currentLabTest)
     const data = {
       name: currentLabTest.name,
-      focalArea: "stomach",
+      focalArea: 'stomach',
       report: 'some result',
-      images: ["/url"],
+      images: ['/url'],
       comment: comment,
       requestedById: 18,
       investigationRequestId: props.invReqId
@@ -50,7 +50,7 @@ const RadiologyResultForm = (props: any) => {
     normalRange: '',
     measuredIn: '',
     testCategory: '',
-    images: [""]
+    images: ['']
   })
 
   const [comment, setComment] = useState('')
@@ -66,7 +66,7 @@ const RadiologyResultForm = (props: any) => {
                   <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label=''
+                    label='Investigative Request'
                     value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {

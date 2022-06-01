@@ -9,7 +9,8 @@ import {
   MenuItem,
   OutlinedInput,
   SelectChangeEvent,
-  Chip
+  Chip,
+  Typography
 } from '@mui/material'
 
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -71,96 +72,103 @@ const ReportGenerationUI = () => {
   ]
 
   return (
-    <Grid
-      container
-      xs={12}
-      minHeight={450}
-      sx={{ backgroundColor: 'white', my: 2, mx: 2, pb: 16, pt: 8, px: 8 }}
-      spacing={1}
-    >
-      <Grid item xs={6}>
-        <FormControl sx={{ m: 1, width: 300 }}>
-          <InputLabel id='demo-multiple-chip-label'>Included Info</InputLabel>
-          <Select
-            labelId='demo-multiple-chip-label'
-            id='demo-multiple-chip'
-            multiple
-            value={personName}
-            onChange={handleChange}
-            input={<OutlinedInput id='select-multiple-chip' label='Included Info' />}
-            renderValue={selected => (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map(value => (
-                  <Chip key={value} label={value} />
-                ))}
-              </Box>
-            )}
-            MenuProps={MenuProps}
-          >
-            {names.map(name => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+    <Grid>
+      <Grid item xs={8}>
+        <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
+          Report Generation
+        </Typography>
       </Grid>
-      <Grid item xs={6}>
-        <FormControl sx={{ m: 1, width: 300 }}>
-          <InputLabel id='demo-multiple-chip-label'>Type of Report</InputLabel>
-          <Select
-            labelId='demo-multiple-chip-label'
-            id='demo-multiple-chip'
-            value={typeOfReport}
-            onChange={e => {
-              setTypeOfReport(e.target.value)
-            }}
-            input={<OutlinedInput id='select-multiple-chip' label='Included Info' />}
-            MenuProps={MenuProps}
-          >
-            {types.map(name => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={6}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            disableFuture
-            label='Start Date'
-            openTo='year'
-            views={['year', 'month']}
-            value={startDate}
-            onChange={newValue => {
-              setStartDate(newValue)
-            }}
-            renderInput={params => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      </Grid>
-      <Grid item xs={6}>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <DatePicker
-            disableFuture
-            label='End Date'
-            openTo='year'
-            minDate={startDate}
-            views={['year', 'month']}
-            value={endDate}
-            onChange={newValue => {
-              setEndDate(newValue)
-            }}
-            renderInput={params => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-      </Grid>
-      <Grid item>
-        <Button variant='outlined' onSubmit={ReportGenerationUI}>
-          Generate Report
-        </Button>
+      <Grid
+        container
+        xs={12}
+        minHeight={400}
+        sx={{ backgroundColor: 'white', my: 2, mx: 2, pb: 16, pt: 10, px: 8 }}
+        spacing={1}
+      >
+        <Grid item xs={12} md={6} lg={6}>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id='demo-multiple-chip-label'>Included Info</InputLabel>
+            <Select
+              labelId='demo-multiple-chip-label'
+              id='demo-multiple-chip'
+              multiple
+              value={personName}
+              onChange={handleChange}
+              input={<OutlinedInput id='select-multiple-chip' label='Included Info' />}
+              renderValue={selected => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map(value => (
+                    <Chip key={value} label={value} />
+                  ))}
+                </Box>
+              )}
+              MenuProps={MenuProps}
+            >
+              {names.map(name => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={6} lg={6}>
+          <FormControl sx={{ m: 1, width: 300 }}>
+            <InputLabel id='demo-multiple-chip-label'>Report Type</InputLabel>
+            <Select
+              labelId='demo-multiple-chip-label'
+              id='demo-multiple-chip'
+              value={typeOfReport}
+              onChange={e => {
+                setTypeOfReport(e.target.value)
+              }}
+              input={<OutlinedInput id='select-multiple-chip' label='Included Info' />}
+              MenuProps={MenuProps}
+            >
+              {types.map(name => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} md={6} lg={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              disableFuture
+              label='Start Date'
+              openTo='year'
+              views={['year', 'month']}
+              value={startDate}
+              onChange={newValue => {
+                setStartDate(newValue)
+              }}
+              renderInput={params => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Grid>
+        <Grid item xs={12} md={6} lg={6}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              disableFuture
+              label='End Date'
+              openTo='year'
+              minDate={startDate}
+              views={['year', 'month']}
+              value={endDate}
+              onChange={newValue => {
+                setEndDate(newValue)
+              }}
+              renderInput={params => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Grid>
+        <Grid item xs={12} md={12} lg={12}>
+          <Button variant='outlined' onSubmit={ReportGenerationUI}>
+            Generate Report
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   )

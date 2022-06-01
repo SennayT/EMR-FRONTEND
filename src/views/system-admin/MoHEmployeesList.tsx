@@ -12,6 +12,7 @@ import requests from 'src/utils/repository'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -90,25 +91,27 @@ const MoHEmployees = () => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={8}>
+        <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             MoH Employees
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add MoH Employee
+        <Grid item xs={2} md={2} lg={3}>
+          <Button variant='outlined' color='primary' size='small' startIcon={<AddIcon />} onClick={handleClickOpen}>
+            <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'none', lg: 'block' } }}>
+              MoH employee
+            </Typography>
           </Button>
         </Grid>
       </Grid>
 
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
+          sx={{ px: 4 }}
           rows={mohEmployees}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           loading={loading}
         />

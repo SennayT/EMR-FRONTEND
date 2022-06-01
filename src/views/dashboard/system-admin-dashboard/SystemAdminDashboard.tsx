@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
@@ -28,9 +27,7 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
 
 
-
 export default function SystemAdminDashboard() {
-
   const [healthCenterNum, setHealthCenterNum] = useState(0)
   const [patientNum, setPatientNum] = useState(0)
   const [researcherNum, setResearcherNum] = useState(0)
@@ -54,19 +51,19 @@ export default function SystemAdminDashboard() {
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={3} lg={12}>
+        <Grid item xs={12} md={12} lg={12}>
           <Grid container spacing={12}>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={healthCenterNum.toString()}
                 icon={<HospitalIcon />}
                 color='success'
                 trendNumber='+42%'
-                title='Hospitals'
+                title='Health Centers'
                 subtitle='Total'
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={patientNum.toString()}
                 title='Patients'
@@ -77,7 +74,7 @@ export default function SystemAdminDashboard() {
                 icon={<PatientIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={researcherNum.toString()}
                 trend='negative'
@@ -87,7 +84,7 @@ export default function SystemAdminDashboard() {
                 icon={<ResearcherIcon />}
               />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={mohEmployeeNum.toString()}
                 color='warning'
@@ -101,7 +98,7 @@ export default function SystemAdminDashboard() {
           </Grid>
         </Grid>
 
-        <Grid sx={{ my: 8, mx: 12 }} item xs={12} md={6} lg={12}>
+        <Grid sx={{ my: 8, mx: 12 }} item xs={12}>
           <WeeklyOverview />
         </Grid>
       </Grid>

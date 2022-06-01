@@ -13,12 +13,11 @@ import user from 'src/data/userData'
 
 const DiagnosisForm = () => {
   // ** States
-  const [investigationReq, setInvestigationReq] = useState([{note: "", id: 0}])
+  const [investigationReq, setInvestigationReq] = useState([{ note: '', id: 0 }])
   const [diseases, setDiseases] = useState<Disease[]>([])
-  const [comment, setComment] = useState<string>("")
+  const [comment, setComment] = useState<string>('')
   const [currInvReq, setCurrInvReq] = useState<number>(0)
   const [currDisease, setCurrDisease] = useState<number[]>([])
-
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -38,7 +37,7 @@ const DiagnosisForm = () => {
     requests.get('/investigation-request').then((respose) => {
       setInvestigationReq(respose.data)
     })
-  });
+  })
 
   const registerDiagnosis = () => {
     const data = {
@@ -62,11 +61,11 @@ const DiagnosisForm = () => {
                   <InputLabel id='test-select-label'>Investigative Request</InputLabel>
                   <Select
                     labelId='test-select-label'
-                    label=''
+                    label='Investigative Request'
                     value={currInvReq}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const id = Number(e.target.value);
+                      const id = Number(e.target.value)
                       setCurrInvReq(id)
                     }}
                     fullWidth
@@ -85,10 +84,10 @@ const DiagnosisForm = () => {
                   <InputLabel id='disease-select-label'>Disease</InputLabel>
                   <Select
                     labelId='disease-select-label'
+                    label='Disease'
                     value={currDisease}
-                    multiple
                     onChange={e => {
-                      const id = Number(e.target.value);
+                      const id = Number(e.target.value)
                       setCurrDisease([...currDisease, id])
                     }}
                     MenuProps={MenuProps}

@@ -11,6 +11,7 @@ import requests from 'src/utils/repository'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AddIcon from '@mui/icons-material/Add'
 
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -48,7 +49,7 @@ const Researchers = () => {
       field: 'email',
       headerName: 'Email',
       type: 'string',
-      width: 200,
+      width: 230,
       editable: false
     },
     {
@@ -63,7 +64,7 @@ const Researchers = () => {
     {
       field: 'phone',
       headerName: 'Phone',
-      width: 150,
+      width: 200,
       editable: false
     },
 
@@ -90,25 +91,27 @@ const Researchers = () => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={8}>
+        <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Researchers
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }} onClick={handleClickOpen}>
-            Add Researcher
+        <Grid item xs={2} md={2} lg={3}>
+          <Button variant='outlined' color='primary' size='small' startIcon={<AddIcon />} onClick={handleClickOpen}>
+            <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'block', lg: 'block' } }}>
+              Researcher
+            </Typography>
           </Button>
         </Grid>
       </Grid>
 
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
+          sx={{ px: 4 }}
           rows={researchers}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
           loading={loading}
         />

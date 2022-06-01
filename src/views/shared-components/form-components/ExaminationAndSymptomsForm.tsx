@@ -9,8 +9,6 @@ import requests from 'src/utils/repository'
 import { useEffect } from 'react';
 
 const ExaminationAndSymptomsForm = () => {
-
-
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
   const MenuProps = {
@@ -22,11 +20,10 @@ const ExaminationAndSymptomsForm = () => {
     }
   }
 
-  const [examination, setExamination] = useState("");
-  const [symptoms, setSymptoms] = useState("");
-  const [vitals, setVitals] = useState([{id: 0, requestedDate: ""}])
+  const [examination, setExamination] = useState('')
+  const [symptoms, setSymptoms] = useState('')
+  const [vitals, setVitals] = useState([{ id: 0, requestedDate: '' }])
   const [vital, setVital] = useState(0)
-
 
   useEffect(() => {
     requests.get(`/vitals`).then((response) => {
@@ -44,67 +41,63 @@ const ExaminationAndSymptomsForm = () => {
     requests.post(`/examination`, data).then(response => {
       console.log(response.data)
     })
-  };
+  }
 
   return (
-    <Grid container >
-      <Card sx={{  marginTop: 2, paddingRight: 2, backgroundColor: 'white' }}>
+    <Grid container>
+      <Card sx={{ marginTop: 2, paddingRight: 2, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
-
-              <Grid item xs={12}  >
-              <FormControl fullWidth>
-                  <InputLabel id='test-select-label'>Investigative Request</InputLabel>
-                  <Select
-                    labelId='test-select-label'
-                    label=''
-                    value={vital}
-                    MenuProps={MenuProps}
-                    onChange={e => {
-                      const id = Number(e.target.value);
-                      setVital(id)
-                    }}
-                    fullWidth
-                    size='small'
-                  >
-                    {vitals.map(name => (
-                      <MenuItem key={name.id} value={name.id}>
-                        {name.requestedDate}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <TextField
-                sx={{margin: 2}}
-                  fullWidth
-                  multiline
-                  rows={8}
-                  value={symptoms}
-                  label='symptoms'
+            <Grid item xs={12}>
+              <FormControl fullWidth sx={{ mx: 2 }}>
+                <InputLabel id='test-select-label'>Investigative Request</InputLabel>
+                <Select
+                  labelId='test-select-label'
+                  label='Investigative Request'
+                  value={vital}
+                  MenuProps={MenuProps}
                   onChange={e => {
-                    setSymptoms(e.target.value)
+                    const id = Number(e.target.value)
+                    setVital(id)
                   }}
-                  placeholder='patient feels'
-
-                />
-               <TextField
-                sx={{margin: 2}}
                   fullWidth
-                  rows={8}
-                  multiline
-                  value={examination}
-                  onChange={e => {
-                    setExamination(e.target.value)
-                  }}
-                  label='physical examination'
-                  placeholder='physically shown indications'
-
-                />
-              </Grid>
-
+                  size='small'
+                >
+                  {vitals.map(name => (
+                    <MenuItem key={name.id} value={name.id}>
+                      {name.requestedDate}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                sx={{ margin: 2 }}
+                fullWidth
+                multiline
+                rows={8}
+                value={symptoms}
+                label='symptoms'
+                onChange={e => {
+                  setSymptoms(e.target.value)
+                }}
+                placeholder='patient feels'
+              />
+              <TextField
+                sx={{ margin: 2 }}
+                fullWidth
+                rows={8}
+                multiline
+                value={examination}
+                onChange={e => {
+                  setExamination(e.target.value)
+                }}
+                label='physical examination'
+                placeholder='physically shown indications'
+              />
+            </Grid>
           </CardContent>
           <CardActions sx={{ mx: 80 }}>
-            <Button size='large' type='submit' onClick={registerExamination} variant='contained' sx={{padding:2}}>
+            <Button size='large' type='submit' onClick={registerExamination} variant='contained' sx={{ padding: 2 }}>
               Register
             </Button>
             {/* <Button size='large' color='secondary' variant='outlined'>
