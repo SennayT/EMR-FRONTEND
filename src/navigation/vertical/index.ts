@@ -2,6 +2,7 @@
 import HomeOutline from 'mdi-material-ui/HomeOutline'
 import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
 import Account from 'mdi-material-ui/Account'
+import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 // ** Type import
 import { VerticalNavItemsType } from 'src/@core/layouts/types'
@@ -58,7 +59,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
   if (session.role === 'Hospital Admin') {
     pagesSection.push({
       title: 'Employees',
-      icon: Account,
+      icon: AccountOutline,
       path: '/hospital-admin/employees'
     })
   }
