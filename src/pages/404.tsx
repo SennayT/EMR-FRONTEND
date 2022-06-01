@@ -50,21 +50,20 @@ const Error404 = () => {
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-        <BoxWrapper>
+        <BoxWrapper sx={{ my: 8 }}>
           <Typography variant='h1'>404</Typography>
           <Typography variant='h5' sx={{ mb: 1, fontSize: '1.5rem !important' }}>
             Page Not Found ⚠️
           </Typography>
           <Typography variant='body2'>We couldn&prime;t find the page you are looking for.</Typography>
         </BoxWrapper>
-        <Img height='487' alt='error-illustration' src='/images/pages/404.png' />
         <Link passHref href='/'>
-          <Button component='a' variant='contained' sx={{ px: 5.5 }}>
+          <Button component='a' variant='contained' sx={{ px: 5.5, my: 8 }}>
             Back to Home
           </Button>
         </Link>
       </Box>
-      <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree.png' />} />
+      <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/auth-v1-tree-22.png' />} />
     </Box>
   )
 }
