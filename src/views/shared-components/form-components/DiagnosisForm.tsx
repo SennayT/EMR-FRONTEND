@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid'
 import { Button, Card, CardContent, CardActions, MenuItem, Select, InputLabel, FormControl } from '@mui/material'
 import TextField from '@mui/material/TextField'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import Disease from 'src/data/models/DiseaseModel'
 
 import user from 'src/data/userData'
@@ -32,10 +32,10 @@ const DiagnosisForm = () => {
   }
 
   useEffect(() => {
-    axios.get('https://capstone-backend-0957-11-v2.herokuapp.com/disease').then((respose) => {
+    requests.get('/disease').then((respose) => {
       setDiseases(respose.data)
     })
-    axios.get('https://capstone-backend-0957-11-v2.herokuapp.com/investigation-request').then((respose) => {
+    requests.get('/investigation-request').then((respose) => {
       setInvestigationReq(respose.data)
     })
   });
@@ -48,7 +48,7 @@ const DiagnosisForm = () => {
       diseases: currDisease
     }
     console.log(data)
-    axios.post('https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis', data)
+    requests.post('/diagnosis', data)
   }
 
   return (

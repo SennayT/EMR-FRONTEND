@@ -22,7 +22,7 @@ import AddressInformationForm from '../shared-components/form-components/Address
 
 import user from '../../data/userData'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 export default function ResearcherRegistrationForm() {
   const [name, setName] = useState('')
@@ -48,7 +48,7 @@ export default function ResearcherRegistrationForm() {
       registeredBy: user.id
     }
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`, body).then(response => {
+    requests.post(`/moh-employee`, body).then(response => {
       console.log(response.data)
     })
   }

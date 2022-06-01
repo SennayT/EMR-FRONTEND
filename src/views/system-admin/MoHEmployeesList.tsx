@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -21,7 +21,7 @@ const MoHEmployees = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then(response => {
+    requests.get(`/moh-employee`).then(response => {
       setMohEmployees(response.data.map((res: any) => res.user))
       setLoading(false)
     })

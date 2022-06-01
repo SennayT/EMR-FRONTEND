@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem } from '@mui/material'
+import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Snackbar, Alert } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -13,12 +13,12 @@ import FileUploaderSingle from './FileUploaderSingle'
 import Switch from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
 const LabResultForm = (props: any) => {
+  const [open, setOpen] = useState(false)
   const registerResult = () => {
-    console.log(currentLabTest)
     const data = {
       name: currentLabTest.name,
       type: currentLabTest.testCategory,
@@ -29,8 +29,14 @@ const LabResultForm = (props: any) => {
       investigationRequestId: props.invReqId
     };
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/lab-result`, data).then(response => {
-      console.log(response)
+    console.log(data)
+    requests.post(`/lab-result`, data).then(response => {
+      console.log(Number(response.data.statusCode))
+      if (response.data.statusCode[0] == 2) {
+        console.log("sdfj")
+      } else {
+        setOpen(true)
+      }
     })
   }
 
@@ -62,6 +68,11 @@ const LabResultForm = (props: any) => {
       <Card sx={{ my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
+            <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+              <Alert severity="error" sx={{ width: '100%' }}>
+                This is an error message!
+              </Alert>
+            </Snackbar>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>

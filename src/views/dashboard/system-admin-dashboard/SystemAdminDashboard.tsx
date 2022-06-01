@@ -25,9 +25,9 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
 // ** Demo Components Imports
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
+import requests from 'src/utils/repository'
 
 
-import axios from 'axios'
 
 export default function SystemAdminDashboard() {
 
@@ -37,16 +37,16 @@ export default function SystemAdminDashboard() {
   const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
 
   useEffect(() => {
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/health-center/number`).then((response) => {
+    requests.get("/health-center/number").then((response) => {
       setHealthCenterNum(response.data)
     });
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient`).then((response) => {
+    requests.get(`/patient`).then((response) => {
       setPatientNum(response.data.length)
     });
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/researcher/number`).then((response) => {
+    requests.get(`/researcher/number`).then((response) => {
       setResearcherNum(response.data)
     })
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/moh-employee`).then((response) => {
+    requests.get(`moh-employee`).then((response) => {
       setMohEmployeeNum(response.data.length)
     })
   })

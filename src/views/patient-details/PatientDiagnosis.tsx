@@ -11,7 +11,7 @@ import CardContent from '@mui/material/CardContent'
 import PatientVitals from './PatientVitals'
 import { Card } from '@mui/material'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -31,7 +31,7 @@ const PatientDiagnosis = (props: {
   const [vitals, setVitals] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then(response => {
+    requests.get(`/vitals`).then(response => {
       setVitals(response.data[4])
     })
   });
@@ -50,7 +50,7 @@ const PatientDiagnosis = (props: {
 
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
+    requests.get(`/diagnosis`).then((response) => {
       setLastDiagnosis(response.data[0])
 
 

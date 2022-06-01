@@ -49,28 +49,7 @@ const EmployeeGeneralInfo = (props: any) => {
               </Box>
             </Typography>
             <Divider />
-            <Typography  sx={{ fontWeight: 'bold', marginBottom: 5 }}>
-              Address Information
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Sub-city: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              {props.healthCenter.address.subCity}
-              </Box>
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Wereda: {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              {props.healthCenter.address.wereda}
-              </Box>
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Kebele : {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              {props.healthCenter.address.kebele}
-              </Box>
-            </Typography>
-            <Divider/>
+
             <Typography sx={{ fontWeight: 'bold', marginBottom: 5}}>
               Specialization
             </Typography>

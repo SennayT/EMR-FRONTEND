@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Grid from '@mui/material/Grid'
 import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import TextField from '@mui/material/TextField'
-import axios from 'axios';
+import requests from 'src/utils/repository'
 import { useEffect } from 'react';
 
 const ExaminationAndSymptomsForm = () => {
@@ -29,7 +29,7 @@ const ExaminationAndSymptomsForm = () => {
 
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then((response) => {
+    requests.get(`/vitals`).then((response) => {
       setVitals(response.data)
     })
   })
@@ -41,7 +41,7 @@ const ExaminationAndSymptomsForm = () => {
       vitalId: vital
     }
     console.log(data)
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/examination`, data).then(response => {
+    requests.post(`/examination`, data).then(response => {
       console.log(response.data)
     })
   };

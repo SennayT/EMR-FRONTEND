@@ -9,7 +9,7 @@ import DiagnosisHistory from './DiagnosisHistory'
 import UserGeneralInfo from '../shared-components/UserGeneralInfo'
 import PatientActionsBar from '../doctor/component/PatientActionsBar'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import { Patient } from 'src/data/models/PatientModel'
 import { Address } from 'src/data/models/AddressModel'
 
@@ -51,10 +51,10 @@ const PatientDetail = () => {
   const router = useRouter();
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/patient/${router.query.pid}`).then(response => {
+    requests.get(`/patient/${router.query.pid}`).then(response => {
       setPatient(response.data)
     })
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/prescription/export/pdf/2`).then(response => {
+    requests.get(`/prescription/export/pdf/2`).then(response => {
       console.log("res", response.data)
     })
   });

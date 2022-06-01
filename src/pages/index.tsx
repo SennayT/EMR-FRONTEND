@@ -45,9 +45,9 @@ console.log(session)
       return <DoctorDashboard />
     case 'System Admin':
       return <SystemAdminDashboard />
-    case 'Hospital Admin':
+    case 'HospitalAdmin':
       return <HospitalAdminDashboard />
-    case 'Lab Technician':
+    case 'LabExpert':
       return <LabExpertDashboard />
     case 'Nurse':
       return <NurseDashboard />

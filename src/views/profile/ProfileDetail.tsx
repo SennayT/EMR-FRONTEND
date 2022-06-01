@@ -1,7 +1,7 @@
 
-import { Card, CardContent, Typography} from '@mui/material'
+import { Card, CardContent, Typography } from '@mui/material'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -26,24 +26,25 @@ const ImgStyled = styled('img')(({ theme }) => ({
 
 
 
-const ProfileDetail = () => {
+const ProfileDetail = (props: any) => {
   // ** State
 
   const [imgSrc] = useState<string>('/images/avatars/1.png')
 
+
   return (
-    <Card sx={{backgroundColor: 'white'}}>
+    <Card sx={{ backgroundColor: 'white' }}>
       <CardContent>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ImgStyled src={imgSrc} alt='Profile Pic' />
-              <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <ImgStyled src={imgSrc} alt='Profile Pic' />
+          <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography variant='h5'>{user.name}</Typography>
-            </Box>
-            </Box>
+          </Box>
+        </Box>
 
       </CardContent>
 
-      <UserGeneralInfo user={user}/>
+      <UserGeneralInfo user={props.user} />
 
     </Card>
   )

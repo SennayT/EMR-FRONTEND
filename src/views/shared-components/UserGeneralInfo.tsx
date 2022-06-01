@@ -13,7 +13,7 @@ import { User } from 'src/data/models/UserModel'
 import { Patient } from 'src/data/models/PatientModel'
 
 
-const UserGeneralInfo = (props: {user: User, emergencyContactName?: string, emergencyContactPhone?: string}) => {
+const UserGeneralInfo = (props:any) => {
 
   console.log(props.user)
 

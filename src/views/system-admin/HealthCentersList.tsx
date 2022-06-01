@@ -15,7 +15,7 @@ import DialogContent from '@mui/material/DialogContent'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -26,7 +26,7 @@ const HealthCenters = () => {
   const handleClickClose = () => setOpen(false)
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/health-center`).then(response => {
+    requests.get(`/health-center`).then(response => {
       setHealthCenters(response.data)
       setLoading(false)
     })

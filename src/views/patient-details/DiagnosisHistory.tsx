@@ -20,7 +20,7 @@ import ArrowRight from 'mdi-material-ui/ArrowRight'
 import MessageOutline from 'mdi-material-ui/MessageOutline'
 import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
@@ -59,7 +59,7 @@ const DiagnosisHistory = () => {
   }])
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/diagnosis`).then((response) => {
+    requests.get(`/diagnosis`).then((response) => {
       setDiagnosis(response.data)
 
       console.log(diagnosis)

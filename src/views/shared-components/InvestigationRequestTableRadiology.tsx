@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
@@ -34,7 +34,7 @@ const InvestigativeRequestTableRadiology = () => {
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/investigation-request/include/radiology`).then(response => {
+    requests.get(`/investigation-request/include/radiology`).then(response => {
       setInvReqs(response.data)
     })
   })

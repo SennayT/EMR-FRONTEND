@@ -4,7 +4,7 @@ import PatientVitals from '../patient-details/PatientVitals'
 import PatientNurseBar from './PatitentNurseBar'
 
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import NoDataView from '../shared-components/NoDataView'
 
 const NurseLayout = () => {
@@ -12,7 +12,7 @@ const NurseLayout = () => {
   const [vitals, setVitals] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`).then(response => {
+    requests.get(`/vitals`).then(response => {
       setVitals(response.data)
     })
   });

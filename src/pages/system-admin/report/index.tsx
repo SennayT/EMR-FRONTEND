@@ -17,7 +17,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 import Box from '@mui/material/Box'
 import { DatePicker } from '@mui/x-date-pickers'
-import axios from 'axios'
+import PDFViewer from 'pdf-viewer-reactjs'
+import requests from 'src/utils/repository'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -43,16 +45,16 @@ const ReportGenerationUI = () => {
     } = event
     setPersonName(typeof value === 'string' ? value.split(',') : value)
   }
-  console.log({ typeOfReport: typeOfReport, personName: personName, startDate: startDate, endDate: endDate })
+  console.log({ typeOfReport: typeOfReport, startDate: startDate, endDate: endDate })
   const body = {
-    typeOfReport: typeOfReport,
-    personName: personName,
-    startDate: startDate,
-    endDate: endDate
+    information: "DIAGNOSIS",
+    startDate: "2020-06-01T09:02:11.022Z",
+    endDate: "2022-06-01T09:02:11.022Z"
   }
-
-  axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/generate-report`, body).then(response => {
-    console.log(response.data)
+  requests.post(`/generate-report` , body).then(response => {
+    return <PDFViewer
+    document={response.data}
+/>
   })
 
   const names = [

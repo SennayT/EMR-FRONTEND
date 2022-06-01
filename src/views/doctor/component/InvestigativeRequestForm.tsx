@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Button, CardActions, Select, MenuItem, SelectChangeEvent, FormControlLabel, Checkbox } from '@mui/material'
 import TextField from '@mui/material/TextField'
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import { LabTest } from 'src/data/models/LabTestModel'
 import { InvestigationRequest } from 'src/data/models/InvestigationRequestModel'
 
@@ -38,7 +38,7 @@ export default function InvestigativeRequestForm() {
   }
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/lab-test`).then(response => {
+    requests.get(`/lab-test`).then(response => {
         setTests(response.data)
          })
   });
@@ -54,7 +54,7 @@ export default function InvestigativeRequestForm() {
 
   const registerInvestigationRequest = () => {
     console.log(invReq)
-    axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/investigation-request', invReq)
+    requests.post('/investigation-request', invReq)
   }
 
   return (

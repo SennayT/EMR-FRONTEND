@@ -5,7 +5,7 @@ import { Button, Card, CardActions, CardContent, Grid, TextField } from '@mui/ma
 import { useState } from 'react'
 import { Vitals } from 'src/data/models/VitalsModel'
 import user from 'src/data/userData'
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 const AddVitalsForm = () => {
   const [vitals, setVitals] = useState<Vitals>({
@@ -22,7 +22,7 @@ const AddVitalsForm = () => {
   const handleVitalsSubmit = () => {
 
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/vitals`, vitals).then(response => {
+    requests.post(`/vitals`, vitals).then(response => {
       console.log(response.data)
     })
   };

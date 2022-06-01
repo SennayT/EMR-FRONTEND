@@ -1,19 +1,20 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Avatar, Button, Grid, Typography, Chip, IconButton, Link } from '@mui/material'
+import { Avatar, Button, Grid, Typography, Chip, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Paper } from '@mui/material'
+import Link from 'next/link'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 const Employees = () => {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`).then(response => {
+    requests.get(`/employee`).then(response => {
       setEmployees(response.data)
       setLoading(false)
     })
@@ -72,12 +73,18 @@ const Employees = () => {
       headerName: 'Actions',
       width: 150,
       editable: false,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div>
-            <IconButton>
+            <Link href={{
+              pathname: '/hospital-admin/employees/add',
+              query: {
+                  user: params.value
+              }
+          }
+          }>
               <EditIcon />
-            </IconButton>
+            </Link>
             <IconButton>
               <DeleteIcon />
             </IconButton>
@@ -96,7 +103,13 @@ const Employees = () => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Link href='/hospital-admin/employees/add'>
+          <Link href={{
+              pathname: '/hospital-admin/employees/add',
+              query: {
+                  user: ""
+              }
+          }
+          }>
             <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }}>
               Add Employee
             </Button>

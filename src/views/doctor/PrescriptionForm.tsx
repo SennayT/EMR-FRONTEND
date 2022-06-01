@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, Grid, TextField, Typography } from '@mui/material'
 import { FormEvent, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import axios from "axios";
+import requests from 'src/utils/repository'
 
 type Medication = {
   name: string
@@ -35,7 +35,7 @@ export default function PrescriptionForm() {
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
    try{
-     const res = await axios.post("https://capstone-backend-0957-11-v2.herokuapp.com/prescription",{
+     const res = await requests.post("/prescription",{
        diagnosisId:1,
        medications
      })

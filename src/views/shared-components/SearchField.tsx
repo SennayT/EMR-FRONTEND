@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField'
 // import Magnify from 'mdi-material-ui/Magnify'
 
 // import InputAdornment from '@mui/material/InputAdornment'
-import axios from 'axios'
+import requests from 'src/utils/repository'
 
 const SearchField = () => {
 
@@ -17,7 +17,7 @@ const SearchField = () => {
   const router = useRouter()
 
   const searchByRefId = () =>{
-    axios.get(`http://capstone-backend-0957-11-v2.herokuapp.com/patient/refId/${refId}`).then((response) => {
+    requests.get(`/patient/refId/${refId}`).then((response) => {
       console.log(response.data)
       router.push({pathname: "/patient-details", query: {pid: response.data.id}})
     })

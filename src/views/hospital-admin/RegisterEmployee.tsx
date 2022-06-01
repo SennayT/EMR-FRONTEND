@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
@@ -22,20 +22,26 @@ import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
+
 
 import user from '../../data/userData'
 
-export default function EmRegistrationForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
+export default function EmRegistrationForm(props: any) {
+
+  useEffect(() => {
+    console.log(props.router.query.user);
+}, [props.router.query]);
+
+  const [name, setName] = useState(props.user.name)
+  const [email, setEmail] = useState(props.user.email)
+  const [phone, setPhone] = useState(props.user.phone)
   const [role, setRole] = useState<string[]>([])
-  const [gender, setGender] = React.useState('female')
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [emName, setEmName] = useState('')
-  const [emPhone, setEmPhone] = useState('')
-  const [address, setAddress] = useState({})
+  const [gender, setGender] = React.useState(props.user.gender)
+  const [isAdmin, setIsAdmin] = useState(props.user.isAdmin)
+  const [emName, setEmName] = useState(props.user.emergencyContactName)
+  const [emPhone, setEmPhone] = useState(props.user.emergencyContactPhone)
+  const [address, setAddress] = useState(props.user.address)
 
   const registerEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
@@ -62,10 +68,11 @@ export default function EmRegistrationForm() {
       healthCenterId: user.healthCeterId
     }
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/employee`, body).then(response => {
+    requests.post(`/employee`, body).then(response => {
       console.log(response.data)
     })
   }
+
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
@@ -97,6 +104,8 @@ export default function EmRegistrationForm() {
       }
     }
   }
+
+
 
   return (
     <Grid container spacing={6}>

@@ -21,8 +21,8 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 import user from '../../data/userData'
+import requests from 'src/utils/repository'
 
-import axios from 'axios'
 
 export default function ResearcherRegistrationForm() {
   const [name, setName] = useState('')
@@ -43,7 +43,7 @@ export default function ResearcherRegistrationForm() {
       healthCenterId: user.healthCeterId
     }
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/researcher`, body).then(response => {
+    requests.post(`/researcher`, body).then(response => {
       console.log(response.data)
     })
   }

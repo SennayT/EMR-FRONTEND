@@ -10,7 +10,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
 import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import { User } from 'src/data/models/UserModel'
 import { Address } from 'src/data/models/AddressModel'
 
@@ -52,7 +52,7 @@ export default function PatientRegistrationForm() {
     }
     console.log(body);
 
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/patient`, body).then(response => {
+    requests.post(`/patient`, body).then(response => {
       console.log(response.data)
     })
   };

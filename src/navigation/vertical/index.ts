@@ -53,7 +53,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
     })
   }
 
-  if (session.role === 'Hospital Admin') {
+  if (session.role === 'HospitalAdmin') {
     pagesSection.push({
       title: 'Employees',
       icon: Account,

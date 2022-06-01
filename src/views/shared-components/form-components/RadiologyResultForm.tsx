@@ -10,7 +10,7 @@ import InputAdornment from '@mui/material/InputAdornment'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import FileUploaderSingle from './FileUploaderSingle'
 
-import axios from 'axios'
+import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
 const RadiologyResultForm = (props: any) => {
@@ -26,7 +26,7 @@ const RadiologyResultForm = (props: any) => {
       investigationRequestId: props.invReqId
     }
     console.log(data)
-    axios.post(`https://capstone-backend-0957-11-v2.herokuapp.com/radiology`, data).then(response => {
+    requests.post(`/radiology`, data).then(response => {
       console.log(response)
     })
   }
