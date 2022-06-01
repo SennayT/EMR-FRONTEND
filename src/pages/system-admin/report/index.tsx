@@ -17,7 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 
 import Box from '@mui/material/Box'
 import { DatePicker } from '@mui/x-date-pickers'
-import PDFViewer from 'pdf-viewer-reactjs'
+// import PDFViewer from 'pdf-viewer-reactjs'
 import requests from 'src/utils/repository'
 
 
@@ -52,9 +52,9 @@ const ReportGenerationUI = () => {
     endDate: "2022-06-01T09:02:11.022Z"
   }
   requests.post(`/generate-report` , body).then(response => {
-    return <PDFViewer
-    document={response.data}
-/>
+//     return <PDFViewer
+//     document={response.data}
+// />
   })
 
   const names = [

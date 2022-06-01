@@ -73,7 +73,6 @@ const App = (props: ExtendedAppProps) => {
         <meta name='viewport' content='initial-scale=1, width=device-width' />
       </Head>
       <SessionProvider session={session}>
-
         <SettingsProvider>
           <SettingsConsumer>
             {({ settings }) => {
