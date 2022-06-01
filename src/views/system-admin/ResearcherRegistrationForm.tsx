@@ -204,7 +204,7 @@ export default function ResearcherRegistrationForm() {
                   onChange={handlePhoneChange}
                   error={Boolean(phoneErrors?.phone)}
                   helperText={phoneErrors?.phone}
-                  placeholder='+251 987654321'
+                  placeholder='987654321'
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>

@@ -37,7 +37,7 @@ export default function EmRegistrationForm() {
   const [phone, setPhone] = useState('')
   const [role, setRole] = useState<string[]>(['Receptionist'])
   const [gender, setGender] = React.useState('female')
-  const [age, setAge] = useState(23)
+  const [age, setAge] = useState(24)
   const [isAdmin, setIsAdmin] = useState(false)
   const [emName, setEmName] = useState('')
   const [emPhone, setEmPhone] = useState('')

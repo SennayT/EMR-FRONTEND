@@ -15,7 +15,7 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 import { useState } from 'react'
 
 const AddressInformationForm = (props: any) => {
-  const submitForm = (event: any) => {
+  const submitForm = () => {
     props.setAddress({
       city: city,
       subCity: subCity,
