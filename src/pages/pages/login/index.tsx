@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
-import Typography from '@mui/material/Typography'
+import Typography, { TypographyProps } from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
@@ -26,7 +26,7 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 
 // ** Configs
-// import themeConfig from 'src/configs/themeConfig'
+import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
@@ -35,8 +35,13 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { signIn } from 'next-auth/react'
 
-
-
+const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
+  fontWeight: 600,
+  lineHeight: 'normal',
+  textTransform: 'uppercase',
+  color: theme.palette.text.primary,
+  transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
+}))
 interface State {
   password: string
   showPassword: boolean
@@ -67,7 +72,7 @@ const LoginPage = () => {
     showPassword: false
   })
 
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState('')
 
   // ** Hook
   // const theme = useTheme()
@@ -87,32 +92,44 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-
   const loginHandler = () => {
     const credentials = {
       email: email,
       password: values.password
     }
 
-    console.log(credentials);
-    console.log("here")
+    console.log(credentials)
+    console.log('here')
     signIn('credentials', { email: email, password: values.password, callbackUrl: `http://localhost:3000/` })
   }
 
   return (
-    <Box >
+    <Box>
       <Card sx={{ zIndex: 1, mx: '35%' }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
-          <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/logo.png' alt='heart rate' height={80} />
+        <CardContent
+          sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', mt: 8 }}
+        >
+          <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src='/images/logo.png' alt='heart rate' height={100} />
+            <HeaderTitle variant='h4' sx={{ ml: 3, fontFamily: '"Segoe UI Symbol"' }}>
+              {themeConfig.templateName}
+            </HeaderTitle>
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='body2'>Please sign-in to your account</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' value={email} onChange={(e) => {
-              setEmail(e.target.value)
-            }} sx={{ marginBottom: 4 }} />
+            <TextField
+              autoFocus
+              fullWidth
+              id='email'
+              label='Email'
+              value={email}
+              onChange={e => {
+                setEmail(e.target.value)
+              }}
+              sx={{ marginBottom: 4 }}
+            />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
@@ -136,20 +153,21 @@ const LoginPage = () => {
               />
             </FormControl>
             <Box
-              sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+              sx={{
+                mb: 8,
+                mt: 4,
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between'
+              }}
             >
               <FormControlLabel control={<Checkbox />} label='Remember Me' />
               <Link passHref href='/'>
                 <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
               </Link>
             </Box>
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={loginHandler}
-            >
+            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={loginHandler}>
               Login
             </Button>
           </form>
