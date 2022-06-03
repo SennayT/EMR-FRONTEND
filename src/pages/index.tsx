@@ -29,23 +29,22 @@ import NurseDashboard from './nurse'
 import HospitalAdminDashboard from 'src/views/dashboard/hospital-admin-dashboard/HospitalAdminDashboard'
 import RadiologistDashboard from './radiologist'
 
-import {useSession} from "next-auth/react";
-
+import { useSession } from 'next-auth/react'
 
 // import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 
 const Dashboard = () => {
-  const {data:session} = useSession()
-console.log(session)
+  const { data: session } = useSession()
+  console.log(session)
 
-    console.log("session", session)
-    const role = session ? session.role : "NoNE";
+  console.log('session', session)
+  const role = session ? session.role : 'NoNE'
   switch (role) {
     case 'Doctor':
       return <DoctorDashboard />
     case 'System Admin':
       return <SystemAdminDashboard />
-    case 'HospitalAdmin':
+    case 'Hospital Admin':
       return <HospitalAdminDashboard />
     case 'LabExpert':
       return <LabExpertDashboard />
@@ -55,8 +54,6 @@ console.log(session)
       return <DoctorDashboard />
     case 'Radiologist':
       return <RadiologistDashboard />
-    case 'Hospital Admin':
-      return <HospitalAdminDashboard />
     default:
       return <p>add 404 here</p>
   }

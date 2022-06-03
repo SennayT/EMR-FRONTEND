@@ -9,23 +9,7 @@ type Medication = {
   instructions: string
 }
 
-const sampleMedications: Medication[] = [
-  {
-    name: 'Panadol',
-    dosage: '25mg',
-    instructions: 'Take one pill after every meal'
-  },
-  {
-    name: 'Oxycodone',
-    dosage: '15mg',
-    instructions: 'Take 1 pill every 8 hours'
-  },
-  {
-    name: 'Benzodiazepine',
-    dosage: '25mg',
-    instructions: 'Take when pain is present'
-  }
-]
+const sampleMedications: Medication[] = []
 
 export default function PrescriptionForm() {
   const [medications, setMedications] = useState<Medication[]>([...sampleMedications])
@@ -34,15 +18,15 @@ export default function PrescriptionForm() {
   const submitDisabled = medications.length === 0
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
-   try{
-     const res = await requests.post("/prescription",{
-       diagnosisId:1,
-       medications
-     })
-     console.log(res.data)
-   } catch (err) {
-     console.log(err)
-   }
+    try {
+      const res = await requests.post('/prescription', {
+        diagnosisId: 1,
+        medications
+      })
+      console.log(res.data)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const addItemHandler = (e: FormEvent) => {
