@@ -15,17 +15,18 @@ import { User } from '../../data/models/UserModel'
 import { Session } from 'next-auth'
 
 const navigation = (session: Session): VerticalNavItemsType => {
-  const pagesSection: VerticalNavItemsType = [
-    {
-      sectionTitle: 'pages'
-    }
-  ]
+  const pagesSection: VerticalNavItemsType = []
   if (session.role === 'Receptionist') {
-    pagesSection.push({
-      title: 'Patient Details',
-      icon: AccountDetails,
-      path: '/patient-details'
-    })
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Patient Details',
+        icon: AccountDetails,
+        path: '/patient-details'
+      }
+    )
     pagesSection.push({
       title: 'Register Patient',
       icon: AccountEditOutline,
@@ -34,11 +35,16 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'System Admin') {
-    pagesSection.push({
-      title: 'Health Centers',
-      icon: HospitalIcon,
-      path: '/system-admin/hospitals'
-    })
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Health Centers',
+        icon: HospitalIcon,
+        path: '/system-admin/hospitals'
+      }
+    )
     pagesSection.push({
       title: 'Researchers',
       icon: ResearcherIcon,
@@ -57,27 +63,42 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Hospital Admin') {
-    pagesSection.push({
-      title: 'Employees',
-      icon: AccountOutline,
-      path: '/hospital-admin/employees'
-    })
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Employees',
+        icon: AccountOutline,
+        path: '/hospital-admin/employees'
+      }
+    )
   }
 
   if (session.role === 'Doctor') {
-    pagesSection.push({
-      title: 'Create Prescription',
-      icon: Account,
-      path: '/doctor/create-prescription'
-    })
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Create Prescription',
+        icon: Account,
+        path: '/doctor/create-prescription'
+      }
+    )
   }
 
   if (session.role === 'Nurse') {
-    pagesSection.push({
-      title: 'Vitals',
-      icon: Account,
-      path: '/nurse/vitals'
-    })
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Vitals',
+        icon: Account,
+        path: '/nurse/vitals'
+      }
+    )
   }
 
   return [

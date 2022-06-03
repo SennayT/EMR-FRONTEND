@@ -1,25 +1,40 @@
 // ** React Imports
-import { useState, ElementType, ChangeEvent, SyntheticEvent } from 'react'
+import { useState, ElementType, ChangeEvent } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Link from '@mui/material/Link'
-import Alert from '@mui/material/Alert'
-import Select from '@mui/material/Select'
+import InputAdornment from '@mui/material/InputAdornment'
+import Phone from 'mdi-material-ui/Phone'
+
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+
+// import Link from '@mui/material/Link'
+// import Alert from '@mui/material/Alert'
+// import Select from '@mui/material/Select'
 import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
+
+// import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import AlertTitle from '@mui/material/AlertTitle'
-import IconButton from '@mui/material/IconButton'
+
+// import InputLabel from '@mui/material/InputLabel'
+// import AlertTitle from '@mui/material/AlertTitle'
+// import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
+
 import FormControl from '@mui/material/FormControl'
+import Radio from '@mui/material/Radio'
+import FormLabel from '@mui/material/FormLabel'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+
 import Button, { ButtonProps } from '@mui/material/Button'
 
 // ** Icons Imports
-import Close from 'mdi-material-ui/Close'
+// import Close from 'mdi-material-ui/Close'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -47,7 +62,7 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 
 const TabAccount = () => {
   // ** State
-  const [openAlert, setOpenAlert] = useState<boolean>(true)
+  // const [openAlert, setOpenAlert] = useState<boolean>(true)
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
 
   const onChange = (file: ChangeEvent) => {
@@ -58,6 +73,12 @@ const TabAccount = () => {
 
       reader.readAsDataURL(files[0])
     }
+  }
+
+  const [value, setValue] = useState<Date | null>(new Date('2014-08-18T21:11:54'))
+
+  const handleDateChange = (newValue: Date | null) => {
+    setValue(newValue)
   }
 
   return (
@@ -89,9 +110,6 @@ const TabAccount = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Username' placeholder='johnDoe' defaultValue='johnDoe' />
-          </Grid>
-          <Grid item xs={12} sm={6}>
             <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -104,32 +122,43 @@ const TabAccount = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Role</InputLabel>
-              <Select label='Role' defaultValue='admin'>
-                <MenuItem value='admin'>Admin</MenuItem>
-                <MenuItem value='author'>Author</MenuItem>
-                <MenuItem value='editor'>Editor</MenuItem>
-                <MenuItem value='maintainer'>Maintainer</MenuItem>
-                <MenuItem value='subscriber'>Subscriber</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              fullWidth
+              label='Phone Number'
+              placeholder='987654321'
+              defaultValue='987654321'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Phone />
+                    +251
+                  </InputAdornment>
+                )
+              }}
+            />{' '}
+          </Grid>
+          <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <MobileDatePicker
+                label='Date of Birth'
+                openTo='year'
+                inputFormat='MM/dd/yyyy'
+                value={value}
+                onChange={handleDateChange}
+                renderInput={params => <TextField fullWidth {...params} />}
+              />
+            </LocalizationProvider>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Status</InputLabel>
-              <Select label='Status' defaultValue='active'>
-                <MenuItem value='active'>Active</MenuItem>
-                <MenuItem value='inactive'>Inactive</MenuItem>
-                <MenuItem value='pending'>Pending</MenuItem>
-              </Select>
+            <FormControl>
+              <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
+              <RadioGroup row defaultValue='male' aria-label='gender' name='account-settings-info-radio'>
+                <FormControlLabel value='male' label='Male' control={<Radio />} />
+                <FormControlLabel value='female' label='Female' control={<Radio />} />
+              </RadioGroup>
             </FormControl>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Company' placeholder='ABC Pvt. Ltd.' defaultValue='ABC Pvt. Ltd.' />
-          </Grid>
-
-          {openAlert ? (
+          {/* {openAlert ? (
             <Grid item xs={12} sx={{ mb: 3 }}>
               <Alert
                 severity='warning'
@@ -146,7 +175,7 @@ const TabAccount = () => {
                 </Link>
               </Alert>
             </Grid>
-          ) : null}
+          ) : null} */}
 
           <Grid item xs={12}>
             <Button variant='contained' sx={{ marginRight: 3.5 }}>

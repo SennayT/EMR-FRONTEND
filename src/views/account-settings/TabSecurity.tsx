@@ -105,7 +105,7 @@ const TabSecurity = () => {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={12} sx={{ marginTop: 6 }}>
+              <Grid item xs={12} sx={{}}>
                 <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-new-password'>New Password</InputLabel>
                   <OutlinedInput
@@ -157,21 +157,21 @@ const TabSecurity = () => {
             </Grid>
           </Grid>
 
-          <Grid
+          {/* <Grid
             item
             sm={6}
             xs={12}
             sx={{ display: 'flex', marginTop: [7.5, 2.5], alignItems: 'center', justifyContent: 'center' }}
           >
             <img width={183} alt='avatar' height={256} src='/images/pages/pose-m-1.png' />
-          </Grid>
+          </Grid> */}
         </Grid>
       </CardContent>
 
-      <Divider sx={{ margin: 0 }} />
+      {/* <Divider sx={{ margin: 0 }} /> */}
 
       <CardContent>
-        <Box sx={{ mt: 1.75, display: 'flex', alignItems: 'center' }}>
+        {/* <Box sx={{ mt: 1.75, display: 'flex', alignItems: 'center' }}>
           <KeyOutline sx={{ marginRight: 3 }} />
           <Typography variant='h6'>Two-factor authentication</Typography>
         </Box>
@@ -200,7 +200,7 @@ const TabSecurity = () => {
               a password to log in. Learn more.
             </Typography>
           </Box>
-        </Box>
+        </Box> */}
 
         <Box sx={{ mt: 11 }}>
           <Button variant='contained' sx={{ marginRight: 3.5 }}>
