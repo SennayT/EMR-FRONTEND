@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent } from '@mui/material'
+import { Card, Typography, CardContent, Snackbar, Alert } from '@mui/material'
 import { TextField, CardActions, Button } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -18,26 +18,29 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 
 import requests from 'src/utils/repository'
 
-export default function HospitalRegistrationForm() {
-  const [name, setName] = useState('')
-  const [type, setType] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [city, setCity] = useState('')
-  const [subCity, setSubCity] = useState('')
-  const [woreda, setWoreda] = useState('')
-  const [kebelle, setKebelle] = useState('')
-  const [zone, setZone] = useState('')
-  const [street, setStreet] = useState('')
-  const [houseNo, setHouseNo] = useState('')
+export default function HospitalRegistrationForm(props: any) {
+  const [name, setName] = useState(props.healthCenter.name ? props.healthCenter.name  : '' )
+  const [type, setType] = useState(props.healthCenter.type ? props.healthCenter.type  : '')
+  const [email, setEmail] = useState(props.healthCenter.phone ? props.healthCenter.phone  : '')
+  const [phone, setPhone] = useState(props.healthCenter.name ? props.healthCenter.name  :  '')
+  const [city, setCity] = useState(props.healthCenter.address ? props.healthCenter.address.city  : '')
+  const [subCity, setSubCity] = useState(props.healthCenter.address ? props.healthCenter.address.subCity  : '')
+  const [woreda, setWoreda] = useState(props.healthCenter.address ? props.healthCenter.address.woreda  : '')
+  const [kebelle, setKebelle] = useState(props.healthCenter.address ? props.healthCenter.address.kebelle  : '')
+  const [zone, setZone] = useState(props.healthCenter.address ? props.healthCenter.address.zone  : '')
+  const [street, setStreet] = useState(props.healthCenter.address ? props.healthCenter.address.street  : '')
+  const [houseNo, setHouseNo] = useState(props.healthCenter.address ? props.healthCenter.address.houseNo  : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [typeErrors, setTypeErrors] = useState<{ type: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
 
+  const [open, setOpen] = useState(false)
+
+
   const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
-  console.log(disableButton)
+  // console.log(disableButton)
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -109,7 +112,7 @@ export default function HospitalRegistrationForm() {
 
   const registerHealthCenter = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
-    console.log({ name: name, type: type, phone: phone, email: email, city: city, subCity: subCity })
+    // console.log({ name: name, type: type, phone: phone, email: email, city: city, subCity: subCity })
     const body = {
       name: name,
       type: type,
@@ -127,7 +130,12 @@ export default function HospitalRegistrationForm() {
     }
 
     requests.post(`/health-center`, body).then(response => {
-      console.log(response.data)
+      console.log("sds")
+      if (response.status != 33) {
+        console.log("sdfj")
+      } else {
+        setOpen(true)
+      }
     })
   }
 
@@ -136,6 +144,11 @@ export default function HospitalRegistrationForm() {
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>
+          {/* <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+              <Alert severity="error" sx={{ width: '100%' }}>
+                This is an error message!
+              </Alert>
+            </Snackbar> */}
             <Grid sx={{ px: 4 }} container spacing={5}>
               <Grid item xs={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>

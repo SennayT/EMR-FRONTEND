@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, SyntheticEvent } from 'react'
+import { useState, SyntheticEvent, useImperativeHandle, Ref } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -9,6 +9,7 @@ import Typography, { TypographyProps } from '@mui/material/Typography'
 
 // ** Third Party Imports
 import { useDropzone } from 'react-dropzone'
+import React from 'react'
 
 interface FileProp {
   name: string
@@ -37,9 +38,14 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   }
 }))
 
-const FileUploaderSingle = () => {
+const FileUploaderSingle = (props:any, ref: Ref<unknown> | undefined) => {
+
+  // console.log(props)
+
   // ** State
   const [files, setFiles] = useState<File[]>([])
+  useImperativeHandle(ref, () => ({getFiles: () => {return files}}), [files]);
+
 
   // ** Hook
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
@@ -78,4 +84,4 @@ const FileUploaderSingle = () => {
   )
 }
 
-export default FileUploaderSingle
+export default React.forwardRef(FileUploaderSingle)

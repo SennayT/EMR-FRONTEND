@@ -32,9 +32,9 @@ const PatientDiagnosis = (props: {
 
   useEffect(() => {
     requests.get(`/vitals`).then(response => {
-      setVitals(response.data[4])
+      setVitals(response[0])
     })
-  });
+  }, []);
   const [lastDiagnosis, setLastDiagnosis] = useState({
     id: 1,
     comment: '',
@@ -72,12 +72,12 @@ const PatientDiagnosis = (props: {
               </Box>
             </Grid>
             <Grid item>
-              {vitals.map(function (vital) {
+               {vitals ?  vitals.map(function (vital) {
                 return <div>
                   <p>vital number {vital['id']}</p>
                   <PatientVitals vital={vital} />
                 </div>
-              })}
+              }) :  " " }
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
                 Recent Diagnosis Note
               </Typography>

@@ -57,7 +57,7 @@ const PatientDetail = () => {
     requests.get(`/prescription/export/pdf/2`).then(response => {
       console.log("res", response.data)
     })
-  });
+  },[]);
 
 
   return (

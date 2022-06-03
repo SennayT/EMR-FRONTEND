@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
+import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid'
 import { Button, Grid, Typography, IconButton } from '@mui/material'
 import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
 
@@ -22,6 +22,7 @@ const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [healthCenters, setHealthCenters] = useState([])
   const [loading, setLoading] = useState(true)
+  const [currHealthCenter, setCurrHealthCenter] = useState<GridSelectionModel>()
 
   const handleClickOpen = () => setOpen(true)
   const handleClickClose = () => setOpen(false)
@@ -67,8 +68,8 @@ const HealthCenters = () => {
       renderCell: () => {
         return (
           <div>
-            <IconButton>
-              <EditIcon />
+            <IconButton onClick={(e) => setOpen(true) }>
+              <EditIcon  />
             </IconButton>
             <IconButton>
               <DeleteIcon />
@@ -102,8 +103,13 @@ const HealthCenters = () => {
           columns={columns}
           pageSize={5}
           sx={{ px: 2 }}
+          onSelectionModelChange={(newSelectionModel) => {
+            console.log("new", newSelectionModel  , healthCenters)
+            setCurrHealthCenter(newSelectionModel);
+          }}
+          selectionModel={currHealthCenter}
           rowsPerPageOptions={[5]}
-          disableSelectionOnClick
+
           loading={loading}
         />
       </div>
@@ -111,7 +117,7 @@ const HealthCenters = () => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
           <DialogContent>
-            <AddHealthCenter />
+            <AddHealthCenter healthCenter={healthCenters[0]}/>
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

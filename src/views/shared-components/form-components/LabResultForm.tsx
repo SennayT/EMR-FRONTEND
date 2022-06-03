@@ -1,5 +1,8 @@
 // ** React Imports
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+
+import FormData from 'form-data'
+
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -18,13 +21,23 @@ import user from 'src/data/userData'
 
 const LabResultForm = (props: any) => {
   const [open, setOpen] = useState(false)
+
+  // const [file, setFile] = useState()
+  const imageRef = useRef();
+
+
+
   const registerResult = () => {
+    const image = imageRef.current.getFiles();
+
+
     const data = {
       name: currentLabTest.name,
       type: currentLabTest.testCategory,
       result: 'some result',
       isAbnormal: true,
       comment: comment,
+      image: image,
       filledById: user.id,
       investigationRequestId: props.invReqId
     }
@@ -63,6 +76,7 @@ const LabResultForm = (props: any) => {
 
   const [comment, setComment] = useState('')
 
+
   return (
     <Grid container>
       <Card sx={{ my: 4, backgroundColor: 'white' }}>
@@ -81,22 +95,23 @@ const LabResultForm = (props: any) => {
                     labelId='labTest-select-label'
                     label='Investigative Request'
                     value={currentLabTest}
+                    defaultValue={{
+                      id: 0,
+                      name: '',
+                      normalRange: '',
+                      measuredIn: '',
+                      testCategory: ''
+                    }}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const val = JSON.parse(e.target.value.toString());
+                      const val = e.target.value;
                       setCurrentLabTest(val)
                     }}
                     fullWidth
                     size='small'
                   >
                     {props.labTests.map((item: any) => (
-                      <MenuItem key={item.id} value={JSON.stringify({
-                        id: 0,
-                        name: '',
-                        normalRange: '',
-                        measuredIn: '',
-                        testCategory: ''
-                      })}>
+                      <MenuItem key={item.id} value={item}>
                         {item.name}
                       </MenuItem>
                     ))}
@@ -121,7 +136,7 @@ const LabResultForm = (props: any) => {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <FileUploaderSingle />
+                <FileUploaderSingle ref={imageRef} />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField

@@ -64,7 +64,7 @@ const DiagnosisHistory = () => {
 
       console.log(diagnosis)
     })
-  })
+  },[])
 
 
   return (
