@@ -51,7 +51,7 @@ const Employees = () => {
       headerName: 'Role',
       width: 150,
       renderCell: (params: GridRenderCellParams) => {
-        return <p>{params.value ? params.value.name.toString() : " "}</p>
+        return <p>{params.value ? params.value.name.toString() : ' '}</p>
       },
       editable: false
     },
@@ -74,16 +74,17 @@ const Employees = () => {
       headerName: 'Actions',
       width: 150,
       editable: false,
-      renderCell: (params) => {
+      renderCell: params => {
         return (
           <div>
-            <Link href={{
-              pathname: '/hospital-admin/employees/add',
-              query: {
+            <Link
+              href={{
+                pathname: '/hospital-admin/employees/add',
+                query: {
                   user: params.value
-              }
-          }
-          }>
+                }
+              }}
+            >
               <EditIcon />
             </Link>
             <IconButton>
@@ -98,21 +99,24 @@ const Employees = () => {
   return (
     <div>
       <Grid container>
-        <Grid item xs={10} md={10} lg={10}>
+        <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Employees
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Link href={{
+        <Grid item xs={2} md={2} lg={3}>
+          <Link
+            href={{
               pathname: '/hospital-admin/employees/add',
               query: {
-                  user: ""
+                user: ''
               }
-          }
-          }>
-            <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 128 }}>
-              Add Employee
+            }}
+          >
+            <Button startIcon={<AddIcon />} variant='outlined' color='primary' size='small'>
+              <Typography color='primary' sx={{ fontSize: 14, display: { xs: 'none', md: 'none', lg: 'block' } }}>
+                Employee
+              </Typography>
             </Button>
           </Link>
         </Grid>
