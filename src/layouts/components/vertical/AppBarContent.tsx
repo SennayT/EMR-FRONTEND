@@ -18,7 +18,8 @@ import { Settings } from 'src/@core/context/settingsContext'
 
 // ** Components
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
-import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
+
+// import NotificationDropdown from 'src/@core/layouts/components/shared-components/NotificationDropdown'
 
 interface Props {
   hidden: boolean
@@ -59,7 +60,7 @@ const AppBarContent = (props: Props) => {
         /> */}
       </Box>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
-        <NotificationDropdown />
+        {/* <NotificationDropdown /> */}
         <UserDropdown />
       </Box>
     </Box>
