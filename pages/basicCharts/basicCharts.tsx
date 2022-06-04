@@ -1,13 +1,83 @@
 import { green } from '@material-ui/core/colors';
-import React from 'react'
+import React, {
+    useState, useEffect
+} from 'react';
+import axios from 'axios';
 import dynamic from 'next/dynamic';  
 import Link from 'next/link';
 import { Button } from '@material-ui/core';
+import {  CountsRecord,  PatientRecord,  UserRecord } from '../dataTypes/dataTypes';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 function basicCharts() {
+    var counts: CountsRecord = {
+        patient: 0,
+        prescription: 0,
+        user: 0,
+        diagnosis: 0,
+        disease: 0,
+        investigation: 0,
+        examination: 0,
+        vital: 0,
+        helth_center: 0
+    };
+    var userRecord: UserRecord = {
+        receptionist: 0,
+        radiologist: 0,
+        doctor: 0,
+        nurse: 0,
+        system_admin: 0,
+        hospital_admin: 0,
+        lab_technican: 0,
+        male: 0,
+        female: 0,
+        researcher: 0
+    }
+    var patientRecord: PatientRecord= {
+        infants: 0,
+        toddler: 0,
+        child: 0,
+        teen: 0,
+        adult: 0,
+        middle_age_adult: 0,
+        senior_adult: 0,
+        male: 0,
+        female: 0
+    };
+
+    
+    
+
+    useEffect(() => {
+         axios.get(`http://localhost:4000/researcher/recordCounts`).then(response => {
+        counts = response.data;
+    })
+    },[counts])
+    
+    useEffect(() => {
+        axios.get(`http://localhost:4000/researcher/userRecord`).then(response => {
+        userRecord = response.data;
+   
+    })
+    },[userRecord])
+
+  useEffect( () => {
+    //     fetch('http://localhost:4000/researcher/patientRecord')
+    //         .then(response => response.json())
+    //       .then(json => {patientRecord.adult = json.adult});
+      
+    //   console.log(patientRecord);
+        axios.get(`http://localhost:4000/researcher/patientRecord`).then(response => {
+            patientRecord = response.data;
+            console.log(patientRecord.adult);
+        })
+        console.log(patientRecord);
+    }, [patientRecord])
+
+
+
   
     const gSeries = [{
-        data: [210, 220]
+        data: [patientRecord.male, patientRecord.female]
     }];
     const gOptions = {
         chart: {
@@ -43,7 +113,10 @@ function basicCharts() {
     }
 
     const aSeries = [{
-        data: [10, 20, 40, 8, 70, 30,16]
+        data: [
+            patientRecord.infants, patientRecord.toddler, patientRecord.child
+            , patientRecord.teen, patientRecord.adult, patientRecord.middle_age_adult,
+            patientRecord.senior_adult]
     }];
     const aOptions = {
         chart: {
@@ -81,7 +154,8 @@ function basicCharts() {
     }
 
  const rSeries = [{
-        data: [20, 100, 40, 180, 30, 30,6]
+        data: [userRecord.hospital_admin, userRecord.doctor, userRecord.receptionist, userRecord.nurse,
+                userRecord.lab_technican, userRecord.radiologist, userRecord.system_admin, userRecord.researcher]
     }];
     const rOptions = {
         chart: {
@@ -110,7 +184,7 @@ function basicCharts() {
         xaxis: {
             categories: [
                 ["Health-Center Admin"], ["Doctor"], ["Receptionsit"],['Nurse'],
-                ["Lab Technican"], ["Radiologist"], ["Admin"]
+                ["Lab Technican"], ["Radiologist"], ["System Admin"],["Researcher"]
                 
             ]
         }
@@ -155,39 +229,42 @@ function basicCharts() {
         
     }
     
-
-  return (
-      <div>
-          <div>
-              <Link href='/searching/disease'>
-                  <Button color='primary' variant='contained' style={{margin:'10px'}}>
-                      Search Disease Stat
-                  </Button>
-              </Link>
-              <Link href='/searching/medication'>
-                  <Button color='primary' variant='contained' style={{margin:'10px'}}>
-                    Search Medication Stat
-                  </Button>
-             </Link>
-              <Link href='../'>
-                  <Button color='primary' variant='contained' style={{margin:'10px'}}>
-                    Searched Disease
-                  </Button>
-              </Link>
-              <Link href='../'>
-                  <Button color='primary' variant='contained' style={{margin:'10px'}}>
-                      Searched Medication
-                  </Button>
-              </Link>
+    if (!counts) return <div>Loading...</div>
+    else {
+        
+   return (
+            <div>
+                <div>
+                    <Link href='/searching/disease'>
+                        <Button color='primary' variant='contained' style={{ margin: '10px' }}>
+                            Search Disease Stat
+                        </Button>
+                    </Link>
+                    <Link href='/searching/medication'>
+                        <Button color='primary' variant='contained' style={{margin:'10px'}}>
+                          Search Medication Stat
+                        </Button>
+                   </Link>
+                    <Link href='../'>
+                        <Button color='primary' variant='contained' style={{margin:'10px'}}>
+                          Searched Disease
+                        </Button>
+                    </Link>
+                    <Link href='../'>
+                        <Button color='primary' variant='contained' style={{margin:'10px'}}>
+                            Searched Medication
+                        </Button>
+                    </Link>
+                </div>
+                <div className='d-flex'>
+                    <Chart style={{float:'left', margin:'40px'}} options={yOptions} series={ySeries} type='line' height={450} width={600} />
+                    <Chart style={{float:'left', margin:'40px'}} options={aOptions} series={aSeries} type='bar' height={450} width={600} />
+                    <Chart style={{float:'left', margin:'40px'}} options={gOptions} series={gSeries} type='bar' height={250} width={400} />
+                    <Chart style={{float:'left', margin:'40px'}} options={rOptions} series={rSeries} type='bar' height={450} width={600}/>
+                </div>
           </div>
-          <div className='d-flex'>
-              <Chart style={{float:'left', margin:'40px'}} options={yOptions} series={ySeries} type='line' height={450} width={600} />
-              <Chart style={{float:'left', margin:'40px'}} options={aOptions} series={aSeries} type='bar' height={450} width={600} />
-              <Chart style={{float:'left', margin:'40px'}} options={gOptions} series={gSeries} type='bar' height={250} width={400} />
-              <Chart style={{float:'left', margin:'40px'}} options={rOptions} series={rSeries} type='bar' height={450} width={600}/>
-          </div>
-    </div>
-  )
+        )
+    }
 }
 
 export default basicCharts
