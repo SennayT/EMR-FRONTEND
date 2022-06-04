@@ -94,15 +94,15 @@ const fromTotalSeries = [20, 70];
        <h3>Record By Gender</h3>
           <Chart options={gOptions} series={gSeries} type='pie' width="500px" />
         </div>
-        {/* <div  className={styles.left}>
+        <div  className={styles.left}>
        <h3>Record By Age</h3>
           <Chart options={aGOptions} series={aGSeries} type='pie' width="600px" />
-        </div> */}
-        {/* <div >
+        </div> 
+         <div >
           <h3>Record By Date</h3>
           <Chart options={dGOptions} series={dGSeries} type='pie' width="600px" />
         
-        </div> */}
+        </div>
       <footer className={styles.footer}>
         </footer>
     </div>
