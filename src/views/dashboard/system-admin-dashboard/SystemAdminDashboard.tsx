@@ -46,7 +46,7 @@ export default function SystemAdminDashboard() {
     requests.get(`moh-employee`).then((response) => {
       setMohEmployeeNum(response.data.length)
     })
-  })
+  },[])
 
   return (
     <ApexChartWrapper>

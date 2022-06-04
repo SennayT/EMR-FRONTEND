@@ -17,7 +17,10 @@ import AddIcon from '@mui/icons-material/Add'
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [mohEmployees, setMohEmployees] = useState([])
-  const handleClickOpen = () => setOpen(true)
+  const [currEmployee, setCurrEmployee] = useState(-1)
+  const [edit, setEdit] = useState(false)
+
+  const handleClickOpen = () => {setEdit(false); setOpen(true)}
   const handleClickClose = () => setOpen(false)
   const [loading, setLoading] = useState(true)
 
@@ -76,7 +79,7 @@ const MoHEmployees = () => {
       renderCell: () => {
         return (
           <div>
-            <IconButton>
+            <IconButton onClick={(e) =>{ setEdit(true); setOpen(true)} }>
               <EditIcon />
             </IconButton>
             <IconButton>
@@ -111,8 +114,12 @@ const MoHEmployees = () => {
           rows={mohEmployees}
           columns={columns}
           pageSize={5}
+          onSelectionModelChange={(newSelectionModel) => {
+            console.log("new", newSelectionModel  , mohEmployees.find(i => i.id === newSelectionModel[0]))
+            setCurrEmployee(newSelectionModel[0]);
+          }}
+          selectionModel={currEmployee}
           rowsPerPageOptions={[5]}
-          disableSelectionOnClick
           loading={loading}
         />
       </div>
@@ -120,7 +127,7 @@ const MoHEmployees = () => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>MoH Employee Registration Form </DialogTitle>
           <DialogContent>
-            <AddMoHEmployee />
+            <AddMoHEmployee edit={edit} employee={currEmployee} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

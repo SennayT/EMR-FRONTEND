@@ -4,10 +4,10 @@ import Box from '@mui/material/Box'
 // ** Third Party Imports
 import MoHEmployeeRegistrationForm from 'src/views/system-admin/MoHEmployeeRegistrationForm'
 
-const DialogBox = () => {
+const DialogBox = (props:any) => {
   return (
     <Box>
-      <MoHEmployeeRegistrationForm />
+      <MoHEmployeeRegistrationForm edit={props.edit} employee={props.employee} />
     </Box>
   )
 }

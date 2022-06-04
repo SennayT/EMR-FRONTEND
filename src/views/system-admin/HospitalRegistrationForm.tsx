@@ -19,17 +19,17 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 import requests from 'src/utils/repository'
 
 export default function HospitalRegistrationForm(props: any) {
-  const [name, setName] = useState(props.healthCenter.name ? props.healthCenter.name  : '' )
-  const [type, setType] = useState(props.healthCenter.type ? props.healthCenter.type  : '')
-  const [email, setEmail] = useState(props.healthCenter.phone ? props.healthCenter.phone  : '')
-  const [phone, setPhone] = useState(props.healthCenter.name ? props.healthCenter.name  :  '')
-  const [city, setCity] = useState(props.healthCenter.address ? props.healthCenter.address.city  : '')
-  const [subCity, setSubCity] = useState(props.healthCenter.address ? props.healthCenter.address.subCity  : '')
-  const [woreda, setWoreda] = useState(props.healthCenter.address ? props.healthCenter.address.woreda  : '')
-  const [kebelle, setKebelle] = useState(props.healthCenter.address ? props.healthCenter.address.kebelle  : '')
-  const [zone, setZone] = useState(props.healthCenter.address ? props.healthCenter.address.zone  : '')
-  const [street, setStreet] = useState(props.healthCenter.address ? props.healthCenter.address.street  : '')
-  const [houseNo, setHouseNo] = useState(props.healthCenter.address ? props.healthCenter.address.houseNo  : '')
+  const [name, setName] = useState(props.editt ? props.healthCenter.name  : '' )
+  const [type, setType] = useState(props.edit ? props.healthCenter.type  : '')
+  const [email, setEmail] = useState(props.edit ? props.healthCenter.phone  : '')
+  const [phone, setPhone] = useState(props.edit ? props.healthCenter.name  :  '')
+  const [city, setCity] = useState(props.edit ? props.healthCenter.address.city  : '')
+  const [subCity, setSubCity] = useState(props.edit ? props.healthCenter.address.subCity  : '')
+  const [woreda, setWoreda] = useState(props.edit ? props.healthCenter.address.woreda  : '')
+  const [kebelle, setKebelle] = useState(props.edit ? props.healthCenter.address.kebelle  : '')
+  const [zone, setZone] = useState(props.edit ? props.healthCenter.address.zone  : '')
+  const [street, setStreet] = useState(props.edit ? props.healthCenter.address.street  : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.healthCenter.address.houseNo  : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -128,7 +128,7 @@ export default function HospitalRegistrationForm(props: any) {
         houseNo: houseNo
       }
     }
-
+if(!props.edit){
     requests.post(`/health-center`, body).then(response => {
       console.log("sds")
       if (response.status != 33) {
@@ -138,7 +138,18 @@ export default function HospitalRegistrationForm(props: any) {
       }
     })
   }
+else{
 
+  requests.put(`/health-center/${props.healthCenter.id}`, body).then(response => {
+    console.log("sds")
+    if (response.status != 33) {
+      console.log("sdfj")
+    } else {
+      setOpen(true)
+    }
+  })
+}
+  }
   return (
     <Grid container spacing={6} sx={{ backgroundColor: 'white' }}>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
@@ -389,7 +400,7 @@ export default function HospitalRegistrationForm(props: any) {
                 variant='contained'
                 onClick={registerHealthCenter}
               >
-                Register
+                submit
               </Button>
             </CardActions>
           </CardContent>
