@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField'
 import requests from 'src/utils/repository'
 import { LabTest } from 'src/data/models/LabTestModel'
 import { InvestigationRequest } from 'src/data/models/InvestigationRequestModel'
+import { useSession } from 'next-auth/react'
 
 
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
@@ -46,8 +47,10 @@ export default function InvestigativeRequestForm() {
     }
   }
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    requests.get(`/lab-test`).then(response => {
+    requests.get(`/lab-test`, session ? session.accessToken.toString() : "").then(response => {
         setTests(response.data)
          })
   });

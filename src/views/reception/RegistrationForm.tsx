@@ -19,6 +19,9 @@ import requests from 'src/utils/repository'
 import { User } from 'src/data/models/UserModel'
 import { Address } from 'src/data/models/AddressModel'
 
+import { useSession } from 'next-auth/react'
+
+
 export default function PatientRegistrationForm() {
   const [address, setAddress] = useState<Address>({
     city: '',
@@ -64,6 +67,9 @@ export default function PatientRegistrationForm() {
     }
   }
 
+  const { data: session } = useSession();
+
+
   const registerPatient = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
@@ -75,7 +81,7 @@ export default function PatientRegistrationForm() {
     }
     console.log(body)
 
-    requests.post(`/patient`, body).then(response => {
+    requests.post(`/patient`, body,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
     })
   }

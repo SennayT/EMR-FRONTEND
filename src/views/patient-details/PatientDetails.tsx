@@ -13,6 +13,9 @@ import requests from 'src/utils/repository'
 import { Patient } from 'src/data/models/PatientModel'
 import { Address } from 'src/data/models/AddressModel'
 
+import { useSession } from 'next-auth/react'
+
+
 const PatientDetail = () => {
   // ** State
   const [address, setAddress] = useState<Address>({
@@ -48,13 +51,15 @@ const PatientDetail = () => {
     }
   );
 
+  const { data: session } = useSession();
+
   const router = useRouter();
 
   useEffect(() => {
-    requests.get(`/patient/${router.query.pid}`).then(response => {
+    requests.get(`/patient/${router.query.pid}`,  session ? session.accessToken.toString() : "").then(response => {
       setPatient(response.data)
     })
-    requests.get(`/prescription/export/pdf/2`).then(response => {
+    requests.get(`/prescription/export/pdf/2`,  session ? session.accessToken.toString() : "").then(response => {
       console.log("res", response.data)
     })
   },[]);

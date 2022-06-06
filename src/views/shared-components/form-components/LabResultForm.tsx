@@ -19,11 +19,17 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
+import { useSession } from 'next-auth/react'
+
+
 const LabResultForm = (props: any) => {
   const [open, setOpen] = useState(false)
 
   // const [file, setFile] = useState()
   const imageRef = useRef();
+
+  const { data: session } = useSession();
+
 
 
 
@@ -43,7 +49,7 @@ const LabResultForm = (props: any) => {
     }
 
     console.log(data)
-    requests.post(`/lab-result`, data).then(response => {
+    requests.post(`/lab-result`, data, ).then(response => {
       console.log(Number(response.data.statusCode))
       if (response.data.statusCode[0] == 2) {
         console.log("sdfj")

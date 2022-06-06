@@ -13,6 +13,8 @@ import { Card } from '@mui/material'
 
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -29,9 +31,11 @@ const PatientDiagnosis = (props: {
   const [imgSrc] = useState<string>('/images/avatars/1.png')
 
   const [vitals, setVitals] = useState([]);
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/vitals`).then(response => {
+    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then(response => {
       setVitals(response[0])
     })
   }, []);
@@ -50,7 +54,7 @@ const PatientDiagnosis = (props: {
 
 
   useEffect(() => {
-    requests.get(`/diagnosis`).then((response) => {
+    requests.get(`/diagnosis`,  session ? session.accessToken.toString() : "").then((response) => {
       setLastDiagnosis(response.data[0])
 
 

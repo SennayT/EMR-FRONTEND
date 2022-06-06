@@ -9,6 +9,8 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
+
 
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
@@ -22,6 +24,8 @@ const InvestigativeRequestTable = () => {
     setCurrentInvReq(param)
     setOpen(true)
   }
+  const { data: session } = useSession();
+
   const handleClickClose = () => setOpen(false)
 
   const [invReqs, setInvReqs] = useState([
@@ -35,7 +39,7 @@ const InvestigativeRequestTable = () => {
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
   useEffect(() => {
-    requests.get(`/investigation-request`).then(response => {
+    requests.get(`/investigation-request`,  session ? session.accessToken.toString() : "").then(response => {
       setInvReqs(response.data)
     })
   })

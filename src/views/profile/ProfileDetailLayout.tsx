@@ -9,6 +9,8 @@ import EmployeeGeneralInfo from '../shared-components/EmployeeGeneralInfo'
 import ProfileDetail from './ProfileDetail'
 
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
+
 
 const ProfileDetailLayout = () => {
   // ** State
@@ -46,9 +48,11 @@ const ProfileDetailLayout = () => {
     }
   })
 
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/user/4`).then(response => {
+    requests.get(`/user/4`,  session ? session.accessToken.toString() : "").then(response => {
       setUser(response.data)
     })
   });
