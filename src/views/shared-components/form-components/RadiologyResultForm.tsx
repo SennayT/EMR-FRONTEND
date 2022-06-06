@@ -13,7 +13,12 @@ import FileUploaderSingle from './FileUploaderSingle'
 import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
+import { useSession } from 'next-auth/react'
+
+
 const RadiologyResultForm = (props: any) => {
+  const { data: session } = useSession();
+
   const registerResult = () => {
     console.log(currentLabTest)
     const data = {
@@ -26,7 +31,7 @@ const RadiologyResultForm = (props: any) => {
       investigationRequestId: props.invReqId
     }
     console.log(data)
-    requests.post(`/radiology`, data).then(response => {
+    requests.post(`/radiology`, data,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response)
     })
   }

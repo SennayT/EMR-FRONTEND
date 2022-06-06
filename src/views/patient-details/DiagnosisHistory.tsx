@@ -22,6 +22,9 @@ import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
 
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
+
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
   paddingLeft: 0,
@@ -57,9 +60,11 @@ const DiagnosisHistory = () => {
       }
     ]
   }])
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/diagnosis`).then((response) => {
+    requests.get(`/diagnosis`,  session ? session.accessToken.toString() : "").then((response) => {
       setDiagnosis(response.data)
 
       console.log(diagnosis)

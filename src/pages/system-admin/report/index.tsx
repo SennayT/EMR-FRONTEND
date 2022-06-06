@@ -20,6 +20,7 @@ import Box from '@mui/material/Box'
 import { DatePicker } from '@mui/x-date-pickers'
 // import PDFViewer from 'pdf-viewer-reactjs'
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 
 const ITEM_HEIGHT = 48
@@ -40,6 +41,10 @@ const ReportGenerationUI = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date())
   const [endDate, setEndDate] = useState<Date | null>(new Date())
 
+  const { data: session } = useSession();
+
+
+
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
@@ -52,7 +57,7 @@ const ReportGenerationUI = () => {
     startDate: "2020-06-01T09:02:11.022Z",
     endDate: "2022-06-01T09:02:11.022Z"
   }
-  requests.post(`/generate-report` , body).then(response => {
+  requests.post(`/generate-report` , body , session ? session.accessToken.toString() : "").then(response => {
 //     return <PDFViewer
 //     document={response.data}
 // />

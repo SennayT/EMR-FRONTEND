@@ -17,6 +17,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
+
+
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -28,12 +31,15 @@ const HealthCenters = () => {
   const handleClickOpen = () => { setEdit(false); setOpen(true); }
   const handleClickClose = () => setOpen(false)
 
+
+  const { data: session } = useSession();
+
   useEffect(() => {
-    requests.get(`/health-center`).then(response => {
+    requests.get(`/health-center`, session ? session.accessToken.toString() : "" ).then(response => {
       setHealthCenters(response.data)
       setLoading(false)
     })
-  })
+  },[])
 
   const columns: GridColDef[] = [
     {

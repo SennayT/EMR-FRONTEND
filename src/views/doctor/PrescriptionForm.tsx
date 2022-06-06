@@ -2,6 +2,7 @@ import { Button, Card, CardActions, CardContent, Grid, TextField, Typography } f
 import { FormEvent, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 type Medication = {
   name: string
@@ -14,6 +15,8 @@ const sampleMedications: Medication[] = []
 export default function PrescriptionForm() {
   const [medications, setMedications] = useState<Medication[]>([...sampleMedications])
   const [medication, setMedication] = useState<Medication>({ name: '', dosage: '', instructions: '' })
+  const { data: session } = useSession();
+
   const addButtonDisabled = medication.name === '' || medication.dosage === ''
   const submitDisabled = medications.length === 0
   const submitHandler = async (e: FormEvent) => {
@@ -22,7 +25,7 @@ export default function PrescriptionForm() {
       const res = await requests.post('/prescription', {
         diagnosisId: 1,
         medications
-      })
+      }, session ? session.accessToken.toString() : "")
       console.log(res.data)
     } catch (err) {
       console.log(err)

@@ -7,12 +7,17 @@ import PatientNurseBar from './PatitentNurseBar'
 import requests from 'src/utils/repository'
 import NoDataView from '../shared-components/NoDataView'
 
+import { useSession } from 'next-auth/react'
+
+
 const NurseLayout = () => {
 
   const [vitals, setVitals] = useState([]);
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/vitals`).then(response => {
+    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then(response => {
       setVitals(response.data)
     })
   });

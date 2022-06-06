@@ -25,6 +25,7 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 // ** Demo Components Imports
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 
 export default function SystemAdminDashboard() {
@@ -33,17 +34,19 @@ export default function SystemAdminDashboard() {
   const [researcherNum, setResearcherNum] = useState(0)
   const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
 
+  const { data: session } = useSession();
+
   useEffect(() => {
-    requests.get("/health-center/number").then((response) => {
+    requests.get("/health-center/number", session ? session.accessToken.toString() : "").then((response) => {
       setHealthCenterNum(response.data)
     });
-    requests.get(`/patient`).then((response) => {
+    requests.get(`/patient`, session ? session.accessToken.toString() : "").then((response) => {
       setPatientNum(response.data.length)
     });
-    requests.get(`/researcher/number`).then((response) => {
+    requests.get(`/researcher/number`, session ? session.accessToken.toString() : "").then((response) => {
       setResearcherNum(response.data)
     })
-    requests.get(`moh-employee`).then((response) => {
+    requests.get(`moh-employee`, session ? session.accessToken.toString() : "").then((response) => {
       setMohEmployeeNum(response.data.length)
     })
   },[])

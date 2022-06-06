@@ -31,6 +31,7 @@ import requests from 'src/utils/repository'
 
 
 import user from '../../data/userData'
+import { useSession } from 'next-auth/react'
 
 export default function EmRegistrationForm() {
   const [name, setName] = useState('')
@@ -54,6 +55,9 @@ export default function EmRegistrationForm() {
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
+
+  const { data: session } = useSession();
+
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
 
@@ -166,7 +170,7 @@ export default function EmRegistrationForm() {
       healthCenterId: user.healthCeterId
     }
 
-    requests.post(`/employee`, body).then(response => {
+    requests.post(`/employee`, body,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
     })
   }

@@ -13,6 +13,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 
+import { useSession } from 'next-auth/react'
+
+
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [researchers, setResearchers] = useState([])
@@ -22,8 +25,11 @@ const Researchers = () => {
   const [loading, setLoading] = useState(true)
   const [currResearcher, setCurrResearcher] = useState()
 
+  const { data: session } = useSession();
+
+
   useEffect(() => {
-    requests.get(`/researcher`).then(response => {
+    requests.get(`/researcher`,  session ? session.accessToken.toString() : "").then(response => {
       setResearchers(response.data)
       setLoading(false)
     })

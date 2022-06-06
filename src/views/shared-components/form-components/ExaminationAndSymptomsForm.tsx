@@ -7,6 +7,8 @@ import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select
 import TextField from '@mui/material/TextField'
 import requests from 'src/utils/repository'
 import { useEffect } from 'react';
+import { useSession } from 'next-auth/react'
+
 
 const ExaminationAndSymptomsForm = () => {
   const ITEM_HEIGHT = 48
@@ -24,9 +26,11 @@ const ExaminationAndSymptomsForm = () => {
   const [symptoms, setSymptoms] = useState('')
   const [vitals, setVitals] = useState([{ id: 0, requestedDate: '' }])
   const [vital, setVital] = useState(0)
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/vitals`).then((response) => {
+    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then((response) => {
       setVitals(response.data)
     })
   })
@@ -38,7 +42,7 @@ const ExaminationAndSymptomsForm = () => {
       vitalId: vital
     }
     console.log(data)
-    requests.post(`/examination`, data).then(response => {
+    requests.post(`/examination`, data,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
     })
   }

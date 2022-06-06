@@ -18,6 +18,9 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
+
 export default function HospitalRegistrationForm(props: any) {
   const [name, setName] = useState(props.editt ? props.healthCenter.name  : '' )
   const [type, setType] = useState(props.edit ? props.healthCenter.type  : '')
@@ -35,6 +38,9 @@ export default function HospitalRegistrationForm(props: any) {
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [typeErrors, setTypeErrors] = useState<{ type: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
+
+  const { data: session } = useSession();
+
 
   const [open, setOpen] = useState(false)
 
@@ -129,7 +135,7 @@ export default function HospitalRegistrationForm(props: any) {
       }
     }
 if(!props.edit){
-    requests.post(`/health-center`, body).then(response => {
+    requests.post(`/health-center`, body,  session ? session.accessToken.toString() : "").then(response => {
       console.log("sds")
       if (response.status != 33) {
         console.log("sdfj")
@@ -140,7 +146,7 @@ if(!props.edit){
   }
 else{
 
-  requests.put(`/health-center/${props.healthCenter.id}`, body).then(response => {
+  requests.put(`/health-center/${props.healthCenter.id}`, body ,  session ? session.accessToken.toString() : "").then(response => {
     console.log("sds")
     if (response.status != 33) {
       console.log("sdfj")

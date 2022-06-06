@@ -30,6 +30,9 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 import user from '../../data/userData'
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
+
 
 export default function ResearcherRegistrationForm(props: any) {
   const [name, setName] = useState(props.researcher ? props.researcher.name : "" )
@@ -51,6 +54,9 @@ export default function ResearcherRegistrationForm(props: any) {
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
 
   const [currResearcher, setCurrResearcher] = useState(-1)
+
+  const { data: session } = useSession();
+
 
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
@@ -126,11 +132,11 @@ export default function ResearcherRegistrationForm(props: any) {
       healthCenterId: user.healthCeterId
     }
     if(!props.edit){
-      requests.post(`/researcher`, body).then(response => {
+      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(response => {
         console.log(response.data)
       })
     }else{
-      requests.put(`/researcher/${props.researcher.id}`, body).then(response => {
+      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").then(response => {
         console.log(response.data)
       })
     }

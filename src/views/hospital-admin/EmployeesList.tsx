@@ -9,13 +9,16 @@ import Link from 'next/link'
 import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 const Employees = () => {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/employee`).then(response => {
+    requests.get(`/employee`, session ? session.accessToken.toString() : "").then(response => {
       setEmployees(response.data)
       setLoading(false)
     })

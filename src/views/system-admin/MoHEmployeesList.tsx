@@ -14,6 +14,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 
+import { useSession } from 'next-auth/react'
+
+
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [mohEmployees, setMohEmployees] = useState([])
@@ -24,8 +27,11 @@ const MoHEmployees = () => {
   const handleClickClose = () => setOpen(false)
   const [loading, setLoading] = useState(true)
 
+  const { data: session } = useSession();
+
+
   useEffect(() => {
-    requests.get(`/moh-employee`).then(response => {
+    requests.get(`/moh-employee`,  session ? session.accessToken.toString() : "").then(response => {
       setMohEmployees(response.data.map((res: any) => res.user))
       setLoading(false)
     })
