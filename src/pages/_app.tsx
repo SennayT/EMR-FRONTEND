@@ -29,7 +29,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
+import { getSession, SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
 
 // ** Extend App Props with Emotion
@@ -76,6 +76,7 @@ const App = (props: ExtendedAppProps) => {
         <SettingsProvider>
           <SettingsConsumer>
             {({ settings }) => {
+              console.log(session)
               return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
             }}
           </SettingsConsumer>
@@ -83,6 +84,15 @@ const App = (props: ExtendedAppProps) => {
       </SessionProvider>
     </CacheProvider>
   )
+}
+
+export async function getServerSideProps(ctx:any) {
+  const ses = await getSession(ctx);
+  return {
+    props: {
+      session: ses
+    }
+  }
 }
 
 export default App

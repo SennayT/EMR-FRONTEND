@@ -35,7 +35,7 @@ const MoHEmployees = () => {
       setMohEmployees(response.data.map((res: any) => res.user))
       setLoading(false)
     })
-  })
+  },[])
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     {

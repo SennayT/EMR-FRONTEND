@@ -33,7 +33,7 @@ const ExaminationAndSymptomsForm = () => {
     requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then((response) => {
       setVitals(response.data)
     })
-  })
+  },[])
 
   const registerExamination = () => {
     const data = {

@@ -42,7 +42,7 @@ const InvestigativeRequestTable = () => {
     requests.get(`/investigation-request`,  session ? session.accessToken.toString() : "").then(response => {
       setInvReqs(response.data)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },

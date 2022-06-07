@@ -53,7 +53,7 @@ export default function InvestigativeRequestForm() {
     requests.get(`/lab-test`, session ? session.accessToken.toString() : "").then(response => {
         setTests(response.data)
          })
-  });
+  }, []);
 
   const testCategories = [...new Set(tests.map(item => item.testCategory))]
 
