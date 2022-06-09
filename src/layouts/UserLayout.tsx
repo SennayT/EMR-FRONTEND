@@ -20,6 +20,7 @@ import userData from '../data/userData'
 import { signIn,  useSession } from 'next-auth/react'
 import LoginPage from 'src/pages/pages/login'
 import { Grid } from 'mdi-material-ui'
+import Error401 from 'src/pages/401'
 
 interface Props {
   children: ReactNode
@@ -39,15 +40,16 @@ const UserLayout = ({ children }: Props) => {
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
-  const {data:session} = useSession()
+  // const {data:session} = useSession()
+  const session = useSession()
 
-if(session){
+if(session.status === "authenticated" && session.data){
   return (
     <VerticalLayout
       hidden={hidden}
       settings={settings}
       saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems(session)} // Navigation Items
+      verticalNavItems={VerticalNavItems(session.data)} // Navigation Items
       verticalAppBarContent={(
         props // AppBar Content
       ) => (
@@ -61,8 +63,10 @@ if(session){
     >
       {children}
     </VerticalLayout>
-  )}else{
+  )}else if(session.status === "unauthenticated"){
     return <LoginPage/>
+  }else{
+    return <div></div>
   }
 }
 

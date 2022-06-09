@@ -22,17 +22,17 @@ import { useSession } from 'next-auth/react'
 
 
 export default function HospitalRegistrationForm(props: any) {
-  const [name, setName] = useState(props.editt ? props.healthCenter.name  : '' )
-  const [type, setType] = useState(props.edit ? props.healthCenter.type  : '')
-  const [email, setEmail] = useState(props.edit ? props.healthCenter.phone  : '')
-  const [phone, setPhone] = useState(props.edit ? props.healthCenter.name  :  '')
-  const [city, setCity] = useState(props.edit ? props.healthCenter.address.city  : '')
-  const [subCity, setSubCity] = useState(props.edit ? props.healthCenter.address.subCity  : '')
-  const [woreda, setWoreda] = useState(props.edit ? props.healthCenter.address.woreda  : '')
-  const [kebelle, setKebelle] = useState(props.edit ? props.healthCenter.address.kebelle  : '')
-  const [zone, setZone] = useState(props.edit ? props.healthCenter.address.zone  : '')
-  const [street, setStreet] = useState(props.edit ? props.healthCenter.address.street  : '')
-  const [houseNo, setHouseNo] = useState(props.edit ? props.healthCenter.address.houseNo  : '')
+  const [name, setName] = useState(props.editt ? props.healthCenter.name : '')
+  const [type, setType] = useState(props.edit ? props.healthCenter.type : '')
+  const [email, setEmail] = useState(props.edit ? props.healthCenter.phone : '')
+  const [phone, setPhone] = useState(props.edit ? props.healthCenter.name : '')
+  const [city, setCity] = useState(props.edit ? props.healthCenter.address.city : '')
+  const [subCity, setSubCity] = useState(props.edit ? props.healthCenter.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.edit ? props.healthCenter.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.edit ? props.healthCenter.address.kebelle : '')
+  const [zone, setZone] = useState(props.edit ? props.healthCenter.address.zone : '')
+  const [street, setStreet] = useState(props.edit ? props.healthCenter.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.healthCenter.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -42,7 +42,6 @@ export default function HospitalRegistrationForm(props: any) {
   const { data: session } = useSession();
 
 
-  const [open, setOpen] = useState(false)
 
 
   const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
@@ -134,38 +133,22 @@ export default function HospitalRegistrationForm(props: any) {
         houseNo: houseNo
       }
     }
-if(!props.edit){
-    requests.post(`/health-center`, body,  session ? session.accessToken.toString() : "").then(response => {
-      console.log("sds")
-      if (response.status != 33) {
-        console.log("sdfj")
-      } else {
-        setOpen(true)
-      }
-    })
-  }
-else{
+    if (!props.edit) {
+      requests.post(`/health-center`, body, session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+      props.closeHandler(false)
 
-  requests.put(`/health-center/${props.healthCenter.id}`, body ,  session ? session.accessToken.toString() : "").then(response => {
-    console.log("sds")
-    if (response.status != 33) {
-      console.log("sdfj")
-    } else {
-      setOpen(true)
     }
-  })
-}
+    else {
+
+      requests.put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
+    }
   }
   return (
     <Grid container spacing={6} sx={{ backgroundColor: 'white' }}>
       <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent sx={{ px: 4 }}>
-          {/* <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-              <Alert severity="error" sx={{ width: '100%' }}>
-                This is an error message!
-              </Alert>
-            </Snackbar> */}
+
             <Grid sx={{ px: 4 }} container spacing={5}>
               <Grid item xs={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>

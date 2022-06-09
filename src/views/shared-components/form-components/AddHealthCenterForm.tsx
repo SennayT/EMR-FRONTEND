@@ -7,7 +7,7 @@ import HospitalRegistrationForm from 'src/views/system-admin/HospitalRegistratio
 const DialogBox = (props: any) => {
   return (
     <Box>
-      <HospitalRegistrationForm edit={props.edit} healthCenter={props.healthCenter}/>
+      <HospitalRegistrationForm closeHandler={props.closeHandler} edit={props.edit} healthCenter={props.healthCenter}/>
     </Box>
   )
 }
