@@ -103,7 +103,7 @@ const TabAccount = () => {
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
-                  Allowed PNG or JPEG. Max size of 800K.
+                  Max size of 800K.
                 </Typography>
               </Box>
             </Box>
