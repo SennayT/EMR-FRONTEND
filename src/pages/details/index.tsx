@@ -18,17 +18,17 @@ const DetailsPage = (props: any) => {
       </IconButton>
       <Grid width={5 / 6} sx={{ backgroundColor: 'white', ml: 20, py: 2, px: 8 }}>
         <CardContent sx={{ my: 4 }}>
-          <Typography variant='h4'>Details Title{props.title}</Typography>
+          <Typography variant='h4'>{props.title}Details Title</Typography>
         </CardContent>
         <CardContent sx={{ my: 4 }}>
           <Typography variant='body1' sx={{ wordSpacing: 4 }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque semper ipsum sit amet elit vestibulum,
-            in tincidunt lectus faucibus. Pellentesque ut ligula mattis, sodales risus vel, ornare nibh. Pellentesque
-            mauris nisi, rhoncus in enim nec, vestibulum pellentesque nulla. Donec pretium leo et condimentum viverra.
-            Nulla mollis purus in sem sagittis rutrum. Sed posuere orci ac eleifend blandit. Vestibulum fermentum odio
-            tortor, in interdum sapien tristique ac. Curabitur metus turpis, luctus nec pharetra nec, interdum eget
-            massa. Sed finibus, nibh placerat aliquet tempor, metus nulla aliquet ante, eu vulputate velit quam non leo.
-            Sed ut tristique libero, in iaculis sem.{props.description}
+            {props.description}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque semper ipsum sit
+            amet elit vestibulum, in tincidunt lectus faucibus. Pellentesque ut ligula mattis, sodales risus vel, ornare
+            nibh. Pellentesque mauris nisi, rhoncus in enim nec, vestibulum pellentesque nulla. Donec pretium leo et
+            condimentum viverra. Nulla mollis purus in sem sagittis rutrum. Sed posuere orci ac eleifend blandit.
+            Vestibulum fermentum odio tortor, in interdum sapien tristique ac. Curabitur metus turpis, luctus nec
+            pharetra nec, interdum eget massa. Sed finibus, nibh placerat aliquet tempor, metus nulla aliquet ante, eu
+            vulputate velit quam non leo. Sed ut tristique libero, in iaculis sem.
           </Typography>
         </CardContent>
       </Grid>
