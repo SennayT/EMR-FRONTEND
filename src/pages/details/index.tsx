@@ -9,14 +9,11 @@ import BackIcon from '@mui/icons-material/ArrowBack'
 import IconButton from '@mui/material/IconButton'
 
 const DetailsPage = (props: any) => {
-  const BackButton = () => {
-    const router = useRouter()
-    router.push(props.url)
-  }
+  const router = useRouter()
 
   return (
     <Card>
-      <IconButton aria-label='back' onClick={BackButton}>
+      <IconButton aria-label='back' onClick={() => router.back()}>
         <BackIcon />
       </IconButton>
       <Grid width={5 / 6} sx={{ backgroundColor: 'white', ml: 20, py: 2, px: 8 }}>
