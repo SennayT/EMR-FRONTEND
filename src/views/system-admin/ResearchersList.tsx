@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Button, Grid, Typography, Avatar, IconButton } from '@mui/material'
+import { Button, Grid, Typography, Avatar, IconButton, Snackbar, Alert } from '@mui/material'
 import AddResearcher from 'src/views/shared-components/form-components/AddResearcherForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -13,19 +13,33 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 
+import { useSession } from 'next-auth/react'
+
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [researchers, setResearchers] = useState([])
-  const handleClickOpen = () => setOpen(true)
-  const handleClickClose = () => setOpen(false)
+  const [edit, setEdit] = useState(false)
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState("success")
+
+  const handleClickOpen = () => { setEdit(false); setOpen(true); }
+  const handleClickClose = (origin: boolean, severity: string) => { if (origin) { setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false) } }
+
   const [loading, setLoading] = useState(true)
+  const handleClose = () => {
+    setErrOpen(false);
+  }
+  const [currResearcher, setCurrResearcher] = useState()
+
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/researcher`).then(response => {
+    requests.get(`/researcher`, session ? session.accessToken.toString() : "").then(response => {
       setResearchers(response.data)
+      console.log(response.data)
       setLoading(false)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -77,7 +91,7 @@ const Researchers = () => {
         return (
           <div>
             <IconButton>
-              <EditIcon />
+              <EditIcon onClick={(e) => { setEdit(true); setOpen(true) }} />
             </IconButton>
             <IconButton>
               <DeleteIcon />
@@ -91,6 +105,11 @@ const Researchers = () => {
   return (
     <div>
       <Grid container>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
+            This is an error message!
+          </Alert>
+        </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Researchers
@@ -112,19 +131,24 @@ const Researchers = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          disableSelectionOnClick
+          onSelectionModelChange={(newSelectionModel) => {
+            console.log("new", newSelectionModel, researchers.find(i => i.id === newSelectionModel[0]))
+            setCurrResearcher(newSelectionModel[0]);
+          }}
+          selectionModel={currResearcher}
           loading={loading}
         />
       </div>
       <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
+        <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Researcher Registration Form </DialogTitle>
           <DialogContent>
-            <AddResearcher />
+            <AddResearcher closeHandler={handleClickClose} edit={edit} researcher={researchers.find(i => i.id === currResearcher)} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
       </Fragment>
+
     </div>
   )
 }

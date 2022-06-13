@@ -16,13 +16,16 @@ import Typography from '@mui/material/Typography'
 
 // ** Icons Imports
 import CogOutline from 'mdi-material-ui/CogOutline'
-import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
-import EmailOutline from 'mdi-material-ui/EmailOutline'
+
+// import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
+// import EmailOutline from 'mdi-material-ui/EmailOutline'
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
-import MessageOutline from 'mdi-material-ui/MessageOutline'
-import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
+
+// import MessageOutline from 'mdi-material-ui/MessageOutline'
+// import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import { signOut, useSession } from 'next-auth/react'
+import { Link } from '@mui/material'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -51,8 +54,6 @@ const UserDropdown = () => {
     setAnchorEl(null)
   }
 
-
-
   const styles = {
     py: 2,
     px: 4,
@@ -69,7 +70,7 @@ const UserDropdown = () => {
 
   const session = useSession()
   const handleLogout = () => {
-    signOut({callbackUrl: 'http://localhost:3000'})
+    signOut({ callbackUrl: 'http://localhost:3000' })
   }
 
   return (
@@ -115,45 +116,49 @@ const UserDropdown = () => {
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <Link href='/profile'>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
           </Box>
+          </Link>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <EmailOutline sx={{ marginRight: 2 }} />
             Inbox
           </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        </MenuItem> */}
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <MessageOutline sx={{ marginRight: 2 }} />
             Chat
           </Box>
-        </MenuItem>
-        <Divider />
+        </MenuItem> */}
+        {/* <Divider /> */}
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <CogOutline sx={{ marginRight: 2 }} />
-            Settings
-          </Box>
+          <Link href='/account-settings'>
+            <Box sx={styles}>
+              <CogOutline sx={{ marginRight: 2 }} />
+              Settings
+            </Box>
+          </Link>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <CurrencyUsd sx={{ marginRight: 2 }} />
             Pricing
           </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        </MenuItem> */}
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <HelpCircleOutline sx={{ marginRight: 2 }} />
             FAQ
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ py: 2 }} onClick={() => handleLogout()}>
-          <LogoutVariant  sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
+          <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout
         </MenuItem>
       </Menu>

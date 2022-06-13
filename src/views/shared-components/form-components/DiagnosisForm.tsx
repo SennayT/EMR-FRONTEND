@@ -11,6 +11,9 @@ import Disease from 'src/data/models/DiseaseModel'
 
 import user from 'src/data/userData'
 
+import { useSession } from 'next-auth/react'
+
+
 const DiagnosisForm = () => {
   // ** States
   const [investigationReq, setInvestigationReq] = useState([{ note: '', id: 0 }])
@@ -18,6 +21,9 @@ const DiagnosisForm = () => {
   const [comment, setComment] = useState<string>('')
   const [currInvReq, setCurrInvReq] = useState<number>(0)
   const [currDisease, setCurrDisease] = useState<number[]>([])
+
+  const { data: session } = useSession();
+
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -31,13 +37,13 @@ const DiagnosisForm = () => {
   }
 
   useEffect(() => {
-    requests.get('/disease').then((respose) => {
+    requests.get('/disease',  session ? session.accessToken.toString() : "").then((respose) => {
       setDiseases(respose.data)
     })
-    requests.get('/investigation-request').then((respose) => {
+    requests.get('/investigation-request',  session ? session.accessToken.toString() : "").then((respose) => {
       setInvestigationReq(respose.data)
     })
-  })
+  }, [])
 
   const registerDiagnosis = () => {
     const data = {
@@ -47,7 +53,7 @@ const DiagnosisForm = () => {
       diseases: currDisease
     }
     console.log(data)
-    requests.post('/diagnosis', data)
+    requests.post('/diagnosis', data,  session ? session.accessToken.toString() : "")
   }
 
   return (

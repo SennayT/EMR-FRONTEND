@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { Vitals } from 'src/data/models/VitalsModel'
 import user from 'src/data/userData'
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 const AddVitalsForm = () => {
   const [vitals, setVitals] = useState<Vitals>({
@@ -18,11 +19,13 @@ const AddVitalsForm = () => {
     patientId: 3,
     requestedById: 18
   })
+  const { data: session } = useSession();
+
 
   const handleVitalsSubmit = () => {
 
 
-    requests.post(`/vitals`, vitals).then(response => {
+    requests.post(`/vitals`, vitals,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
     })
   };

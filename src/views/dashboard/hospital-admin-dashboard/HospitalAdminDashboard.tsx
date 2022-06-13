@@ -18,8 +18,44 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 
 // ** Demo Components Imports
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
+import { useEffect, useState } from 'react'
+import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 export default function HospitalAdminDashboard() {
+  const [patientNum, setPatientNum] = useState(0)
+  const [labReports, setLabReports] = useState(0)
+  const [radiology, setRadiology] = useState(0)
+  const [employeeNum, setEmployeeNum] = useState(0)
+  const [prescriptions, setPrescription] = useState(0)
+  const [diagnosis, setDiagnosis] = useState(0)
+
+  const { data: session } = useSession();
+
+
+  useEffect(() => {
+    requests.get("/health-center/number", session ? session.accessToken.toString() : "").then((response) => {
+      setLabReports(response.data)
+    });
+    requests.get(`/patient`, session ? session.accessToken.toString() : "").then((response) => {
+      setPatientNum(response.data.length)
+    });
+    requests.get(`/radiology`, session ? session.accessToken.toString() : "").then((response) => {
+      setRadiology(response.data.length )
+    })
+    requests.get(`/employee` , session ? session.accessToken.toString() : "").then((response) => {
+      setEmployeeNum(response.data.length)
+    })
+    requests.get(`/lab-result`, session ? session.accessToken.toString() : "").then((response) => {
+      setLabReports(response.data.length)
+    })
+    requests.get(`/prescription`, session ? session.accessToken.toString() : "").then((response) => {
+      setPrescription(response.data.length)
+    })
+    requests.get(`/diagnosis`, session ? session.accessToken.toString() : "").then((response) => {
+      setDiagnosis(response.data.length)
+    })
+  },[])
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
@@ -27,7 +63,7 @@ export default function HospitalAdminDashboard() {
           <Grid container spacing={12}>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='1,476'
+                stats={patientNum.toString()}
                 icon={<HospitalIcon />}
                 color='success'
                 trendNumber='+42%'
@@ -37,7 +73,7 @@ export default function HospitalAdminDashboard() {
             </Grid>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='201K'
+                stats={employeeNum.toString()}
                 title='Staff'
                 trend='positive'
                 color='secondary'
@@ -48,7 +84,7 @@ export default function HospitalAdminDashboard() {
             </Grid>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='862'
+                stats={labReports.toString()}
                 trend='negative'
                 trendNumber='-18%'
                 title='Lab Reports'
@@ -58,7 +94,7 @@ export default function HospitalAdminDashboard() {
             </Grid>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='153'
+                stats={radiology.toString()}
                 color='warning'
                 trend='negative'
                 trendNumber='+8%'
@@ -69,7 +105,7 @@ export default function HospitalAdminDashboard() {
             </Grid>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='153'
+                stats={prescriptions.toString()}
                 color='warning'
                 trend='negative'
                 trendNumber='+8%'
@@ -80,12 +116,12 @@ export default function HospitalAdminDashboard() {
             </Grid>
             <Grid item xs={6} md={4} lg={4}>
               <CardStatisticsVerticalComponent
-                stats='153'
+                stats={diagnosis.toString()}
                 color='warning'
                 trend='negative'
                 trendNumber='+8%'
                 subtitle='Past Month'
-                title='Admins'
+                title='Diagnosis'
                 icon={<MoHIcon />}
               />
             </Grid>

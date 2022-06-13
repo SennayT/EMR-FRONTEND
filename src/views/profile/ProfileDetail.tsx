@@ -1,7 +1,7 @@
 
 import { Card, CardContent, Typography } from '@mui/material'
 
-import { useEffect, useState } from 'react'
+import {  useState } from 'react'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -14,7 +14,6 @@ import UserGeneralInfo from '../shared-components/UserGeneralInfo'
 
 
 
-import user from 'src/data/userData'
 
 
 const ImgStyled = styled('img')(({ theme }) => ({
@@ -38,7 +37,7 @@ const ProfileDetail = (props: any) => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <ImgStyled src={imgSrc} alt='Profile Pic' />
           <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h5'>{user.name}</Typography>
+            <Typography variant='h5'>{props.user.name}</Typography>
           </Box>
         </Box>
 

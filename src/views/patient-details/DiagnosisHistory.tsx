@@ -22,6 +22,9 @@ import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
 
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
+
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
   paddingLeft: 0,
@@ -57,14 +60,16 @@ const DiagnosisHistory = () => {
       }
     ]
   }])
+  const { data: session } = useSession();
+
 
   useEffect(() => {
-    requests.get(`/diagnosis`).then((response) => {
+    requests.get(`/diagnosis`,  session ? session.accessToken.toString() : "").then((response) => {
       setDiagnosis(response.data)
 
       console.log(diagnosis)
     })
-  })
+  },[])
 
 
   return (
@@ -85,11 +90,11 @@ const DiagnosisHistory = () => {
             <Typography variant='body1' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
               {singleDiagnosis.comment}
             </Typography>
-            <Typography variant='caption'>Created At {singleDiagnosis.createdAt}</Typography>
+            <Typography variant='caption'>Created At {new Date(singleDiagnosis.createdAt).toLocaleDateString("en-US" ,  {  year: 'numeric', month: 'long', day: 'numeric' })}</Typography>
           </Box>
           <Box sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'start', justifyContent: 'stretch' }}>
             <div>
-            {singleDiagnosis.createdAt}
+             {new Date(singleDiagnosis.createdAt).toLocaleDateString("en-US")}
             <ArrowRight fontSize='small' sx={{ verticalAlign: 'bottom', mx: 4 }} />
             </div>
 

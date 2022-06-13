@@ -36,7 +36,7 @@
     "themeselection"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
     "export": "next export",
@@ -58,6 +58,8 @@
     "@popperjs/core": "^2.11.2",
     "@react-pdf-viewer/core": "^3.3.2",
     "@react-pdf-viewer/default-layout": "^3.3.2",
+    "@react-pdf/renderer": "^2.1.2",
+    "@types/react-pdf": "^5.7.2",
     "apexcharts-clevision": "3.28.5",
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
@@ -74,6 +76,7 @@
     "react-datepicker": "^4.5.0",
     "react-dom": "^17.0.2",
     "react-dropzone": "^13.0.0",
+    "react-pdf-scroll": "^1.0.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-popper": "^2.2.5",
     "react-vertical-timeline-component": "^3.5.2",

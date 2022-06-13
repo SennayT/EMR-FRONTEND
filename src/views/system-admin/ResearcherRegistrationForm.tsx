@@ -30,24 +30,34 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 import user from '../../data/userData'
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
 
-export default function ResearcherRegistrationForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [gender, setGender] = useState('female')
-  const [age, setAge] = useState(23)
-  const [city, setCity] = useState('')
-  const [subCity, setSubCity] = useState('')
-  const [woreda, setWoreda] = useState('')
-  const [kebelle, setKebelle] = useState('')
-  const [zone, setZone] = useState('')
-  const [street, setStreet] = useState('')
-  const [houseNo, setHouseNo] = useState('')
+
+
+export default function ResearcherRegistrationForm(props: any) {
+  const [name, setName] = useState(props.edit ? props.researcher.name : "" )
+  const [email, setEmail] = useState(props.edit ? props.researcher.email : "")
+  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : "")
+  const [gender, setGender] = useState(props.edit ? props.researcher.gender : "")
+  const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
+  const [city, setCity] = useState(props.edit ? props.researcher.address.city : "")
+  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : "")
+  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : "")
+  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : "")
+  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : "")
+  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : "")
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : "")
+
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
+
+  const [currResearcher, setCurrResearcher] = useState(-1)
+
+  const { data: session } = useSession();
+
+
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
 
@@ -121,10 +131,13 @@ export default function ResearcherRegistrationForm() {
       },
       healthCenterId: user.healthCeterId
     }
+    if(!props.edit){
+      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+      props.closeHandler(false)
 
-    requests.post(`/researcher`, body).then(response => {
-      console.log(response.data)
-    })
+    }else{
+      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
+    }
   }
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))

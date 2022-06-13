@@ -1,5 +1,8 @@
 // ** React Imports
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+
+import FormData from 'form-data'
+
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -16,21 +19,43 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
+import { useSession } from 'next-auth/react'
+import { AnySrvRecord } from 'dns'
+
+
 const LabResultForm = (props: any) => {
   const [open, setOpen] = useState(false)
+
+  // const [file, setFile] = useState()
+  const imageRef = useRef();
+
+  const { data: session } = useSession();
+
+
+
+
   const registerResult = () => {
-    const data = {
+    const image = imageRef.current.getFiles();
+
+
+    const formData: any = {
       name: currentLabTest.name,
       type: currentLabTest.testCategory,
       result: 'some result',
       isAbnormal: true,
       comment: comment,
+
       filledById: user.id,
       investigationRequestId: props.invReqId
     }
-
-    console.log(data)
-    requests.post(`/lab-result`, data).then(response => {
+    const data = new FormData();
+    for ( var key in formData ) {
+      data.append(key, formData[key]);
+  }
+    data.append("image", image);
+    data.append("name", currentLabTest.name);
+    console.log("data", data)
+    requests.postSpecial(`/lab-result`, data, session ? session.accessToken : "" ).then(response => {
       console.log(Number(response.data.statusCode))
       if (response.data.statusCode[0] == 2) {
         console.log("sdfj")
@@ -63,6 +88,7 @@ const LabResultForm = (props: any) => {
 
   const [comment, setComment] = useState('')
 
+
   return (
     <Grid container>
       <Card sx={{ my: 4, backgroundColor: 'white' }}>
@@ -81,22 +107,23 @@ const LabResultForm = (props: any) => {
                     labelId='labTest-select-label'
                     label='Investigative Request'
                     value={currentLabTest}
+                    defaultValue={{
+                      id: 0,
+                      name: '',
+                      normalRange: '',
+                      measuredIn: '',
+                      testCategory: ''
+                    }}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const val = JSON.parse(e.target.value.toString());
+                      const val = e.target.value;
                       setCurrentLabTest(val)
                     }}
                     fullWidth
                     size='small'
                   >
                     {props.labTests.map((item: any) => (
-                      <MenuItem key={item.id} value={JSON.stringify({
-                        id: 0,
-                        name: '',
-                        normalRange: '',
-                        measuredIn: '',
-                        testCategory: ''
-                      })}>
+                      <MenuItem key={item.id} value={item}>
                         {item.name}
                       </MenuItem>
                     ))}
@@ -121,7 +148,7 @@ const LabResultForm = (props: any) => {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <FileUploaderSingle />
+                <FileUploaderSingle ref={imageRef} />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField

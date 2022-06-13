@@ -1,5 +1,5 @@
 // ** React Imports
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -20,8 +20,11 @@ import TabInfo from 'src/views/account-settings/TabInfo'
 import TabAccount from 'src/views/account-settings/TabAccount'
 import TabSecurity from 'src/views/account-settings/TabSecurity'
 
+import requests from 'src/utils/repository'
+
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { useSession } from 'next-auth/react'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -48,6 +51,14 @@ const AccountSettings = () => {
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
+  const {data:session} = useSession();
+  const [user, setUser] = useState();
+  useEffect(() => {
+    requests.get(`/user/7`,  session ? session.accessToken.toString() : "").then(response => {
+      console.log(response.data)
+      setUser(response.data)
+    })
+  }, []);
 
   return (
     <Card>
@@ -87,7 +98,7 @@ const AccountSettings = () => {
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
-          <TabAccount />
+          <TabAccount user={user} />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='security'>
           <TabSecurity />

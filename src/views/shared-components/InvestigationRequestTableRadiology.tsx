@@ -10,6 +10,9 @@ import DialogContent from '@mui/material/DialogContent'
 
 import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
+
+
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
@@ -33,11 +36,13 @@ const InvestigativeRequestTableRadiology = () => {
     note: '',
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
+  const { data: session } = useSession();
+
   useEffect(() => {
-    requests.get(`/investigation-request/include/radiology`).then(response => {
+    requests.get(`/investigation-request/include/radiology`,  session ? session.accessToken.toString() : "").then(response => {
       setInvReqs(response.data)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },

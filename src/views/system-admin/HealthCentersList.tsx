@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
-import { DataGrid, GridColDef } from '@mui/x-data-grid'
-import { Button, Grid, Typography, IconButton } from '@mui/material'
+import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid'
+import { Button, Grid, Typography, IconButton, Snackbar, Alert } from '@mui/material'
 import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -17,21 +17,36 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
+
+
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [healthCenters, setHealthCenters] = useState([])
   const [loading, setLoading] = useState(true)
+  const [currHealthCenter, setCurrHealthCenter] = useState(-1)
+  const [edit, setEdit] = useState(false)
 
-  const handleClickOpen = () => setOpen(true)
-  const handleClickClose = () => setOpen(false)
+    const [errOpen, setErrOpen] = useState(false)
+    const [severity, setSeverity] = useState("success")
+
+
+  const handleClickOpen = () => { setEdit(false); setOpen(true); }
+  const handleClickClose = (origin: boolean, severity: string) => { if (origin) { setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false) } }
+
+  const handleClose = () => {
+    setErrOpen(false);
+  };
+
+  const { data: session } = useSession();
 
   useEffect(() => {
-    requests.get(`/health-center`).then(response => {
+    requests.get(`/health-center`, session ? session.accessToken.toString() : "").then(response => {
       setHealthCenters(response.data)
       setLoading(false)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     {
@@ -67,7 +82,7 @@ const HealthCenters = () => {
       renderCell: () => {
         return (
           <div>
-            <IconButton>
+            <IconButton onClick={(e) => { setEdit(true); setOpen(true); }}>
               <EditIcon />
             </IconButton>
             <IconButton>
@@ -82,6 +97,11 @@ const HealthCenters = () => {
   return (
     <div>
       <Grid container>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
+            This is an error message!
+          </Alert>
+        </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Health Centers
@@ -102,16 +122,21 @@ const HealthCenters = () => {
           columns={columns}
           pageSize={5}
           sx={{ px: 2 }}
+          onSelectionModelChange={(newSelectionModel) => {
+            console.log("new", newSelectionModel, healthCenters.find(i => i.id === newSelectionModel[0]))
+            setCurrHealthCenter(Number(newSelectionModel[0]));
+          }}
+          selectionModel={currHealthCenter}
           rowsPerPageOptions={[5]}
-          disableSelectionOnClick
+
           loading={loading}
         />
       </div>
       <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
+        <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
           <DialogContent>
-            <AddHealthCenter />
+            <AddHealthCenter closeHandler={handleClickClose} edit={edit} healthCenter={healthCenters.find(i => i.id === currHealthCenter)} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
