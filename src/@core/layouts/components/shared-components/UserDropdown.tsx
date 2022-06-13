@@ -13,7 +13,6 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import Link from '@mui/material/Link'
 
 // ** Icons Imports
 import CogOutline from 'mdi-material-ui/CogOutline'
@@ -26,6 +25,7 @@ import AccountOutline from 'mdi-material-ui/AccountOutline'
 // import MessageOutline from 'mdi-material-ui/MessageOutline'
 // import HelpCircleOutline from 'mdi-material-ui/HelpCircleOutline'
 import { signOut, useSession } from 'next-auth/react'
+import { Link } from '@mui/material'
 
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
@@ -116,10 +116,12 @@ const UserDropdown = () => {
         </Box>
         <Divider sx={{ mt: 0, mb: 1 }} />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <Link href='/profile'>
           <Box sx={styles}>
             <AccountOutline sx={{ marginRight: 2 }} />
             Profile
           </Box>
+          </Link>
         </MenuItem>
         {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
@@ -135,15 +137,7 @@ const UserDropdown = () => {
         </MenuItem> */}
         {/* <Divider /> */}
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Link
-
-          // href={{
-          //   pathname: '/account-settings',
-          //   query: {
-          //     user: ''
-          //   }
-          // }}
-          >
+          <Link href='/account-settings'>
             <Box sx={styles}>
               <CogOutline sx={{ marginRight: 2 }} />
               Settings

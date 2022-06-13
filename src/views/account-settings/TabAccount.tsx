@@ -60,7 +60,8 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
   }
 }))
 
-const TabAccount = () => {
+const TabAccount = (props: any) => {
+  // console.log(props.user);
   // ** State
   // const [openAlert, setOpenAlert] = useState<boolean>(true)
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
@@ -110,23 +111,23 @@ const TabAccount = () => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='Name' placeholder='John Doe' defaultValue='John Doe' />
+            <TextField fullWidth  label='' placeholder='' value={props.user ? props.user.name :  ' '} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               type='email'
               label='Email'
-              placeholder='johnDoe@example.com'
-              defaultValue='johnDoe@example.com'
+              placeholder=''
+              value={props.user ? props.user.email :  ' '}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label='Phone Number'
-              placeholder='987654321'
-              defaultValue='987654321'
+              placeholder=''
+              value={props.user ? props.user.phone :  ' '}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -152,7 +153,7 @@ const TabAccount = () => {
           <Grid item xs={12} sm={6}>
             <FormControl>
               <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
-              <RadioGroup row defaultValue='male' aria-label='gender' name='account-settings-info-radio'>
+              <RadioGroup row value={props.user ? props.user.gender :  'female'} aria-label='gender' name='account-settings-info-radio'>
                 <FormControlLabel value='male' label='Male' control={<Radio />} />
                 <FormControlLabel value='female' label='Female' control={<Radio />} />
               </RadioGroup>
