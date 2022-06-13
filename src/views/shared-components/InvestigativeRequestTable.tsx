@@ -58,7 +58,10 @@ const InvestigativeRequestTable = () => {
       headerName: 'Date',
       type: 'number',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: (params: GridRenderCellParams<any>) => (
+        <p> {new Date(params.value).toLocaleDateString("en-US")}</p>
+      )
     },
     {
       field: 'labTests',

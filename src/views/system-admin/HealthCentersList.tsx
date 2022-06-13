@@ -26,14 +26,14 @@ const HealthCenters = () => {
   const [healthCenters, setHealthCenters] = useState([])
   const [loading, setLoading] = useState(true)
   const [currHealthCenter, setCurrHealthCenter] = useState(-1)
-  const [edit, setEdit]  = useState(false)
+  const [edit, setEdit] = useState(false)
 
-  const [errOpen, setErrOpen] = useState(false)
-  const [severity, setSeverity] = useState("success")
+    const [errOpen, setErrOpen] = useState(false)
+    const [severity, setSeverity] = useState("success")
 
 
   const handleClickOpen = () => { setEdit(false); setOpen(true); }
-  const handleClickClose = (origin: boolean, severity: string) => {if(origin) {setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false)}}
+  const handleClickClose = (origin: boolean, severity: string) => { if (origin) { setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false) } }
 
   const handleClose = () => {
     setErrOpen(false);
@@ -42,11 +42,11 @@ const HealthCenters = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    requests.get(`/health-center`, session ? session.accessToken.toString() : "" ).then(response => {
+    requests.get(`/health-center`, session ? session.accessToken.toString() : "").then(response => {
       setHealthCenters(response.data)
       setLoading(false)
     })
-  },[])
+  }, [])
 
   const columns: GridColDef[] = [
     {
@@ -82,8 +82,8 @@ const HealthCenters = () => {
       renderCell: () => {
         return (
           <div>
-            <IconButton onClick={(e) =>{ setEdit(true) ; setOpen(true); }}>
-              <EditIcon  />
+            <IconButton onClick={(e) => { setEdit(true); setOpen(true); }}>
+              <EditIcon />
             </IconButton>
             <IconButton>
               <DeleteIcon />
@@ -97,11 +97,11 @@ const HealthCenters = () => {
   return (
     <div>
       <Grid container>
-      <Snackbar open={errOpen} autoHideDuration={600}  onClose={() => setOpen(false)}>
-              <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
-                This is an error message!
-              </Alert>
-            </Snackbar>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
+            This is an error message!
+          </Alert>
+        </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Health Centers
@@ -123,7 +123,7 @@ const HealthCenters = () => {
           pageSize={5}
           sx={{ px: 2 }}
           onSelectionModelChange={(newSelectionModel) => {
-            console.log("new", newSelectionModel  , healthCenters.find(i => i.id === newSelectionModel[0]))
+            console.log("new", newSelectionModel, healthCenters.find(i => i.id === newSelectionModel[0]))
             setCurrHealthCenter(Number(newSelectionModel[0]));
           }}
           selectionModel={currHealthCenter}
@@ -136,7 +136,7 @@ const HealthCenters = () => {
         <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
           <DialogContent>
-            <AddHealthCenter closeHandler={handleClickClose} edit={edit} healthCenter={healthCenters.find(i => i.id === currHealthCenter)}/>
+            <AddHealthCenter closeHandler={handleClickClose} edit={edit} healthCenter={healthCenters.find(i => i.id === currHealthCenter)} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

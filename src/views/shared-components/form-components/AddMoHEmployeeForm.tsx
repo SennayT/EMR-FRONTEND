@@ -7,7 +7,7 @@ import MoHEmployeeRegistrationForm from 'src/views/system-admin/MoHEmployeeRegis
 const DialogBox = (props:any) => {
   return (
     <Box>
-      <MoHEmployeeRegistrationForm edit={props.edit} employee={props.employee} />
+      <MoHEmployeeRegistrationForm closeHandler={props.closeHandler} edit={props.edit} employee={props.employee} />
     </Box>
   )
 }

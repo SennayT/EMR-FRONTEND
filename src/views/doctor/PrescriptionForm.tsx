@@ -165,7 +165,7 @@ export default function PrescriptionForm() {
               <Box sx={{ display: 'flex', alignItems: 'center', my: 4, justifyContent: 'space-between' }}>
                     <Box  >
                       <Typography variant="subtitle1">
-                        {prescription.createdAt}
+                     {new Date(prescription.createdAt).toLocaleDateString("en-US")}
                       </Typography>
                       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         {prescription.medications.map((medication) => {

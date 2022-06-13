@@ -34,6 +34,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { signIn } from 'next-auth/react'
+import { Alert, Snackbar } from '@mui/material'
 
 const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   fontWeight: 600,
@@ -92,6 +93,9 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
+  const [err , setErr] = useState(false)
+  const [open , setOpen] = useState(false)
+
   const loginHandler = () => {
     const credentials = {
       email: email,
@@ -100,11 +104,21 @@ const LoginPage = () => {
 
     console.log(credentials)
     console.log('here')
-    signIn('credentials', { email: email, password: values.password, callbackUrl: `http://localhost:3000/` })
+
+    signIn('credentials', { email: email, password: values.password }).then(res => setErr(true))
+  }
+
+  const handleClose = () => {
+    setErr(false);
   }
 
   return (
     <Box>
+       <Snackbar open={err} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
+            This is an error message!
+          </Alert>
+        </Snackbar>
       <Card sx={{ zIndex: 1, mx: '35%' }}>
         <CardContent
           sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', mt: 8 }}
