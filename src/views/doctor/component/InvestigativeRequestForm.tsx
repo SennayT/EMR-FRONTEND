@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, ChangeEvent } from 'react'
 import Grid from '@mui/material/Grid'
 import {
   Card,
@@ -20,7 +20,6 @@ import { LabTest } from 'src/data/models/LabTestModel'
 import { InvestigationRequest } from 'src/data/models/InvestigationRequestModel'
 import { useSession } from 'next-auth/react'
 
-
 // import LocationCityIcon from 'mdi-material-ui/LocationCity'
 
 // import LocationCityIcon from '@mui/icons-material/LocationCity'
@@ -35,7 +34,7 @@ export default function InvestigativeRequestForm() {
   }
 
   const [tests, setTests] = useState<LabTest[]>([])
-  const [currentCategory, setCurrentCategory] = useState<string>('Chemistry')
+  const [currentCategory, setCurrentCategory] = useState<string>()
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
   const MenuProps = {
@@ -47,13 +46,13 @@ export default function InvestigativeRequestForm() {
     }
   }
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/lab-test`, session ? session.accessToken.toString() : "").then(response => {
-        setTests(response.data)
-         })
-  }, []);
+    requests.get(`/lab-test`, session ? session.accessToken.toString() : '').then(response => {
+      setTests(response.data)
+    })
+  }, [])
 
   const testCategories = [...new Set(tests.map(item => item.testCategory))]
 
@@ -63,6 +62,23 @@ export default function InvestigativeRequestForm() {
     registeredById: 2,
     vitalId: 1
   })
+
+  const [testErrors, setTestErrors] = useState<number>(1)
+
+  const handleTestChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+
+    console.log(value, ...invReq.labTests)
+    setTestErrors(0)
+    setInvReq({ ...invReq, labTests: [...invReq.labTests, Number(value)] })
+
+    if ([...invReq.labTests].length > 1) {
+      setTestErrors(0)
+    }
+    console.log(testErrors)
+  }
 
   const registerInvestigationRequest = () => {
     console.log(invReq)
@@ -82,6 +98,7 @@ export default function InvestigativeRequestForm() {
                 <TextField
                   rows={5}
                   type='text'
+                  required
                   multiline
                   fullWidth
                   value={invReq.note}
@@ -99,6 +116,7 @@ export default function InvestigativeRequestForm() {
                   <FormControl fullWidth sx={{ mx: 2 }}>
                     <InputLabel id='test-select-label'>Chemistry</InputLabel>
                     <Select
+                      required
                       value={[currentCategory]}
                       label='Chemistry'
                       MenuProps={MenuProps}
@@ -117,7 +135,14 @@ export default function InvestigativeRequestForm() {
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth sx={{ mx: 2 }}>
                     <InputLabel id='test-select-label'>Chemistry</InputLabel>
-                    <Select value={[currentCategory]} label='Chemistry' onChange={handleChange} fullWidth size='small'>
+                    <Select
+                      required
+                      value={[currentCategory]}
+                      label='Chemistry'
+                      onChange={handleChange}
+                      fullWidth
+                      size='small'
+                    >
                       {testCategories.map(test => (
                         <MenuItem key={test} value={test}>
                           {test}
@@ -141,14 +166,7 @@ export default function InvestigativeRequestForm() {
                         sx={{ marginRight: 10, marginBottom: 3 }}
                         label={test.name}
                         value={test.id}
-                        control={
-                          <Checkbox
-                            onChange={e => {
-                              setInvReq({ ...invReq, labTests: [...invReq.labTests, Number(e.target.value)] })
-                            }}
-                            name='basic-checked'
-                          />
-                        }
+                        control={<Checkbox onChange={handleTestChange} name='basic-checked' />}
                       />
                     )
                   })}
@@ -160,6 +178,7 @@ export default function InvestigativeRequestForm() {
             <Button
               onClick={registerInvestigationRequest}
               size='large'
+              disabled={testErrors == 1}
               type='submit'
               sx={{ mr: 2 }}
               variant='contained'

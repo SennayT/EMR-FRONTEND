@@ -15,7 +15,6 @@ import AddIcon from '@mui/icons-material/Add'
 
 import { useSession } from 'next-auth/react'
 
-
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [researchers, setResearchers] = useState([])
@@ -32,8 +31,7 @@ const Researchers = () => {
   }
   const [currResearcher, setCurrResearcher] = useState()
 
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
 
   useEffect(() => {
     requests.get(`/researcher`, session ? session.accessToken.toString() : "").then(response => {

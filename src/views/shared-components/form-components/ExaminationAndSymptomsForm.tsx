@@ -6,9 +6,8 @@ import Grid from '@mui/material/Grid'
 import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import requests from 'src/utils/repository'
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-
 
 const ExaminationAndSymptomsForm = () => {
   const ITEM_HEIGHT = 48
@@ -25,12 +24,11 @@ const ExaminationAndSymptomsForm = () => {
   const [examination, setExamination] = useState('')
   const [symptoms, setSymptoms] = useState('')
   const [vitals, setVitals] = useState([{ id: 0, requestedDate: '' }])
-  const [vital, setVital] = useState(0)
-  const { data: session } = useSession();
-
+  const [vital, setVital] = useState<number>()
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/vitals`, session ? session.accessToken.toString() : '').then(response => {
       setVitals(response.data)
     })
   },[])
@@ -42,7 +40,7 @@ const ExaminationAndSymptomsForm = () => {
       vitalId: vital
     }
     console.log(data)
-    requests.post(`/examination`, data,  session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/examination`, data, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
     })
   }
@@ -54,8 +52,12 @@ const ExaminationAndSymptomsForm = () => {
           <CardContent>
             <Grid item xs={12}>
               <FormControl fullWidth sx={{ mx: 2 }}>
-                <InputLabel id='test-select-label'>Investigative Request</InputLabel>
+                <InputLabel required id='test-select-label'>
+                  Investigative Request
+                </InputLabel>
                 <Select
+                  sx={{ my: 2 }}
+                  required
                   labelId='test-select-label'
                   label='Investigative Request'
                   value={vital}
@@ -77,6 +79,7 @@ const ExaminationAndSymptomsForm = () => {
               <TextField
                 sx={{ margin: 2 }}
                 fullWidth
+                required
                 multiline
                 rows={8}
                 value={symptoms}
@@ -89,6 +92,7 @@ const ExaminationAndSymptomsForm = () => {
               <TextField
                 sx={{ margin: 2 }}
                 fullWidth
+                required
                 rows={8}
                 multiline
                 value={examination}
