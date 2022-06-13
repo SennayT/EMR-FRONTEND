@@ -22,7 +22,7 @@ const Employees = () => {
       setEmployees(response.data)
       setLoading(false)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },

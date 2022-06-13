@@ -48,22 +48,13 @@ const EmployeeGeneralInfo = (props: any) => {
               {props.healthCenter.type}
               </Box>
             </Typography>
-            <Divider />
 
-            <Typography sx={{ fontWeight: 'bold', marginBottom: 5}}>
-              Specialization
-            </Typography>
+
 
             <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Name : {' '}
+              Role : {' '}
               <Box component='span' sx={{ fontWeight: '400' }}>
-              Lorem Ipsumit
-              </Box>
-            </Typography>
-            <Typography  variant='body2' sx={{ fontWeight: 500, marginBottom: 3 }}>
-              Date : {' '}
-              <Box component='span' sx={{ fontWeight: '400' }}>
-              12/12/21 - 12/12/22
+              {props.role.name}
               </Box>
             </Typography>
 

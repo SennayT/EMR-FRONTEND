@@ -20,7 +20,7 @@ const NurseLayout = () => {
     requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then(response => {
       setVitals(response.data)
     })
-  });
+  },[]);
 
   return vitals.length == 0 ? <Grid className="container-grid" spacing={5} container item>
   <Grid item xs={12}>

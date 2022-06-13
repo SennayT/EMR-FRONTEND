@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid'
-import { Button, Grid, Typography, IconButton } from '@mui/material'
+import { Button, Grid, Typography, IconButton, Snackbar, Alert } from '@mui/material'
 import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -28,9 +28,16 @@ const HealthCenters = () => {
   const [currHealthCenter, setCurrHealthCenter] = useState(-1)
   const [edit, setEdit]  = useState(false)
 
-  const handleClickOpen = () => { setEdit(false); setOpen(true); }
-  const handleClickClose = () => setOpen(false)
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState("success")
 
+
+  const handleClickOpen = () => { setEdit(false); setOpen(true); }
+  const handleClickClose = (origin: boolean, severity: string) => {if(origin) {setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false)}}
+
+  const handleClose = () => {
+    setErrOpen(false);
+  };
 
   const { data: session } = useSession();
 
@@ -90,6 +97,11 @@ const HealthCenters = () => {
   return (
     <div>
       <Grid container>
+      <Snackbar open={errOpen} autoHideDuration={600}  onClose={() => setOpen(false)}>
+              <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
+                This is an error message!
+              </Alert>
+            </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             Health Centers
@@ -121,10 +133,10 @@ const HealthCenters = () => {
         />
       </div>
       <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
+        <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
           <DialogContent>
-            <AddHealthCenter edit={edit} healthCenter={healthCenters.find(i => i.id === currHealthCenter)}/>
+            <AddHealthCenter closeHandler={handleClickClose} edit={edit} healthCenter={healthCenters.find(i => i.id === currHealthCenter)}/>
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

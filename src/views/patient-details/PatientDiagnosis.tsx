@@ -59,7 +59,7 @@ const PatientDiagnosis = (props: {
 
 
     })
-  })
+  }, [])
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>

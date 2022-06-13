@@ -21,6 +21,9 @@ import { DatePicker } from '@mui/x-date-pickers'
 // import PDFViewer from 'pdf-viewer-reactjs'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import { Document, Page, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+
+
 
 
 const ITEM_HEIGHT = 48
@@ -43,25 +46,57 @@ const ReportGenerationUI = () => {
 
   const { data: session } = useSession();
 
-
-
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value }
     } = event
     setPersonName(typeof value === 'string' ? value.split(',') : value)
   }
-  console.log({ typeOfReport: typeOfReport, startDate: startDate, endDate: endDate })
-  const body = {
-    information: "DIAGNOSIS",
-    startDate: "2020-06-01T09:02:11.022Z",
-    endDate: "2022-06-01T09:02:11.022Z"
+  const handleReportRender = () => {
+    console.log("pdfdata");
+
+    console.log({ typeOfReport: typeOfReport, startDate: startDate, endDate: endDate })
+    const body = {
+      information: ["DIAGNOSIS"],
+      start: "2020-06-01T09:02:11.022Z",
+      end: "2022-06-01T09:02:11.022Z"
+    }
+    requests.post(`/system-admin/report`, body, session ? session.accessToken.toString() : "").then(
+      pdfdata => {
+        console.log(typeof (pdfdata.data));
+        // var len = pdfdata.length;
+        // var bytes = new Uint8Array(len);
+        // for (var i = 0; i < len; i++) {
+        //   bytes[i] = pdfdata.charCodeAt(i);
+        //   console.log()
+        // // }
+        // console.log(bytes.buffer);
+
+        // const renderPdf = bytes.buffer
+
+
+
+        var buf = new ArrayBuffer(pdfdata.data.length * 2); // 2 bytes for each char
+        var bufView = new Uint16Array(buf);
+        for (var i = 0, strLen = pdfdata.data.length; i < strLen; i++) {
+          bufView[i] = pdfdata.data.charCodeAt(i);
+        }
+
+        console.log("here")
+        const url = window.URL.createObjectURL(new Blob([buf]))
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'report.pdf');
+        document.body.appendChild(link);
+        link.click();
+
+      })
+
+
+
+
+
   }
-  requests.post(`/generate-report` , body , session ? session.accessToken.toString() : "").then(response => {
-//     return <PDFViewer
-//     document={response.data}
-// />
-  })
 
   const names = [
     'Oliver Hansen',
@@ -83,6 +118,9 @@ const ReportGenerationUI = () => {
           Report Generation
         </Typography>
       </Grid>
+      <iframe id='pdfViewer'>
+
+      </iframe>
       <Grid
         container
         xs={12}
@@ -170,7 +208,7 @@ const ReportGenerationUI = () => {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <Button variant='outlined' onSubmit={ReportGenerationUI}>
+          <Button variant='outlined' onClick={handleReportRender}>
             Generate Report
           </Button>
         </Grid>

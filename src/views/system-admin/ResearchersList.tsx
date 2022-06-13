@@ -15,7 +15,6 @@ import AddIcon from '@mui/icons-material/Add'
 
 import { useSession } from 'next-auth/react'
 
-
 const Researchers = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [researchers, setResearchers] = useState([])
@@ -25,15 +24,14 @@ const Researchers = () => {
   const [loading, setLoading] = useState(true)
   const [currResearcher, setCurrResearcher] = useState()
 
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/researcher`,  session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/researcher`, session ? session.accessToken.toString() : '').then(response => {
       setResearchers(response.data)
       setLoading(false)
     })
-  })
+  }, [])
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -85,7 +83,12 @@ const Researchers = () => {
         return (
           <div>
             <IconButton>
-              <EditIcon onClick={(e) =>{ setEdit(true); setOpen(true)} } />
+              <EditIcon
+                onClick={e => {
+                  setEdit(true)
+                  setOpen(true)
+                }}
+              />
             </IconButton>
             <IconButton>
               <DeleteIcon />
@@ -120,9 +123,13 @@ const Researchers = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          onSelectionModelChange={(newSelectionModel) => {
-            console.log("new", newSelectionModel  , researchers.find(i => i.id === newSelectionModel[0]))
-            setCurrResearcher(newSelectionModel[0]);
+          onSelectionModelChange={newSelectionModel => {
+            console.log(
+              'new',
+              newSelectionModel,
+              researchers.find(i => i.id === newSelectionModel[0])
+            )
+            setCurrResearcher(newSelectionModel[0])
           }}
           selectionModel={currResearcher}
           loading={loading}

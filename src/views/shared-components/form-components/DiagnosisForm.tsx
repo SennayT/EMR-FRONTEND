@@ -43,7 +43,7 @@ const DiagnosisForm = () => {
     requests.get('/investigation-request',  session ? session.accessToken.toString() : "").then((respose) => {
       setInvestigationReq(respose.data)
     })
-  })
+  }, [])
 
   const registerDiagnosis = () => {
     const data = {

@@ -55,7 +55,7 @@ const ProfileDetailLayout = () => {
     requests.get(`/user/4`,  session ? session.accessToken.toString() : "").then(response => {
       setUser(response.data)
     })
-  });
+  }, []);
 
   return (
     <Grid container spacing={5}>
@@ -63,7 +63,7 @@ const ProfileDetailLayout = () => {
         <ProfileDetail user={user}></ProfileDetail>
       </Grid>
       <Grid item xs={8}>
-        <EmployeeGeneralInfo healthCenter={user.healthCenter} />
+        <EmployeeGeneralInfo role={user.role} healthCenter={user.healthCenter} />
       </Grid>
     </Grid>
   )
