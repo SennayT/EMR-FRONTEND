@@ -35,7 +35,7 @@ interface State {
   showConfirmNewPassword: boolean
 }
 
-const TabSecurity = () => {
+const TabSecurity = (props: any) => {
   // ** States
   const [values, setValues] = useState<State>({
     newPassword: '',
@@ -207,7 +207,7 @@ const TabSecurity = () => {
           </Box>
         </Box> */}
 
-        <Box sx={{ mt: 11 }}>
+        {/* <Box sx={{ mt: 11 }}>
           <Button variant='contained' sx={{ marginRight: 3.5 }}>
             Save Changes
           </Button>
@@ -219,7 +219,7 @@ const TabSecurity = () => {
           >
             Reset
           </Button>
-        </Box>
+        </Box> */}
       </CardContent>
     </form>
   )
