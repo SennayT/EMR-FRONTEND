@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Divider } from '@mui/material'
+import { Button, Divider } from '@mui/material'
 import PatientDiagnosis from './PatientDiagnosis'
 import DiagnosisHistory from './DiagnosisHistory'
 import UserGeneralInfo from '../shared-components/UserGeneralInfo'
@@ -13,7 +13,10 @@ import requests from 'src/utils/repository'
 import { Patient } from 'src/data/models/PatientModel'
 import { Address } from 'src/data/models/AddressModel'
 
+import Link from 'next/link'
+
 import { useSession } from 'next-auth/react'
+import PatientNurseBar from '../nurse/PatitentNurseBar'
 
 
 const PatientDetail = () => {
@@ -69,7 +72,11 @@ const PatientDetail = () => {
 
     <Grid className="container-grid" spacing={5} container item>
       <Grid item xs={12}>
-        <PatientActionsBar />
+        {session.role === "Doctor" ?
+        <PatientActionsBar /> : <Link href={{
+          pathname: "/nurse/vitals",
+          query: { id: patient.id },
+        }}><Button>Vitals</Button></Link>}
       </Grid>
       <Grid item xs={4}>
         <UserGeneralInfo user={patient.user} emergencyContactName={patient?.emergencyContactName} emergencyContactPhone={patient?.emergencyContactPhone} />

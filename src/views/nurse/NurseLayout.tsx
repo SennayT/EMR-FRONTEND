@@ -6,25 +6,25 @@ import PatientNurseBar from './PatitentNurseBar'
 
 import requests from 'src/utils/repository'
 import NoDataView from '../shared-components/NoDataView'
-
+import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 
 
-const NurseLayout = () => {
+
+const NurseLayout = (props: any) => {
 
   const [vitals, setVitals] = useState([]);
-  const { data: session } = useSession();
 
+  const router = useRouter()
+  const {data:session} = useSession()
 
   useEffect(() => {
-    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then(response => {
-      setVitals(response.data)
-    })
-  },[]);
+    requests.get(`/vitals/patient/${router.query.id}`, session ? session.accessToken : "").then(response =>{console.log(router.query.id); setVitals(response.data)})
+  },[])
 
   return vitals.length == 0 ? <Grid className="container-grid" spacing={5} container item>
   <Grid item xs={12}>
-    <PatientNurseBar />
+    <PatientNurseBar patientId={router.query.id} />
   </Grid>
   <Grid item xs={8} >
     <NoDataView />
