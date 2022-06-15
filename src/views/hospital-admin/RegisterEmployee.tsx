@@ -13,7 +13,7 @@ import Switch from '@mui/material/Switch'
 import InputLabel from '@mui/material/InputLabel'
 
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material'
 import { TextField, Button, CardActions } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -30,27 +30,27 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 import requests from 'src/utils/repository'
 
 
-import user from '../../data/userData'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
 export default function EmRegistrationForm(props: any) {
-  const [name, setName] = useState(props.user ? props.user.name : "")
-  const [email, setEmail] = useState(props.user ? props.user.name : "")
-  const [phone, setPhone] = useState(props.user ? props.user.name : "")
-  const [role, setRole] = useState<string[]>( props.user ? [props.user.role.name] : ['Receptionist'])
-  const [gender, setGender] = React.useState(props.user ? props.user.gender : 'female')
+  const [edit, setEdit] = useState(false)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [role, setRole] = useState<string[]>(['Receptionist'])
+  const [gender, setGender] = React.useState('')
   const [age, setAge] = useState(24)
-  const [isAdmin, setIsAdmin] = useState(props.user ? props.user.name : false)
-  const [emName, setEmName] = useState(props.user ? props.user.name : "")
-  const [emPhone, setEmPhone] = useState(props.user ? props.user.name : "")
-  const [city, setCity] = useState(props.user ? props.user.address.city : "")
-  const [subCity, setSubCity] = useState(props.user ? props.user.address.subCity : "")
-  const [woreda, setWoreda] = useState(props.user ? props.user.address.woreda : "")
-  const [kebelle, setKebelle] = useState(props.user ? props.user.address.kebelle : "")
-  const [zone, setZone] = useState(props.user ? props.user.address.zone : "")
-  const [street, setStreet] = useState(props.user ? props.user.address.street : "")
-  const [houseNo, setHouseNo] = useState(props.user ? props.user.address.houseNo : "")
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [emName, setEmName] = useState("")
+  const [emPhone, setEmPhone] = useState("")
+  const [city, setCity] = useState("")
+  const [subCity, setSubCity] = useState("")
+  const [woreda, setWoreda] = useState("")
+  const [kebelle, setKebelle] = useState("")
+  const [zone, setZone] = useState("")
+  const [street, setStreet] = useState("")
+  const [houseNo, setHouseNo] = useState("")
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -61,11 +61,27 @@ export default function EmRegistrationForm(props: any) {
   const router = useRouter()
 
   useEffect(() => {
-    console.log(router.query.user);
+    if (router.query.user) {
+      const us = JSON.parse(router.query.user?.toString())
+      setEdit(true)
+      setName(us.name);
+      setEmail(us.email);
+      setPhone(us.phone);
+      setRole(us.role);
+      setGender(us.gender);
+      setEmName(us.emName);
+      setEmPhone(us.emPhone);
+      setEdit(true);
+    }
+    // setCity(us.address.city)
+    // setSubCity(us.address.subCity)
+    // setWoreda(us.address.woreda)
+    // setKebelle(us.address.kebelle)
+    // setZone(us.address.zone)
+    // setStreet(us.address.street)
+    // setHouseNo(us.address.houseNo)
 
-
-    // JSON.parse(router.query.user?.toString())
-}, []);
+  }, []);
 
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
@@ -137,6 +153,10 @@ export default function EmRegistrationForm(props: any) {
     }
   }
 
+  const [err, setErr] = useState(false)
+  const [errMsg, setErrMsg] = useState("An error occured please try again")
+  const [open, setOpen] = useState(false)
+
   const registerEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
@@ -155,7 +175,7 @@ export default function EmRegistrationForm(props: any) {
         houseNo: houseNo
       },
       isAdmin: isAdmin,
-      healthCenterId: user.healthCeterId,
+      healthCenterId: 4,
       role: role,
       gender: gender
     })
@@ -176,13 +196,22 @@ export default function EmRegistrationForm(props: any) {
       age: age,
       role: role,
       isAdmin: isAdmin,
-      healthCenterId: user.healthCeterId
+      healthCenterId: 4
     }
-
-    requests.post(`/employee`, body,  session ? session.accessToken.toString() : "").then(response => {
-      console.log(response.data)
-    })
+    if (!router.query.user) {
+      requests.post(`/employee`, body, session ? session.accessToken.toString() : "").then(response => {
+        console.log(response.data)
+      }).catch(e =>{ setErr(true); setOpen(true); })
+    } else {
+      requests.put(`/employee/${props.user.id}`, body, session ? session.accessToken.toString() : "").then(response => {
+        console.log(response.data)
+      }).catch(e =>{ setErr(true);  setOpen(true)})
+    }
   }
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
@@ -200,13 +229,19 @@ export default function EmRegistrationForm(props: any) {
 
   const switchHandler = (event: any) => {
     setIsAdmin(event.target.checked)
+    setRole(["Hospital Admin"])
   }
 
   const handleRoleChange = (event: SelectChangeEvent<string[]>) => {
+    if (event.target.value as string[] == ['Hospital Admin']) {
+      setIsAdmin(true)
+    } else {
+      setIsAdmin(false)
+    }
     setRole(event.target.value as string[])
   }
 
-  const roles = ['Doctor', 'Receptionist', 'Nurse', 'Lab Technician', 'Radiologist']
+  const roles = ['Doctor', 'Receptionist', 'Nurse', 'Lab Expert', 'Radiologist', 'Hospital Admin']
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -223,6 +258,11 @@ export default function EmRegistrationForm(props: any) {
 
   return (
     <Grid container spacing={6}>
+      <Snackbar open={open} autoHideDuration={1000} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
+            {errMsg}
+          </Alert>
+        </Snackbar>
       <Typography variant='h5' sx={{ fontWeight: 600, mt: 2 }}>
         Employee Registration
       </Typography>
