@@ -21,11 +21,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
       {
         sectionTitle: 'pages'
       },
-      {
-        title: 'Patient Details',
-        icon: AccountDetails,
-        path: '/patient-details'
-      }
+
     )
     pagesSection.push({
       title: 'Register Patient',
