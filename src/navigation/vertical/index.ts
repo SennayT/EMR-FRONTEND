@@ -72,16 +72,12 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Doctor') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Create Prescription',
-        icon: Account,
-        path: '/doctor/create-prescription'
-      }
-    )
+    // pagesSection.push(
+    //   {
+    //     sectionTitle: 'pages'
+    //   },
+
+    // )
   }
 
   // if (session.role === 'Nurse') {
