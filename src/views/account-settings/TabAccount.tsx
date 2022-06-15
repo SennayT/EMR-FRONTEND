@@ -111,7 +111,7 @@ const TabAccount = (props: any) => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth  label='' placeholder='' value={props.user ? props.user.name :  ' '} />
+            <TextField fullWidth label='' placeholder='' value={props.user ? props.user.name : ' '} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -119,7 +119,7 @@ const TabAccount = (props: any) => {
               type='email'
               label='Email'
               placeholder=''
-              value={props.user ? props.user.email :  ' '}
+              value={props.user ? props.user.email : ' '}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -127,7 +127,7 @@ const TabAccount = (props: any) => {
               fullWidth
               label='Phone Number'
               placeholder=''
-              value={props.user ? props.user.phone :  ' '}
+              value={props.user ? props.user.phone : ' '}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -153,31 +153,17 @@ const TabAccount = (props: any) => {
           <Grid item xs={12} sm={6}>
             <FormControl>
               <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
-              <RadioGroup row value={props.user ? props.user.gender :  'female'} aria-label='gender' name='account-settings-info-radio'>
+              <RadioGroup
+                row
+                value={props.user ? props.user.gender : 'female'}
+                aria-label='gender'
+                name='account-settings-info-radio'
+              >
                 <FormControlLabel value='male' label='Male' control={<Radio />} />
                 <FormControlLabel value='female' label='Female' control={<Radio />} />
               </RadioGroup>
             </FormControl>
           </Grid>
-          {/* {openAlert ? (
-            <Grid item xs={12} sx={{ mb: 3 }}>
-              <Alert
-                severity='warning'
-                sx={{ '& a': { fontWeight: 400 } }}
-                action={
-                  <IconButton size='small' color='inherit' aria-label='close' onClick={() => setOpenAlert(false)}>
-                    <Close fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                <AlertTitle>Your email is not confirmed. Please check your inbox.</AlertTitle>
-                <Link href='/' onClick={(e: SyntheticEvent) => e.preventDefault()}>
-                  Resend Confirmation
-                </Link>
-              </Alert>
-            </Grid>
-          ) : null} */}
-
           <Grid item xs={12}>
             <Button variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes

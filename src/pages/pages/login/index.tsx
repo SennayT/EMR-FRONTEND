@@ -6,7 +6,8 @@ import Link from 'next/link'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+
+// import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
@@ -74,6 +75,24 @@ const LoginPage = () => {
   })
 
   const [email, setEmail] = useState('')
+  const [emailErrors, setEmailErrors] = useState<{ email: string }>()
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmailErrors({ email: '' })
+    setEmail(value)
+    const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
+
+    if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
+    }
+
+    if (value == '') {
+      setEmailErrors({ email: 'Email field cannot be empty' })
+    }
+  }
 
   // ** Hook
   // const theme = useTheme()
@@ -137,11 +156,12 @@ const LoginPage = () => {
               autoFocus
               fullWidth
               id='email'
+              required
               label='Email'
               value={email}
-              onChange={e => {
-                setEmail(e.target.value)
-              }}
+              onChange={handleEmailChange}
+              error={Boolean(emailErrors?.email)}
+              helperText={emailErrors?.email}
               sx={{ marginBottom: 4 }}
             />
             <FormControl fullWidth>
@@ -150,6 +170,7 @@ const LoginPage = () => {
                 label='Password'
                 value={values.password}
                 id='auth-login-password'
+                required
                 onChange={handleChange('password')}
                 type={values.showPassword ? 'text' : 'password'}
                 endAdornment={
@@ -181,7 +202,14 @@ const LoginPage = () => {
                 <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
               </Link>
             </Box>
-            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={loginHandler}>
+            <Button
+              disabled={emailErrors?.email || values.password == '' ? true : false}
+              fullWidth
+              size='large'
+              variant='contained'
+              sx={{ marginBottom: 7 }}
+              onClick={loginHandler}
+            >
               Login
             </Button>
           </form>

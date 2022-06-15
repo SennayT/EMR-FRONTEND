@@ -39,7 +39,7 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 //   return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
 // })
 
-const TabInfo = () => {
+const TabInfo = (props: any) => {
   // ** State
 
   return (
@@ -51,8 +51,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='City'
-                placeholder='Addis Ababa'
-                defaultValue='Addis Ababa'
+                value={props.user.address.city}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -66,8 +65,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='Woreda'
-                placeholder='04'
-                defaultValue='04'
+                value={props.user.address.woreda}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -81,8 +79,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='Sub City'
-                placeholder='Bole'
-                defaultValue='Bole'
+                value={props.user.address.subCity}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -96,8 +93,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='Kebele'
-                placeholder='32'
-                defaultValue='32'
+                value={props.user.address.kebelle}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -111,8 +107,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='Street'
-                placeholder='Mauritania street'
-                defaultValue='Mauritania street'
+                value={props.user.address.street}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -126,8 +121,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='House Number'
-                placeholder='432'
-                defaultValue='432'
+                value={props.user.address.houseNo}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -141,8 +135,7 @@ const TabInfo = () => {
               <TextField
                 fullWidth
                 label='Zone'
-                placeholder='32'
-                defaultValue='32'
+                value={props.user.address.zone}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
