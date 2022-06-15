@@ -1,6 +1,6 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, Fragment } from 'react'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent } from '@mui/material'
+import { Card, Typography, CardContent, DialogContent, Dialog, DialogTitle, DialogActions } from '@mui/material'
 import { TextField, Button, CardActions } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -16,14 +16,14 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 // import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
 import requests from 'src/utils/repository'
-import { User } from 'src/data/models/UserModel'
-import { Address } from 'src/data/models/AddressModel'
 
 import { useSession } from 'next-auth/react'
+import { userInfo } from 'os'
+import ShowRefDialog from '../shared-components/ShowRefDialog'
 
 
 export default function PatientRegistrationForm() {
-  const [address, setAddress] = useState<Address>({
+  const [address, setAddress] = useState({
     city: '',
     subCity: '',
     woreda: '',
@@ -32,16 +32,15 @@ export default function PatientRegistrationForm() {
     street: '',
     houseNo: ''
   })
-  const [currentUser, setUser] = useState<User>({
+  const [currentUser, setUser] = useState({
     name: '',
     age: 32,
     gender: 'female',
     email: '',
-    role: 'Patient',
     phone: '',
     address: address,
     isAdmin: false,
-    healthCeterId: 0
+    healthCenterId: 4
   })
   const [emergencyName, setEmergencyName] = useState('')
   const [emergencyPhone, setEmergencyPhone] = useState('')
@@ -68,23 +67,32 @@ export default function PatientRegistrationForm() {
   }
 
   const { data: session } = useSession();
+  const [patientRef, setPatientRef] =  useState("");
+  const [open, setOpen] = useState(false)
 
 
   const registerPatient = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
-
+    let finalUser = currentUser
+    finalUser.address = address
     const body = {
-      user: currentUser,
+      user: finalUser,
       emergencyContactName: emergencyName,
       emergencyContactPhone: emergencyPhone,
-      registeredBy: 1
+      registeredBy: 1,
+      role: "Patient"
     }
     console.log(body)
 
     requests.post(`/patient`, body,  session ? session.accessToken.toString() : "").then(response => {
-      console.log(response.data)
+      setPatientRef(response.data.refId);
+      setOpen(true);
     })
   }
+
+
+  // const handleClickOpen = () => setOpen(true);
+  const handleClickClose = () => setOpen(false);
 
   return (
     <Grid container spacing={6}>
@@ -396,6 +404,15 @@ export default function PatientRegistrationForm() {
           </CardContent>
         </div>
       </Card>
+      <Fragment>
+        <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
+          <DialogTitle id='max-width-dialog-title'>Please Make sure to copy the Reference Id below </DialogTitle>
+          <DialogContent>
+            <ShowRefDialog refId={patientRef}/>
+          </DialogContent>
+          <DialogActions className='dialog-actions-dense'></DialogActions>
+        </Dialog>
+      </Fragment>
     </Grid>
   )
 }
