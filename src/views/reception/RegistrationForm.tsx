@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { useState, ChangeEvent } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent } from '@mui/material'
@@ -7,11 +8,21 @@ import InputAdornment from '@mui/material/InputAdornment'
 import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
-import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+
+// import CalendarMonthIcon from 'mdi-material-ui/CalendarMonth'
 import CityIcon from 'mdi-material-ui/City'
 import HouseIcon from 'mdi-material-ui/Home'
 import StreetIcon from 'mdi-material-ui/RoadVariant'
 import SubcityIcon from 'mdi-material-ui/TownHall'
+
+import FormControl from '@mui/material/FormControl'
+import FormLabel from '@mui/material/FormLabel'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
 // import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
@@ -21,7 +32,6 @@ import { Address } from 'src/data/models/AddressModel'
 
 import { useSession } from 'next-auth/react'
 
-
 export default function PatientRegistrationForm() {
   const [address, setAddress] = useState<Address>({
     city: '',
@@ -30,7 +40,7 @@ export default function PatientRegistrationForm() {
     zone: '',
     kebelle: '',
     street: '',
-    houseNo: ''
+    houseNumber: ''
   })
   const [currentUser, setUser] = useState<User>({
     name: '',
@@ -67,8 +77,21 @@ export default function PatientRegistrationForm() {
     }
   }
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
+  const [age, setAge] = useState(24)
+  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
+  const [gender, setGender] = React.useState('female')
 
+  const handleDateChange = (newValue: Date | null) => {
+    setValue(newValue)
+    const today = new Date()
+    let val = today.getFullYear() - newValue.getFullYear()
+    const m = today.getMonth() - newValue.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < newValue.getDate())) {
+      val--
+    }
+    setAge(val)
+  }
 
   const registerPatient = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
@@ -81,7 +104,7 @@ export default function PatientRegistrationForm() {
     }
     console.log(body)
 
-    requests.post(`/patient`, body,  session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/patient`, body, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
     })
   }
@@ -144,7 +167,7 @@ export default function PatientRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Phone Number'
-                  placeholder='+251 987654321'
+                  placeholder='987654321'
                   value={currentUser.phone}
                   onChange={e => {
                     setUser({ ...currentUser, phone: e.target.value })
@@ -153,48 +176,40 @@ export default function PatientRegistrationForm() {
                     startAdornment: (
                       <InputAdornment position='start'>
                         <Phone />
+                        +251
                       </InputAdornment>
                     )
                   }}
                 />
               </Grid>
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Age'
-                  placeholder='34'
-                  value={currentUser.age}
-                  onChange={e => {
-                    setUser({ ...currentUser, age: Number(e.target.value) })
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <CalendarMonthIcon />
-                      </InputAdornment>
-                    )
-                  }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <MobileDatePicker
+                    label='Date of Birth'
+                    openTo='year'
+                    inputFormat='MM/dd/yyyy'
+                    value={value}
+                    onChange={handleDateChange}
+                    renderInput={params => <TextField size='small' fullWidth {...params} />}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Gender'
-                  placeholder='Female'
-                  value={currentUser.gender}
-                  onChange={e => {
-                    setUser({ ...currentUser, gender: e.target.value })
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
+                <FormControl>
+                  <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby='demo-row-radio-buttons-group-label'
+                    name='row-radio-buttons-group'
+                    value={gender}
+                    onChange={e => {
+                      setGender(e.target.value)
+                    }}
+                  >
+                    <FormControlLabel value='female' control={<Radio />} label='Female' />
+                    <FormControlLabel value='male' control={<Radio />} label='Male' />
+                  </RadioGroup>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, my: 3 }}>
@@ -229,11 +244,12 @@ export default function PatientRegistrationForm() {
                   onChange={e => {
                     setEmergencyPhone(e.target.value)
                   }}
-                  placeholder='+251 987654321'
+                  placeholder='987654321'
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
                         <Phone />
+                        +251
                       </InputAdornment>
                     )
                   }}
@@ -348,9 +364,9 @@ export default function PatientRegistrationForm() {
                     fullWidth
                     label='House Number'
                     placeholder='432'
-                    value={address.houseNo}
+                    value={address.houseNumber}
                     onChange={e => {
-                      setAddress({ ...address, houseNo: e.target.value })
+                      setAddress({ ...address, houseNumber: e.target.value })
                     }}
                     InputProps={{
                       startAdornment: (
