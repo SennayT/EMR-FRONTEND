@@ -50,23 +50,27 @@ const ProfileDetailLayout = () => {
 
   const { data: session } = useSession();
 
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : "").then(response => {
       setUser(response.data)
+      setLoading(false)
     })
   }, []);
-
-  return (
-    <Grid container spacing={5}>
-      <Grid item xs={4}>
-        <ProfileDetail user={user}></ProfileDetail>
+  if (!loading) {
+    return (
+      <Grid container spacing={5}>
+        <Grid item xs={4}>
+          <ProfileDetail user={user}></ProfileDetail>
+        </Grid>
+        <Grid item xs={8}>
+          <EmployeeGeneralInfo role={user.role} healthCenter={user.healthCenter} />
+        </Grid>
       </Grid>
-      <Grid item xs={8}>
-        <EmployeeGeneralInfo role={user.role} healthCenter={user.healthCenter} />
-      </Grid>
-    </Grid>
-  )
+    )
+  } else {
+    return <div></div>
+  }
 }
 
 export default ProfileDetailLayout

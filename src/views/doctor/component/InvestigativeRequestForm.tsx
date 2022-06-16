@@ -29,11 +29,11 @@ export default function InvestigativeRequestForm() {
     setCurrentCategory(event.target.value.toString())
   }
 
-  const handleChangeVitals = (event: SelectChangeEvent<string[]>) => {
-    setCurrentCategory(event.target.value.toString())
-  }
+  const [currVital, setCurrVital] = useState<number>()
+
 
   const [tests, setTests] = useState<LabTest[]>([])
+  const [vitals, setVitals] = useState([])
   const [currentCategory, setCurrentCategory] = useState<string>()
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -51,6 +51,9 @@ export default function InvestigativeRequestForm() {
   useEffect(() => {
     requests.get(`/lab-test`, session ? session.accessToken.toString() : '').then(response => {
       setTests(response.data)
+    })
+    requests.get(`/vitals`, session ? session.accessToken.toString() : '').then(response => {
+      setVitals(response.data)
     })
   }, [])
 
@@ -82,7 +85,8 @@ export default function InvestigativeRequestForm() {
 
   const registerInvestigationRequest = () => {
     console.log(invReq)
-    requests.post('/investigation-request', invReq)
+    requests.post('/investigation-request', invReq, session ? session.accessToken.toString() : '' )
+
   }
 
   return (
@@ -117,16 +121,21 @@ export default function InvestigativeRequestForm() {
                     <InputLabel id='test-select-label'>Chemistry</InputLabel>
                     <Select
                       required
-                      value={[currentCategory]}
-                      label='Chemistry'
+                      value={currVital}
+                      label='Vital'
                       MenuProps={MenuProps}
-                      onChange={handleChangeVitals}
+                      onChange={
+                        e => {
+                          const id = Number(e.target.value)
+                          setCurrVital(id)
+                        }
+                      }
                       fullWidth
                       size='small'
                     >
-                      {testCategories.map(name => (
-                        <MenuItem key={name} value={name}>
-                          {name}
+                      {vitals.map(name => (
+                        <MenuItem key={name.id} value={name.id}>
+                          {new Date(name.requestedDate).toLocaleDateString("en-US" ,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                         </MenuItem>
                       ))}
                     </Select>
