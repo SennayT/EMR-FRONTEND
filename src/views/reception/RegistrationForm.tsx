@@ -29,10 +29,19 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
-import { userInfo } from 'os'
+
+// import { userInfo } from 'os'
 import ShowRefDialog from '../shared-components/ShowRefDialog'
 
 export default function PatientRegistrationForm() {
+  const { data: session } = useSession()
+
+  const [age, setAge] = useState(24)
+  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
+  const [gender, setGender] = React.useState('female')
+  const [patientRef, setPatientRef] = useState('')
+  const [open, setOpen] = useState(false)
+
   const [address, setAddress] = useState({
     city: '',
     subCity: '',
@@ -54,10 +63,63 @@ export default function PatientRegistrationForm() {
   })
   const [emergencyName, setEmergencyName] = useState('')
   const [emergencyPhone, setEmergencyPhone] = useState('')
-
+  const [nameErrors, setNameErrors] = useState<{ name: string }>()
+  const [emailErrors, setEmailErrors] = useState<{ email: string }>()
+  const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
   const disableButton = cityErrors?.city ? true : false
+
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setNameErrors({ name: '' })
+    setName(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (!regName) {
+      setNameErrors({ name: 'Invalid name' })
+    }
+
+    if (value == '') {
+      setNameErrors({ name: 'Name field cannot be empty' })
+    }
+  }
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmailErrors({ email: '' })
+    setEmail(value)
+    const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
+
+    if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
+    }
+
+    if (value == '') {
+      setEmailErrors({ email: 'Email field cannot be empty' })
+    }
+  }
+
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setPhoneErrors({ phone: '' })
+    setPhone(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (!reg) {
+      setPhoneErrors({ phone: 'Invalid phone number' })
+    }
+
+    if (value == '') {
+      setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    }
+  }
 
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -75,13 +137,6 @@ export default function PatientRegistrationForm() {
       setCityErrors({ city: 'City field cannot be empty' })
     }
   }
-
-  const { data: session } = useSession()
-  const [age, setAge] = useState(24)
-  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
-  const [gender, setGender] = React.useState('female')
-  const [patientRef, setPatientRef] = useState('')
-  const [open, setOpen] = useState(false)
 
   const handleDateChange = (newValue: Date | null) => {
     setValue(newValue)
