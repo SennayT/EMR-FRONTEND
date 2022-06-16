@@ -1,14 +1,21 @@
-import React,{useState} from 'react'
+import React,{Fragment, useState} from 'react'
 import {
     TextField,
-    Button
-} from '@material-ui/core';
+  Button,
+  Backdrop,
+  Box,
+  Modal,
+  Fade,
+   Typography,
+   CardContent,
+   Grid,
+   Dialog,
+   DialogTitle,
+   DialogContent,
+   DialogActions
+} from '@mui/material';
+
 import ChartEight from './medication';
-import {Backdrop} from '@material-ui/core';
-import {Box} from '@material-ui/core';
-import {Modal} from '@material-ui/core';
-import {Fade} from '@material-ui/core';
-import {Typography} from '@material-ui/core';
 
 const style = {
   position: 'absolute',
@@ -34,16 +41,16 @@ function SearchMedicationRecord() {
 const [data, setData] = useState({
     healthCenter: "All",
     medication: "",
-    startAgeGroup: "",
-    endAgeGroup: "",
+    startAgeGroup: 0,
+    endAgeGroup: 0,
     gender: ""
 });
   const clear = () => {
     setData({
     healthCenter: "All",
-    medicatioin: "",
-    startAgeGroup: "",
-    endAgeGroup: "",
+    medication: "",
+    startAgeGroup: 0,
+    endAgeGroup: 0,
     gender: ""
   });
 };
@@ -54,11 +61,11 @@ const [data, setData] = useState({
       return;
     }
 
-    if (data.startAgeGroup === "") {
+    if (data.startAgeGroup === 0) {
       data.startAgeGroup = 1;
     }
 
-    if (data.endAgeGroup === "") {
+    if (data.endAgeGroup === 0) {
       data.endAgeGroup = 150;
     }
 
@@ -76,71 +83,71 @@ const [data, setData] = useState({
       return;
       }
 
-    if (data.startAgeGroup > 150 | data.startAgeGroup < 0 && data.startAgeGroup != "") {
+    if (data.startAgeGroup > 150 || data.startAgeGroup < 0 ) {
            alert("Min age must be between 0 and 150");
            return;
     }
 
-    if (data.endAgeGroup > 150 | data.endAgeGroup < 1 && data.endAgeGroup != "") {
+    if (data.endAgeGroup > 150 || data.endAgeGroup < 1 ) {
         alert("Max age must be between 1 and 150");
         return;
     }
 
-    data.startAgeGroup = parseInt(data.startAgeGroup);
-    data.endAgeGroup = parseInt(data.endAgeGroup);
+    
+    data.startAgeGroup = Number(data.startAgeGroup);
+    data.endAgeGroup = Number(data.endAgeGroup);
 
-      handleOpen();
    }
 
 
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClickClose = () => {
+    setOpen(false)
+  }
 
 
   return (
-    <div >
-       <main >
-
-        <div className='d-flex' >
+        <Box>
+       <CardContent sx={{backgroundColor: 'white'}} >
+        <Typography variant="h6"> Medication Statistics</Typography>
+        <Grid item xs={12}>
           <TextField style={{margin:'30px'}} label='Medication Name'  name="medication" variant='outlined'
-            value = {data.medication} onChange = {(e)=> setData({ ...data, medication: e.target.value})}/>
+            value = {data.medication} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, medication: e.target.value})}/>
+         
           <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'
-            value = {data.gender} onChange = {(e)=> setData({ ...data, gender: e.target.value})}/>
-                </div>
-        <div className='d-flex'>
+            value = {data.gender} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, gender: e.target.value})}/>
+        </Grid>
+        <Grid>
 
           <TextField style={{ margin: '30px' }} label='Min Age' name="startAgeGroup" variant='outlined'
-            value = {data.startAgeGroup} onChange = {(e)=> setData({ ...data, startAgeGroup: e.target.value})} />
+            value = {data.startAgeGroup} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, startAgeGroup: Number(e.target.value)})} />
 
           <TextField style={{ margin: '30px' }} label='Max Age'  name="endAgeGroup" variant='outlined'
-            value = {data.endAgeGroup} onChange = {(e)=> setData({ ...data, endAgeGroup: e.target.value})} />
-        </div>
+            value = {data.endAgeGroup} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, endAgeGroup: Number(e.target.value)})} />
+        </Grid>
         <Button style={{ margin: '30px' }} onClick={handleSubmit} variant='contained' color ='primary'>Search</Button>
-          </main>
-
-
-   <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open} style={{backgroundColor: 'white', width:'700px', marginLeft:'500px', marginTop:'20px' }}>
-          <Box >
-            <Typography id="transition-modal-title" variant="h6" component="h2" align='center'>
+      </CardContent>
+      <Fragment>
+        <Dialog
+          open={open}
+          maxWidth='md'
+          onClose={handleClickClose}
+          aria-labelledby='max-width-dialog-title'
+        >
+          <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
+          <DialogContent>
+             <Typography id="transition-modal-title" variant="h6" component="h2" align='center'>
               Medication Analytics Charts
             </Typography>
             <ChartEight data={data}/>
-          </Box>
-        </Fade>
-      </Modal>
-    </div>
-
-    </div>
+          </DialogContent>
+          <DialogActions className='dialog-actions-dense'></DialogActions>
+        </Dialog>
+      </Fragment>
+    </Box>
   )
 }
 

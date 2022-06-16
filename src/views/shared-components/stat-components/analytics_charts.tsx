@@ -1,20 +1,21 @@
 import React, { useState, Component } from 'react';
-import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
+import {   useTheme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
+import { Box } from '@mui/material';
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
+const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
 
 export default function ChartThree() {
     
 
-const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', fetcher)
+const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/recordCounts', fetcher)
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  if (error) return <Box>Failed to load</Box>
+  if (!data) return <Box>Loading...</Box>
 
 
   const theme = useTheme();
@@ -23,7 +24,7 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
+      // foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["patient", "prescription", "diagnosis", "disease", "investigation", "examination", "vitals"]
@@ -71,7 +72,7 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
+      // foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["healthcenter", "users"]
@@ -119,9 +120,9 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     
     return (
 
-        <div>
+        <Box>
         <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='1000px' />;
         <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;     
-       </div>
+       </Box>
     )
 };

@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import axios from 'axios';
+import { Box } from '@mui/material';
 
 export default function ChartEight(props: any) {
     const [data, setData] = useState();
@@ -14,7 +15,7 @@ export default function ChartEight(props: any) {
             endAgeGroup: props.data.endAgeGroup,
             gender: props.data.gender
         })
-            .then(function (response) {
+            .then(function (response: { data: any; }) {
                 //   console.log(response.data);
                 setData(response.data)
 
@@ -22,7 +23,7 @@ export default function ChartEight(props: any) {
 
     }, []);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <Box>Loading...</Box>
     const h = data['total_prescriptions'];
 
 const option_medication = { labels: ["Total Prescription", "Prescriptions with the specified medication"] };
@@ -35,10 +36,10 @@ const option_gender = {labels:['Prescriptions with the specified medication and 
 const series_gender = [data['by_age'], data['by_gender']];
     return (
 
-        <div>
+        <Box>
         <ReactApexChart options={option_medication}  series={series_medication} type='pie' width='500px' />
         <ReactApexChart options={option_age} series={series_age} type='pie' width='500px' />
         <ReactApexChart options={option_gender} series={series_gender} type='pie' width='640px' />
-       </div>
+       </Box>
     )
 };

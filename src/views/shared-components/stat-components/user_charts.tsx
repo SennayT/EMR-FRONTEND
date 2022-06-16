@@ -1,9 +1,10 @@
 import React, { useState, Component } from 'react';
-import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
-import dynamic from 'next/dynamic';
+import { useTheme } from "@emotion/react"
+import dynamic from 'next/dynamic'; 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
+import { Box } from 'mdi-material-ui';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
@@ -11,10 +12,10 @@ const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 export default function ChartTwo() {
 
 
-  const { data, error } = useSWR('http://localhost:4000/researcher/userRecord', fetcher)
+  const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/userRecord', fetcher)
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  if (error) return <Box>Failed to load</Box>
+  if (!data) return <Box>Loading...</Box>
 
 
   const theme = useTheme();
@@ -23,7 +24,7 @@ export default function ChartTwo() {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main,
+      // foreColor: theme.palette.primary.main,
     },
     xaxis: {
       categories: ["recep", "radio", "doc", "nur", "s_admin", "h_admin", "lab", "res"],
@@ -74,7 +75,7 @@ export default function ChartTwo() {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
+      // foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["male", "female"]
@@ -120,9 +121,9 @@ export default function ChartTwo() {
 
   return (
 
-    <div>
+    <Box>
       <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />;
       <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;
-    </div>
+    </Box>
   )
 };

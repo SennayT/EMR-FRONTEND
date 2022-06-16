@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react';
 
 import ChartSeven from './disease';
 
@@ -11,7 +11,8 @@ import {
   OutlinedInput,
   TextField,
   Button, Fade, Typography, DialogTitle, Modal, IconButton, Box, Backdrop, Card, CardContent, DialogContent, Dialog, DialogActions,
-} from '@mui/material'
+} from '@mui/material';
+
 function SearchDiseaseRecord() {
 
   const [open, setOpen] = React.useState(false);
@@ -77,8 +78,6 @@ function SearchDiseaseRecord() {
     data.startAgeGroup = Number(data.startAgeGroup);
     data.endAgeGroup = Number(data.endAgeGroup);
 
-
-    handleOpen();
   }
 
 
@@ -101,17 +100,17 @@ function SearchDiseaseRecord() {
         <Typography variant="h6"> Disease Statistics</Typography>
         <Grid item xs={12}>
           <TextField style={{margin:'30px'}} label='Disease Name'  name="disease" variant='outlined'
-            value = {data.disease} onChange = {(e)=> setData({ ...data, disease: e.target.value})}/>
+            value = {data.disease} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, disease: e.target.value})}/>
           <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'
-            value = {data.gender} onChange = {(e)=> setData({ ...data, gender: e.target.value})}/>
+            value = {data.gender} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, gender: e.target.value})}/>
                 </Grid>
         <Grid>
 
           <TextField style={{ margin: '30px' }} label='Min Age' name="startAgeGroup" variant='outlined'
-            value = {data.startAgeGroup} onChange = {(e)=> setData({ ...data, startAgeGroup: Number(e.target.value)})} />
+            value = {data.startAgeGroup} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, startAgeGroup: Number(e.target.value)})} />
 
           <TextField style={{ margin: '30px' }} label='Max Age'  name="endAgeGroup" variant='outlined'
-            value = {data.endAgeGroup} onChange = {(e)=> setData({ ...data, endAgeGroup: Number(e.target.value)})} />
+            value = {data.endAgeGroup} onChange = {(e: { target: { value: any; }; })=> setData({ ...data, endAgeGroup: Number(e.target.value)})} />
         </Grid>
         <Button style={{ margin: '30px' }} onClick={handleSubmit} variant='contained' color ='primary'>Search</Button>
       </CardContent>

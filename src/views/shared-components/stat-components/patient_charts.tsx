@@ -2,8 +2,9 @@ import React, { useState, Component } from 'react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-import useSWR from 'swr'
+import useSWR from 'swr';
 import { useTheme } from '@emotion/react';
+import { Box } from '@mui/material';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
@@ -13,8 +14,8 @@ export default function ChartOne() {
 
 const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/patientRecord', fetcher)
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  if (error) return <Box>Failed to load</Box>
+  if (!data) return <Box>Loading...</Box>
 
 
   const theme = useTheme();
@@ -115,9 +116,9 @@ const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com
 
     return (
 
-        <div>
+        <Box>
         <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='500px' />;
         <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;
-       </div>
+       </Box>
     )
 };

@@ -4,6 +4,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 import axios from 'axios';
 import { useTheme } from '@emotion/react';
+import { Box } from '@mui/material';
 
 
 
@@ -13,7 +14,7 @@ export default function ChartNine() {
         axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/healthcenter', {
             healthCenter: "platforms"
         })
-            .then(function (response) {
+            .then(function (response: { data: any; }) {
                 //   console.log(response.data);
                 setData(response.data)
 
@@ -21,7 +22,7 @@ export default function ChartNine() {
 
     }, []);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <Box>Loading...</Box>
     const h = data['user_count'];
 
 const theme = useTheme();
@@ -122,12 +123,10 @@ const theme = useTheme();
   };
 
     return (
-    <div>
+    <Box>
         <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />;
         <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='700px' />;
-
-        <h1>{h}</h1>
-      </div>
+      </Box>
 )
 
 
