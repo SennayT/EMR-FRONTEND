@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Divider, Snackbar, Alert, Select, MenuItem } from '@mui/material'
 import { TextField, CardActions, Button } from '@mui/material'
@@ -60,7 +60,7 @@ export default function HospitalRegistrationForm(props: any) {
   const [empName, setEmpName] = useState('')
   const [empEmail, setEmpEmail] = useState('')
   const [empPhone, setEmpPhone] = useState('')
-  const [empGender, setEmpGender] = React.useState('female')
+  const [empGender, setEmpGender] = React.useState('')
   const [empAge, setEmpAge] = useState(24)
   const [emEmpName, setEmEmpName] = useState('')
   const [emEmpPhone, setEmEmpPhone] = useState('')
@@ -78,6 +78,7 @@ export default function HospitalRegistrationForm(props: any) {
   const [empCityErrors, setEmpCityErrors] = useState<{ empCity: string }>()
 
   const { data: session } = useSession()
+  const router = useRouter()
 
   const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
 
@@ -263,22 +264,38 @@ export default function HospitalRegistrationForm(props: any) {
         street: street,
         kebelle: kebelle,
         houseNo: houseNo
+      },
+      admin: {
+        name: empName,
+        email: empEmail,
+        phone: empPhone,
+        gender: empGender,
+        age: empAge,
+        address: {
+          city: empCity,
+          subCity: empSubCity,
+          woreda: empWoreda,
+          zone: empZone,
+          street: empStreet,
+          kebelle: empKebelle,
+          houseNo: empHouseNo
+        }
       }
     }
     if (!props.edit) {
-      requests
-        .post(`/health-center`, body, session ? session.accessToken.toString() : '')
-        .then(res => props.closeHandler(true, 'success'))
-        .catch(props.closeHandler(true, 'error'))
-      props.closeHandler(false)
+      requests.post(`/health-center`, body, session ? session.accessToken.toString() : '').then(_ => {
+        router.back()
+      })
+
+      //.then(res => props.closeHandler(true, 'success'))
+      //  .catch(props.closeHandler(true, 'error'))
+      //props.closeHandler(false)
     } else {
-      requests
-        .put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
-        .catch(props.closeHandler(true))
+      requests.put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+
+      // .catch(props.closeHandler(true))
     }
   }
-
-  const router = useRouter()
 
   return (
     <Card>
