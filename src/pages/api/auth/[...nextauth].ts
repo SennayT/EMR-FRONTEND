@@ -1,17 +1,18 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import axios from "axios";
+import NextAuth from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import axios from 'axios'
 
 const herokuUrl = 'https://capstone-backend-0957-11-v2.herokuapp.com'
+//const herokuUrl = 'http://localhost:4000'
 const url = `${herokuUrl}/auth/signin`
 
 export default NextAuth({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email', placeholder: 'email' },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
         if (!credentials) {
@@ -24,15 +25,14 @@ export default NextAuth({
             email: credentials.email,
             password: credentials.password
           })
-          console.log("some", user.data)
+          console.log('some', user.data)
 
           return user.data
         } catch (err) {
           console.log(err)
           return null
         }
-      },
-
+      }
     })
   ],
   callbacks: {
@@ -48,7 +48,7 @@ export default NextAuth({
     },
     session: ({ session, token, user }) => {
       session.accessToken = token.accessToken
-      console.log('Token in session', token , user)
+      console.log('Token in session', token, user)
       if (token.email) {
         session.email = token.email
       }
@@ -58,13 +58,12 @@ export default NextAuth({
 
       return session
     }
-
   },
   session: {
     maxAge: 60 * 60 //1hr
   },
-  secret: "secret",
+  secret: 'secret',
   pages: {
-    signIn: "/pages/login"
+    signIn: '/pages/login'
   }
 })
