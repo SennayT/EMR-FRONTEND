@@ -46,7 +46,11 @@ const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
 interface State {
   password: string
   showPassword: boolean
+}interface State {
+  password: string
+  showPassword: boolean
 }
+
 
 // ** Styled Components
 const Card = styled(MuiCard)<CardProps>(({ theme }) => ({

@@ -3,10 +3,20 @@ import { useRef, useState } from 'react'
 
 import FormData from 'form-data'
 
-
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Snackbar, Alert } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  Snackbar,
+  Alert
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -22,21 +32,16 @@ import user from 'src/data/userData'
 import { useSession } from 'next-auth/react'
 import { AnySrvRecord } from 'dns'
 
-
 const LabResultForm = (props: any) => {
   const [open, setOpen] = useState(false)
 
   // const [file, setFile] = useState()
-  const imageRef = useRef();
+  const imageRef = useRef()
 
-  const { data: session } = useSession();
-
-
-
+  const { data: session } = useSession()
 
   const registerResult = () => {
-    const image = imageRef.current.getFiles();
-
+    const image = imageRef.current.getFiles()
 
     const formData: any = {
       name: currentLabTest.name,
@@ -46,19 +51,26 @@ const LabResultForm = (props: any) => {
       comment: comment,
 
       filledById: user.id,
-      investigationRequestId: props.invReqId
+      investigationRequestId: props.invReqId,
+      labTestId: 0
     }
-    const data = new FormData();
-    for ( var key in formData ) {
-      data.append(key, formData[key]);
-  }
-    data.append("image", image);
-    data.append("name", currentLabTest.name);
-    console.log("data", data)
-    requests.postSpecial(`/lab-result`, data, session ? session.accessToken : "" ).then(response => {
+    const data = new FormData()
+
+    for (var key in formData) {
+      data.append(key, formData[key])
+    }
+
+    data.append('image', image)
+
+    // For display the FormData
+    // for (var pair of data.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}` + typeof `  ${pair[1]}`)
+    // }
+
+    requests.postSpecial(`/lab-result`, data, session ? session.accessToken : '').then(response => {
       console.log(Number(response.data.statusCode))
       if (response.data.statusCode[0] == 2) {
-        console.log("sdfj")
+        console.log('sdfj')
       } else {
         setOpen(true)
       }
@@ -88,14 +100,13 @@ const LabResultForm = (props: any) => {
 
   const [comment, setComment] = useState('')
 
-
   return (
     <Grid container>
       <Card sx={{ my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
             <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-              <Alert severity="error" sx={{ width: '100%' }}>
+              <Alert severity='error' sx={{ width: '100%' }}>
                 This is an error message!
               </Alert>
             </Snackbar>
@@ -116,7 +127,7 @@ const LabResultForm = (props: any) => {
                     }}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const val = e.target.value;
+                      const val = e.target.value
                       setCurrentLabTest(val)
                     }}
                     fullWidth
@@ -150,6 +161,7 @@ const LabResultForm = (props: any) => {
               <Grid item xs={12} sm={6}>
                 <FileUploaderSingle ref={imageRef} />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <TextField
                   rows={5}

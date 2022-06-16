@@ -13,7 +13,7 @@ interface TabPanelProps {
 }
 
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const {children, value, index, ...other} = props;
 
   return (
     <div
@@ -24,7 +24,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{p: 3}}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -47,18 +47,18 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%', backgroundColor: 'white' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Box sx={{width: '100%', backgroundColor: 'white'}}>
+      <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Account" {...a11yProps(0)} />
           <Tab label="Security" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-      <PersonalSettings />
+        <PersonalSettings/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <SecuritySettings />
+        <SecuritySettings/>
       </TabPanel>
 
     </Box>
