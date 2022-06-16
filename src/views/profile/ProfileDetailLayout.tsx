@@ -52,7 +52,7 @@ const ProfileDetailLayout = () => {
 
 
   useEffect(() => {
-    requests.get(`/user/4`,  session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : "").then(response => {
       setUser(response.data)
     })
   }, []);
