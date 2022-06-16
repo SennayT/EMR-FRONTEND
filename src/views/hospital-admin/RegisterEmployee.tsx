@@ -37,22 +37,22 @@ import { useRouter } from 'next/router'
 
 export default function EmRegistrationForm(props: any) {
   const [edit, setEdit] = useState(false)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [role, setRole] = useState<string[]>(['Receptionist'])
   const [gender, setGender] = React.useState('')
   const [age, setAge] = useState(24)
   const [isAdmin, setIsAdmin] = useState(false)
-  const [emName, setEmName] = useState("")
-  const [emPhone, setEmPhone] = useState("")
-  const [city, setCity] = useState("")
-  const [subCity, setSubCity] = useState("")
-  const [woreda, setWoreda] = useState("")
-  const [kebelle, setKebelle] = useState("")
-  const [zone, setZone] = useState("")
-  const [street, setStreet] = useState("")
-  const [houseNo, setHouseNo] = useState("")
+  const [emName, setEmName] = useState('')
+  const [emPhone, setEmPhone] = useState('')
+  const [city, setCity] = useState('')
+  const [subCity, setSubCity] = useState('')
+  const [woreda, setWoreda] = useState('')
+  const [kebelle, setKebelle] = useState('')
+  const [zone, setZone] = useState('')
+  const [street, setStreet] = useState('')
+  const [houseNo, setHouseNo] = useState('')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -66,15 +66,16 @@ export default function EmRegistrationForm(props: any) {
     if (router.query.user) {
       const us = JSON.parse(router.query.user?.toString())
       setEdit(true)
-      setName(us.name);
-      setEmail(us.email);
-      setPhone(us.phone);
-      setRole(us.role);
-      setGender(us.gender);
-      setEmName(us.emName);
-      setEmPhone(us.emPhone);
-      setEdit(true);
+      setName(us.name)
+      setEmail(us.email)
+      setPhone(us.phone)
+      setRole(us.role)
+      setGender(us.gender)
+      setEmName(us.emName)
+      setEmPhone(us.emPhone)
+      setEdit(true)
     }
+
     // setCity(us.address.city)
     // setSubCity(us.address.subCity)
     // setWoreda(us.address.woreda)
@@ -82,11 +83,19 @@ export default function EmRegistrationForm(props: any) {
     // setZone(us.address.zone)
     // setStreet(us.address.street)
     // setHouseNo(us.address.houseNo)
+  }, [])
 
-  }, []);
-
-
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -96,12 +105,14 @@ export default function EmRegistrationForm(props: any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -113,12 +124,10 @@ export default function EmRegistrationForm(props: any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -130,14 +139,17 @@ export default function EmRegistrationForm(props: any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -146,17 +158,19 @@ export default function EmRegistrationForm(props: any) {
     setCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setCityErrors({ city: 'Invalid City' })
-    }
-
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
     }
   }
 
   const [err, setErr] = useState(false)
-  const [errMsg, setErrMsg] = useState("An error occured please try again")
+  const [errMsg, setErrMsg] = useState('An error occured please try again')
   const [open, setOpen] = useState(false)
 
   const registerEmployee = () => {
@@ -200,19 +214,30 @@ export default function EmRegistrationForm(props: any) {
       isAdmin: isAdmin
     }
     if (!router.query.user) {
-      requests.post(`/employee`, body, session ? session.accessToken.toString() : "").then(response => {
-        console.log(response.data)
-      }).catch(e =>{ setErr(true); setOpen(true); })
+      requests
+        .post(`/employee`, body, session ? session.accessToken.toString() : '')
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(e => {
+          setErr(true)
+          setOpen(true)
+        })
     } else {
-      requests.put(`/employee/${props.user.id}`, body, session ? session.accessToken.toString() : "").then(response => {
-        console.log(response.data)
-      }).catch(e =>{ setErr(true);  setOpen(true)})
+      requests
+        .put(`/employee/${props.user.id}`, body, session ? session.accessToken.toString() : '')
+        .then(response => {
+          console.log(response.data)
+        })
+        .catch(e => {
+          setErr(true)
+          setOpen(true)
+        })
     }
   }
   const handleClose = () => {
-    setOpen(false);
-  };
-
+    setOpen(false)
+  }
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
@@ -229,11 +254,11 @@ export default function EmRegistrationForm(props: any) {
 
   const switchHandler = (event: any) => {
     setIsAdmin(event.target.checked)
-    setRole(["Hospital Admin"])
+    setRole(['Hospital Admin'])
   }
 
   const handleRoleChange = (event: SelectChangeEvent<string[]>) => {
-    if (event.target.value as string[] == ['Hospital Admin']) {
+    if ((event.target.value as string[]) == ['Hospital Admin']) {
       setIsAdmin(true)
     } else {
       setIsAdmin(false)
@@ -257,10 +282,10 @@ export default function EmRegistrationForm(props: any) {
   return (
     <Grid container spacing={6}>
       <Snackbar open={open} autoHideDuration={1000} onClose={() => setOpen(false)}>
-          <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
-            {errMsg}
-          </Alert>
-        </Snackbar>
+        <Alert onClose={handleClose} severity={'error'} sx={{ width: '100%' }}>
+          {errMsg}
+        </Alert>
+      </Snackbar>
       <Typography variant='h5' sx={{ fontWeight: 600, mt: 2 }}>
         Employee Registration
       </Typography>
@@ -613,164 +638,163 @@ export default function EmRegistrationForm(props: any) {
                     }}
                   />
                 </Grid>
-                </Grid>
-                <Grid item xs={12} sx={{ px: 2 }}>
-                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
-                    Address Information
-                  </Typography>
-                </Grid>
-                <Grid sx={{ px: 4 }} container spacing={5}>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      required
-                      onChange={handleCityChange}
-                      error={Boolean(cityErrors?.city)}
-                      helperText={cityErrors?.city}
-                      value={city}
-                      label='City'
-                      placeholder='Addis Ababa'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <CityIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      label='Woreda'
-                      placeholder='04'
-                      value={woreda}
-                      onChange={e => {
-                        setWoreda(e.target.value)
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <HouseIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      label='Sub City'
-                      placeholder='Bole'
-                      value={subCity}
-                      onChange={e => {
-                        setSubCity(e.target.value)
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <SubcityIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      label='Kebele'
-                      placeholder='32'
-                      value={kebelle}
-                      onChange={e => {
-                        setKebelle(e.target.value)
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <CityIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      label='Street'
-                      value={street}
-                      onChange={e => {
-                        setStreet(e.target.value)
-                      }}
-                      placeholder='Mauritania street'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <StreetIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      label='House Number'
-                      placeholder='432'
-                      value={houseNo}
-                      onChange={e => {
-                        setHouseNo(e.target.value)
-                      }}
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <HouseIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                    <TextField
-                      size='small'
-                      fullWidth
-                      value={zone}
-                      onChange={e => {
-                        setZone(e.target.value)
-                      }}
-                      label='Zone'
-                      placeholder='zone'
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position='start'>
-                            <CityIcon />
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </Grid>
-                </Grid>
-                <CardActions>
-                  <Button
-                    disabled={disableButton}
-                    size='large'
-                    type='submit'
-                    variant='contained'
-                    onClick={registerEmployee}
-                  >
-                    Register
-                  </Button>
-                </CardActions>
               </Grid>
-            </CardContent>
-          </form>
-        </Card>
-      </Grid>
-
+              <Grid item xs={12} sx={{ px: 2 }}>
+                <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
+                  Address Information
+                </Typography>
+              </Grid>
+              <Grid sx={{ px: 4 }} container spacing={5}>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    required
+                    onChange={handleCityChange}
+                    error={Boolean(cityErrors?.city)}
+                    helperText={cityErrors?.city}
+                    value={city}
+                    label='City'
+                    placeholder='Addis Ababa'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <CityIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    label='Woreda'
+                    placeholder='04'
+                    value={woreda}
+                    onChange={e => {
+                      setWoreda(e.target.value)
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <HouseIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    label='Sub City'
+                    placeholder='Bole'
+                    value={subCity}
+                    onChange={e => {
+                      setSubCity(e.target.value)
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <SubcityIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    label='Kebele'
+                    placeholder='32'
+                    value={kebelle}
+                    onChange={e => {
+                      setKebelle(e.target.value)
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <CityIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    label='Street'
+                    value={street}
+                    onChange={e => {
+                      setStreet(e.target.value)
+                    }}
+                    placeholder='Mauritania street'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <StreetIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    label='House Number'
+                    placeholder='432'
+                    value={houseNo}
+                    onChange={e => {
+                      setHouseNo(e.target.value)
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <HouseIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    value={zone}
+                    onChange={e => {
+                      setZone(e.target.value)
+                    }}
+                    label='Zone'
+                    placeholder='zone'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <CityIcon />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              <CardActions>
+                <Button
+                  disabled={disableButton}
+                  size='large'
+                  type='submit'
+                  variant='contained'
+                  onClick={registerEmployee}
+                >
+                  Register
+                </Button>
+              </CardActions>
+            </Grid>
+          </CardContent>
+        </form>
+      </Card>
+    </Grid>
   )
-                    }
+}

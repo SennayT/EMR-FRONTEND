@@ -32,34 +32,40 @@ import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
 
-
-
 export default function ResearcherRegistrationForm(props: any) {
-  const [name, setName] = useState(props.edit ? props.researcher.name : "" )
-  const [email, setEmail] = useState(props.edit ? props.researcher.email : "")
-  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : "")
-  const [gender, setGender] = useState(props.edit ? props.researcher.gender : "")
+  const [name, setName] = useState(props.edit ? props.researcher.name : '')
+  const [email, setEmail] = useState(props.edit ? props.researcher.email : '')
+  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : '')
+  const [gender, setGender] = useState(props.edit ? props.researcher.gender : '')
   const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
-  const [city, setCity] = useState(props.edit ? props.researcher.address.city : "")
-  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : "")
-  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : "")
-  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : "")
-  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : "")
-  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : "")
-  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : "")
-
+  const [city, setCity] = useState(props.edit ? props.researcher.address.city : '')
+  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : '')
+  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : '')
+  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
+  const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
   const [currResearcher, setCurrResearcher] = useState(-1)
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
-
-
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -69,12 +75,14 @@ export default function ResearcherRegistrationForm(props: any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -86,12 +94,10 @@ export default function ResearcherRegistrationForm(props: any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -103,12 +109,31 @@ export default function ResearcherRegistrationForm(props: any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
+    if (value == '') {
+      setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
+    }
+  }
+
+  const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setCityErrors({ city: '' })
+    setCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (!regName) {
+      setCityErrors({ city: 'Invalid City' })
     }
 
     if (value == '') {
-      setPhoneErrors({ phone: 'Phone field cannot be empty' })
+      setCityErrors({ city: 'City field cannot be empty' })
     }
   }
 
@@ -131,12 +156,16 @@ export default function ResearcherRegistrationForm(props: any) {
       },
       healthCenterId: user.healthCeterId
     }
-    if(!props.edit){
-      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+    if (!props.edit) {
+      requests
+        .post(`/researcher`, body, session ? session.accessToken.toString() : '')
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
       props.closeHandler(false)
-
-    }else{
-      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
+    } else {
+      requests
+        .put(`/researcher/${props.researcher.id}`, body, session ? session.accessToken.toString() : '')
+        .catch(props.closeHandler(true))
     }
   }
 
@@ -268,10 +297,11 @@ export default function ResearcherRegistrationForm(props: any) {
                   <TextField
                     size='small'
                     fullWidth
+                    required
+                    onChange={handleCityChange}
+                    error={Boolean(cityErrors?.city)}
+                    helperText={cityErrors?.city}
                     value={city}
-                    onChange={e => {
-                      setCity(e.target.value)
-                    }}
                     label='City'
                     placeholder='Addis Ababa'
                     InputProps={{

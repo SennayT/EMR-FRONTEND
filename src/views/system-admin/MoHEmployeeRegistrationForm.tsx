@@ -32,31 +32,38 @@ import user from '../../data/userData'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
-
-
-export default function ResearcherRegistrationForm(props:any) {
-  const [name, setName] = useState(props.edit ? props.employee.name : "" )
-  const [email, setEmail] = useState(props.edit ? props.employee.email : "")
-  const [phone, setPhone] = useState(props.edit ? props.employee.phone : "")
-  const [gender, setGender] = useState(props.edit ? props.employee.gender : "")
+export default function ResearcherRegistrationForm(props: any) {
+  const [name, setName] = useState(props.edit ? props.employee.name : '')
+  const [email, setEmail] = useState(props.edit ? props.employee.email : '')
+  const [phone, setPhone] = useState(props.edit ? props.employee.phone : '')
+  const [gender, setGender] = useState(props.edit ? props.employee.gender : '')
   const [age, setAge] = useState(props.edit ? props.employee.age : 0)
-  const [city, setCity] = useState(props.edit ? props.employee.address.city : "")
-  const [subCity, setSubCity] = useState(props.edit ? props.employee.address.subCity : "")
-  const [woreda, setWoreda] = useState(props.edit? props.employee.address.woreda : "")
-  const [kebelle, setKebelle] = useState(props.edit ? props.employee.address.kebelle : "")
-  const [zone, setZone] = useState(props.edit ? props.employee.address.zone : "")
-  const [street, setStreet] = useState(props.edit ? props.employee.name.street : "")
-  const [houseNo, setHouseNo] = useState(props.edit ? props.employee.name.houseNo : "")
+  const [city, setCity] = useState(props.edit ? props.employee.address.city : '')
+  const [subCity, setSubCity] = useState(props.edit ? props.employee.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.edit ? props.employee.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.edit ? props.employee.address.kebelle : '')
+  const [zone, setZone] = useState(props.edit ? props.employee.address.zone : '')
+  const [street, setStreet] = useState(props.edit ? props.employee.name.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.employee.name.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
-
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -66,12 +73,14 @@ export default function ResearcherRegistrationForm(props:any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -83,12 +92,10 @@ export default function ResearcherRegistrationForm(props:any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -100,14 +107,17 @@ export default function ResearcherRegistrationForm(props:any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -124,6 +134,7 @@ export default function ResearcherRegistrationForm(props:any) {
       setCityErrors({ city: 'City field cannot be empty' })
     }
   }
+
   const registerMoHEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 
@@ -148,15 +159,18 @@ export default function ResearcherRegistrationForm(props:any) {
       },
       registeredBy: user.id
     }
-    if(!props.edit){
-    requests.post(`/moh-employee`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
-    props.closeHandler(false)
-
-  }else{
-    requests.post(`/moh-employee/${props.employee.id}`, body ,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
-
+    if (!props.edit) {
+      requests
+        .post(`/moh-employee`, body, session ? session.accessToken.toString() : '')
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
+      props.closeHandler(false)
+    } else {
+      requests
+        .post(`/moh-employee/${props.employee.id}`, body, session ? session.accessToken.toString() : '')
+        .catch(props.closeHandler(true))
+    }
   }
-}
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
