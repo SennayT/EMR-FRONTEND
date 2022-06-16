@@ -1,6 +1,9 @@
 // ** Icon imports
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
+
+// import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
+import SearchIcon from 'mdi-material-ui/ClipboardTextSearchOutline'
+import SIcon from '@mui/icons-material/ManageSearch'
 import Account from 'mdi-material-ui/Account'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
@@ -17,17 +20,41 @@ import { Session } from 'next-auth'
 const navigation = (session: Session): VerticalNavItemsType => {
   const pagesSection: VerticalNavItemsType = []
   if (session.role === 'Receptionist') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-
-    )
+    pagesSection.push({
+      sectionTitle: 'pages'
+    })
     pagesSection.push({
       title: 'Register Patient',
       icon: AccountEditOutline,
       path: '/reception/register-patient'
     })
+  }
+
+  if (session.role === 'Researcher' || 'MohEmployee') {
+    pagesSection.push({
+      sectionTitle: 'pages'
+    })
+    pagesSection.push({
+      title: 'Disease Stat',
+      icon: SearchIcon,
+      path: '/stats/SearchingDisease/'
+    }),
+      pagesSection.push({
+        title: 'Medication Stat',
+        icon: SearchIcon,
+        path: '/stats/SearchingMedication/'
+      })
+
+    pagesSection.push({
+      title: 'Searched Disease',
+      icon: SIcon,
+      path: '/reception/register-patient'
+    }),
+      pagesSection.push({
+        title: 'Searched Medication',
+        icon: SIcon,
+        path: '/reception/register-patient'
+      })
   }
 
   if (session.role === 'System Admin') {
@@ -76,7 +103,6 @@ const navigation = (session: Session): VerticalNavItemsType => {
     //   {
     //     sectionTitle: 'pages'
     //   },
-
     // )
   }
 
