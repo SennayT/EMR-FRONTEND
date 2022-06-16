@@ -23,6 +23,7 @@ import PhoneDialOutline from 'mdi-material-ui/PhoneDialOutline'
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 
 // Styled Timeline component
@@ -62,11 +63,11 @@ const DiagnosisHistory = () => {
   }])
   const { data: session } = useSession();
 
+  const router = useRouter();
 
   useEffect(() => {
-    requests.get(`/diagnosis`,  session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/diagnosis/patient/${router.query.pid}`,  session ? session.accessToken.toString() : "").then((response) => {
       setDiagnosis(response.data)
-
       console.log(diagnosis)
     })
   },[])

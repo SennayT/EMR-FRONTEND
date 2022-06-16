@@ -1,0 +1,123 @@
+import React, { useState, Component } from 'react';
+import dynamic from 'next/dynamic';
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import useSWR from 'swr'
+import { useTheme } from '@emotion/react';
+
+const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
+
+
+export default function ChartOne() {
+
+
+const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/patientRecord', fetcher)
+
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
+
+
+  const theme = useTheme();
+
+  const chartDataOne = {
+    chart: {
+      type: "line",
+      id: ""
+    },
+    xaxis: {
+      categories: ["infant", "toddler", "child", "teen", "adult", "middle age", "senior"]
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shade: "light",
+        type: "horizontal",
+        shadeIntensity: 0.5,
+        gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 100]
+        // colorStops: []
+      }
+    },
+    legend: {
+      // position: '',
+      width: 400
+      // position: 'top',
+    },
+    title: {
+      text: 'Patient Record By age',
+      floating: true,
+      align: 'center',
+      style: {
+        color: '#444'
+      }
+    },
+    series: [
+      {
+        name: "Patient Record By age",
+        type: "column",
+            data: [data['infant'], data['toddler'], data['child'],
+                data['teen'], data['adult'], data['middle_age_adult'], data['senior_adult']]
+      }
+    ]
+  };
+
+
+    const chartDataTwo = {
+    chart: {
+      type: "line",
+      id: ""
+    },
+    xaxis: {
+      categories: ["male", "female"]
+      },
+    colors:['#0bfc03'],
+    fill: {
+      type: "gradient",
+      gradient: {
+        shade: "light",
+        type: "horizontal",
+        shadeIntensity: 0.5,
+        gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 100]
+        // colorStops: []
+      }
+    },
+    legend: {
+      // position: '',
+      width: 400,
+      position: 'top',
+      title:'Patient Record By Gender'
+      },
+    title: {
+      text: 'Patient Record By Gender',
+      floating: true,
+      align: 'center',
+      style: {
+        color: '#444'
+      }
+    },
+    series: [
+      {
+        name: "Patient Record By Gender",
+        type: "column",
+        data: [data['male'], data['female']]
+      }
+    ]
+  };
+
+
+
+    return (
+
+        <div>
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='500px' />;
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;
+       </div>
+    )
+};

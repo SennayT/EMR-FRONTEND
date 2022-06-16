@@ -197,8 +197,7 @@ export default function EmRegistrationForm(props: any) {
       gender: gender,
       age: age,
       role: role,
-      isAdmin: isAdmin,
-      healthCenterId: 4
+      isAdmin: isAdmin
     }
     if (!router.query.user) {
       requests.post(`/employee`, body, session ? session.accessToken.toString() : "").then(response => {
