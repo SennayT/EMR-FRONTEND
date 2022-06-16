@@ -134,6 +134,7 @@ export default function ResearcherRegistrationForm(props: any) {
       setCityErrors({ city: 'City field cannot be empty' })
     }
   }
+
   const registerMoHEmployee = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
 

@@ -85,7 +85,17 @@ export default function EmRegistrationForm(props: any) {
     // setHouseNo(us.address.houseNo)
   }, [])
 
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {

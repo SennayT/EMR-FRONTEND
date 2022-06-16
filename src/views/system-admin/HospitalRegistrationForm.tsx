@@ -80,7 +80,17 @@ export default function HospitalRegistrationForm(props: any) {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 

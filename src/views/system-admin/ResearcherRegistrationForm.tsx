@@ -49,12 +49,23 @@ export default function ResearcherRegistrationForm(props: any) {
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
+  const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
   const [currResearcher, setCurrResearcher] = useState(-1)
 
   const { data: session } = useSession()
 
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -106,6 +117,23 @@ export default function ResearcherRegistrationForm(props: any) {
       setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
     } else if (!reg) {
       setPhoneErrors({ phone: "Phone number can't include alphabet" })
+    }
+  }
+
+  const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setCityErrors({ city: '' })
+    setCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (!regName) {
+      setCityErrors({ city: 'Invalid City' })
+    }
+
+    if (value == '') {
+      setCityErrors({ city: 'City field cannot be empty' })
     }
   }
 
@@ -269,10 +297,11 @@ export default function ResearcherRegistrationForm(props: any) {
                   <TextField
                     size='small'
                     fullWidth
+                    required
+                    onChange={handleCityChange}
+                    error={Boolean(cityErrors?.city)}
+                    helperText={cityErrors?.city}
                     value={city}
-                    onChange={e => {
-                      setCity(e.target.value)
-                    }}
                     label='City'
                     placeholder='Addis Ababa'
                     InputProps={{
