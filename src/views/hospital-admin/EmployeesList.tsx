@@ -17,7 +17,7 @@ const Employees = () => {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const { data: session } = useSession();
-  const [currEmployee, setCurrEmployee] = useState()
+  const [currEmployee, setCurrEmployee] = useState(-1)
 
 
   useEffect(() => {
@@ -28,11 +28,14 @@ const Employees = () => {
   }, [])
   const router = useRouter()
   const handleEdit = () => {
+    const emp = employees.find(i => i.id === currEmployee)
+    console.log("here", currEmployee,emp )
     router.push({
       pathname: '/hospital-admin/employees/add',
       query: {
-        user: employees.find(i => i.id === currEmployee)
-      }
+        user: JSON.stringify(emp)
+      },
+
     })
   }
 
@@ -92,9 +95,10 @@ const Employees = () => {
       renderCell: params => {
         return (
           <div>
-            <IconButton onClick={handleEdit}>
+            <IconButton onClick={(e) => {handleEdit()}}>
               <EditIcon />
             </IconButton>
+
             <IconButton>
               <DeleteIcon />
             </IconButton>
@@ -140,7 +144,7 @@ const Employees = () => {
             rowsPerPageOptions={[5]}
             onSelectionModelChange={(newSelectionModel) => {
               console.log("new", newSelectionModel, employees.find(i => i.id === newSelectionModel[0]))
-              setCurrEmployee(newSelectionModel[0]);
+              setCurrEmployee(Number(newSelectionModel[0]));
             }}
             selectionModel={currEmployee}
             loading={loading}

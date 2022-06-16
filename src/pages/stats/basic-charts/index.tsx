@@ -9,7 +9,7 @@ import requests from 'src/utils/repository';
 import { useSession } from 'next-auth/react';
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
-function basicCharts() {
+function BasicCharts() {
     var counts: CountsRecord = {
         patient: 0,
         prescription: 0,
@@ -263,4 +263,4 @@ function basicCharts() {
     }
 }
 
-export default basicCharts
+export default BasicCharts

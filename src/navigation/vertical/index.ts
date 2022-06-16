@@ -21,11 +21,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
       {
         sectionTitle: 'pages'
       },
-      {
-        title: 'Patient Details',
-        icon: AccountDetails,
-        path: '/patient-details'
-      }
+
     )
     pagesSection.push({
       title: 'Register Patient',
@@ -76,16 +72,12 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Doctor') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Create Prescription',
-        icon: Account,
-        path: '/doctor/create-prescription'
-      }
-    )
+    // pagesSection.push(
+    //   {
+    //     sectionTitle: 'pages'
+    //   },
+
+    // )
   }
 
   // if (session.role === 'Nurse') {
