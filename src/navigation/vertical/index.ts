@@ -30,7 +30,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
     })
   }
 
-  if (session.role === 'Researcher' || 'MohEmployee') {
+  if (session.role === 'Researcher' || session.role === 'MohEmployee') {
     pagesSection.push({
       sectionTitle: 'pages'
     })
@@ -48,12 +48,12 @@ const navigation = (session: Session): VerticalNavItemsType => {
     pagesSection.push({
       title: 'Searched Disease',
       icon: SIcon,
-      path: '/reception/register-patient'
+      path: '/'
     }),
       pagesSection.push({
         title: 'Searched Medication',
         icon: SIcon,
-        path: '/reception/register-patient'
+        path: '/'
       })
   }
 
