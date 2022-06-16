@@ -35,18 +35,18 @@ import { useSession } from 'next-auth/react'
 
 
 export default function ResearcherRegistrationForm(props: any) {
-  const [name, setName] = useState(props.researcher ? props.researcher.name : "" )
-  const [email, setEmail] = useState(props.researcher ? props.researcher.email : "")
-  const [phone, setPhone] = useState(props.researcher ? props.researcher.phone : "")
-  const [gender, setGender] = useState(props.researcher ? props.researcher.gender : "")
-  const [age, setAge] = useState(props.researcher ? props.researcher.age : 0)
-  const [city, setCity] = useState(props.researcher.address ? props.researcher.address.city : "")
-  const [subCity, setSubCity] = useState(props.researcher.address ? props.researcher.address.subCity : "")
-  const [woreda, setWoreda] = useState(props.researcher.address ? props.researcher.address.woreda : "")
-  const [kebelle, setKebelle] = useState(props.researcher.address ? props.researcher.address.kebelle : "")
-  const [zone, setZone] = useState(props.researcher.address ? props.researcher.address.zone : "")
-  const [street, setStreet] = useState(props.researcher.address ? props.researcher.name.street : "")
-  const [houseNo, setHouseNo] = useState(props.researcher.address ? props.researcher.name.houseNo : "")
+  const [name, setName] = useState(props.edit ? props.researcher.name : "" )
+  const [email, setEmail] = useState(props.edit ? props.researcher.email : "")
+  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : "")
+  const [gender, setGender] = useState(props.edit ? props.researcher.gender : "")
+  const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
+  const [city, setCity] = useState(props.edit ? props.researcher.address.city : "")
+  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : "")
+  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : "")
+  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : "")
+  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : "")
+  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : "")
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : "")
 
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
@@ -132,13 +132,11 @@ export default function ResearcherRegistrationForm(props: any) {
       healthCenterId: user.healthCeterId
     }
     if(!props.edit){
-      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(response => {
-        console.log(response.data)
-      })
+      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+      props.closeHandler(false)
+
     }else{
-      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").then(response => {
-        console.log(response.data)
-      })
+      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
     }
   }
 

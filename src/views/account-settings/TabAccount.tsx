@@ -61,6 +61,7 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
 }))
 
 const TabAccount = (props: any) => {
+  // console.log(props.user);
   // ** State
   // const [openAlert, setOpenAlert] = useState<boolean>(true)
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
@@ -110,16 +111,23 @@ const TabAccount = (props: any) => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField value={props.user.name} fullWidth label='Name' />
+            <TextField fullWidth label='' placeholder='' value={props.user ? props.user.name : ' '} />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth type='email' label='Email' value={props.user.email} />
+            <TextField
+              fullWidth
+              type='email'
+              label='Email'
+              placeholder=''
+              value={props.user ? props.user.email : ' '}
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label='Phone Number'
-              value={props.user.phone}
+              placeholder=''
+              value={props.user ? props.user.phone : ' '}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -145,11 +153,24 @@ const TabAccount = (props: any) => {
           <Grid item xs={12} sm={6}>
             <FormControl>
               <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
-              <RadioGroup row value={props.user.gender} aria-label='gender' name='account-settings-info-radio'>
+              <RadioGroup
+                row
+                value={props.user ? props.user.gender : 'female'}
+                aria-label='gender'
+                name='account-settings-info-radio'
+              >
                 <FormControlLabel value='male' label='Male' control={<Radio />} />
                 <FormControlLabel value='female' label='Female' control={<Radio />} />
               </RadioGroup>
             </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+              Save Changes
+            </Button>
+            <Button type='reset' variant='outlined' color='secondary'>
+              Reset
+            </Button>
           </Grid>
         </Grid>
       </form>

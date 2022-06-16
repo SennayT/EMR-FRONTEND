@@ -7,7 +7,7 @@ import ResearcherRegistrationForm from 'src/views/system-admin/ResearcherRegistr
 const DialogBox = (props: any) => {
   return (
     <Box>
-      <ResearcherRegistrationForm edit={props.edit} researcher={props.researcher}/>
+      <ResearcherRegistrationForm closeHandler={props.closeHandler} edit={props.edit} researcher={props.researcher}/>
     </Box>
   )
 }

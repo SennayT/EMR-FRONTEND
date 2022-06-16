@@ -10,11 +10,14 @@ import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+
 
 const Employees = () => {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
   const { data: session } = useSession();
+  const [currEmployee, setCurrEmployee] = useState()
 
 
   useEffect(() => {
@@ -23,6 +26,15 @@ const Employees = () => {
       setLoading(false)
     })
   }, [])
+  const router = useRouter()
+  const handleEdit = () => {
+    router.push({
+      pathname: '/hospital-admin/employees/add',
+      query: {
+        user: employees.find(i => i.id === currEmployee)
+      }
+    })
+  }
 
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -80,16 +92,9 @@ const Employees = () => {
       renderCell: params => {
         return (
           <div>
-            <Link
-              href={{
-                pathname: '/hospital-admin/employees/add',
-                query: {
-                  user: params.value
-                }
-              }}
-            >
+            <IconButton onClick={handleEdit}>
               <EditIcon />
-            </Link>
+            </IconButton>
             <IconButton>
               <DeleteIcon />
             </IconButton>
@@ -133,7 +138,11 @@ const Employees = () => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            disableSelectionOnClick
+            onSelectionModelChange={(newSelectionModel) => {
+              console.log("new", newSelectionModel, employees.find(i => i.id === newSelectionModel[0]))
+              setCurrEmployee(newSelectionModel[0]);
+            }}
+            selectionModel={currEmployee}
             loading={loading}
           />
         </Paper>

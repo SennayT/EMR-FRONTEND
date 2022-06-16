@@ -149,13 +149,11 @@ export default function ResearcherRegistrationForm(props:any) {
       registeredBy: user.id
     }
     if(!props.edit){
-    requests.post(`/moh-employee`, body,  session ? session.accessToken.toString() : "").then(response => {
-      console.log(response.data)
-    })
+    requests.post(`/moh-employee`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+    props.closeHandler(false)
+
   }else{
-    requests.post(`/moh-employee/${props.employee.id}`, body ,  session ? session.accessToken.toString() : "").then(response => {
-      console.log(response.data)
-    })
+    requests.post(`/moh-employee/${props.employee.id}`, body ,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
 
   }
 }

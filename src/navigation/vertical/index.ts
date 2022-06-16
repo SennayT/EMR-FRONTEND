@@ -88,18 +88,13 @@ const navigation = (session: Session): VerticalNavItemsType => {
     )
   }
 
-  if (session.role === 'Nurse') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Vitals',
-        icon: Account,
-        path: '/nurse/vitals'
-      }
-    )
-  }
+  // if (session.role === 'Nurse') {
+  //   pagesSection.push(
+  //     {
+  //       sectionTitle: 'pages'
+  //     }
+  //   )
+  // }
 
   return [
     {

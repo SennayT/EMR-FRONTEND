@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
@@ -32,24 +32,25 @@ import requests from 'src/utils/repository'
 
 import user from '../../data/userData'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
-export default function EmRegistrationForm() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [role, setRole] = useState<string[]>(['Receptionist'])
-  const [gender, setGender] = React.useState('female')
+export default function EmRegistrationForm(props: any) {
+  const [name, setName] = useState(props.user ? props.user.name : "")
+  const [email, setEmail] = useState(props.user ? props.user.name : "")
+  const [phone, setPhone] = useState(props.user ? props.user.name : "")
+  const [role, setRole] = useState<string[]>( props.user ? [props.user.role.name] : ['Receptionist'])
+  const [gender, setGender] = React.useState(props.user ? props.user.gender : 'female')
   const [age, setAge] = useState(24)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [emName, setEmName] = useState('')
-  const [emPhone, setEmPhone] = useState('')
-  const [city, setCity] = useState('')
-  const [subCity, setSubCity] = useState('')
-  const [woreda, setWoreda] = useState('')
-  const [kebelle, setKebelle] = useState('')
-  const [zone, setZone] = useState('')
-  const [street, setStreet] = useState('')
-  const [houseNo, setHouseNo] = useState('')
+  const [isAdmin, setIsAdmin] = useState(props.user ? props.user.name : false)
+  const [emName, setEmName] = useState(props.user ? props.user.name : "")
+  const [emPhone, setEmPhone] = useState(props.user ? props.user.name : "")
+  const [city, setCity] = useState(props.user ? props.user.address.city : "")
+  const [subCity, setSubCity] = useState(props.user ? props.user.address.subCity : "")
+  const [woreda, setWoreda] = useState(props.user ? props.user.address.woreda : "")
+  const [kebelle, setKebelle] = useState(props.user ? props.user.address.kebelle : "")
+  const [zone, setZone] = useState(props.user ? props.user.address.zone : "")
+  const [street, setStreet] = useState(props.user ? props.user.address.street : "")
+  const [houseNo, setHouseNo] = useState(props.user ? props.user.address.houseNo : "")
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -57,6 +58,14 @@ export default function EmRegistrationForm() {
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
   const { data: session } = useSession();
+  const router = useRouter()
+
+  useEffect(() => {
+    console.log(router.query.user);
+
+
+    // JSON.parse(router.query.user?.toString())
+}, []);
 
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false

@@ -75,7 +75,6 @@ const ReportGenerationUI = () => {
         // const renderPdf = bytes.buffer
 
 
-
         var buf = new ArrayBuffer(pdfdata.data.length * 2); // 2 bytes for each char
         var bufView = new Uint16Array(buf);
         for (var i = 0, strLen = pdfdata.data.length; i < strLen; i++) {
@@ -83,10 +82,11 @@ const ReportGenerationUI = () => {
         }
 
         console.log("here")
+
         const url = window.URL.createObjectURL(new Blob([buf]))
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'report.pdf');
+        link.setAttribute('view', 'report.pdf');
         document.body.appendChild(link);
         link.click();
 
@@ -118,9 +118,9 @@ const ReportGenerationUI = () => {
           Report Generation
         </Typography>
       </Grid>
-      <iframe id='pdfViewer'>
+      {/* <iframe id='pdfViewer'>
 
-      </iframe>
+      </iframe> */}
       <Grid
         container
         xs={12}

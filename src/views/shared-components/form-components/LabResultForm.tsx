@@ -20,6 +20,7 @@ import requests from 'src/utils/repository'
 import user from 'src/data/userData'
 
 import { useSession } from 'next-auth/react'
+import { AnySrvRecord } from 'dns'
 
 
 const LabResultForm = (props: any) => {
@@ -37,19 +38,24 @@ const LabResultForm = (props: any) => {
     const image = imageRef.current.getFiles();
 
 
-    const data = {
+    const formData: any = {
       name: currentLabTest.name,
       type: currentLabTest.testCategory,
       result: 'some result',
       isAbnormal: true,
       comment: comment,
-      image: image,
+
       filledById: user.id,
       investigationRequestId: props.invReqId
     }
-
-    console.log(data)
-    requests.post(`/lab-result`, data, ).then(response => {
+    const data = new FormData();
+    for ( var key in formData ) {
+      data.append(key, formData[key]);
+  }
+    data.append("image", image);
+    data.append("name", currentLabTest.name);
+    console.log("data", data)
+    requests.postSpecial(`/lab-result`, data, session ? session.accessToken : "" ).then(response => {
       console.log(Number(response.data.statusCode))
       if (response.data.statusCode[0] == 2) {
         console.log("sdfj")

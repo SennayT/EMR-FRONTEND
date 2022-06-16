@@ -71,7 +71,7 @@ const ExaminationAndSymptomsForm = () => {
                 >
                   {vitals.map(name => (
                     <MenuItem key={name.id} value={name.id}>
-                      {name.requestedDate}
+                      {new Date(name.requestedDate).toLocaleDateString("en-US" ,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                     </MenuItem>
                   ))}
                 </Select>

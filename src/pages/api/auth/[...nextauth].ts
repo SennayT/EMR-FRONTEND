@@ -29,7 +29,6 @@ export default NextAuth({
           return user.data
         } catch (err) {
           console.log(err)
-
           return null
         }
       },

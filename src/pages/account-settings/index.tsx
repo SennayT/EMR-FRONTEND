@@ -4,8 +4,9 @@ import { SyntheticEvent, useState, useEffect } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
+
+// import Grid from '@mui/material/Grid'
+// import Button from '@mui/material/Button'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
@@ -22,10 +23,11 @@ import TabInfo from 'src/views/account-settings/TabInfo'
 import TabAccount from 'src/views/account-settings/TabAccount'
 import TabSecurity from 'src/views/account-settings/TabSecurity'
 
+import requests from 'src/utils/repository'
+
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
 import { useSession } from 'next-auth/react'
-import requests from 'src/utils/repository'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -87,15 +89,22 @@ const AccountSettings = () => {
   //   console.log(response.data)
   // })
 
-  useEffect(() => {
-    requests.get(`/user/4`, session ? session.accessToken.toString() : '').then(response => {
-      setUser(response.data)
-    })
-  }, [])
+  // useEffect(() => {
+  //   requests.get(`/user/4`, session ? session.accessToken.toString() : '').then(response => {
+  //     setUser(response.data)
+  //   })
+  // }, [])
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    requests.get(`/user/7`, session ? session.accessToken.toString() : '').then(response => {
+      console.log(response.data)
+      setUser(response.data)
+    })
+  }, [])
 
   return (
     <Card>
@@ -144,14 +153,14 @@ const AccountSettings = () => {
           <TabInfo user={user} />
         </TabPanel>
       </TabContext>
-      <Grid item xs={12} sx={{ my: 4 }}>
+      {/* <Grid item xs={12} sx={{ my: 4 }}>
         <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={AccountSettings}>
           Save Changes
         </Button>
         <Button type='reset' variant='outlined' color='secondary'>
           Reset
         </Button>
-      </Grid>
+      </Grid> */}
     </Card>
   )
 }
