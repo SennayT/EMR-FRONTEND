@@ -8,7 +8,7 @@ import user from 'src/data/userData'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
-const AddVitalsForm = () => {
+const AddVitalsForm = (props: any) => {
   const [vitals, setVitals] = useState<Vitals>({
     temperature: 0,
     pulse: 0,
@@ -16,18 +16,18 @@ const AddVitalsForm = () => {
     bloodPressure: 0,
     weight: 0,
     spo2Level: 0,
-    patientId: 3,
-    requestedById: 18
+    patientId: props.patientId,
+    requestedById: 0
   })
   const { data: session } = useSession();
 
 
   const handleVitalsSubmit = () => {
-
-
     requests.post(`/vitals`, vitals,  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
-    })
+    }).catch(
+      props.setErr(true)
+    )
   };
 
 
@@ -112,14 +112,13 @@ type VitalItemProps = {
   onChange: (value: number) => void
 }
 
-function VitalItem({ value, onChange, label, placeholder }: VitalItemProps) {
+function VitalItem({ value, onChange, label }: VitalItemProps) {
   return (
     <Grid item xs={12} sm={4}>
       <TextField
         size='small'
         fullWidth
         label={label}
-        placeholder={placeholder}
         type='text'
         value={value}
         onChange={e => onChange(Number(e.target.value))}

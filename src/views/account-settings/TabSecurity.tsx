@@ -23,6 +23,10 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 
 // import KeyOutline from 'mdi-material-ui/KeyOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
+import { setServers } from 'dns/promises'
+import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
+import { Alert, Snackbar } from '@mui/material'
 
 // import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 
@@ -35,7 +39,7 @@ interface State {
   showConfirmNewPassword: boolean
 }
 
-const TabSecurity = () => {
+const TabSecurity = (props: any) => {
   // ** States
   const [values, setValues] = useState<State>({
     newPassword: '',
@@ -79,9 +83,43 @@ const TabSecurity = () => {
     event.preventDefault()
   }
 
+  const [err, setErr] = useState(false)
+  const [open, setOpen] = useState(false)
+
+  const { data: session } = useSession()
+  const changePassword = () => {
+    if (values.newPassword === values.confirmNewPassword) {
+      const body = {
+        oldPassword: values.currentPassword,
+        newPassword: values.confirmNewPassword
+      }
+      requests
+        .post('/user/password/update', body, session ? session.accessToken : '')
+        .then(res => {
+          setErr(false)
+          setOpen(true)
+        })
+        .catch(e => {
+          setErr(true)
+          setOpen(true)
+        })
+    } else {
+      setErr(true)
+      setOpen(true)
+    }
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
     <form>
       <CardContent sx={{ paddingBottom: 0 }}>
+        <Snackbar open={open} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={err ? 'error' : 'success'} sx={{ width: '100%' }}>
+            {err ? 'This is an error message!' : 'Changed Successfully'}
+          </Alert>
+        </Snackbar>
         <Grid container spacing={5}>
           <Grid item xs={12} sm={6}>
             <Grid container spacing={5}>
@@ -208,7 +246,7 @@ const TabSecurity = () => {
         </Box> */}
 
         <Box sx={{ mt: 11 }}>
-          <Button variant='contained' sx={{ marginRight: 3.5 }}>
+          <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={changePassword}>
             Save Changes
           </Button>
           <Button

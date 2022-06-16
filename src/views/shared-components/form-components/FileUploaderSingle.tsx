@@ -38,14 +38,20 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   }
 }))
 
-const FileUploaderSingle = (props:any, ref: Ref<unknown> | undefined) => {
-
+const FileUploaderSingle = (props: any, ref: Ref<unknown> | undefined) => {
   // console.log(props)
 
   // ** State
   const [files, setFiles] = useState<File[]>([])
-  useImperativeHandle(ref, () => ({getFiles: () => {return files}}), [files]);
-
+  useImperativeHandle(
+    ref,
+    () => ({
+      getFiles: () => {
+        return files
+      }
+    }),
+    [files]
+  )
 
   // ** Hook
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
@@ -60,18 +66,34 @@ const FileUploaderSingle = (props:any, ref: Ref<unknown> | undefined) => {
   }
 
   const img = files.map((file: FileProp) => (
-    <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file as any)} />
+    <img
+      width={400}
+      height={200}
+      key={file.name}
+      alt={file.name}
+      className='single-file-image'
+      src={URL.createObjectURL(file as any)}
+    />
   ))
 
-  return (
-    <Box {...getRootProps({ className: 'dropzone' })} sx={acceptedFiles.length ? { height: 450 } : {backgroundColor: '#f1f2eb'}}>
+  return files.length ? (
+    img
+  ) : (
+    <Box
+      {...getRootProps({ className: 'dropzone' })}
+      sx={acceptedFiles.length ? { height: 450 } : { backgroundColor: '#f1f2eb' }}
+    >
       <input {...getInputProps()} />
-      <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding:2 }}>
-        <Img alt='Upload img' width='100px' src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png' />
+      <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding: 2 }}>
+        <Img
+          alt='Upload img'
+          width='100px'
+          src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png'
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
           <HeadingTypography variant='h5'>Drop result files here or click to upload.</HeadingTypography>
           <Typography color='textSecondary'>
-            Drop files here or {' '}
+            Drop files here or{' '}
             <Link href='/' onClick={handleLinkClick}>
               browse
             </Link>{' '}

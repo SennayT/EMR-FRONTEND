@@ -1,6 +1,9 @@
 // ** Icon imports
 import HomeOutline from 'mdi-material-ui/HomeOutline'
-import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
+
+// import AccountDetails from 'mdi-material-ui/AccountDetailsOutline'
+import SearchIcon from 'mdi-material-ui/ClipboardTextSearchOutline'
+import SIcon from '@mui/icons-material/ManageSearch'
 import Account from 'mdi-material-ui/Account'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
@@ -17,21 +20,41 @@ import { Session } from 'next-auth'
 const navigation = (session: Session): VerticalNavItemsType => {
   const pagesSection: VerticalNavItemsType = []
   if (session.role === 'Receptionist') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Patient Details',
-        icon: AccountDetails,
-        path: '/patient-details'
-      }
-    )
+    pagesSection.push({
+      sectionTitle: 'pages'
+    })
     pagesSection.push({
       title: 'Register Patient',
       icon: AccountEditOutline,
       path: '/reception/register-patient'
     })
+  }
+
+  if (session.role === 'Researcher' || session.role === 'MohEmployee') {
+    pagesSection.push({
+      sectionTitle: 'pages'
+    })
+    pagesSection.push({
+      title: 'Disease Stat',
+      icon: SearchIcon,
+      path: '/stats/SearchingDisease/'
+    }),
+      pagesSection.push({
+        title: 'Medication Stat',
+        icon: SearchIcon,
+        path: '/stats/SearchingMedication/'
+      })
+
+    pagesSection.push({
+      title: 'Searched Disease',
+      icon: SIcon,
+      path: '/'
+    }),
+      pagesSection.push({
+        title: 'Searched Medication',
+        icon: SIcon,
+        path: '/'
+      })
   }
 
   if (session.role === 'System Admin') {
@@ -76,30 +99,20 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Doctor') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Create Prescription',
-        icon: Account,
-        path: '/doctor/create-prescription'
-      }
-    )
+    // pagesSection.push(
+    //   {
+    //     sectionTitle: 'pages'
+    //   },
+    // )
   }
 
-  if (session.role === 'Nurse') {
-    pagesSection.push(
-      {
-        sectionTitle: 'pages'
-      },
-      {
-        title: 'Vitals',
-        icon: Account,
-        path: '/nurse/vitals'
-      }
-    )
-  }
+  // if (session.role === 'Nurse') {
+  //   pagesSection.push(
+  //     {
+  //       sectionTitle: 'pages'
+  //     }
+  //   )
+  // }
 
   return [
     {

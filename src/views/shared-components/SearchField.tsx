@@ -13,7 +13,7 @@ import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
 
-const SearchField = () => {
+const SearchField = (props: any) => {
 
   const [refId, setRefId] = useState("")
   const router = useRouter()
@@ -24,7 +24,7 @@ const SearchField = () => {
     requests.get(`/patient/refId/${refId}`,  session ? session.accessToken.toString() : "").then((response) => {
       console.log(response.data)
       router.push({pathname: "/patient-details", query: {pid: response.data.id}})
-    })
+    }).catch(e => props.errHandler())
   }
 
   return (
