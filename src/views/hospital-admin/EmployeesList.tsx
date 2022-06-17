@@ -12,31 +12,30 @@ import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-
 const Employees = () => {
   const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(true)
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   const [currEmployee, setCurrEmployee] = useState(-1)
 
-
   useEffect(() => {
-    requests.get(`/employee`, session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/hospital-admin/employees`, {}, session ? session.accessToken.toString() : '').then(response => {
       setEmployees(response.data)
       setLoading(false)
+      console.log('employees', response.data)
     })
   }, [])
   const router = useRouter()
   const handleEdit = () => {
-    const emp = employees.find(i => i.id === currEmployee)
-    console.log("here", currEmployee,emp )
-    router.push({
-      pathname: '/hospital-admin/employees/add',
-      query: {
-        user: JSON.stringify(emp)
-      },
-
-    })
+    console.log('current emp is: ', currEmployee)
+    // const emp = employees.find(i => i.id === currEmployee)
+    // console.log('here', currEmployee, emp)
+    // router.push({
+    //   pathname: '/hospital-admin/employees/add',
+    //   query: {
+    //     user: JSON.stringify(emp)
+    //   }
+    // })
   }
 
   const columns: GridColDef[] = [
@@ -74,11 +73,12 @@ const Employees = () => {
       editable: false
     },
     {
-      field: 'status',
+      field: 'isActive',
       headerName: 'Status',
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
+        console.log('value', params.value)
         return (
           <Chip
             label={params.value ? 'active' : 'inactive'}
@@ -95,7 +95,11 @@ const Employees = () => {
       renderCell: params => {
         return (
           <div>
-            <IconButton onClick={(e) => {handleEdit()}}>
+            <IconButton
+              onClick={e => {
+                handleEdit()
+              }}
+            >
               <EditIcon />
             </IconButton>
 
@@ -142,9 +146,13 @@ const Employees = () => {
             columns={columns}
             pageSize={5}
             rowsPerPageOptions={[5]}
-            onSelectionModelChange={(newSelectionModel) => {
-              console.log("new", newSelectionModel, employees.find(i => i.id === newSelectionModel[0]))
-              setCurrEmployee(Number(newSelectionModel[0]));
+            onSelectionModelChange={newSelectionModel => {
+              console.log(
+                'new',
+                newSelectionModel,
+                employees.find(i => i.id === newSelectionModel[0])
+              )
+              setCurrEmployee(Number(newSelectionModel[0]))
             }}
             selectionModel={currEmployee}
             loading={loading}

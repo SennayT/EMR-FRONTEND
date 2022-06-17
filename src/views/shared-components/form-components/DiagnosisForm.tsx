@@ -12,7 +12,7 @@ import Disease from 'src/data/models/DiseaseModel'
 import user from 'src/data/userData'
 
 import { useSession } from 'next-auth/react'
-
+import { useRouter } from 'next/router'
 
 const DiagnosisForm = () => {
   // ** States
@@ -22,8 +22,8 @@ const DiagnosisForm = () => {
   const [currInvReq, setCurrInvReq] = useState<number>(0)
   const [currDisease, setCurrDisease] = useState<number[]>([])
 
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
+  const router = useRouter()
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -37,12 +37,16 @@ const DiagnosisForm = () => {
   }
 
   useEffect(() => {
-    requests.get('/disease',  session ? session.accessToken.toString() : "").then((respose) => {
+    requests.get('/disease', session ? session.accessToken.toString() : '').then(respose => {
       setDiseases(respose.data)
     })
-    requests.get('/investigation-request',  session ? session.accessToken.toString() : "").then((respose) => {
-      setInvestigationReq(respose.data)
-    })
+    requests
+      .post(`/investigation-request/patient/${router.query.pid}`, {}, session ? session.accessToken.toString() : '')
+      .then(respose => {
+        console.log('requests', respose.data)
+        setInvestigationReq(respose.data)
+      })
+      .catch(err => console.log(err))
   }, [])
 
   const registerDiagnosis = () => {
@@ -53,7 +57,7 @@ const DiagnosisForm = () => {
       diseases: currDisease
     }
     console.log(data)
-    requests.post('/diagnosis', data,  session ? session.accessToken.toString() : "")
+    requests.post('/diagnosis', data, session ? session.accessToken.toString() : '')
   }
 
   return (

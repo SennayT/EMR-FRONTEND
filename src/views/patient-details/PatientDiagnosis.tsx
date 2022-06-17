@@ -14,6 +14,7 @@ import { Card } from '@mui/material'
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -22,23 +23,23 @@ const ImgStyled = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-
-
 const PatientDiagnosis = (props: {
   user: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined }
 }) => {
   // ** State
   const [imgSrc] = useState<string>('/images/avatars/1.png')
 
-  const [vitals, setVitals] = useState([]);
-  const { data: session } = useSession();
-
+  const [vitals, setVitals] = useState([])
+  const { data: session } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
-    requests.get(`/vitals`,  session ? session.accessToken.toString() : "").then(response => {
-      setVitals(response[0])
-    })
-  }, []);
+    requests
+      .get(`/vitals/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+      .then(response => {
+        setVitals(response[0])
+      })
+  }, [])
   const [lastDiagnosis, setLastDiagnosis] = useState({
     id: 1,
     comment: '',
@@ -52,13 +53,16 @@ const PatientDiagnosis = (props: {
     ]
   })
 
-
   useEffect(() => {
-    requests.get(`/diagnosis`,  session ? session.accessToken.toString() : "").then((response) => {
-      setLastDiagnosis(response.data[0])
-
-
-    })
+    requests
+      .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+      .then(response => {
+        if (response.data[0]) {
+          setLastDiagnosis(response.data[0])
+          console.log('last diagnosis', lastDiagnosis)
+          console.log('diseases', lastDiagnosis.diseases)
+        }
+      })
   }, [])
 
   return (
@@ -76,28 +80,31 @@ const PatientDiagnosis = (props: {
               </Box>
             </Grid>
             <Grid item>
-               {vitals ?  vitals.map(function (vital) {
-                return <div>
-                  <p>vital number {vital['id']}</p>
-                  <PatientVitals vital={vital} />
-                </div>
-              }) :  " " }
+              {vitals
+                ? vitals.map(function (vital) {
+                    return (
+                      <div>
+                        <p>vital number {vital['id']}</p>
+                        <PatientVitals vital={vital} />
+                      </div>
+                    )
+                  })
+                : ' '}
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
                 Recent Diagnosis Note
               </Typography>
-              <Typography variant='body2'>
-                {lastDiagnosis.comment}
-              </Typography>
+              <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
               <Typography variant='h6' sx={{ marginBottom: 3.5, marginTop: 3.5 }}>
                 Diagnosed Diseases
               </Typography>
-              {lastDiagnosis.diseases.map((disease) => {
-                console.log("here", disease);
+              {lastDiagnosis.diseases.map(disease => {
+                console.log('here', disease)
                 return (
-                  <div><Typography variant='body1'>{disease.name}</Typography>
-                    <Typography variant='body2'>{disease.description}</Typography></div>
-                );
-
+                  <div>
+                    <Typography variant='body1'>{disease.name}</Typography>
+                    <Typography variant='body2'>{disease.description}</Typography>
+                  </div>
+                )
               })}
             </Grid>
           </Grid>

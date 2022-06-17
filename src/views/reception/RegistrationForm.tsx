@@ -29,7 +29,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
-import { userInfo } from 'os'
+
 import ShowRefDialog from '../shared-components/ShowRefDialog'
 
 export default function PatientRegistrationForm() {
@@ -40,11 +40,11 @@ export default function PatientRegistrationForm() {
     zone: '',
     kebelle: '',
     street: '',
-    houseNumber: ''
+    houseNo: ''
   })
   const [currentUser, setUser] = useState({
     name: '',
-    age: age,
+    age: 45, //TODO fix age
     gender: 'female',
     email: '',
     phone: '',
@@ -371,9 +371,9 @@ export default function PatientRegistrationForm() {
                     fullWidth
                     label='House Number'
                     placeholder='432'
-                    value={address.houseNumber}
+                    value={address.houseNo}
                     onChange={e => {
-                      setAddress({ ...address, houseNumber: e.target.value })
+                      setAddress({ ...address, houseNo: e.target.value })
                     }}
                     InputProps={{
                       startAdornment: (

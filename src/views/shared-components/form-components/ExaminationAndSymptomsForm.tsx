@@ -9,7 +9,7 @@ import requests from 'src/utils/repository'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 
-const ExaminationAndSymptomsForm = () => {
+const ExaminationAndSymptomsForm = (props: any) => {
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
   const MenuProps = {
@@ -28,10 +28,12 @@ const ExaminationAndSymptomsForm = () => {
   const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/vitals`, session ? session.accessToken.toString() : '').then(response => {
+    console.log('props', props)
+    requests.get(`/vitals/patient/${props.patientId}`, session ? session.accessToken.toString() : '').then(response => {
+      console.log(props, response.data)
       setVitals(response.data)
     })
-  },[])
+  }, [])
 
   const registerExamination = () => {
     const data = {
@@ -53,13 +55,13 @@ const ExaminationAndSymptomsForm = () => {
             <Grid item xs={12}>
               <FormControl fullWidth sx={{ mx: 2 }}>
                 <InputLabel required id='test-select-label'>
-                  Investigative Request
+                  Vital
                 </InputLabel>
                 <Select
                   sx={{ my: 2 }}
                   required
                   labelId='test-select-label'
-                  label='Investigative Request'
+                  label='Vital'
                   value={vital}
                   MenuProps={MenuProps}
                   onChange={e => {
@@ -71,7 +73,12 @@ const ExaminationAndSymptomsForm = () => {
                 >
                   {vitals.map(name => (
                     <MenuItem key={name.id} value={name.id}>
-                      {new Date(name.requestedDate).toLocaleDateString("en-US" ,  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      {new Date(name.requestedDate).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
                     </MenuItem>
                   ))}
                 </Select>

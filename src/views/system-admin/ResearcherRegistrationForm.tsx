@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent } from '@mui/material'
 import { TextField, CardActions, Button } from '@mui/material'
@@ -32,32 +32,31 @@ import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
 
-
-
 export default function ResearcherRegistrationForm(props: any) {
-  const [name, setName] = useState(props.edit ? props.researcher.name : "" )
-  const [email, setEmail] = useState(props.edit ? props.researcher.email : "")
-  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : "")
-  const [gender, setGender] = useState(props.edit ? props.researcher.gender : "")
+  const [name, setName] = useState(props.edit ? props.researcher.name : '')
+  const [email, setEmail] = useState(props.edit ? props.researcher.email : '')
+  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : '')
+  const [gender, setGender] = useState(props.edit ? props.researcher.gender : '')
   const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
-  const [city, setCity] = useState(props.edit ? props.researcher.address.city : "")
-  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : "")
-  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : "")
-  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : "")
-  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : "")
-  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : "")
-  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : "")
-
+  const [city, setCity] = useState(props.edit ? props.researcher.address.city : '')
+  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : '')
+  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : '')
+  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
 
+  useEffect(() => {
+    console.log('gender', props.researcher.gender)
+  }, [])
+
   const [currResearcher, setCurrResearcher] = useState(-1)
 
-  const { data: session } = useSession();
-
-
+  const { data: session } = useSession()
 
   const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
 
@@ -113,7 +112,7 @@ export default function ResearcherRegistrationForm(props: any) {
   }
 
   const registerResearcher = () => {
-    console.log({ name: name, phone: phone, email: email, age: age, gender: gender, city: city, subCity: subCity })
+    //console.log({ name: name, phone: phone, email: email, age: age, gender: gender, city: city, subCity: subCity })
     const body = {
       name: name,
       email: email,
@@ -129,14 +128,22 @@ export default function ResearcherRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
-      healthCenterId: user.healthCeterId
+      healthCenterId: props.edit
     }
-    if(!props.edit){
-      requests.post(`/researcher`, body,  session ? session.accessToken.toString() : "").then(res => props.closeHandler(true, "success")).catch(props.closeHandler(true, "error"));
+    if (props.edit) {
+      delete body.healthCenterId
+    }
+    console.log('body', body)
+    if (!props.edit) {
+      requests
+        .post(`/researcher`, body, session ? session.accessToken.toString() : '')
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
       props.closeHandler(false)
-
-    }else{
-      requests.put(`/researcher/${props.researcher.id}`, body,  session ? session.accessToken.toString() : "").catch(props.closeHandler(true));
+    } else {
+      requests
+        .put(`/researcher/${props.researcher.id}`, body, session ? session.accessToken.toString() : '')
+        .catch(props.closeHandler(true))
     }
   }
 

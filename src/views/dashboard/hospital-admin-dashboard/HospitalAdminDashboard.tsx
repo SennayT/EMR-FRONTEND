@@ -30,32 +30,31 @@ export default function HospitalAdminDashboard() {
   const [prescriptions, setPrescription] = useState(0)
   const [diagnosis, setDiagnosis] = useState(0)
 
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get("/health-center/number", session ? session.accessToken.toString() : "").then((response) => {
+    requests.get('/health-center/number', session ? session.accessToken.toString() : '').then(response => {
       setLabReports(response.data)
-    });
-    requests.get(`/patient`, session ? session.accessToken.toString() : "").then((response) => {
-      setPatientNum(response.data.length)
-    });
-    requests.get(`/radiology`, session ? session.accessToken.toString() : "").then((response) => {
-      setRadiology(response.data.length )
     })
-    requests.get(`/employee` , session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/patient`, session ? session.accessToken.toString() : '').then(response => {
+      setPatientNum(response.data.length)
+    })
+    requests.get(`/radiology`, session ? session.accessToken.toString() : '').then(response => {
+      setRadiology(response.data.length)
+    })
+    requests.get(`/employee`, session ? session.accessToken.toString() : '').then(response => {
       setEmployeeNum(response.data.length)
     })
-    requests.get(`/lab-result`, session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/lab-result`, session ? session.accessToken.toString() : '').then(response => {
       setLabReports(response.data.length)
     })
-    requests.get(`/prescription`, session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/prescription`, session ? session.accessToken.toString() : '').then(response => {
       setPrescription(response.data.length)
     })
-    requests.get(`/diagnosis`, session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`/diagnosis`, session ? session.accessToken.toString() : '').then(response => {
       setDiagnosis(response.data.length)
     })
-  },[])
+  }, [])
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
