@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 
 // import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -112,8 +113,8 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  const [err , setErr] = useState(false)
-  const [open , setOpen] = useState(false)
+  const [err, setErr] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const loginHandler = () => {
     const credentials = {
@@ -128,19 +129,19 @@ const LoginPage = () => {
   }
 
   const handleClose = () => {
-    setErr(false);
+    setErr(false)
   }
 
   return (
     <Box>
-       <Snackbar open={err} autoHideDuration={600} onClose={() => setOpen(false)}>
-          <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
-            This is an error message!
-          </Alert>
-        </Snackbar>
-      <Card sx={{ zIndex: 1, mx: '35%' }}>
+      <Snackbar open={err} autoHideDuration={600} onClose={() => setOpen(false)}>
+        <Alert onClose={handleClose} severity={'error'} sx={{ width: '100%' }}>
+          This is an error message!
+        </Alert>
+      </Snackbar>
+      <Card sx={{ mx: 'auto' }}>
         <CardContent
-          sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', mt: 8 }}
+          sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', my: 8 }}
         >
           <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img src='/images/logo.png' alt='heart rate' height={100} />

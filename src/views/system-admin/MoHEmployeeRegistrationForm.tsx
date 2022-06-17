@@ -126,12 +126,14 @@ export default function ResearcherRegistrationForm(props: any) {
     setCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setCityErrors({ city: 'Invalid City' })
-    }
-
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
     }
   }
 
