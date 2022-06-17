@@ -28,14 +28,14 @@ const Employees = () => {
   const router = useRouter()
   const handleEdit = () => {
     console.log('current emp is: ', currEmployee)
-    // const emp = employees.find(i => i.id === currEmployee)
-    // console.log('here', currEmployee, emp)
-    // router.push({
-    //   pathname: '/hospital-admin/employees/add',
-    //   query: {
-    //     user: JSON.stringify(emp)
-    //   }
-    // })
+    const emp = employees.find(i => i.id === currEmployee)
+    console.log('here', currEmployee, emp)
+    router.push({
+      pathname: '/hospital-admin/employees/add',
+      query: {
+        user: JSON.stringify(emp)
+      }
+    })
   }
 
   const columns: GridColDef[] = [
