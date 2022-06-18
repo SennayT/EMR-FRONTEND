@@ -25,10 +25,12 @@
 import DoctorDashboard from './doctor'
 import SystemAdminDashboard from '../views/dashboard/system-admin-dashboard/SystemAdminDashboard'
 import LabExpertDashboard from './lab-expert'
-import NurseDashboard from './nurse'
+
+// import NurseDashboard from './nurse'
 import HospitalAdminDashboard from 'src/views/dashboard/hospital-admin-dashboard/HospitalAdminDashboard'
 import RadiologistDashboard from './radiologist'
 import ResearcherDashboard from 'src/views/dashboard/resarcher-dashboard/ResearcherDashboard'
+import PatientDashboard from './patient'
 
 import { useSession } from 'next-auth/react'
 
@@ -57,6 +59,8 @@ const Dashboard = () => {
       return <RadiologistDashboard />
     case 'Researcher':
       return <ResearcherDashboard />
+    case 'Patient':
+      return <PatientDashboard />
     default:
       return <p>add 404 here</p>
   }
