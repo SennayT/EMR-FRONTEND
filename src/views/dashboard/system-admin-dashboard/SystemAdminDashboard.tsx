@@ -27,36 +27,35 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
-
 export default function SystemAdminDashboard() {
   const [healthCenterNum, setHealthCenterNum] = useState(0)
   const [patientNum, setPatientNum] = useState(0)
   const [researcherNum, setResearcherNum] = useState(0)
   const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get("/health-center/number", session ? session.accessToken.toString() : "").then((response) => {
+    requests.get('/health-center/number', session ? session.accessToken.toString() : '').then(response => {
       setHealthCenterNum(response.data)
-    });
-    requests.get(`/patient`, session ? session.accessToken.toString() : "").then((response) => {
+    })
+    requests.get(`/patient`, session ? session.accessToken.toString() : '').then(response => {
       setPatientNum(response.data.length)
-    });
-    requests.get(`/researcher/number`, session ? session.accessToken.toString() : "").then((response) => {
+    })
+    requests.get(`/researcher/number`, session ? session.accessToken.toString() : '').then(response => {
       setResearcherNum(response.data)
     })
-    requests.get(`moh-employee`, session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`moh-employee`, session ? session.accessToken.toString() : '').then(response => {
       setMohEmployeeNum(response.data.length)
     })
-  },[])
+  }, [])
 
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid item xs={12}>
           <Grid container spacing={12}>
-            <Grid item xs={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={healthCenterNum.toString()}
                 icon={<HospitalIcon />}
@@ -66,7 +65,7 @@ export default function SystemAdminDashboard() {
                 subtitle='Total'
               />
             </Grid>
-            <Grid item xs={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={patientNum.toString()}
                 title='Patients'
@@ -77,7 +76,7 @@ export default function SystemAdminDashboard() {
                 icon={<PatientIcon />}
               />
             </Grid>
-            <Grid item xs={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={researcherNum.toString()}
                 trend='negative'
@@ -87,7 +86,7 @@ export default function SystemAdminDashboard() {
                 icon={<ResearcherIcon />}
               />
             </Grid>
-            <Grid item xs={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <CardStatisticsVerticalComponent
                 stats={mohEmployeeNum.toString()}
                 color='warning'

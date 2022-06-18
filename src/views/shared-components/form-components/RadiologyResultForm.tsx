@@ -15,9 +15,8 @@ import user from 'src/data/userData'
 
 import { useSession } from 'next-auth/react'
 
-
 const RadiologyResultForm = (props: any) => {
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   const registerResult = () => {
     console.log(currentLabTest)
@@ -31,7 +30,7 @@ const RadiologyResultForm = (props: any) => {
       investigationRequestId: props.invReqId
     }
     console.log(data)
-    requests.post(`/radiology`, data,  session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/radiology`, data, session ? session.accessToken.toString() : '').then(response => {
       console.log(response)
     })
   }
@@ -75,7 +74,7 @@ const RadiologyResultForm = (props: any) => {
                     value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const val = JSON.parse(e.target.value.toString())
+                      const val = e.target.value
                       setCurrentLabTest(val)
                     }}
                     fullWidth
