@@ -41,6 +41,10 @@ const requests = {
       })
       .then(responseBody),
 
+  postimage: (url: string, body: {}) =>
+    instance
+      .post(url, body)
+      .then(responseBody),
   post: (url: string, body: {}, token: string) =>
     instance
       .post(url, body, {

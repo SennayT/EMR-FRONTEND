@@ -99,11 +99,17 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Doctor') {
-    // pagesSection.push(
-    //   {
-    //     sectionTitle: 'pages'
-    //   },
-    // )
+
+    pagesSection.push(
+      {
+        sectionTitle: 'pages'
+      },
+      {
+        title: 'Results',
+        icon: HospitalIcon,
+        path: 'patient/view/results'
+      }
+    )
   }
 
   // if (session.role === 'Nurse') {
