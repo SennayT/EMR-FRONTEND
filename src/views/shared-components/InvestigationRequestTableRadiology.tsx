@@ -58,7 +58,10 @@ const InvestigativeRequestTableRadiology = () => {
       headerName: 'Date',
       type: 'number',
       width: 150,
-      editable: false
+      editable: false,
+      renderCell: (params: GridRenderCellParams<any>) => (
+        <p> {new Date(params.value).toLocaleDateString("en-US")}</p>
+      )
     },
     {
       field: 'labTests',
@@ -66,10 +69,8 @@ const InvestigativeRequestTableRadiology = () => {
       type: 'number',
       width: 150,
       editable: false,
-      renderCell: (params: GridRenderCellParams) => (
-        <Chip color='primary' size='small'>
-          {params.value ? params.value.length : 0}
-        </Chip>
+      renderCell: (params: GridRenderCellParams<Array<any>>) => (
+        <Chip color='primary' label={params.value?.length} sx={{px: 5}}/>
       )
     },
     {

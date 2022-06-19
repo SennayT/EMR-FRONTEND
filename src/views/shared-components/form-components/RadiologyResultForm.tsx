@@ -3,23 +3,58 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem } from '@mui/material'
+import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Box, Typography, Link, TypographyProps } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
+import { styled } from '@mui/material/styles'
+
 
 import EmailOutline from 'mdi-material-ui/EmailOutline'
-import FileUploaderSingle from './FileUploaderSingle'
 
 import requests from 'src/utils/repository'
-import user from 'src/data/userData'
 
 import { useSession } from 'next-auth/react'
+import { useDropzone } from 'react-dropzone'
+interface FileProp {
+  name: string
+  type: string
+  size: number
+}
+
+// Styled component for the upload image inside the dropzone area
+const Img = styled('img')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    marginRight: theme.spacing(15.75)
+  },
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 160
+  }
+}))
+
+// Styled component for the heading inside the dropzone area
+const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
+  marginBottom: theme.spacing(5),
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
+
+
 
 const RadiologyResultForm = (props: any) => {
   const { data: session } = useSession()
 
+
+  const [files, setFiles] = useState<File[]>([])
+
+
   const registerResult = () => {
-    console.log(currentLabTest)
+    // const image = imageRef.current.getFiles();
+
+
     const data = {
       name: currentLabTest.name,
       focalArea: 'stomach',
@@ -27,13 +62,37 @@ const RadiologyResultForm = (props: any) => {
       images: ['/url'],
       comment: comment,
       requestedById: 18,
+      image: "",
       investigationRequestId: props.invReqId
     }
-    console.log(data)
-    requests.post(`/radiology`, data, session ? session.accessToken.toString() : '').then(response => {
-      console.log(response)
+
+
+    const formData = new FormData();
+
+    formData.append('upload_preset', 'lab results');
+    formData.append('file', files[0]);
+
+    formData.append("cloud_name", "capstoneemr")
+
+    fetch("https://api.cloudinary.com/v1_1/capstoneemr/image/upload", {
+      method: "post",
+      body: formData
     })
+      .then(res => res.json())
+      .then(r => {
+        console.log(r)
+        console.log("done", r)
+        data.image = r.secure_url;
+        requests.post(`/radiology`, data, session ? session.accessToken : "").then(response => {
+          console.log("done", response.data)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   }
+
 
   // ** States
 
@@ -48,16 +107,40 @@ const RadiologyResultForm = (props: any) => {
     }
   }
 
+  const [comment, setComment] = useState('')
   const [currentLabTest, setCurrentLabTest] = useState({
     id: 0,
     name: '',
-    normalRange: '',
-    measuredIn: '',
-    testCategory: '',
-    images: ['']
+    focalArea: 'stomach',
+    report: 'some result',
+    comment: comment,
+    requestedById: 18,
+    image: "",
+    investigationRequestId: props.invReqId
   })
 
-  const [comment, setComment] = useState('')
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    onDrop: (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    }
+  })
+
+  const handleLinkClick = (event: SyntheticEvent) => {
+    event.preventDefault()
+  }
+
+  const img = files.map((file: FileProp) => (
+    <img
+      width={400}
+      height={200}
+      key={file.name}
+      alt={file.name}
+      className='single-file-image'
+      src={URL.createObjectURL(file as any)}
+    />
+  ))
+
 
   return (
     <Grid container>
@@ -92,7 +175,7 @@ const RadiologyResultForm = (props: any) => {
                 <TextField
                   size='small'
                   fullWidth
-                  value={currentLabTest.normalRange}
+                  value={currentLabTest.focalArea}
                   label='Focal Area'
                   InputProps={{
                     readOnly: true,
@@ -106,7 +189,34 @@ const RadiologyResultForm = (props: any) => {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <FileUploaderSingle />
+                {files.length ? (
+                  img
+                ) : (
+                  <Box
+                    {...getRootProps({ className: 'dropzone' })}
+                    sx={acceptedFiles.length ? { height: 450 } : { backgroundColor: '#f1f2eb' }}
+                  >
+                    <input {...getInputProps()} />
+                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding: 2 }}>
+                      <Img
+                        alt='Upload img'
+                        width='100px'
+                        src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png'
+                      />
+                      <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                        <HeadingTypography variant='h5'>Drop result files here or click to upload.</HeadingTypography>
+                        <Typography color='textSecondary'>
+                          Drop files here or{' '}
+                          <Link href='/' onClick={handleLinkClick}>
+                            browse
+                          </Link>{' '}
+                          thorough your machine
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {files.length ? img : null}
+                  </Box>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField

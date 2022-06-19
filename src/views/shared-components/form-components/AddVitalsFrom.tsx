@@ -1,6 +1,3 @@
-
-
-
 import { Button, Card, CardActions, CardContent, Grid, TextField } from '@mui/material'
 import { useState } from 'react'
 import { Vitals } from 'src/data/models/VitalsModel'
@@ -16,20 +13,18 @@ const AddVitalsForm = (props: any) => {
     bloodPressure: 0,
     weight: 0,
     spo2Level: 0,
-    patientId: props.patientId,
-    requestedById: 0
+    patientId: props.patientId
   })
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
 
   const handleVitalsSubmit = () => {
-    requests.post(`/vitals`, vitals,  session ? session.accessToken.toString() : "").then(response => {
-      console.log(response.data)
-    }).catch(
-      props.setErr(true)
-    )
-  };
-
+    requests
+      .post(`/vitals`, vitals, session ? session.accessToken.toString() : '')
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(props.setErr(true))
+  }
 
   return (
     <Grid container spacing={6}>
@@ -102,8 +97,6 @@ const AddVitalsForm = (props: any) => {
     </Grid>
   )
 }
-
-
 
 type VitalItemProps = {
   label: string
