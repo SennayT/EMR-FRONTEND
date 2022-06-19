@@ -25,6 +25,7 @@ import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
+
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)<TimelineProps>({
   paddingLeft: 0,
@@ -36,11 +37,11 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
     }
   }
 })
-
 // Styled component for the image of a shoe
 const ImgShoe = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
+
 
 const DiagnosisHistory = () => {
   const [diagnosis, setDiagnosis] = useState([

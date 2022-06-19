@@ -1,7 +1,6 @@
-
 import { Card, CardContent, Typography } from '@mui/material'
 
-import {  useState } from 'react'
+import { useState } from 'react'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -12,10 +11,6 @@ import UserGeneralInfo from '../shared-components/UserGeneralInfo'
 
 // import { LockOpenOutline } from 'mdi-material-ui'
 
-
-
-
-
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
   height: 120,
@@ -23,13 +18,10 @@ const ImgStyled = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-
-
 const ProfileDetail = (props: any) => {
   // ** State
 
   const [imgSrc] = useState<string>('/images/avatars/1.png')
-
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
@@ -40,11 +32,9 @@ const ProfileDetail = (props: any) => {
             <Typography variant='h5'>{props.user.name}</Typography>
           </Box>
         </Box>
-
       </CardContent>
 
       <UserGeneralInfo user={props.user} />
-
     </Card>
   )
 }

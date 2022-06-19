@@ -1,11 +1,12 @@
 // ** React Imports
-import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
+import { ChangeEvent, MouseEvent, ReactNode, useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
 
 // import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -36,6 +37,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { signIn } from 'next-auth/react'
 import { Alert, Snackbar } from '@mui/material'
+import { useRouter } from 'next/router'
 
 const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   fontWeight: 600,
@@ -112,7 +114,7 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  const [err , setErr] = useState(false)
+  const [err , setErr] = useState(true)
   const [open , setOpen] = useState(false)
 
   const loginHandler = () => {
@@ -128,19 +130,23 @@ const LoginPage = () => {
   }
 
   const handleClose = () => {
-    setErr(false);
+    setErr(false)
   }
 
+  const router = useRouter();
+
+  useEffect(() =>{
+
+    if(router.query.callbackUrl === undefined){
+      setErr(false)
+    }
+  }, [])
   return (
     <Box>
-       <Snackbar open={err} autoHideDuration={600} onClose={() => setOpen(false)}>
-          <Alert onClose={handleClose} severity={"error"} sx={{ width: '100%' }}>
-            This is an error message!
-          </Alert>
-        </Snackbar>
+
       <Card sx={{ zIndex: 1, mx: '35%' }}>
         <CardContent
-          sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', mt: 8 }}
+          sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', my: 8 }}
         >
           <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <img src='/images/logo.png' alt='heart rate' height={100} />
@@ -149,7 +155,7 @@ const LoginPage = () => {
             </HeaderTitle>
           </Box>
           <Box sx={{ mb: 6 }}>
-            <Typography variant='body2'>Please sign-in to your account</Typography>
+            <Typography variant='body2'>{err ? "Please enter valid credentials" : "Please sign-in to your account"}</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField

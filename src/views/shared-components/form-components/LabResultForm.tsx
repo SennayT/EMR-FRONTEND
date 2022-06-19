@@ -1,12 +1,11 @@
 // ** React Imports
-import { useRef, useState } from 'react'
+import { SyntheticEvent, useImperativeHandle, useRef, useState } from 'react'
 
 import FormData from 'form-data'
 
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Snackbar, Alert } from '@mui/material'
+import { Button, Grid, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Snackbar, Alert, Box, Link } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -17,10 +16,43 @@ import Switch from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 import requests from 'src/utils/repository'
-import user from 'src/data/userData'
 
 import { useSession } from 'next-auth/react'
-import { AnySrvRecord } from 'dns'
+
+import { styled } from '@mui/material/styles'
+import Typography, { TypographyProps } from '@mui/material/Typography'
+
+// ** Third Party Imports
+import { useDropzone } from 'react-dropzone'
+import React from 'react'
+
+interface FileProp {
+  name: string
+  type: string
+  size: number
+}
+
+// Styled component for the upload image inside the dropzone area
+const Img = styled('img')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    marginRight: theme.spacing(15.75)
+  },
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 160
+  }
+}))
+
+// Styled component for the heading inside the dropzone area
+const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
+  marginBottom: theme.spacing(5),
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
+
 
 
 const LabResultForm = (props: any) => {
@@ -33,36 +65,49 @@ const LabResultForm = (props: any) => {
 
 
 
+  const [files, setFiles] = useState<File[]>([])
 
   const registerResult = () => {
-    const image = imageRef.current.getFiles();
+    // const image = imageRef.current.getFiles();
 
 
-    const formData: any = {
+    const data: any = {
       name: currentLabTest.name,
       type: currentLabTest.testCategory,
       result: 'some result',
       isAbnormal: true,
       comment: comment,
-
-      filledById: user.id,
+      image: "",
+      labTestId: currentLabTest.id,
       investigationRequestId: props.invReqId
+
     }
-    const data = new FormData();
-    for ( var key in formData ) {
-      data.append(key, formData[key]);
-  }
-    data.append("image", image);
-    data.append("name", currentLabTest.name);
-    console.log("data", data)
-    requests.postSpecial(`/lab-result`, data, session ? session.accessToken : "" ).then(response => {
-      console.log(Number(response.data.statusCode))
-      if (response.data.statusCode[0] == 2) {
-        console.log("sdfj")
-      } else {
-        setOpen(true)
-      }
+
+
+    const formData = new FormData();
+
+    formData.append('upload_preset', 'lab results');
+    formData.append('file', files[0]);
+
+    formData.append("cloud_name", "capstoneemr")
+
+    fetch("https://api.cloudinary.com/v1_1/capstoneemr/image/upload", {
+      method: "post",
+      body: formData
     })
+      .then(res => res.json())
+      .then(r => {
+        console.log(r)
+        console.log("done", r)
+        data.image = r.secure_url;
+        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(response => {
+          console.log("done", response.data)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   }
 
   // ** States
@@ -88,6 +133,38 @@ const LabResultForm = (props: any) => {
 
   const [comment, setComment] = useState('')
 
+  // useImperativeHandle(
+  //   ref,
+  //   () => ({
+  //     getFiles: () => {
+  //       return files
+  //     }
+  //   }),
+  //   [files]
+  // )
+
+  // ** Hook
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    multiple: false,
+    onDrop: (acceptedFiles: File[]) => {
+      setFiles(acceptedFiles.map((file: File) => Object.assign(file)))
+    }
+  })
+
+  const handleLinkClick = (event: SyntheticEvent) => {
+    event.preventDefault()
+  }
+
+  const img = files.map((file: FileProp) => (
+    <img
+      width={400}
+      height={200}
+      key={file.name}
+      alt={file.name}
+      className='single-file-image'
+      src={URL.createObjectURL(file as any)}
+    />
+  ))
 
   return (
     <Grid container>
@@ -148,7 +225,34 @@ const LabResultForm = (props: any) => {
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <FileUploaderSingle ref={imageRef} />
+                {files.length ? (
+                  img
+                ) : (
+                  <Box
+                    {...getRootProps({ className: 'dropzone' })}
+                    sx={acceptedFiles.length ? { height: 450 } : { backgroundColor: '#f1f2eb' }}
+                  >
+                    <input {...getInputProps()} />
+                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding: 2 }}>
+                      <Img
+                        alt='Upload img'
+                        width='100px'
+                        src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png'
+                      />
+                      <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                        <HeadingTypography variant='h5'>Drop result files here or click to upload.</HeadingTypography>
+                        <Typography color='textSecondary'>
+                          Drop files here or{' '}
+                          <Link href='/' onClick={handleLinkClick}>
+                            browse
+                          </Link>{' '}
+                          thorough your machine
+                        </Typography>
+                      </Box>
+                    </Box>
+                    {files.length ? img : null}
+                  </Box>
+                )}
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField

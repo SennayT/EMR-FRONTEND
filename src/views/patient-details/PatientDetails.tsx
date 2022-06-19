@@ -80,7 +80,7 @@ const PatientDetail = () => {
           </Link>
         )}
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={6} lg={4}>
         <UserGeneralInfo
           user={patient.user}
           emergencyContactName={patient?.emergencyContactName}
@@ -88,7 +88,7 @@ const PatientDetail = () => {
         />
       </Grid>
       <Divider />
-      <Grid item xs={8}>
+      <Grid item xs={12} md={6} lg={8}>
         <PatientDiagnosis user={patient.user} />
         <DiagnosisHistory />
       </Grid>

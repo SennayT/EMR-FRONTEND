@@ -80,7 +80,17 @@ export default function HospitalRegistrationForm(props: any) {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const disableButton = nameErrors?.name || emailErrors?.email || typeErrors?.type || phoneErrors?.phone ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
@@ -103,12 +113,14 @@ export default function HospitalRegistrationForm(props: any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -120,12 +132,14 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setEmpNameErrors({ empName: 'Invalid name' })
-    }
-
     if (value == '') {
       setEmpNameErrors({ empName: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmpNameErrors({ empName: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmpNameErrors({ empName: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setEmpNameErrors({ empName: 'Name can only include alphabets' })
     }
   }
 
@@ -137,12 +151,10 @@ export default function HospitalRegistrationForm(props: any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -154,12 +166,10 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmpEmailErrors({ empEmail: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmpEmailErrors({ empEmail: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmpEmailErrors({ empEmail: 'Invalid email' })
     }
   }
 
@@ -188,12 +198,14 @@ export default function HospitalRegistrationForm(props: any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
 
@@ -205,12 +217,14 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setEmpPhoneErrors({ empPhone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setEmpPhoneErrors({ empPhone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setEmpPhoneErrors({ empPhone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setEmpPhoneErrors({ empPhone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setEmpPhoneErrors({ empPhone: "Phone number can't include alphabet" })
     }
   }
 
@@ -222,12 +236,14 @@ export default function HospitalRegistrationForm(props: any) {
     setCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setCityErrors({ city: 'Invalid City' })
-    }
-
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
     }
   }
 
@@ -239,12 +255,14 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setEmpCityErrors({ empCity: 'Invalid City' })
-    }
-
     if (value == '') {
       setEmpCityErrors({ empCity: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmpCityErrors({ empCity: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmpCityErrors({ empCity: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setEmpCityErrors({ empCity: 'City can only include alphabets' })
     }
   }
 

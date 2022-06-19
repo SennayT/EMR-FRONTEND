@@ -49,16 +49,29 @@ export default function ResearcherRegistrationForm(props: any) {
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
-
-  useEffect(() => {
-    console.log('gender', props.researcher.gender)
-  }, [])
+  const [cityErrors, setCityErrors] = useState<{ city: string }>()
+  const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
+  const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
+  const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [streetErrors, setStreetErrors] = useState<{ street: string }>()
+  const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
 
   const [currResearcher, setCurrResearcher] = useState(-1)
 
   const { data: session } = useSession()
 
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -68,12 +81,14 @@ export default function ResearcherRegistrationForm(props: any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -85,12 +100,10 @@ export default function ResearcherRegistrationForm(props: any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -102,12 +115,132 @@ export default function ResearcherRegistrationForm(props: any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
+    }
+  }
+
+  const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setCityErrors({ city: '' })
+    setCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,20}$/).test(value)
+
+    if (value == '') {
+      setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 20) {
+      setCityErrors({ city: "City can't be longer than 20 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
+    }
+  }
+
+  const handleWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setWoredaErrors({ woreda: '' })
+    setWoreda(value)
+
+    if (value == '') {
+      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
+    } else if (value.length <= 2) {
+      setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setSubCityErrors({ subCity: '' })
+    setSubCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setKebelleErrors({ kebelle: '' })
+    setKebelle(value)
+
+    if (value == '') {
+      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
+    } else if (value.length <= 2) {
+      setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30) {
+      setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setStreetErrors({ street: '' })
+    setStreet(value)
+
+    if (value == '') {
+      setStreetErrors({ street: 'Street field cannot be empty' })
+    } else if (value.length <= 3) {
+      setStreetErrors({ street: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setStreetErrors({ street: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setHouseNoErrors({ houseNo: '' })
+    setHouseNo(value)
+
+    if (value == '') {
+      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
+    } else if (value.length <= 2) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setZoneErrors({ zone: '' })
+    setZone(value)
+
+    if (value == '') {
+      setZoneErrors({ zone: 'Zone field cannot be empty' })
+    } else if (value.length <= 3) {
+      setZoneErrors({ zone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
 
@@ -128,11 +261,11 @@ export default function ResearcherRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
-      healthCenterId: props.edit
+      healthCenterId: user.healthCeterId
     }
-    if (props.edit) {
-      delete body.healthCenterId
-    }
+    // if (props.edit) {
+    //   delete body.healthCenterId
+    // }
     console.log('body', body)
     if (!props.edit) {
       requests
@@ -275,10 +408,11 @@ export default function ResearcherRegistrationForm(props: any) {
                   <TextField
                     size='small'
                     fullWidth
+                    required
+                    onChange={handleCityChange}
+                    error={Boolean(cityErrors?.city)}
+                    helperText={cityErrors?.city}
                     value={city}
-                    onChange={e => {
-                      setCity(e.target.value)
-                    }}
                     label='City'
                     placeholder='Addis Ababa'
                     InputProps={{
@@ -297,9 +431,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     label='Woreda'
                     placeholder='04'
                     value={woreda}
-                    onChange={e => {
-                      setWoreda(e.target.value)
-                    }}
+                    onChange={handleWoredaChange}
+                    error={Boolean(woredaErrors?.woreda)}
+                    helperText={woredaErrors?.woreda}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -316,9 +450,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     label='Sub City'
                     placeholder='Bole'
                     value={subCity}
-                    onChange={e => {
-                      setSubCity(e.target.value)
-                    }}
+                    onChange={handleSubCityChange}
+                    error={Boolean(subCityErrors?.subCity)}
+                    helperText={subCityErrors?.subCity}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -335,9 +469,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     label='Kebele'
                     placeholder='32'
                     value={kebelle}
-                    onChange={e => {
-                      setKebelle(e.target.value)
-                    }}
+                    onChange={handleKebelleChange}
+                    error={Boolean(kebelleErrors?.kebelle)}
+                    helperText={kebelleErrors?.kebelle}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -353,9 +487,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     fullWidth
                     label='Street'
                     value={street}
-                    onChange={e => {
-                      setStreet(e.target.value)
-                    }}
+                    onChange={handleStreetChange}
+                    error={Boolean(streetErrors?.street)}
+                    helperText={streetErrors?.street}
                     placeholder='Mauritania street'
                     InputProps={{
                       startAdornment: (
@@ -373,9 +507,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     label='House Number'
                     placeholder='432'
                     value={houseNo}
-                    onChange={e => {
-                      setHouseNo(e.target.value)
-                    }}
+                    onChange={handleHouseNoChange}
+                    error={Boolean(houseNoErrors?.houseNo)}
+                    helperText={houseNoErrors?.houseNo}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -390,9 +524,9 @@ export default function ResearcherRegistrationForm(props: any) {
                     size='small'
                     fullWidth
                     value={zone}
-                    onChange={e => {
-                      setZone(e.target.value)
-                    }}
+                    onChange={handleZoneChange}
+                    error={Boolean(zoneErrors?.zone)}
+                    helperText={zoneErrors?.zone}
                     label='Zone'
                     placeholder='zone'
                     InputProps={{

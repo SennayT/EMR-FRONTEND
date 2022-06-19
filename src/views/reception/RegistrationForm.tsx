@@ -30,7 +30,10 @@ import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
 
+// import { userInfo } from 'os'
+
 import ShowRefDialog from '../shared-components/ShowRefDialog'
+import { EmailMarkAsUnread } from 'mdi-material-ui'
 
 export default function PatientRegistrationForm() {
   const [address, setAddress] = useState({
@@ -54,10 +57,75 @@ export default function PatientRegistrationForm() {
   })
   const [emergencyName, setEmergencyName] = useState('')
   const [emergencyPhone, setEmergencyPhone] = useState('')
-
+  const [nameErrors, setNameErrors] = useState<{ name: string }>()
+  const [emailErrors, setEmailErrors] = useState<{ email: string }>()
+  const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
 
-  const disableButton = cityErrors?.city ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !currentUser.name ||
+    emailErrors?.email ||
+    !currentUser.email ||
+    phoneErrors?.phone ||
+    !currentUser.phone ||
+    cityErrors?.city ||
+    !address.city
+      ? true
+      : false
+
+  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setNameErrors({ name: '' })
+    setUser({ ...currentUser, name: value })
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
+    }
+  }
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmailErrors({ email: '' })
+    setUser({ ...currentUser, email: value })
+    const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
+
+    if (value == '') {
+      setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
+    }
+  }
+
+  const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setPhoneErrors({ phone: '' })
+    setUser({ ...currentUser, phone: value })
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (value == '') {
+      setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
+    }
+  }
 
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -67,12 +135,14 @@ export default function PatientRegistrationForm() {
     setAddress({ ...address, city: value })
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setCityErrors({ city: 'Invalid City' })
-    }
-
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
     }
   }
 
@@ -134,12 +204,13 @@ export default function PatientRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  required
                   label='Full Name'
                   placeholder='Rediet Demisse'
                   value={currentUser.name}
-                  onChange={e => {
-                    setUser({ ...currentUser, name: e.target.value })
-                  }}
+                  onChange={handleNameChange}
+                  error={Boolean(nameErrors?.name)}
+                  helperText={nameErrors?.name}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -155,10 +226,11 @@ export default function PatientRegistrationForm() {
                   fullWidth
                   type='email'
                   label='Email'
+                  required
                   value={currentUser.email}
-                  onChange={e => {
-                    setUser({ ...currentUser, email: e.target.value })
-                  }}
+                  onChange={handleEmailChange}
+                  error={Boolean(emailErrors?.email)}
+                  helperText={emailErrors?.email}
                   placeholder='ruthgd2000@gmail.com'
                   InputProps={{
                     startAdornment: (
@@ -173,12 +245,13 @@ export default function PatientRegistrationForm() {
                 <TextField
                   size='small'
                   fullWidth
+                  required
                   label='Phone Number'
                   placeholder='987654321'
                   value={currentUser.phone}
-                  onChange={e => {
-                    setUser({ ...currentUser, phone: e.target.value })
-                  }}
+                  onChange={handlePhoneChange}
+                  error={Boolean(phoneErrors?.phone)}
+                  helperText={phoneErrors?.phone}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>

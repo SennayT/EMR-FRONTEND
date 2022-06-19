@@ -84,7 +84,17 @@ export default function EmRegistrationForm(props: any) {
     // setHouseNo(us.address.houseNo)
   }, [])
 
-  const disableButton = nameErrors?.name || emailErrors?.email || phoneErrors?.phone || cityErrors?.city ? true : false
+  const disableButton =
+    nameErrors?.name ||
+    !name ||
+    emailErrors?.email ||
+    !email ||
+    phoneErrors?.phone ||
+    !phone ||
+    cityErrors?.city ||
+    !city
+      ? true
+      : false
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -94,12 +104,14 @@ export default function EmRegistrationForm(props: any) {
     setName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setNameErrors({ name: 'Invalid name' })
-    }
-
     if (value == '') {
       setNameErrors({ name: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setNameErrors({ name: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setNameErrors({ name: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setNameErrors({ name: 'Name can only include alphabets' })
     }
   }
 
@@ -111,12 +123,10 @@ export default function EmRegistrationForm(props: any) {
     setEmail(value)
     const reg = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(value)
 
-    if (!reg) {
-      setEmailErrors({ email: 'Invalid email' })
-    }
-
     if (value == '') {
       setEmailErrors({ email: 'Email field cannot be empty' })
+    } else if (!reg) {
+      setEmailErrors({ email: 'Invalid email' })
     }
   }
 
@@ -128,12 +138,14 @@ export default function EmRegistrationForm(props: any) {
     setPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (!reg) {
-      setPhoneErrors({ phone: 'Invalid phone number' })
-    }
-
     if (value == '') {
       setPhoneErrors({ phone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setPhoneErrors({ phone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setPhoneErrors({ phone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -144,12 +156,14 @@ export default function EmRegistrationForm(props: any) {
     setCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (!regName) {
-      setCityErrors({ city: 'Invalid City' })
-    }
-
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setCityErrors({ city: "City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
+    } else if (!regName) {
+      setCityErrors({ city: 'City can only include alphabets' })
     }
   }
 
