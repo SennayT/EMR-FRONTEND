@@ -75,7 +75,6 @@ export default function EmRegistrationForm(props: any) {
       setEmPhone(us.emPhone)
       setEdit(true)
     }
-
     // setCity(us.address.city)
     // setSubCity(us.address.subCity)
     // setWoreda(us.address.woreda)
@@ -149,7 +148,6 @@ export default function EmRegistrationForm(props: any) {
       setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
-
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }

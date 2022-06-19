@@ -35,14 +35,6 @@ import ShowRefDialog from '../shared-components/ShowRefDialog'
 import { EmailMarkAsUnread } from 'mdi-material-ui'
 
 export default function PatientRegistrationForm() {
-  const { data: session } = useSession()
-
-  const [age, setAge] = useState(24)
-  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
-  const [gender, setGender] = React.useState('female')
-  const [patientRef, setPatientRef] = useState('')
-  const [open, setOpen] = useState(false)
-
   const [address, setAddress] = useState({
     city: '',
     subCity: '',
@@ -152,6 +144,13 @@ export default function PatientRegistrationForm() {
       setCityErrors({ city: 'City can only include alphabets' })
     }
   }
+
+  const { data: session } = useSession()
+  const [age, setAge] = useState(24)
+  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
+  const [gender, setGender] = React.useState('female')
+  const [patientRef, setPatientRef] = useState('')
+  const [open, setOpen] = useState(false)
 
   const handleDateChange = (newValue: Date | null) => {
     setValue(newValue)

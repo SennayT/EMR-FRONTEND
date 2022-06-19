@@ -67,7 +67,7 @@ const PatientDetail = () => {
   return (
     <Grid className='container-grid' spacing={5} container item>
       <Grid item xs={12}>
-        { session.role === 'Doctor' ? (
+        {session.role === 'Doctor' ? (
           <PatientActionsBar pid={router.query.pid} />
         ) : (
           <Link

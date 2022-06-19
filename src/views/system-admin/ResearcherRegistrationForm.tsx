@@ -57,10 +57,6 @@ export default function ResearcherRegistrationForm(props: any) {
   const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
   const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
 
-  useEffect(() => {
-    console.log('gender', props.researcher.gender)
-  }, [])
-
   const [currResearcher, setCurrResearcher] = useState(-1)
 
   const { data: session } = useSession()
@@ -270,6 +266,9 @@ export default function ResearcherRegistrationForm(props: any) {
     if (props.edit) {
       delete body.healthCenterId
     }
+    // if (props.edit) {
+    //   delete body.healthCenterId
+    // }
     console.log('body', body)
     if (!props.edit) {
       requests

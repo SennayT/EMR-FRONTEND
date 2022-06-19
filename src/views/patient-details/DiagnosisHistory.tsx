@@ -36,11 +36,11 @@ const Timeline = styled(MuiTimeline)<TimelineProps>({
     }
   }
 })
-
 // Styled component for the image of a shoe
 const ImgShoe = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
+
 
 const DiagnosisHistory = () => {
   const [diagnosis, setDiagnosis] = useState([
