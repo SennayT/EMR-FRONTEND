@@ -1,5 +1,6 @@
 // ** React Imports
-// import { forwardRef, useState } from 'react'
+import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -16,6 +17,7 @@ import TextField from '@mui/material/TextField'
 
 // import RadioGroup from '@mui/material/RadioGroup'
 import CardContent from '@mui/material/CardContent'
+import requests from 'src/utils/repository'
 
 // import FormControl from '@mui/material/FormControl'
 // import OutlinedInput from '@mui/material/OutlinedInput'
@@ -42,6 +44,34 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 const TabInfo = (props: any) => {
   // ** State
 
+  const [city, setCity] = useState(props.user.address.city)
+  const [woreda, setWoreda] = useState(props.user.address.woreda)
+  const [subCity, setSubCity] = useState(props.user.address.subCity)
+  const [kebelle, setKebelle] = useState(props.user.address.kebelle)
+  const [street, setStreet] = useState(props.user.address.street)
+  const [houseNo, setHouseNo] = useState(props.user.address.houseNo)
+  const [zone, setZone] = useState(props.user.address.zone)
+
+  const { data: session } = useSession()
+
+  const updateUser = () => {
+    const data = {
+      address: {
+        city: props.user.address.city,
+        subCity: props.user.address.subCity,
+        zone: props.user.address.zone,
+        woreda: props.user.address.wereda,
+        kebelle: props.user.address.kebelle,
+        street: props.user.address.street,
+        houseNo: props.user.address.houseNo
+      }
+    }
+
+    requests.put(`/user/${props.user.id}`, data, session ? session.accessToken.toString() : '').then(response => {
+      console.log(response.data)
+    })
+  }
+
   return (
     <CardContent>
       <form>
@@ -51,7 +81,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='City'
-                value={props.user.address.city}
+                value={city}
+                onChange={e => {
+                  setCity(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -65,7 +98,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='Woreda'
-                value={props.user.address.woreda}
+                value={woreda}
+                onChange={e => {
+                  setWoreda(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -79,7 +115,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='Sub City'
-                value={props.user.address.subCity}
+                value={subCity}
+                onChange={e => {
+                  setSubCity(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -93,7 +132,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='Kebele'
-                value={props.user.address.kebelle}
+                value={kebelle}
+                onChange={e => {
+                  setKebelle(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -107,7 +149,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='Street'
-                value={props.user.address.street}
+                value={street}
+                onChange={e => {
+                  setStreet(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -121,7 +166,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='House Number'
-                value={props.user.address.houseNo}
+                value={houseNo}
+                onChange={e => {
+                  setHouseNo(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -135,7 +183,10 @@ const TabInfo = (props: any) => {
               <TextField
                 fullWidth
                 label='Zone'
-                value={props.user.address.zone}
+                value={zone}
+                onChange={e => {
+                  setZone(e.target.value)
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position='start'>
@@ -147,7 +198,7 @@ const TabInfo = (props: any) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }} onSubmit={updateUser}>
               Save Changes
             </Button>
             <Button type='reset' variant='outlined' color='secondary'>
