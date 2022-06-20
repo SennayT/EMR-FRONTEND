@@ -66,9 +66,9 @@ const UserLayout = ({ children }: Props) => {
       </VerticalLayout>
     )
   }
-  // else if (session.status === "authenticated" && !session.isPasswordReset) {
-  //   return <First />
-  // }
+  else if (session.status === "authenticated" && !session.isPasswordReset) {
+    return <First />
+  }
   else if (session.status === "unauthenticated") {
     return <LoginPage />
   } else {

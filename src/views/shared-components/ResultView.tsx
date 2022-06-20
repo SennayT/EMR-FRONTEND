@@ -30,11 +30,13 @@ const ResultView = () => {
   const handleClickClose = () => setOpen(false)
   const router = useRouter()
   const handleViewClick = () => {
-    router.push(`/patient/view/results/list/${currentInvReq}`)
+    router.push({pathname: '/patient/view/results/list/',
+    query: {
+      invId: currentInvReq.id
+    }})
   }
   const [invReqs, setInvReqs] = useState([
-    { id: 0, date: '', note: '', labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }] }
-  ])
+    ])
 
   const [currentInvReq, setCurrentInvReq] = useState({
     id: 0,
@@ -44,6 +46,7 @@ const ResultView = () => {
   })
   useEffect(() => {
     requests.post(`/investigation-request/doctor`,{},  session ? session.accessToken.toString() : "").then(response => {
+      console.log(response.data)
       setInvReqs(response.data)
     })
   }, [])

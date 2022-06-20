@@ -28,6 +28,7 @@ import requests from 'src/utils/repository'
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
 import { useSession } from 'next-auth/react'
+import { Loading } from 'mdi-material-ui'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -98,15 +99,20 @@ const AccountSettings = () => {
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     requests.post(`/user/profile`,{}, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
       setUser(response.data)
+      setLoading(false)
     })
   }, [])
 
   return (
+    loading ?
+    <div></div>
+    :
     <Card>
       <TabContext value={value}>
         <TabList

@@ -21,7 +21,7 @@ const ImgStyled = styled('img')(({ theme }) => ({
 const ProfileDetail = (props: any) => {
   // ** State
 
-  const [imgSrc] = useState<string>('/images/avatars/1.png')
+  const [imgSrc] = useState<string>(props.user.image)
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>

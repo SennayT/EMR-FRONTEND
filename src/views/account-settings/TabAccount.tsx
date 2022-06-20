@@ -66,7 +66,7 @@ const TabAccount = (props: any) => {
   // console.log(props.user);
   // ** State
   // const [openAlert, setOpenAlert] = useState<boolean>(true)
-  const [imgSrc, setImgSrc] = useState<string>()
+  const [imgSrc, setImgSrc] = useState<string>(props.user.image)
   const [file, setFile] = useState<File>()
 
   const onChange = (file: ChangeEvent) => {
@@ -76,23 +76,24 @@ const TabAccount = (props: any) => {
       reader.onload = () => setImgSrc(reader.result as string)
       reader.readAsDataURL(files[0])
       setFile(files[0])
+      setImageChosen(true)
     }
 
   }
 
   const [value, setValue] = useState<Date | null>(new Date('2014-08-18T21:11:54'))
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [gender, setGender] = useState("");
-
-  useEffect(() => {
-    setName(props.user.name);
-    setPhone(props.user.phone);
-    setGender(props.user.gender);
-    setEmail(props.user.email);
-    setImgSrc(props.user.image)
-  })
+  const [email, setEmail] = useState(props.user.email);
+  const [name, setName] = useState(props.user.name);
+  const [phone, setPhone] = useState(props.user.phone);
+  const [gender, setGender] = useState(props.user.gender);
+  const [imageChosen, setImageChosen] = useState(false)
+  // useEffect(() => {
+  //   setName(props.user.name);
+  //   setPhone(props.user.phone);
+  //   setGender(props.user.gender);
+  //   setEmail(props.user.email);
+  //   // setImgSrc(props.user.image)
+  // })
 
   const handleDateChange = (newValue: Date | null) => {
     setValue(newValue)
@@ -124,7 +125,7 @@ const TabAccount = (props: any) => {
 
     }
 
-    console.log("val", props.user.image === imgSrc , data)
+    console.log("val", props.user.image === imgSrc, data)
     if (props.user.image !== imgSrc) {
       const formData = new FormData();
 
@@ -163,7 +164,7 @@ const TabAccount = (props: any) => {
         <Grid container spacing={7}>
           <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ImgStyled src={imgSrc} alt='Profile Pic' />
+              <ImgStyled src={imageChosen ? imgSrc : props.user.image} alt='Profile Pic' />
               <Box>
                 <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
                   Upload New Photo
@@ -175,7 +176,10 @@ const TabAccount = (props: any) => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc(props.user.image)}>
+                <ResetButtonStyled color='error' variant='outlined' onClick={() => {
+                  setImgSrc(props.user.image);
+                  setImageChosen(false)
+                }}>
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
@@ -186,7 +190,9 @@ const TabAccount = (props: any) => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='' placeholder='' value={name} />
+            <TextField fullWidth label='' placeholder='' value={name} onChange={e => {
+              setName(e.target.value)
+            }} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -195,7 +201,9 @@ const TabAccount = (props: any) => {
               label='Email'
               placeholder=''
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={e => {
+                setEmail(e.target.value)
+              }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -204,7 +212,9 @@ const TabAccount = (props: any) => {
               label='Phone Number'
               placeholder=''
               value={phone}
-              onChange={e => setPhone(e.target.value)}
+              onChange={e => {
+                setPhone(e.target.value)
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -233,7 +243,7 @@ const TabAccount = (props: any) => {
               <RadioGroup
                 row
                 value={gender}
-                onChange={e => setGender(e.target.value)}
+                onChange={e => { setGender(e.target.value) }}
                 aria-label='gender'
                 name='account-settings-info-radio'
               >

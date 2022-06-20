@@ -22,7 +22,7 @@ const ProfileDetailLayout = () => {
     phone: '',
     age: 0,
     email: '',
-    image: null,
+    image: "",
     gender: null,
     isActive: true,
     isResearcher: false,

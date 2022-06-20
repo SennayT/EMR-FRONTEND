@@ -68,7 +68,6 @@ const First = () => {
         .post('/user/password/update', body, session ? session.accessToken : '')
         .then(res => {
           router.push("/")
-
         })
         .catch(e => {
           setErr("server")
