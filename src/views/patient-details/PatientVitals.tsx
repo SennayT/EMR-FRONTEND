@@ -31,13 +31,6 @@ const vitalCategories = [
     image: '/images/bp.jpg'
   },
   {
-    id: 4,
-    name: 'Height',
-    value: '170',
-    measuredBy: 'cm',
-    image: '/images/height.jpg'
-  },
-  {
     id: 5,
     name: 'Weight',
     value: '123',
