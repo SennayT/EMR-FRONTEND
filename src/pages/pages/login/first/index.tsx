@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material"
+import { Box, Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material"
 import { useSession } from "next-auth/react"
 import requests from "src/utils/repository"
 import { ChangeEvent, MouseEvent, useState } from 'react'
@@ -78,8 +78,15 @@ const First = () => {
     }
   }
   return(
-    <Grid container spacing={5}>
+    <Box>
+
+      <Card sx={{ zIndex: 1, mx: '35%' , my:'2%'}}>
+        <CardContent
+          sx={{ backgroundColor: 'white'}}
+        >
+    <Grid container xs={12} spacing={5}>
       <p>{err ? err === "match" ? "Please enter matching passwords" : "Please Try again there has been an error" : "" } </p>
+      <Typography variant="body1" sx={{mx:'10%', my:'4%'}}>Please Change your password </Typography>
       <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-confirm-new-password'>Confirm New Password</InputLabel>
@@ -104,7 +111,6 @@ const First = () => {
                   />
                 </FormControl>
               </Grid>
-
     <Grid item xs={12} sx={{}}>
       <FormControl fullWidth>
         <InputLabel htmlFor='account-settings-new-password'>New Password</InputLabel>
@@ -129,9 +135,14 @@ const First = () => {
         />
       </FormControl>
     </Grid>
-    <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={changePassword}>
+          <Grid xs={10}></Grid>
+    <Button variant='contained' size='small'  sx={{ margin: 3.5 }} onClick={changePassword}>
             Save Changes
           </Button>
         </Grid>
+        </CardContent>
+        </Card>
+        </Box>
   )
 }
+export default First;

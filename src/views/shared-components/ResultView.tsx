@@ -10,6 +10,7 @@ import DialogContent from '@mui/material/DialogContent'
 
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 
 // import Magnify from 'mdi-material-ui/Magnify'
@@ -27,8 +28,9 @@ const ResultView = () => {
   const { data: session } = useSession();
 
   const handleClickClose = () => setOpen(false)
+  const router = useRouter()
   const handleViewClick = () => {
-
+    router.push(`/patient/view/results/list/${currentInvReq}`)
   }
   const [invReqs, setInvReqs] = useState([
     { id: 0, date: '', note: '', labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }] }
@@ -41,7 +43,7 @@ const ResultView = () => {
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
   useEffect(() => {
-    requests.get(`/investigation-request`,  session ? session.accessToken.toString() : "").then(response => {
+    requests.post(`/investigation-request/doctor`,{},  session ? session.accessToken.toString() : "").then(response => {
       setInvReqs(response.data)
     })
   }, [])
@@ -66,13 +68,13 @@ const ResultView = () => {
       )
     },
     {
-      field: 'labTests',
+      field: 'remainingTests',
       headerName: 'Number of Tests',
       type: 'number',
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<Array<any>>) => (
-        <Chip color='primary' label={params.value?.length} sx={{px: 5}}/>
+        <Chip color='primary' label={params.value} sx={{px: 5}}/>
       )
     },
     {
@@ -100,13 +102,21 @@ const ResultView = () => {
         <DataGrid
           rows={invReqs}
           columns={columns}
-          {...currentInvReq}
           pageSize={5}
           onCellClick={(params) => {
             console.log(params.row)
             handleClickOpen(params.row)
           }}
           rowsPerPageOptions={[5]}
+          onSelectionModelChange={newSelectionModel => {
+            console.log(
+              'new',
+              newSelectionModel,
+              invReqs.find(i => i.id === newSelectionModel[0])
+            )
+            setCurrentInvReq(Number(newSelectionModel[0]))
+          }}
+          selectionModel={currentInvReq}
 
         />
       </div>
