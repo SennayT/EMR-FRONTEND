@@ -1,19 +1,26 @@
-import React, { useState, Component } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import { Theme, useTheme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
+import requests from 'src/utils/repository';
+import { useSession } from 'next-auth/react';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
 
 export default function ChartTwo() {
+  const [data, setData] = useState();
+ const { data: session } = useSession()
+useEffect(() => {
+    requests.get(`/researcher/userRecord`, session ? session.accessToken.toString() : '').then(response => {
+      setData(response.data)
+    })
+  },[])
 
-
-  const { data, error } = useSWR('http://localhost:4000/researcher/userRecord', fetcher)
-
-  if (error) return <div>Failed to load</div>
+ 
+  // if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
 
@@ -121,8 +128,8 @@ export default function ChartTwo() {
   return (
 
     <div>
-      <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />;
-      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;
+      <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='700px' />
+      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
     </div>
   )
 };

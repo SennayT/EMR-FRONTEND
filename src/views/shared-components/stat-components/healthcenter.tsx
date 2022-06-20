@@ -4,16 +4,20 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 import axios from 'axios';
 import { useTheme } from '@emotion/react';
+import requests from 'src/utils/repository'
 
+import { useSession } from 'next-auth/react'
 
 
 export default function ChartNine() {
-    const [data, setData] = useState();
-    useEffect(() => {
-        axios.post('http://localhost:4000/researcher/healthcenter', {
-            healthCenter: "platforms"
-        })
-            .then(function (response) {
+  const [data, setData] = useState();
+   const { data: session } = useSession()
+  useEffect(() => {
+    const body = {
+       healthcenter: "Bethel Hospital"
+    }
+    requests.post('researcher/healthcenter',body,session ? session.accessToken.toString() : '')
+    .then(function (response) {
                 //   console.log(response.data);
                 setData(response.data)
 
@@ -123,8 +127,8 @@ const theme = useTheme();
 
     return (
     <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='700px' />
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar"  width='700px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='700px' />
 
       </div>
 )

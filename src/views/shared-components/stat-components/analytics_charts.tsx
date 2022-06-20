@@ -1,20 +1,29 @@
-import React, { useState, Component } from 'react';
+import React, { useState, Component, useEffect } from 'react';
 import { Theme, useTheme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
 import { ApexOptions } from 'apexcharts';
+import requests from 'src/utils/repository';
+import { useSession } from 'next-auth/react';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 
 export default function ChartThree() {
     
+  const [data, setData] = useState();
+ const { data: session } = useSession()
+ useEffect(() => {
+    requests.get(`/researcher/recordCounts`, session ? session.accessToken.toString() : '').then(response => {
+      setData(response.data)
+    })
+  },[])
 
-const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', fetcher)
 
-  if (error) return <div>Failed to load</div>
+
+  // if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
 
@@ -22,7 +31,7 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
 
   const chartDataOne: ApexOptions = {
     chart: {
-      type: "line",
+      type: "bar",
       id: "",
       // foreColor: theme.palette.primary.main
     },
@@ -70,7 +79,7 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     
     const chartDataTwo: ApexOptions = {
     chart: {
-      type: "line",
+      type: "bar",
       id: "",
       // foreColor: theme.palette.primary.main
     },
@@ -121,8 +130,8 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     return (
 
         <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='1000px' />
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />     
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='1000px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />     
        </div>
     )
 };

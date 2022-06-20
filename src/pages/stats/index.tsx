@@ -12,10 +12,13 @@ export default function Stat() {
 
   return (
     <div>
-      <ChartOne />
+      <div style={{width:50}}>
+       <ChartOne /> 
+      </div>
+      
       <ChartTwo />
       <ChartThree />
-      <ChartNine/>
+      {/* <ChartNine/> */}
     </div>
   )
 }

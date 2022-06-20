@@ -3,17 +3,22 @@ import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import axios from 'axios';
+import requests from 'src/utils/repository';
+import { useSession } from 'next-auth/react';
 
 export default function ChartEight(props: any) {
     const [data, setData] = useState();
+     const { data: session } = useSession()
     useEffect(() => {
-        axios.post('http://localhost:4000/researcher/medication', {
-            healthCenter: "All",
+        const body = {
+             healthCenter: "All",
             medication: props.data.medication,
             startAgeGroup: props.data.startAgeGroup,
             endAgeGroup: props.data.endAgeGroup,
             gender: props.data.gender
-        })
+        }
+        
+        requests.post('researcher/medication',body,session ? session.accessToken.toString() : '')
             .then(function (response) {
                 //   console.log(response.data);
                 setData(response.data)
