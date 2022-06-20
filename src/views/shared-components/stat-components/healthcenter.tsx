@@ -10,7 +10,7 @@ import { useTheme } from '@emotion/react';
 export default function ChartNine() {
     const [data, setData] = useState();
     useEffect(() => {
-        axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/healthcenter', {
+        axios.post('http://localhost:4000/researcher/healthcenter', {
             healthCenter: "platforms"
         })
             .then(function (response) {
@@ -123,10 +123,9 @@ const theme = useTheme();
 
     return (
     <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />;
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='700px' />;
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='700px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='700px' />
 
-        <h1>{h}</h1>
       </div>
 )
 

@@ -26,7 +26,7 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
-import BasicCharts from 'src/pages/stats/basic-charts'
+// import BasicCharts from 'src/pages/stats/basic-charts'
 
 
 export default function ResearcherDashboard() {
@@ -53,6 +53,7 @@ export default function ResearcherDashboard() {
   },[])
 
   return (
-    <BasicCharts/>
+    <h1>Hello</h1>
+    // <BasicCharts/>
   )
 }

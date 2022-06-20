@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react';
-import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { Theme, useTheme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

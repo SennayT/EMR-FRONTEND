@@ -4,6 +4,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 import useSWR from 'swr'
 import { useTheme } from '@emotion/react';
+import { ApexOptions } from 'apexcharts';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
@@ -11,7 +12,7 @@ const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 export default function ChartOne() {
 
 
-const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/patientRecord', fetcher)
+const { data, error } = useSWR('http://localhost:4000/researcher/patientRecord', fetcher)
 
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
@@ -19,7 +20,7 @@ const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com
 
   const theme = useTheme();
 
-  const chartDataOne = {
+  const chartDataOne: ApexOptions = {
     chart: {
       type: "line",
       id: ""
@@ -65,7 +66,7 @@ const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com
   };
 
 
-    const chartDataTwo = {
+    const chartDataTwo: ApexOptions = {
     chart: {
       type: "line",
       id: ""
@@ -116,8 +117,8 @@ const { data, error } = useSWR('http://capstone-backend-0957-11-v2.herokuapp.com
     return (
 
         <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='500px' />;
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='500px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />
        </div>
     )
 };

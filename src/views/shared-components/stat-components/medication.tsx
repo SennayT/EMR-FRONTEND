@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function ChartEight(props: any) {
     const [data, setData] = useState();
     useEffect(() => {
-        axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/medication', {
+        axios.post('http://localhost:4000/researcher/medication', {
             healthCenter: "All",
             medication: props.data.medication,
             startAgeGroup: props.data.startAgeGroup,
@@ -25,11 +25,11 @@ export default function ChartEight(props: any) {
   if (!data) return <div>Loading...</div>
     const h = data['total_prescriptions'];
 
-const option_medication = { labels: ["Total Prescription", "Prescriptions with the specified medication"] };
-const series_medication = [data['total_prescriptions'], data['medicatedPatientCount']];
-
+const option_medication = { labels: ["Total prescriptions", "Prescriptions with the specified medication"] };
+const series_medication = [data['total_prescriptions'], data['medicated_patient_count']];
+// 
 const option_age = {labels:["Prescriptions with the specified medication", "Patients with in the age group"]}
-const series_age = [data['medicatedPatientCount'], data['by_age']];
+const series_age = [data['medicated_patient_count'], data['by_age']];
 
 const option_gender = {labels:['Prescriptions with the specified medication and with in the age group', 'Patients with the specified gender']}
 const series_gender = [data['by_age'], data['by_gender']];

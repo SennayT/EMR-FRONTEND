@@ -1,9 +1,10 @@
 import React, { useState, Component } from 'react';
-import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { Theme, useTheme } from '@emotion/react';
 import dynamic from 'next/dynamic';
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
+import { ApexOptions } from 'apexcharts';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
@@ -19,11 +20,11 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
 
   const theme = useTheme();
 
-  const chartDataOne = {
+  const chartDataOne: ApexOptions = {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
+      // foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["patient", "prescription", "diagnosis", "disease", "investigation", "examination", "vitals"]
@@ -67,11 +68,11 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
   };
 
     
-    const chartDataTwo = {
+    const chartDataTwo: ApexOptions = {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
+      // foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["healthcenter", "users"]
@@ -120,8 +121,8 @@ const { data, error } = useSWR('http://localhost:4000/researcher/recordCounts', 
     return (
 
         <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='1000px' />;
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />;     
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} width='1000px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} width='500px' />     
        </div>
     )
 };

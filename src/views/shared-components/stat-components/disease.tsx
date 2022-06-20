@@ -9,7 +9,7 @@ import axios from 'axios';
 export default function ChartSeven(props: any) {
     const [data, setData] = useState();
     useEffect(() => {
-        axios.post('http://capstone-backend-0957-11-v2.herokuapp.com/researcher/disease', {
+        axios.post('http://localhost:4000/researcher/disease', {
             healthCenter: "All",
             disease: props.data.disease,
             startAgeGroup: props.data.startAgeGroup,
