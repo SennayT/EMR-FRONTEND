@@ -50,7 +50,7 @@ export default function PatientRegistrationForm() {
     zone: '',
     kebelle: '',
     street: '',
-    houseNumber: ''
+    houseNo: ''
   })
   const [currentUser, setUser] = useState({
     name: '',
@@ -444,9 +444,9 @@ export default function PatientRegistrationForm() {
                     fullWidth
                     label='House Number'
                     placeholder='432'
-                    value={address.houseNumber}
+                    value={address.houseNo}
                     onChange={e => {
-                      setAddress({ ...address, houseNumber: e.target.value })
+                      setAddress({ ...address, houseNo: e.target.value })
                     }}
                     InputProps={{
                       startAdornment: (
