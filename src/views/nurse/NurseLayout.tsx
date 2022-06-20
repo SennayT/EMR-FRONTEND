@@ -19,7 +19,7 @@ const NurseLayout = (props: any) => {
   const {data:session} = useSession()
 
   useEffect(() => {
-    requests.get(`/vitals/patient/${router.query.id}`, session ? session.accessToken : "").then(response =>{console.log(router.query.id); setVitals(response.data)})
+    requests.get(`/vitals/patient/${router.query.id}`, session ? session.accessToken : "").then(response =>{console.log(response.data); setVitals(response.data)})
   },[])
 
   return vitals.length == 0 ? <Grid className="container-grid" spacing={5} container item>

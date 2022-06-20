@@ -107,7 +107,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
       {
         title: 'Results',
         icon: HospitalIcon,
-        path: 'patient/view/results'
+        path: '/patient/view/results'
       }
     )
   }
