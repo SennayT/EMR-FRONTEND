@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, ElementType, ChangeEvent } from 'react'
+import { useState, ElementType, ChangeEvent, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -32,6 +32,8 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 import Button, { ButtonProps } from '@mui/material/Button'
+import requests from 'src/utils/repository'
+import { useSession } from 'next-auth/react'
 
 // ** Icons Imports
 // import Close from 'mdi-material-ui/Close'
@@ -64,22 +66,95 @@ const TabAccount = (props: any) => {
   // console.log(props.user);
   // ** State
   // const [openAlert, setOpenAlert] = useState<boolean>(true)
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
+  const [imgSrc, setImgSrc] = useState<string>()
+  const [file, setFile] = useState<File>()
 
   const onChange = (file: ChangeEvent) => {
     const reader = new FileReader()
     const { files } = file.target as HTMLInputElement
     if (files && files.length !== 0) {
       reader.onload = () => setImgSrc(reader.result as string)
-
       reader.readAsDataURL(files[0])
+      setFile(files[0])
     }
+
   }
 
   const [value, setValue] = useState<Date | null>(new Date('2014-08-18T21:11:54'))
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [gender, setGender] = useState("");
+
+  useEffect(() => {
+    setName(props.user.name);
+    setPhone(props.user.phone);
+    setGender(props.user.gender);
+    setEmail(props.user.email);
+    setImgSrc(props.user.image)
+  })
 
   const handleDateChange = (newValue: Date | null) => {
     setValue(newValue)
+  }
+
+  const { data: session } = useSession();
+
+
+  const updateUser = () => {
+
+    const data = {
+      name: name,
+      phone: phone,
+      age: props.user.age,
+      email: email,
+      gender: gender,
+      isResearcher: props.user.isResearcher,
+      isAdmin: props.user.isAdmin,
+      image: props.user.image ? props.user.image : "",
+      address: {
+        city: props.user.address.city,
+        subCity: props.user.address.subCity,
+        zone: props.user.address.zone,
+        woreda: props.user.address.wereda,
+        kebelle: props.user.address.kebelle,
+        street: props.user.address.street,
+        houseNo: props.user.address.houseNo
+      }
+
+    }
+
+    console.log("val", props.user.image === imgSrc , data)
+    if (props.user.image !== imgSrc) {
+      const formData = new FormData();
+
+      formData.append('upload_preset', 'profile_pics');
+      formData.append('file', file);
+
+      formData.append("cloud_name", "capstoneemr")
+
+      fetch("https://api.cloudinary.com/v1_1/capstoneemr/image/upload", {
+        method: "post",
+        body: formData
+      })
+        .then(res => res.json())
+        .then(r => {
+          console.log(r)
+          console.log("done", r)
+          data.image = r.secure_url;
+          requests.put(`/user/${props.user.id}`, data, session ? session.accessToken.toString() : '').then(response => {
+            console.log(response.data)
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      requests.put(`/user/${props.user.id}`, data, session ? session.accessToken.toString() : '').then(response => {
+        console.log(response.data)
+      })
+    }
+
   }
 
   return (
@@ -100,7 +175,7 @@ const TabAccount = (props: any) => {
                     id='account-settings-upload-image'
                   />
                 </ButtonStyled>
-                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc('/images/avatars/1.png')}>
+                <ResetButtonStyled color='error' variant='outlined' onClick={() => setImgSrc(props.user.image)}>
                   Reset
                 </ResetButtonStyled>
                 <Typography variant='body2' sx={{ marginTop: 5 }}>
@@ -111,7 +186,7 @@ const TabAccount = (props: any) => {
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth label='' placeholder='' value={props.user ? props.user.name : ' '} />
+            <TextField fullWidth label='' placeholder='' value={name} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -119,7 +194,8 @@ const TabAccount = (props: any) => {
               type='email'
               label='Email'
               placeholder=''
-              value={props.user ? props.user.email : ' '}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -127,7 +203,8 @@ const TabAccount = (props: any) => {
               fullWidth
               label='Phone Number'
               placeholder=''
-              value={props.user ? props.user.phone : ' '}
+              value={phone}
+              onChange={e => setPhone(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -155,7 +232,8 @@ const TabAccount = (props: any) => {
               <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
               <RadioGroup
                 row
-                value={props.user ? props.user.gender : 'female'}
+                value={gender}
+                onChange={e => setGender(e.target.value)}
                 aria-label='gender'
                 name='account-settings-info-radio'
               >
@@ -165,7 +243,7 @@ const TabAccount = (props: any) => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+            <Button onClick={updateUser} variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
             <Button type='reset' variant='outlined' color='secondary'>

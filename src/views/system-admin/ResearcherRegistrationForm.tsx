@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent } from '@mui/material'
 import { TextField, CardActions, Button } from '@mui/material'
@@ -245,7 +245,7 @@ export default function ResearcherRegistrationForm(props: any) {
   }
 
   const registerResearcher = () => {
-    console.log({ name: name, phone: phone, email: email, age: age, gender: gender, city: city, subCity: subCity })
+    //console.log({ name: name, phone: phone, email: email, age: age, gender: gender, city: city, subCity: subCity })
     const body = {
       name: name,
       email: email,
@@ -261,8 +261,15 @@ export default function ResearcherRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
-      healthCenterId: user.healthCeterId
+      healthCenterId: props.edit
     }
+    if (props.edit) {
+      delete body.healthCenterId
+    }
+    // if (props.edit) {
+    //   delete body.healthCenterId
+    // }
+    console.log('body', body)
     if (!props.edit) {
       requests
         .post(`/researcher`, body, session ? session.accessToken.toString() : '')

@@ -75,7 +75,6 @@ export default function EmRegistrationForm(props: any) {
       setEmPhone(us.emPhone)
       setEdit(true)
     }
-
     // setCity(us.address.city)
     // setSubCity(us.address.subCity)
     // setWoreda(us.address.woreda)
@@ -149,7 +148,6 @@ export default function EmRegistrationForm(props: any) {
       setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
-
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -191,7 +189,7 @@ export default function EmRegistrationForm(props: any) {
         houseNo: houseNo
       },
       isAdmin: isAdmin,
-      healthCenterId: 4,
+      // healthCenterId: 4,
       role: role,
       gender: gender
     })
@@ -266,7 +264,7 @@ export default function EmRegistrationForm(props: any) {
     setRole(event.target.value as string[])
   }
 
-  const roles = ['Doctor', 'Receptionist', 'Nurse', 'Lab Expert', 'Radiologist', 'Hospital Admin']
+  const roles = ['Doctor', 'Receptionist', 'Nurse', 'LabExpert', 'Radiologist', 'Hospital Admin']
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8

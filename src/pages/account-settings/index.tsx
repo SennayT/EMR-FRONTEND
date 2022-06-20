@@ -100,7 +100,7 @@ const AccountSettings = () => {
   }
 
   useEffect(() => {
-    requests.get(`/user/7`, session ? session.accessToken.toString() : '').then(response => {
+    requests.post(`/user/profile`,{}, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
       setUser(response.data)
     })

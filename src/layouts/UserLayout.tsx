@@ -17,10 +17,11 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
 import userData from '../data/userData'
-import { signIn,  useSession } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import LoginPage from 'src/pages/pages/login'
 import { Grid } from 'mdi-material-ui'
 import Error401 from 'src/pages/401'
+import First from 'src/pages/pages/login/first'
 
 interface Props {
   children: ReactNode
@@ -43,29 +44,34 @@ const UserLayout = ({ children }: Props) => {
   // const {data:session} = useSession()
   const session = useSession()
 
-if(session.status === "authenticated" && session.data){
-  return (
-    <VerticalLayout
-      hidden={hidden}
-      settings={settings}
-      saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems(session.data)} // Navigation Items
-      verticalAppBarContent={(
-        props // AppBar Content
-      ) => (
-        <VerticalAppBarContent
-          hidden={hidden}
-          settings={settings}
-          saveSettings={saveSettings}
-          toggleNavVisibility={props.toggleNavVisibility}
-        />
-      )}
-    >
-      {children}
-    </VerticalLayout>
-  )}else if(session.status === "unauthenticated"){
-    return <LoginPage/>
-  }else{
+  if (session.status === "authenticated" && !session.isPasswordReset) {
+    return (
+      <VerticalLayout
+        hidden={hidden}
+        settings={settings}
+        saveSettings={saveSettings}
+        verticalNavItems={VerticalNavItems(session.data)} // Navigation Items
+        verticalAppBarContent={(
+          props // AppBar Content
+        ) => (
+          <VerticalAppBarContent
+            hidden={hidden}
+            settings={settings}
+            saveSettings={saveSettings}
+            toggleNavVisibility={props.toggleNavVisibility}
+          />
+        )}
+      >
+        {children}
+      </VerticalLayout>
+    )
+  }
+  // else if (session.status === "authenticated" && !session.isPasswordReset) {
+  //   return <First />
+  // }
+  else if (session.status === "unauthenticated") {
+    return <LoginPage />
+  } else {
     return <div></div>
   }
 }
