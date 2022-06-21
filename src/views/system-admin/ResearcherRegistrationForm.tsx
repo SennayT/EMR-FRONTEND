@@ -27,7 +27,7 @@ import SubcityIcon from 'mdi-material-ui/TownHall'
 
 // import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
 
-import user from '../../data/userData'
+// import user from '../../data/userData'
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
@@ -36,7 +36,7 @@ export default function ResearcherRegistrationForm(props: any) {
   const [name, setName] = useState(props.edit ? props.researcher.name : '')
   const [email, setEmail] = useState(props.edit ? props.researcher.email : '')
   const [phone, setPhone] = useState(props.edit ? props.researcher.phone : '')
-  const [gender, setGender] = useState(props.edit ? props.researcher.gender : '')
+  const [gender, setGender] = useState(props.edit ? props.researcher.gender : 'female')
   const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
   const [city, setCity] = useState(props.edit ? props.researcher.address.city : '')
   const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : '')
@@ -57,7 +57,7 @@ export default function ResearcherRegistrationForm(props: any) {
   const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
   const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
 
-  const [currResearcher, setCurrResearcher] = useState(-1)
+  // const [currResearcher, setCurrResearcher] = useState(-1)
 
   const { data: session } = useSession()
 
@@ -69,7 +69,19 @@ export default function ResearcherRegistrationForm(props: any) {
     phoneErrors?.phone ||
     !phone ||
     cityErrors?.city ||
-    !city
+    !city ||
+    woredaErrors?.woreda ||
+    !woreda ||
+    subCityErrors?.subCity ||
+    !subCity ||
+    kebelleErrors?.kebelle ||
+    !kebelle ||
+    streetErrors?.street ||
+    !street ||
+    houseNoErrors?.houseNo ||
+    !houseNo ||
+    zoneErrors?.zone ||
+    !zone
       ? true
       : false
 
@@ -154,7 +166,7 @@ export default function ResearcherRegistrationForm(props: any) {
 
     if (value == '') {
       setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
-    } else if (value.length <= 2) {
+    } else if (value.length < 2) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
     } else if (value.length >= 10) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
@@ -189,7 +201,7 @@ export default function ResearcherRegistrationForm(props: any) {
 
     if (value == '') {
       setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length <= 2) {
+    } else if (value.length < 2) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
     } else if (value.length >= 30) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
@@ -221,7 +233,7 @@ export default function ResearcherRegistrationForm(props: any) {
 
     if (value == '') {
       setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length <= 2) {
+    } else if (value.length < 2) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
     } else if (value.length >= 10) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
@@ -266,6 +278,7 @@ export default function ResearcherRegistrationForm(props: any) {
     if (props.edit) {
       delete body.healthCenterId
     }
+
     // if (props.edit) {
     //   delete body.healthCenterId
     // }
