@@ -98,6 +98,13 @@ export default function InvestigativeRequestForm() {
       .post('/investigation-request', { ...invReq, vitalId: currVital }, session ? session.accessToken.toString() : '')
       .then(res => {
         console.log(res)
+        router.push({
+          pathname: "/patient-details",
+          query: {
+            pid: router.query.pid
+          }
+
+        })
       })
       .catch(err => console.log(err))
   }

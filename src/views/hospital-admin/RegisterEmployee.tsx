@@ -37,22 +37,22 @@ import { useRouter } from 'next/router'
 
 export default function EmRegistrationForm(props: any) {
   const [edit, setEdit] = useState(false)
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [role, setRole] = useState<string[]>(['Receptionist'])
-  const [gender, setGender] = React.useState('female')
-  const [age, setAge] = useState(24)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [emName, setEmName] = useState('')
-  const [emPhone, setEmPhone] = useState('')
-  const [city, setCity] = useState('')
-  const [subCity, setSubCity] = useState('')
-  const [woreda, setWoreda] = useState('')
-  const [kebelle, setKebelle] = useState('')
-  const [zone, setZone] = useState('')
-  const [street, setStreet] = useState('')
-  const [houseNo, setHouseNo] = useState('')
+  const [name, setName] = useState(props.user.name)
+  const [email, setEmail] = useState(props.user.name)
+  const [phone, setPhone] = useState(props.user.phone)
+  const [role, setRole] = useState<string[]>(props.user.role ? [props.user.role] : ['Receptionist'])
+  const [gender, setGender] = React.useState(props.user.gender)
+  const [age, setAge] = useState(props.user.age)
+  const [isAdmin, setIsAdmin] = useState(props.user.isAdmin)
+  const [emName, setEmName] = useState(props.user.emergencyContactName)
+  const [emPhone, setEmPhone] = useState(props.user.emergencyContactPhone)
+  const [city, setCity] = useState(props.user.address.city)
+  const [subCity, setSubCity] = useState(props.user.address.subCity)
+  const [woreda, setWoreda] = useState(props.user.address.woreda)
+  const [kebelle, setKebelle] = useState(props.user.address.kebelle)
+  const [zone, setZone] = useState(props.user.address.zone)
+  const [street, setStreet] = useState(props.user.address.street)
+  const [houseNo, setHouseNo] = useState(props.user.address.houseNo)
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -625,183 +625,6 @@ export default function EmRegistrationForm(props: any) {
                   }}
                 />
               </Grid>
-              {/* <Grid item xs={12} sx={{ px: 2 }}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
-                  Address Information
-                </Typography>
-              </Grid> */}
-              {/* <Grid sx={{ px: 4 }} container spacing={5}>
-                <Grid item xs={12}>
-                  <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
-                    Personal Information
-                  </Typography>
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    value={name}
-                    onChange={handleNameChange}
-                    error={Boolean(nameErrors?.name)}
-                    fullWidth
-                    helperText={nameErrors?.name}
-                    required
-                    label='Full Name'
-                    placeholder='Rediet Demisse'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <AccountOutline />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    value={email}
-                    onChange={handleEmailChange}
-                    error={Boolean(emailErrors?.email)}
-                    helperText={emailErrors?.email}
-                    required
-                    type='email'
-                    label='Email'
-                    placeholder='ruthgd2000@gmail.com'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <EmailOutline />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    required
-                    label='Phone Number'
-                    value={phone}
-                    onChange={handlePhoneChange}
-                    error={Boolean(phoneErrors?.phone)}
-                    helperText={phoneErrors?.phone}
-                    placeholder='987654321'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <Phone />
-                          +251
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <MobileDatePicker
-                      label='Date of Birth'
-                      openTo='year'
-                      inputFormat='MM/dd/yyyy'
-                      value={value}
-                      onChange={handleDateChange}
-                      renderInput={params => <TextField size='small' fullWidth {...params} />}
-                    />
-                  </LocalizationProvider>
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <FormControl>
-                    <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby='demo-row-radio-buttons-group-label'
-                      name='row-radio-buttons-group'
-                      value={gender}
-                      onChange={e => {
-                        setGender(e.target.value)
-                      }}
-                    >
-                      <FormControlLabel value='female' control={<Radio />} label='Female' />
-                      <FormControlLabel value='male' control={<Radio />} label='Male' />
-                    </RadioGroup>
-                  </FormControl>
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}></Grid>
-                <Grid sx={{ mb: 1, pr: 2, mt: 1 }} item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id='demo-simple-select-label'>Role</InputLabel>
-                    <Select
-                      label='Role'
-                      value={role}
-                      MenuProps={MenuProps}
-                      onChange={handleRoleChange}
-                      placeholder='Doctor'
-                      fullWidth
-                      size='small'
-                    >
-                      {roles.map(role => (
-                        <MenuItem key={role} value={role}>
-                          {role}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <FormControlLabel
-                    checked={isAdmin}
-                    control={<Switch color='primary' />}
-                    label='Is Administrator'
-                    labelPlacement='start'
-                    onChange={switchHandler}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant='body2' sx={{ fontWeight: 600, my: 3 }}>
-                    Emergency Contacts
-                  </Typography>
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    label='Full Name'
-                    value={emName}
-                    placeholder='Rediet Demisse'
-                    onChange={e => {
-                      setEmName(e.target.value)
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <AccountOutline />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    label='Phone'
-                    value={emPhone}
-                    onChange={e => {
-                      setEmPhone(e.target.value)
-                    }}
-                    placeholder='987654321'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <Phone />
-                          +251
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-              </Grid> */}
               <Grid item xs={12} sx={{ px: 2 }}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
                   Address Information

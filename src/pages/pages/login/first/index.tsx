@@ -67,6 +67,7 @@ const First = () => {
       requests
         .post('/user/password/update', body, session ? session.accessToken : '')
         .then(res => {
+          console.log(res)
           router.push("/")
         })
         .catch(e => {

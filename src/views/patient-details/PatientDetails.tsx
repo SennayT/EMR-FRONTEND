@@ -54,17 +54,18 @@ const PatientDetail = () => {
   const { data: session } = useSession()
 
   const router = useRouter()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     requests.get(`/patient/${router.query.pid}`, session ? session.accessToken.toString() : '').then(response => {
       setPatient(response.data)
+      setLoading(false)
     })
-    requests.get(`/prescription/export/pdf/2`, session ? session.accessToken.toString() : '').then(response => {
-      console.log('res', response.data)
-    })
+
   }, [])
 
   return (
+    loading ? <div></div> :
     <Grid className='container-grid' spacing={5} container item>
       <Grid item xs={12}>
         {session.role === 'Doctor' ? (

@@ -33,7 +33,7 @@ const Employees = () => {
     router.push({
       pathname: '/hospital-admin/employees/add',
       query: {
-        user: JSON.stringify(emp)
+        userId: currEmployee
       }
     })
   }
@@ -125,7 +125,7 @@ const Employees = () => {
             href={{
               pathname: '/hospital-admin/employees/add',
               query: {
-                user: ''
+                userId: ""
               }
             }}
           >
