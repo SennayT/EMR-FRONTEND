@@ -37,27 +37,35 @@ import { useRouter } from 'next/router'
 
 export default function EmRegistrationForm(props: any) {
   const [edit, setEdit] = useState(false)
-  const [name, setName] = useState(props.user.name)
-  const [email, setEmail] = useState(props.user.name)
-  const [phone, setPhone] = useState(props.user.phone)
-  const [role, setRole] = useState<string[]>(props.user.role ? [props.user.role] : ['Receptionist'])
-  const [gender, setGender] = React.useState(props.user.gender)
-  const [age, setAge] = useState(props.user.age)
-  const [isAdmin, setIsAdmin] = useState(props.user.isAdmin)
-  const [emName, setEmName] = useState(props.user.emergencyContactName)
-  const [emPhone, setEmPhone] = useState(props.user.emergencyContactPhone)
-  const [city, setCity] = useState(props.user.address.city)
-  const [subCity, setSubCity] = useState(props.user.address.subCity)
-  const [woreda, setWoreda] = useState(props.user.address.woreda)
-  const [kebelle, setKebelle] = useState(props.user.address.kebelle)
-  const [zone, setZone] = useState(props.user.address.zone)
-  const [street, setStreet] = useState(props.user.address.street)
-  const [houseNo, setHouseNo] = useState(props.user.address.houseNo)
+  const [name, setName] = useState(props.user ? props.user.name : '')
+  const [email, setEmail] = useState(props.user ? props.user.name : '')
+  const [phone, setPhone] = useState(props.user ? props.user.phone : '')
+  const [role, setRole] = useState<string[]>(props.user ? [props.user.role] : ['Receptionist'])
+  const [gender, setGender] = React.useState(props.user ? props.user.gender : 'female')
+  const [age, setAge] = useState(props.user ? props.user.age : 24)
+  const [isAdmin, setIsAdmin] = useState(props.user ? props.user.isAdmin : false)
+  const [emName, setEmName] = useState(props.user ? props.user.emergencyContactName : '')
+  const [emPhone, setEmPhone] = useState(props.user ? props.user.emergencyContactPhone : '')
+  const [city, setCity] = useState(props.user ? props.user.address.city : '')
+  const [subCity, setSubCity] = useState(props.user ? props.user.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.user ? props.user.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.user ? props.user.address.kebelle : '')
+  const [zone, setZone] = useState(props.user ? props.user.address.zone : '')
+  const [street, setStreet] = useState(props.user ? props.user.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.user ? props.user.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
+  const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
+  const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
+  const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [streetErrors, setStreetErrors] = useState<{ street: string }>()
+  const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
+  const [emNameErrors, setEmNameErrors] = useState<{ emName: string }>()
+  const [emPhoneErrors, setEmPhoneErrors] = useState<{ emPhone: string }>()
 
   const { data: session } = useSession()
   const router = useRouter()
@@ -75,6 +83,7 @@ export default function EmRegistrationForm(props: any) {
       setEmPhone(us.emPhone)
       setEdit(true)
     }
+
     // setCity(us.address.city)
     // setSubCity(us.address.subCity)
     // setWoreda(us.address.woreda)
@@ -87,12 +96,20 @@ export default function EmRegistrationForm(props: any) {
   const disableButton =
     nameErrors?.name ||
     !name ||
+    emNameErrors?.emName ||
     emailErrors?.email ||
     !email ||
     phoneErrors?.phone ||
     !phone ||
+    emPhoneErrors?.emPhone ||
     cityErrors?.city ||
-    !city
+    !city ||
+    woredaErrors?.woreda ||
+    subCityErrors?.subCity ||
+    kebelleErrors?.kebelle ||
+    streetErrors?.street ||
+    houseNoErrors?.houseNo ||
+    zoneErrors?.zone
       ? true
       : false
 
@@ -112,6 +129,23 @@ export default function EmRegistrationForm(props: any) {
       setNameErrors({ name: "Name can't be longer than 30 characters" })
     } else if (!regName) {
       setNameErrors({ name: 'Name can only include alphabets' })
+    }
+  }
+
+  const handleEmNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmNameErrors({ emName: '' })
+    setEmName(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setEmNameErrors({ emName: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setEmNameErrors({ emName: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setEmNameErrors({ emName: 'Name can only include alphabets' })
     }
   }
 
@@ -148,6 +182,26 @@ export default function EmRegistrationForm(props: any) {
       setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
+
+  const handleEmPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmPhoneErrors({ emPhone: '' })
+    setEmPhone(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (value == '') {
+      setEmPhoneErrors({ emPhone: 'Phone field cannot be empty' })
+    } else if (value.length < 9 && value.length != 0) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10 && value.length != 0) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setEmPhoneErrors({ emPhone: "Phone number can't include alphabet" })
+    }
+  }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -164,6 +218,93 @@ export default function EmRegistrationForm(props: any) {
       setCityErrors({ city: "City can't be longer than 30 characters" })
     } else if (!regName) {
       setCityErrors({ city: 'City can only include alphabets' })
+    }
+  }
+
+  const handleWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setWoredaErrors({ woreda: '' })
+    setWoreda(value)
+
+    if (value.length < 2 && value.length != 0) {
+      setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10 && value.length != 0) {
+      setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setSubCityErrors({ subCity: '' })
+    setSubCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setKebelleErrors({ kebelle: '' })
+    setKebelle(value)
+
+    if (value.length < 2 && value.length != 0) {
+      setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setStreetErrors({ street: '' })
+    setStreet(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setStreetErrors({ street: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setStreetErrors({ street: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setHouseNoErrors({ houseNo: '' })
+    setHouseNo(value)
+
+    if (value.length < 2 && value.length != 0) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10 && value.length != 0) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setZoneErrors({ zone: '' })
+    setZone(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setZoneErrors({ zone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
 
@@ -188,7 +329,9 @@ export default function EmRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
+      image: '',
       isAdmin: isAdmin,
+
       // healthCenterId: 4,
       role: role,
       gender: gender
@@ -209,6 +352,7 @@ export default function EmRegistrationForm(props: any) {
       gender: gender,
       age: age,
       role: role,
+      image: '',
       isAdmin: isAdmin
     }
     if (!router.query.user) {
@@ -378,6 +522,7 @@ export default function EmRegistrationForm(props: any) {
                     aria-labelledby='demo-row-radio-buttons-group-label'
                     name='row-radio-buttons-group'
                     value={gender}
+                    defaultValue='female'
                     onChange={e => {
                       setGender(e.target.value)
                     }}
@@ -428,10 +573,10 @@ export default function EmRegistrationForm(props: any) {
                   fullWidth
                   label='Full Name'
                   value={emName}
+                  error={Boolean(emNameErrors?.emName)}
+                  helperText={emNameErrors?.emName}
                   placeholder='Rediet Demisse'
-                  onChange={e => {
-                    setEmName(e.target.value)
-                  }}
+                  onChange={handleEmNameChange}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -447,9 +592,9 @@ export default function EmRegistrationForm(props: any) {
                   fullWidth
                   label='Phone'
                   value={emPhone}
-                  onChange={e => {
-                    setEmPhone(e.target.value)
-                  }}
+                  error={Boolean(emPhoneErrors?.emPhone)}
+                  helperText={emPhoneErrors?.emPhone}
+                  onChange={handleEmPhoneChange}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -460,7 +605,6 @@ export default function EmRegistrationForm(props: any) {
                   }}
                 />
               </Grid>
-
               <Grid item xs={12} sx={{ px: 2 }}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
                   Address Information
@@ -494,9 +638,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Woreda'
                     placeholder='04'
                     value={woreda}
-                    onChange={e => {
-                      setWoreda(e.target.value)
-                    }}
+                    onChange={handleWoredaChange}
+                    error={Boolean(woredaErrors?.woreda)}
+                    helperText={woredaErrors?.woreda}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -513,9 +657,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Sub City'
                     placeholder='Bole'
                     value={subCity}
-                    onChange={e => {
-                      setSubCity(e.target.value)
-                    }}
+                    onChange={handleSubCityChange}
+                    error={Boolean(subCityErrors?.subCity)}
+                    helperText={subCityErrors?.subCity}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -532,9 +676,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Kebele'
                     placeholder='32'
                     value={kebelle}
-                    onChange={e => {
-                      setKebelle(e.target.value)
-                    }}
+                    onChange={handleKebelleChange}
+                    error={Boolean(kebelleErrors?.kebelle)}
+                    helperText={kebelleErrors?.kebelle}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -550,9 +694,9 @@ export default function EmRegistrationForm(props: any) {
                     fullWidth
                     label='Street'
                     value={street}
-                    onChange={e => {
-                      setStreet(e.target.value)
-                    }}
+                    onChange={handleStreetChange}
+                    error={Boolean(streetErrors?.street)}
+                    helperText={streetErrors?.street}
                     placeholder='Mauritania street'
                     InputProps={{
                       startAdornment: (
@@ -570,9 +714,9 @@ export default function EmRegistrationForm(props: any) {
                     label='House Number'
                     placeholder='432'
                     value={houseNo}
-                    onChange={e => {
-                      setHouseNo(e.target.value)
-                    }}
+                    onChange={handleHouseNoChange}
+                    error={Boolean(houseNoErrors?.houseNo)}
+                    helperText={houseNoErrors?.houseNo}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -587,9 +731,9 @@ export default function EmRegistrationForm(props: any) {
                     size='small'
                     fullWidth
                     value={zone}
-                    onChange={e => {
-                      setZone(e.target.value)
-                    }}
+                    onChange={handleZoneChange}
+                    error={Boolean(zoneErrors?.zone)}
+                    helperText={zoneErrors?.zone}
                     label='Zone'
                     placeholder='zone'
                     InputProps={{

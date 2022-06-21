@@ -46,30 +46,47 @@ export default function PatientRegistrationForm() {
   })
   const [currentUser, setUser] = useState({
     name: '',
-    age: 45, //TODO fix age
+    age: 24,
     gender: 'female',
     email: '',
     phone: '',
     address: address,
     isAdmin: false,
+    image: '',
     healthCenterId: 4
   })
-  const [emergencyName, setEmergencyName] = useState('')
-  const [emergencyPhone, setEmergencyPhone] = useState('')
+  const [emName, setEmName] = useState('')
+  const [emPhone, setEmPhone] = useState('')
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
+  const [emNameErrors, setEmNameErrors] = useState<{ emName: string }>()
+  const [emPhoneErrors, setEmPhoneErrors] = useState<{ emPhone: string }>()
+  const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
+  const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
+  const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [streetErrors, setStreetErrors] = useState<{ street: string }>()
+  const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
 
   const disableButton =
     nameErrors?.name ||
     !currentUser.name ||
+    emNameErrors?.emName ||
     emailErrors?.email ||
     !currentUser.email ||
     phoneErrors?.phone ||
     !currentUser.phone ||
+    emPhoneErrors?.emPhone ||
     cityErrors?.city ||
-    !address.city
+    !address.city ||
+    woredaErrors?.woreda ||
+    subCityErrors?.subCity ||
+    kebelleErrors?.kebelle ||
+    streetErrors?.street ||
+    houseNoErrors?.houseNo ||
+    zoneErrors?.zone
       ? true
       : false
 
@@ -89,6 +106,23 @@ export default function PatientRegistrationForm() {
       setNameErrors({ name: "Name can't be longer than 30 characters" })
     } else if (!regName) {
       setNameErrors({ name: 'Name can only include alphabets' })
+    }
+  }
+
+  const handleEmNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmNameErrors({ emName: '' })
+    setEmName(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setEmNameErrors({ emName: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setEmNameErrors({ emName: "Name can't be longer than 30 characters" })
+    } else if (!regName && value.length != 0) {
+      setEmNameErrors({ emName: 'Name can only include alphabets' })
     }
   }
 
@@ -126,6 +160,23 @@ export default function PatientRegistrationForm() {
     }
   }
 
+  const handleEmPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmPhoneErrors({ emPhone: '' })
+    setEmPhone(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (value.length < 9 && value.length != 0) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10 && value.length != 0) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be longer than 10" })
+    } else if (!reg && value.length != 0) {
+      setEmPhoneErrors({ emPhone: "Phone number can't include alphabet" })
+    }
+  }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -142,6 +193,93 @@ export default function PatientRegistrationForm() {
       setCityErrors({ city: "City can't be longer than 30 characters" })
     } else if (!regName) {
       setCityErrors({ city: 'City can only include alphabets' })
+    }
+  }
+
+  const handleWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setWoredaErrors({ woreda: '' })
+    setAddress({ ...address, woreda: value })
+
+    if (value.length < 2 && value.length != 0) {
+      setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10 && value.length != 0) {
+      setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setSubCityErrors({ subCity: '' })
+    setAddress({ ...address, subCity: value })
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value.length <= 3 && value.length != 0) {
+      setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setKebelleErrors({ kebelle: '' })
+    setAddress({ ...address, kebelle: value })
+
+    if (value.length < 2 && value.length != 0) {
+      setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setStreetErrors({ street: '' })
+    setAddress({ ...address, street: value })
+
+    if (value.length <= 3 && value.length != 0) {
+      setStreetErrors({ street: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setStreetErrors({ street: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setHouseNoErrors({ houseNo: '' })
+    setAddress({ ...address, houseNo: value })
+
+    if (value.length < 2 && value.length != 0) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10 && value.length != 0) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setZoneErrors({ zone: '' })
+    setAddress({ ...address, zone: value })
+
+    if (value.length <= 3 && value.length != 0) {
+      setZoneErrors({ zone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30 && value.length != 0) {
+      setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
 
@@ -169,8 +307,8 @@ export default function PatientRegistrationForm() {
     finalUser.address = address
     const body = {
       user: finalUser,
-      emergencyContactName: emergencyName,
-      emergencyContactPhone: emergencyPhone,
+      emergencyContactName: emName,
+      emergencyContactPhone: emPhone,
       registeredBy: 1,
       role: 'Patient'
     }
@@ -300,10 +438,10 @@ export default function PatientRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Full Name'
-                  value={emergencyName}
-                  onChange={e => {
-                    setEmergencyName(e.target.value)
-                  }}
+                  value={emName}
+                  onChange={handleEmNameChange}
+                  error={Boolean(emNameErrors?.emName)}
+                  helperText={nameErrors?.name}
                   placeholder='Rediet Demisse'
                   InputProps={{
                     startAdornment: (
@@ -319,10 +457,10 @@ export default function PatientRegistrationForm() {
                   size='small'
                   fullWidth
                   label='Phone'
-                  value={emergencyPhone}
-                  onChange={e => {
-                    setEmergencyPhone(e.target.value)
-                  }}
+                  value={emPhone}
+                  onChange={handleEmPhoneChange}
+                  error={Boolean(emPhoneErrors?.emPhone)}
+                  helperText={emPhoneErrors?.emPhone}
                   placeholder='987654321'
                   InputProps={{
                     startAdornment: (
@@ -368,9 +506,9 @@ export default function PatientRegistrationForm() {
                     label='Woreda'
                     placeholder='04'
                     value={address.woreda}
-                    onChange={e => {
-                      setAddress({ ...address, woreda: e.target.value })
-                    }}
+                    onChange={handleWoredaChange}
+                    error={Boolean(woredaErrors?.woreda)}
+                    helperText={woredaErrors?.woreda}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -387,9 +525,9 @@ export default function PatientRegistrationForm() {
                     label='Sub City'
                     placeholder='Bole'
                     value={address.subCity}
-                    onChange={e => {
-                      setAddress({ ...address, subCity: e.target.value })
-                    }}
+                    onChange={handleSubCityChange}
+                    error={Boolean(subCityErrors?.subCity)}
+                    helperText={subCityErrors?.subCity}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -406,9 +544,9 @@ export default function PatientRegistrationForm() {
                     label='Kebele'
                     placeholder='32'
                     value={address.kebelle}
-                    onChange={e => {
-                      setAddress({ ...address, kebelle: e.target.value })
-                    }}
+                    onChange={handleKebelleChange}
+                    error={Boolean(kebelleErrors?.kebelle)}
+                    helperText={kebelleErrors?.kebelle}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -424,9 +562,9 @@ export default function PatientRegistrationForm() {
                     fullWidth
                     label='Street'
                     value={address.street}
-                    onChange={e => {
-                      setAddress({ ...address, street: e.target.value })
-                    }}
+                    onChange={handleStreetChange}
+                    error={Boolean(streetErrors?.street)}
+                    helperText={streetErrors?.street}
                     placeholder='Mauritania street'
                     InputProps={{
                       startAdornment: (
@@ -444,9 +582,9 @@ export default function PatientRegistrationForm() {
                     label='House Number'
                     placeholder='432'
                     value={address.houseNo}
-                    onChange={e => {
-                      setAddress({ ...address, houseNo: e.target.value })
-                    }}
+                    onChange={handleHouseNoChange}
+                    error={Boolean(houseNoErrors?.houseNo)}
+                    helperText={houseNoErrors?.houseNo}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -461,9 +599,9 @@ export default function PatientRegistrationForm() {
                     size='small'
                     fullWidth
                     value={address.zone}
-                    onChange={e => {
-                      setAddress({ ...address, zone: e.target.value })
-                    }}
+                    onChange={handleZoneChange}
+                    error={Boolean(zoneErrors?.zone)}
+                    helperText={zoneErrors?.zone}
                     label='Zone'
                     placeholder='zone'
                     InputProps={{

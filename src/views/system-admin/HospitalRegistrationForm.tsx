@@ -56,11 +56,17 @@ export default function HospitalRegistrationForm(props: any) {
   const [typeErrors, setTypeErrors] = useState<{ type: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
+  const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
+  const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
+  const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
+  const [streetErrors, setStreetErrors] = useState<{ street: string }>()
+  const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
 
   const [empName, setEmpName] = useState('')
   const [empEmail, setEmpEmail] = useState('')
   const [empPhone, setEmpPhone] = useState('')
-  const [empGender, setEmpGender] = React.useState('')
+  const [empGender, setEmpGender] = React.useState('female')
   const [empAge, setEmpAge] = useState(24)
   const [emEmpName, setEmEmpName] = useState('')
   const [emEmpPhone, setEmEmpPhone] = useState('')
@@ -76,6 +82,14 @@ export default function HospitalRegistrationForm(props: any) {
   const [empEmailErrors, setEmpEmailErrors] = useState<{ empEmail: string }>()
   const [empPhoneErrors, setEmpPhoneErrors] = useState<{ empPhone: string }>()
   const [empCityErrors, setEmpCityErrors] = useState<{ empCity: string }>()
+  const [emEmpNameErrors, setEmEmpNameErrors] = useState<{ emEmpName: string }>()
+  const [emEmpPhoneErrors, setEmEmpPhoneErrors] = useState<{ emEmpPhone: string }>()
+  const [empSubCityErrors, setEmpSubCityErrors] = useState<{ empSubCity: string }>()
+  const [empWoredaErrors, setEmpWoredaErrors] = useState<{ empWoreda: string }>()
+  const [empKebelleErrors, setEmpKebelleErrors] = useState<{ empKebelle: string }>()
+  const [empZoneErrors, setEmpZoneErrors] = useState<{ empZone: string }>()
+  const [empStreetErrors, setEmpStreetErrors] = useState<{ empStreet: string }>()
+  const [empHouseNoErrors, setEmpHouseNoErrors] = useState<{ empHouseNo: string }>()
 
   const { data: session } = useSession()
   const router = useRouter()
@@ -83,12 +97,50 @@ export default function HospitalRegistrationForm(props: any) {
   const disableButton =
     nameErrors?.name ||
     !name ||
+    empNameErrors?.empName ||
+    !empName ||
+    emEmpNameErrors?.emEmpName ||
+    !emEmpName ||
     emailErrors?.email ||
     !email ||
+    empEmailErrors?.empEmail ||
+    !empEmail ||
     phoneErrors?.phone ||
     !phone ||
+    empPhoneErrors?.empPhone ||
+    !empPhone ||
+    emEmpPhoneErrors?.emEmpPhone ||
+    !emEmpPhone ||
+    typeErrors?.type ||
+    !type ||
     cityErrors?.city ||
-    !city
+    !city ||
+    empCityErrors?.empCity ||
+    !empCity ||
+    woredaErrors?.woreda ||
+    !woreda ||
+    empWoredaErrors?.empWoreda ||
+    !empWoreda ||
+    subCityErrors?.subCity ||
+    !subCity ||
+    empSubCityErrors?.empSubCity ||
+    !empSubCity ||
+    kebelleErrors?.kebelle ||
+    !kebelle ||
+    empKebelleErrors?.empKebelle ||
+    !empKebelle ||
+    streetErrors?.street ||
+    !street ||
+    empStreetErrors?.empStreet ||
+    !empStreet ||
+    houseNoErrors?.houseNo ||
+    !houseNo ||
+    empHouseNoErrors?.empHouseNo ||
+    !empHouseNo ||
+    zoneErrors?.zone ||
+    !zone ||
+    empZoneErrors?.empZone ||
+    !empZone
       ? true
       : false
 
@@ -140,6 +192,25 @@ export default function HospitalRegistrationForm(props: any) {
       setEmpNameErrors({ empName: "Name can't be longer than 30 characters" })
     } else if (!regName) {
       setEmpNameErrors({ empName: 'Name can only include alphabets' })
+    }
+  }
+
+  const handleEmEmpNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmEmpNameErrors({ emEmpName: '' })
+    setEmEmpName(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setEmEmpNameErrors({ emEmpName: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmEmpNameErrors({ emEmpName: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmEmpNameErrors({ emEmpName: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setEmEmpNameErrors({ emEmpName: 'Name can only include alphabets' })
     }
   }
 
@@ -228,6 +299,25 @@ export default function HospitalRegistrationForm(props: any) {
     }
   }
 
+  const handleEmEmpPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmEmpPhoneErrors({ emEmpPhone: '' })
+    setEmEmpPhone(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (value == '') {
+      setEmEmpPhoneErrors({ emEmpPhone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setEmEmpPhoneErrors({ emEmpPhone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setEmEmpPhoneErrors({ emEmpPhone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setEmEmpPhoneErrors({ emEmpPhone: "Phone number can't include alphabet" })
+    }
+  }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -263,6 +353,204 @@ export default function HospitalRegistrationForm(props: any) {
       setEmpCityErrors({ empCity: "City can't be longer than 30 characters" })
     } else if (!regName) {
       setEmpCityErrors({ empCity: 'City can only include alphabets' })
+    }
+  }
+
+  const handleWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setWoredaErrors({ woreda: '' })
+    setWoreda(value)
+
+    if (value == '') {
+      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
+    } else if (value.length < 2) {
+      setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleEmpWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpWoredaErrors({ empWoreda: '' })
+    setEmpWoreda(value)
+
+    if (value == '') {
+      setEmpWoredaErrors({ empWoreda: 'Woreda field cannot be empty' })
+    } else if (value.length < 2) {
+      setEmpWoredaErrors({ empWoreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setEmpWoredaErrors({ empWoreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setSubCityErrors({ subCity: '' })
+    setSubCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleEmpSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpSubCityErrors({ empSubCity: '' })
+    setEmpSubCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setEmpSubCityErrors({ empSubCity: 'Sub City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmpSubCityErrors({ empSubCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmpSubCityErrors({ empSubCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setEmpSubCityErrors({ empSubCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setKebelleErrors({ kebelle: '' })
+    setKebelle(value)
+
+    if (value == '') {
+      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
+    } else if (value.length < 2) {
+      setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30) {
+      setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleEmpKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpKebelleErrors({ empKebelle: '' })
+    setEmpKebelle(value)
+
+    if (value == '') {
+      setEmpKebelleErrors({ empKebelle: 'Kebelle field cannot be empty' })
+    } else if (value.length < 2) {
+      setEmpKebelleErrors({ empKebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30) {
+      setEmpKebelleErrors({ empKebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setStreetErrors({ street: '' })
+    setStreet(value)
+
+    if (value == '') {
+      setStreetErrors({ street: 'Street field cannot be empty' })
+    } else if (value.length <= 3) {
+      setStreetErrors({ street: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setStreetErrors({ street: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleEmpStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpStreetErrors({ empStreet: '' })
+    setEmpStreet(value)
+
+    if (value == '') {
+      setEmpStreetErrors({ empStreet: 'Street field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmpStreetErrors({ empStreet: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmpStreetErrors({ empStreet: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setHouseNoErrors({ houseNo: '' })
+    setHouseNo(value)
+
+    if (value == '') {
+      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
+    } else if (value.length < 2) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleEmpHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpHouseNoErrors({ empHouseNo: '' })
+    setEmpHouseNo(value)
+
+    if (value == '') {
+      setEmpHouseNoErrors({ empHouseNo: 'HouseNo field cannot be empty' })
+    } else if (value.length < 2) {
+      setEmpHouseNoErrors({ empHouseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setEmpHouseNoErrors({ empHouseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setZoneErrors({ zone: '' })
+    setZone(value)
+
+    if (value == '') {
+      setZoneErrors({ zone: 'Zone field cannot be empty' })
+    } else if (value.length <= 3) {
+      setZoneErrors({ zone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
+    }
+  }
+
+  const handleEmpZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmpZoneErrors({ empZone: '' })
+    setEmpZone(value)
+
+    if (value == '') {
+      setEmpZoneErrors({ empZone: 'Zone field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmpZoneErrors({ empZone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmpZoneErrors({ empZone: "Zone can't be longer than 10 characters" })
     }
   }
 
@@ -453,9 +741,9 @@ export default function HospitalRegistrationForm(props: any) {
                     label='Woreda'
                     placeholder='04'
                     value={woreda}
-                    onChange={e => {
-                      setWoreda(e.target.value)
-                    }}
+                    onChange={handleWoredaChange}
+                    error={Boolean(woredaErrors?.woreda)}
+                    helperText={woredaErrors?.woreda}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -472,9 +760,9 @@ export default function HospitalRegistrationForm(props: any) {
                     label='Sub City'
                     placeholder='Bole'
                     value={subCity}
-                    onChange={e => {
-                      setSubCity(e.target.value)
-                    }}
+                    onChange={handleSubCityChange}
+                    error={Boolean(subCityErrors?.subCity)}
+                    helperText={subCityErrors?.subCity}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -491,9 +779,9 @@ export default function HospitalRegistrationForm(props: any) {
                     label='Kebele'
                     placeholder='32'
                     value={kebelle}
-                    onChange={e => {
-                      setKebelle(e.target.value)
-                    }}
+                    onChange={handleKebelleChange}
+                    error={Boolean(kebelleErrors?.kebelle)}
+                    helperText={kebelleErrors?.kebelle}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -509,9 +797,9 @@ export default function HospitalRegistrationForm(props: any) {
                     fullWidth
                     label='Street'
                     value={street}
-                    onChange={e => {
-                      setStreet(e.target.value)
-                    }}
+                    onChange={handleStreetChange}
+                    error={Boolean(streetErrors?.street)}
+                    helperText={streetErrors?.street}
                     placeholder='Mauritania street'
                     InputProps={{
                       startAdornment: (
@@ -529,9 +817,9 @@ export default function HospitalRegistrationForm(props: any) {
                     label='House Number'
                     placeholder='432'
                     value={houseNo}
-                    onChange={e => {
-                      setHouseNo(e.target.value)
-                    }}
+                    onChange={handleHouseNoChange}
+                    error={Boolean(houseNoErrors?.houseNo)}
+                    helperText={houseNoErrors?.houseNo}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -546,9 +834,9 @@ export default function HospitalRegistrationForm(props: any) {
                     size='small'
                     fullWidth
                     value={zone}
-                    onChange={e => {
-                      setZone(e.target.value)
-                    }}
+                    onChange={handleZoneChange}
+                    error={Boolean(zoneErrors?.zone)}
+                    helperText={zoneErrors?.zone}
                     label='Zone'
                     placeholder='zone'
                     InputProps={{
@@ -683,9 +971,9 @@ export default function HospitalRegistrationForm(props: any) {
                           label='Full Name'
                           value={emEmpName}
                           placeholder='Rediet Demisse'
-                          onChange={e => {
-                            setEmEmpName(e.target.value)
-                          }}
+                          onChange={handleEmEmpNameChange}
+                          error={Boolean(emEmpNameErrors?.emEmpName)}
+                          helperText={emEmpNameErrors?.emEmpName}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position='start'>
@@ -701,9 +989,9 @@ export default function HospitalRegistrationForm(props: any) {
                           fullWidth
                           label='Phone'
                           value={emEmpPhone}
-                          onChange={e => {
-                            setEmEmpPhone(e.target.value)
-                          }}
+                          onChange={handleEmEmpPhoneChange}
+                          error={Boolean(emEmpPhoneErrors?.emEmpPhone)}
+                          helperText={emEmpPhoneErrors?.emEmpPhone}
                           placeholder='+251 987654321'
                           InputProps={{
                             startAdornment: (
@@ -747,9 +1035,9 @@ export default function HospitalRegistrationForm(props: any) {
                             label='Woreda'
                             placeholder='04'
                             value={empWoreda}
-                            onChange={e => {
-                              setEmpWoreda(e.target.value)
-                            }}
+                            onChange={handleEmpWoredaChange}
+                            error={Boolean(empWoredaErrors?.empWoreda)}
+                            helperText={empWoredaErrors?.empWoreda}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
@@ -766,9 +1054,9 @@ export default function HospitalRegistrationForm(props: any) {
                             label='Sub City'
                             placeholder='Bole'
                             value={empSubCity}
-                            onChange={e => {
-                              setEmpSubCity(e.target.value)
-                            }}
+                            onChange={handleEmpSubCityChange}
+                            error={Boolean(empSubCityErrors?.empSubCity)}
+                            helperText={empSubCityErrors?.empSubCity}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
@@ -785,9 +1073,9 @@ export default function HospitalRegistrationForm(props: any) {
                             label='Kebele'
                             placeholder='32'
                             value={empKebelle}
-                            onChange={e => {
-                              setEmpKebelle(e.target.value)
-                            }}
+                            onChange={handleEmpKebelleChange}
+                            error={Boolean(empKebelleErrors?.empKebelle)}
+                            helperText={empKebelleErrors?.empKebelle}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
@@ -803,9 +1091,9 @@ export default function HospitalRegistrationForm(props: any) {
                             fullWidth
                             label='Street'
                             value={empStreet}
-                            onChange={e => {
-                              setEmpStreet(e.target.value)
-                            }}
+                            onChange={handleEmpStreetChange}
+                            error={Boolean(empStreetErrors?.empStreet)}
+                            helperText={empStreetErrors?.empStreet}
                             placeholder='Mauritania street'
                             InputProps={{
                               startAdornment: (
@@ -823,9 +1111,9 @@ export default function HospitalRegistrationForm(props: any) {
                             label='House Number'
                             placeholder='432'
                             value={empHouseNo}
-                            onChange={e => {
-                              setEmpHouseNo(e.target.value)
-                            }}
+                            onChange={handleEmpHouseNoChange}
+                            error={Boolean(empHouseNoErrors?.empHouseNo)}
+                            helperText={empHouseNoErrors?.empHouseNo}
                             InputProps={{
                               startAdornment: (
                                 <InputAdornment position='start'>
@@ -840,9 +1128,9 @@ export default function HospitalRegistrationForm(props: any) {
                             size='small'
                             fullWidth
                             value={empZone}
-                            onChange={e => {
-                              setEmpZone(e.target.value)
-                            }}
+                            onChange={handleEmpZoneChange}
+                            error={Boolean(empZoneErrors?.empZone)}
+                            helperText={empZoneErrors?.empZone}
                             label='Zone'
                             placeholder='zone'
                             InputProps={{
