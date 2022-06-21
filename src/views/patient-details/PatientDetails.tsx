@@ -61,11 +61,11 @@ const PatientDetail = () => {
       setPatient(response.data)
       setLoading(false)
     })
-
   }, [])
 
-  return (
-    loading ? <div></div> :
+  return loading ? (
+    <div></div>
+  ) : (
     <Grid className='container-grid' spacing={5} container item>
       <Grid item xs={12}>
         {session.role === 'Doctor' ? (
@@ -77,7 +77,9 @@ const PatientDetail = () => {
               query: { id: patient.id }
             }}
           >
-            <Button>Vitals</Button>
+            <Button variant='outlined' size='small'>
+              Vitals
+            </Button>
           </Link>
         )}
       </Grid>

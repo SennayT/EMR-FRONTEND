@@ -12,7 +12,6 @@ import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
 
-
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
@@ -24,6 +23,9 @@ const InvestigativeRequestTableRadiology = () => {
     setCurrentInvReq(param)
     setOpen(true)
   }
+
+  const { data: session } = useSession()
+
   const handleClickClose = () => setOpen(false)
 
   const [invReqs, setInvReqs] = useState([
@@ -36,12 +38,13 @@ const InvestigativeRequestTableRadiology = () => {
     note: '',
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
-  const { data: session } = useSession();
 
   useEffect(() => {
-    requests.get(`/investigation-request/include/radiology`,  session ? session.accessToken.toString() : "").then(response => {
-      setInvReqs(response.data)
-    })
+    requests
+      .get(`/investigation-request/include/radiology`, session ? session.accessToken.toString() : '')
+      .then(response => {
+        setInvReqs(response.data)
+      })
   }, [])
 
   const columns: GridColDef[] = [
@@ -59,9 +62,7 @@ const InvestigativeRequestTableRadiology = () => {
       type: 'number',
       width: 150,
       editable: false,
-      renderCell: (params: GridRenderCellParams<any>) => (
-        <p> {new Date(params.value).toLocaleDateString("en-US")}</p>
-      )
+      renderCell: (params: GridRenderCellParams<any>) => <p> {new Date(params.value).toLocaleDateString('en-US')}</p>
     },
     {
       field: 'labTests',
@@ -70,7 +71,7 @@ const InvestigativeRequestTableRadiology = () => {
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<Array<any>>) => (
-        <Chip color='primary' label={params.value?.length} sx={{px: 5}}/>
+        <Chip color='primary' label={params.value?.length} sx={{ px: 5 }} />
       )
     },
     {
@@ -100,19 +101,18 @@ const InvestigativeRequestTableRadiology = () => {
           columns={columns}
           {...currentInvReq}
           pageSize={5}
-          onCellClick={(params) => {
+          onCellClick={params => {
             console.log(params.row)
             handleClickOpen(params.row)
           }}
           rowsPerPageOptions={[5]}
-
         />
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
           <DialogContent>
-            <RadiologyResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id}  />
+            <RadiologyResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

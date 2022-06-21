@@ -265,6 +265,7 @@ export default function ResearcherRegistrationForm(props: any) {
         phone: phone,
         gender: gender,
         age: age,
+        image: '',
         healthCenterId: 4,
         address: {
           city: city,

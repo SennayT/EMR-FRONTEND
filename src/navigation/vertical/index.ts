@@ -30,7 +30,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
     })
   }
 
-  if (session.role === 'Researcher' || session.role === 'MohEmployee') {
+  if (session.role === 'Researcher' || session.role === 'Moh Employee') {
     pagesSection.push({
       sectionTitle: 'pages'
     })
@@ -115,7 +115,6 @@ const navigation = (session: Session): VerticalNavItemsType => {
   }
 
   if (session.role === 'Doctor' || session.role === 'LabExpert') {
-
     pagesSection.push(
       {
         sectionTitle: 'pages'

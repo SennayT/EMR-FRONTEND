@@ -110,7 +110,7 @@ const UserDropdown = () => {
     requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : '').then(response => {
       setUser(response.data)
     })
-  }, [])
+  })
 
   const handleLogout = () => {
     signOut({ callbackUrl: 'http://localhost:3000' })
@@ -125,12 +125,7 @@ const UserDropdown = () => {
         badgeContent={<BadgeContentSpan />}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src={user.image}
-        />
+        <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} src={user.image} />
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -147,7 +142,15 @@ const UserDropdown = () => {
               badgeContent={<BadgeContentSpan />}
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             >
-              <Avatar alt='John Doe' src={user.image} sx={{ width: '3.5rem', height: '3.5rem' }} />
+              <Avatar
+                alt='John Doe'
+                src={
+                  user.image
+                    ? user.image
+                    : 'https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
+                }
+                sx={{ width: '3.5rem', height: '3.5rem' }}
+              />
             </Badge>
             <Box sx={{ display: 'flex', marginLeft: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{user.name}</Typography>

@@ -27,7 +27,7 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import BasicCharts from 'src/pages/stats/basic-charts'
-
+import ChartThree from 'src/views/shared-components/stat-components/analytics_charts'
 
 export default function ResearcherDashboard() {
   const [healthCenterNum, setHealthCenterNum] = useState(0)
@@ -35,27 +35,26 @@ export default function ResearcherDashboard() {
   const [researcherNum, setResearcherNum] = useState(0)
   const [mohEmployeeNum, setMohEmployeeNum] = useState(0)
 
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get("/health-center/number", session ? session.accessToken.toString() : "").then((response) => {
+    requests.get('/health-center/number', session ? session.accessToken.toString() : '').then(response => {
       setHealthCenterNum(response.data)
-    });
-    requests.get(`/patient`, session ? session.accessToken.toString() : "").then((response) => {
+    })
+    requests.get(`/patient`, session ? session.accessToken.toString() : '').then(response => {
       setPatientNum(response.data.length)
-    });
-    requests.get(`/researcher/number`, session ? session.accessToken.toString() : "").then((response) => {
+    })
+    requests.get(`/researcher/number`, session ? session.accessToken.toString() : '').then(response => {
       setResearcherNum(response.data)
     })
-    requests.get(`moh-employee`, session ? session.accessToken.toString() : "").then((response) => {
+    requests.get(`moh-employee`, session ? session.accessToken.toString() : '').then(response => {
       setMohEmployeeNum(response.data.length)
     })
-  },[])
+  }, [])
 
   return (
     <div>
-
-      <h1 style={{fontSize:'40px', color:'limegreen'}}>Welcome Researcher</h1>
+      <h1 style={{ fontSize: '40px', color: 'limegreen' }}>Welcome Researcher</h1>
       <ChartThree />
     </div>
   )

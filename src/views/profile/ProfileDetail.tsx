@@ -27,7 +27,14 @@ const ProfileDetail = (props: any) => {
     <Card sx={{ backgroundColor: 'white' }}>
       <CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <ImgStyled src={imgSrc} alt='Profile Pic' />
+          <ImgStyled
+            src={
+              imgSrc
+                ? imgSrc
+                : 'https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
+            }
+            alt='Profile Pic'
+          />
           <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
             <Typography variant='h5'>{props.user.name}</Typography>
           </Box>

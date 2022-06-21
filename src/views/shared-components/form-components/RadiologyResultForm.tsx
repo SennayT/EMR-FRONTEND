@@ -1,13 +1,27 @@
 // ** React Imports
-import { SyntheticEvent, useState } from 'react'
+import { useState, useRef, SyntheticEvent } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Box, Typography, Link, TypographyProps } from '@mui/material'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardActions,
+  FormControl,
+  Select,
+  Alert,
+  Snackbar,
+  InputLabel,
+  MenuItem,
+  Box,
+  Typography,
+  Link,
+  TypographyProps
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import { styled } from '@mui/material/styles'
-
 
 import EmailOutline from 'mdi-material-ui/EmailOutline'
 
@@ -42,20 +56,19 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   }
 }))
 
-
-
 const RadiologyResultForm = (props: any) => {
+  const [open, setOpen] = useState(false)
+
+  const imageRef = useRef()
+
   const { data: session } = useSession()
 
-
   const [files, setFiles] = useState<File[]>([])
-
 
   const registerResult = () => {
     // const image = imageRef.current.getFiles();
 
-
-    const data = {
+    const data: any = {
       name: currentLabTest.name,
       focalArea: 'stomach',
       report: 'some result',
@@ -65,33 +78,30 @@ const RadiologyResultForm = (props: any) => {
       investigationRequestId: props.invReqId
     }
 
+    const formData = new FormData()
 
-    const formData = new FormData();
+    formData.append('upload_preset', 'lab results')
+    formData.append('file', files[0])
 
-    formData.append('upload_preset', 'lab results');
-    formData.append('file', files[0]);
+    formData.append('cloud_name', 'capstoneemr')
 
-    formData.append("cloud_name", "capstoneemr")
-
-    fetch("https://api.cloudinary.com/v1_1/capstoneemr/image/upload", {
-      method: "post",
+    fetch('https://api.cloudinary.com/v1_1/capstoneemr/image/upload', {
+      method: 'post',
       body: formData
     })
       .then(res => res.json())
       .then(r => {
         console.log(r)
-        console.log("done", r)
-        data.image = r.secure_url;
-        requests.post(`/radiology`, data, session ? session.accessToken : "").then(response => {
-          console.log("done", response.data)
+        console.log('done', r)
+        data.image = r.secure_url
+        requests.post(`/radiology`, data, session ? session.accessToken : '').then(response => {
+          console.log('done', response.data)
         })
       })
       .catch(err => {
         console.log(err)
       })
-
   }
-
 
   // ** States
 
@@ -110,8 +120,8 @@ const RadiologyResultForm = (props: any) => {
   const [currentLabTest, setCurrentLabTest] = useState({
     id: 0,
     name: '',
-    focalArea: 'stomach',
-    report: 'some result',
+    focalArea: 'lower abdomen',
+    report: '',
     comment: comment,
     image: "",
     investigationRequestId: props.invReqId
@@ -139,12 +149,16 @@ const RadiologyResultForm = (props: any) => {
     />
   ))
 
-
   return (
     <Grid container>
       <Card sx={{ my: 4, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
+            <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
+              <Alert severity='error' sx={{ width: '100%' }}>
+                This is an error message!
+              </Alert>
+            </Snackbar>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
@@ -161,9 +175,9 @@ const RadiologyResultForm = (props: any) => {
                     fullWidth
                     size='small'
                   >
-                    {props.labTests.map((name: any) => (
-                      <MenuItem key={name.id} value={name}>
-                        {name.name}
+                    {props.labTests.map((item: any) => (
+                      <MenuItem key={item.id} value={item}>
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -195,13 +209,22 @@ const RadiologyResultForm = (props: any) => {
                     sx={acceptedFiles.length ? { height: 450 } : { backgroundColor: '#f1f2eb' }}
                   >
                     <input {...getInputProps()} />
-                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding: 2 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: ['column', 'column', 'row'],
+                        alignItems: 'center',
+                        padding: 2
+                      }}
+                    >
                       <Img
                         alt='Upload img'
                         width='100px'
                         src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png'
                       />
-                      <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                      <Box
+                        sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}
+                      >
                         <HeadingTypography variant='h5'>Drop result files here or click to upload.</HeadingTypography>
                         <Typography color='textSecondary'>
                           Drop files here or{' '}

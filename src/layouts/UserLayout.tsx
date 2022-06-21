@@ -41,10 +41,11 @@ const UserLayout = ({ children }: Props) => {
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
-  const {status, data} = useSession()
+  const { status, data } = useSession()
+
   // const session = useSession()
-  console.log("pass set" , status, data)
-  if (status === "authenticated" && data.isPasswordReset) {
+  console.log('pass set', status, data)
+  if (status === 'authenticated' && data.isPasswordReset) {
     return (
       <VerticalLayout
         hidden={hidden}
@@ -65,11 +66,9 @@ const UserLayout = ({ children }: Props) => {
         {children}
       </VerticalLayout>
     )
-  }
-  else if (status === "authenticated" && !data.isPasswordReset) {
+  } else if (status === 'authenticated' && !data.isPasswordReset) {
     return <First />
-  }
-  else if (status === "unauthenticated") {
+  } else if (status === 'unauthenticated') {
     return <LoginPage />
   } else {
     return <div></div>
