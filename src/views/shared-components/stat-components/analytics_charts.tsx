@@ -7,6 +7,7 @@ import useSWR from 'swr'
 import { ApexOptions } from 'apexcharts';
 import requests from 'src/utils/repository';
 import { useSession } from 'next-auth/react';
+import { Grid } from '@mui/material';
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
@@ -129,9 +130,15 @@ export default function ChartThree() {
     
     return (
 
-        <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='1000px' />
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />     
+      <div>
+        <Grid container spacing={2}>
+          <Grid item xs = {12} md ={6} sm = {12}>
+            <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='500px' />
+          </Grid>
+          <Grid item xs = {12} md ={6} sm = {12}>
+            <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />     
+          </Grid>
+        </Grid>
        </div>
     )
 };

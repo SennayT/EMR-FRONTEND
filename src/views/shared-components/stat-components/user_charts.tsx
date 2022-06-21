@@ -6,6 +6,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import useSWR from 'swr'
 import requests from 'src/utils/repository';
 import { useSession } from 'next-auth/react';
+import { Grid } from '@mui/material';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
@@ -30,10 +31,10 @@ useEffect(() => {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main,
-    },
+      },
     xaxis: {
-      categories: ["recep", "radio", "doc", "nur", "s_admin", "h_admin", "lab", "res"],
+      categories: ["receptionists", "radiologists", "doctors", "nurses", "systesm admins", "hosptial admins",
+        "lab expersts", "resarchers"],
     },
     colors: ['#FF1654'],
     title: {
@@ -41,7 +42,7 @@ useEffect(() => {
       floating: true,
       align: 'center',
       style: {
-        color: '#444'
+        // color: '#444'
       }
     },
     fill: {
@@ -81,7 +82,6 @@ useEffect(() => {
     chart: {
       type: "line",
       id: "",
-      foreColor: theme.palette.primary.main
     },
     xaxis: {
       categories: ["male", "female"]
@@ -128,8 +128,14 @@ useEffect(() => {
   return (
 
     <div>
-      <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='700px' />
-      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
+      <Grid container spacing={2} > 
+        <Grid item  xs={12} md={6} sm={12} >
+          <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='500px' />
+        </Grid>
+        <Grid item  xs={12} md={6} sm={12} >
+          <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
+        </Grid>
+      </Grid>
     </div>
   )
 };

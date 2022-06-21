@@ -7,6 +7,7 @@ import { useTheme } from '@emotion/react';
 import { ApexOptions } from 'apexcharts';
 import requests from 'src/utils/repository';
 import { useSession } from 'next-auth/react';
+import { Grid } from '@mui/material';
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
 
@@ -34,7 +35,7 @@ useEffect(() => {
       id: ""
     },
     xaxis: {
-      categories: ["infant", "toddler", "child", "teen", "adult", "middle age", "senior"]
+      categories: ["infant (0-1)", "toddler (2-4)", "child (5-12)", "teen (13-19)", "adult (20-39)", "middle age (40 -59)", "senior (60+)"]
     },
     fill: {
       type: "gradient",
@@ -124,9 +125,15 @@ useEffect(() => {
 
     return (
 
-        <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='500px' />
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
-       </div>
+      <div>
+        <Grid container spacing={2}>
+          <Grid item  xs={12} md={6} sm={12} >
+            <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='500px' />
+          </Grid>
+          <Grid item  xs={12} md={6} sm={12} >
+            <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
+          </Grid>
+        </Grid>
+      </div>
     )
 };
