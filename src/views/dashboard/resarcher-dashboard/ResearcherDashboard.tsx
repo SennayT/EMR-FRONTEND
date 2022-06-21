@@ -53,6 +53,10 @@ export default function ResearcherDashboard() {
   },[])
 
   return (
-    <BasicCharts/>
+    <div>
+
+      <h1 style={{fontSize:'40px', color:'limegreen'}}>Welcome Researcher</h1>
+      <ChartThree />
+    </div>
   )
 }

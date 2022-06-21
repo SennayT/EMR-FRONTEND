@@ -225,7 +225,7 @@ function BasicCharts() {
 
     }
 
-    if (!counts) return <div>Loading...</div>
+    if (!counts) return <div> </div>
     else {
 
    return (
