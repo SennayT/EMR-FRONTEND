@@ -39,6 +39,8 @@ import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
 export default function HospitalRegistrationForm(props: any) {
+  const healthCenter = props.healthCenter
+
   const [name, setName] = useState('')
   const [type, setType] = useState('')
   const [email, setEmail] = useState('')
@@ -677,6 +679,7 @@ export default function HospitalRegistrationForm(props: any) {
                     error={Boolean(typeErrors?.type)}
                     onChange={handleTypeChange}
                     placeholder='General Hospital'
+                    helperText={typeErrors?.type}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
