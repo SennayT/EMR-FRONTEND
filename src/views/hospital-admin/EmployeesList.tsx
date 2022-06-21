@@ -124,9 +124,7 @@ const Employees = () => {
           <Link
             href={{
               pathname: '/hospital-admin/employees/add',
-              query: {
-                userId: ""
-              }
+              query: {}
             }}
           >
             <Button startIcon={<AddIcon />} variant='outlined' color='primary' size='small'>

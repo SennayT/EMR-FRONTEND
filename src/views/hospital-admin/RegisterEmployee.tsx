@@ -11,6 +11,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import InputLabel from '@mui/material/InputLabel'
+import BackIcon from '@mui/icons-material/ArrowBack'
 
 import Grid from '@mui/material/Grid'
 import { Card, Typography, CardContent, Select, MenuItem, SelectChangeEvent, Alert, Snackbar } from '@mui/material'
@@ -37,22 +38,22 @@ import { useRouter } from 'next/router'
 
 export default function EmRegistrationForm(props: any) {
   const [edit, setEdit] = useState(false)
-  const [name, setName] = useState(props.user ? props.user.name : '')
-  const [email, setEmail] = useState(props.user ? props.user.name : '')
-  const [phone, setPhone] = useState(props.user ? props.user.phone : '')
-  const [role, setRole] = useState<string[]>(props.user ? [props.user.role] : ['Receptionist'])
-  const [gender, setGender] = React.useState(props.user ? props.user.gender : 'female')
-  const [age, setAge] = useState(props.user ? props.user.age : 24)
-  const [isAdmin, setIsAdmin] = useState(props.user ? props.user.isAdmin : false)
-  const [emName, setEmName] = useState(props.user ? props.user.emergencyContactName : '')
-  const [emPhone, setEmPhone] = useState(props.user ? props.user.emergencyContactPhone : '')
-  const [city, setCity] = useState(props.user ? props.user.address.city : '')
-  const [subCity, setSubCity] = useState(props.user ? props.user.address.subCity : '')
-  const [woreda, setWoreda] = useState(props.user ? props.user.address.woreda : '')
-  const [kebelle, setKebelle] = useState(props.user ? props.user.address.kebelle : '')
-  const [zone, setZone] = useState(props.user ? props.user.address.zone : '')
-  const [street, setStreet] = useState(props.user ? props.user.address.street : '')
-  const [houseNo, setHouseNo] = useState(props.user ? props.user.address.houseNo : '')
+  const [name, setName] = useState(props.add ? props.user.name : '')
+  const [email, setEmail] = useState(props.add ? props.user.name : '')
+  const [phone, setPhone] = useState(props.add ? props.user.phone : '')
+  const [role, setRole] = useState<string[]>(props.add ? [props.user.role] : ['Receptionist'])
+  const [gender, setGender] = React.useState(props.add ? props.user.gender : 'female')
+  const [age, setAge] = useState(props.add ? props.user.age : 24)
+  const [isAdmin, setIsAdmin] = useState(props.add ? props.user.isAdmin : false)
+  const [emName, setEmName] = useState(props.add ? props.user.emergencyContactName : '')
+  const [emPhone, setEmPhone] = useState(props.add ? props.user.emergencyContactPhone : '')
+  const [city, setCity] = useState(props.add ? props.user.address.city : '')
+  const [subCity, setSubCity] = useState(props.add ? props.user.address.subCity : '')
+  const [woreda, setWoreda] = useState(props.add ? props.user.address.woreda : '')
+  const [kebelle, setKebelle] = useState(props.add ? props.user.address.kebelle : '')
+  const [zone, setZone] = useState(props.add ? props.user.address.zone : '')
+  const [street, setStreet] = useState(props.add ? props.user.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.add ? props.user.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -106,6 +107,7 @@ export default function EmRegistrationForm(props: any) {
     !city ||
     woredaErrors?.woreda ||
     subCityErrors?.subCity ||
+    !subCity ||
     kebelleErrors?.kebelle ||
     streetErrors?.street ||
     houseNoErrors?.houseNo ||
@@ -243,7 +245,9 @@ export default function EmRegistrationForm(props: any) {
     setSubCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value.length <= 3 && value.length != 0) {
+    if (value == '') {
+      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
+    } else if (value.length <= 3 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
     } else if (value.length >= 30 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
@@ -340,6 +344,7 @@ export default function EmRegistrationForm(props: any) {
       name: name,
       email: email,
       phone: phone,
+      image: '',
       address: {
         city: city,
         subCity: subCity,
@@ -352,7 +357,6 @@ export default function EmRegistrationForm(props: any) {
       gender: gender,
       age: age,
       role: role,
-      image: '',
       isAdmin: isAdmin
     }
     if (!router.query.user) {
@@ -422,345 +426,350 @@ export default function EmRegistrationForm(props: any) {
   }
 
   return (
-    <Grid container spacing={6}>
-      <Snackbar open={open} autoHideDuration={1000} onClose={() => setOpen(false)}>
-        <Alert onClose={handleClose} severity={'error'} sx={{ width: '100%' }}>
-          {errMsg}
-        </Alert>
-      </Snackbar>
-      <Typography variant='h5' sx={{ fontWeight: 600, mt: 2 }}>
-        Employee Registration
-      </Typography>
-      <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
-        <form onSubmit={e => e.preventDefault()}>
-          <CardContent sx={{ px: 4 }}>
-            <Grid sx={{ px: 4 }} container spacing={5}>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
-                  Personal Information
-                </Typography>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  value={name}
-                  onChange={handleNameChange}
-                  error={Boolean(nameErrors?.name)}
-                  fullWidth
-                  helperText={nameErrors?.name}
-                  required
-                  label='Full Name'
-                  placeholder='Rediet Demisse'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  value={email}
-                  onChange={handleEmailChange}
-                  error={Boolean(emailErrors?.email)}
-                  helperText={emailErrors?.email}
-                  required
-                  type='email'
-                  label='Email'
-                  placeholder='ruthgd2000@gmail.com'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <EmailOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  required
-                  label='Phone Number'
-                  value={phone}
-                  onChange={handlePhoneChange}
-                  error={Boolean(phoneErrors?.phone)}
-                  helperText={phoneErrors?.phone}
-                  placeholder='+251 987654321'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Phone />
-                        +251
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <MobileDatePicker
-                    label='Date of Birth'
-                    openTo='year'
-                    inputFormat='MM/dd/yyyy'
-                    value={value}
-                    onChange={handleDateChange}
-                    renderInput={params => <TextField size='small' fullWidth {...params} />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <FormControl>
-                  <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby='demo-row-radio-buttons-group-label'
-                    name='row-radio-buttons-group'
-                    value={gender}
-                    defaultValue='female'
-                    onChange={e => {
-                      setGender(e.target.value)
-                    }}
-                  >
-                    <FormControlLabel value='female' control={<Radio />} label='Female' />
-                    <FormControlLabel value='male' control={<Radio />} label='Male' />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}></Grid>
-              <Grid sx={{ mb: 1, pr: 2, mt: 1 }} item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id='demo-simple-select-label'>Role</InputLabel>
-                  <Select
-                    label='Role'
-                    value={role}
-                    MenuProps={MenuProps}
-                    onChange={handleRoleChange}
-                    placeholder='Doctor'
-                    fullWidth
-                    size='small'
-                  >
-                    {roles.map(role => (
-                      <MenuItem key={role} value={role}>
-                        {role}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <FormControlLabel
-                  checked={isAdmin}
-                  control={<Switch color='primary' />}
-                  label='Is Administrator'
-                  labelPlacement='start'
-                  onChange={switchHandler}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, my: 3 }}>
-                  Emergency Contacts
-                </Typography>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Full Name'
-                  value={emName}
-                  error={Boolean(emNameErrors?.emName)}
-                  helperText={emNameErrors?.emName}
-                  placeholder='Rediet Demisse'
-                  onChange={handleEmNameChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  label='Phone'
-                  value={emPhone}
-                  error={Boolean(emPhoneErrors?.emPhone)}
-                  helperText={emPhoneErrors?.emPhone}
-                  onChange={handleEmPhoneChange}
-                  placeholder='+251 987654321'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Phone />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid item xs={12} sx={{ px: 2 }}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
-                  Address Information
-                </Typography>
-              </Grid>
+    <Card>
+      <IconButton aria-label='back' onClick={() => router.back()}>
+        <BackIcon />
+      </IconButton>
+      <Grid container spacing={6} sx={{ backgroundColor: 'white', mt: 4 }}>
+        <Snackbar open={open} autoHideDuration={1000} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={'error'} sx={{ width: '100%' }}>
+            {errMsg}
+          </Alert>
+        </Snackbar>
+        <Typography variant='h5' sx={{ fontWeight: 600, mt: 8, mx: 14 }}>
+          Employee Registration
+        </Typography>
+        <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
+          <form onSubmit={e => e.preventDefault()}>
+            <CardContent sx={{ px: 4 }}>
               <Grid sx={{ px: 4 }} container spacing={5}>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <Grid item xs={12}>
+                  <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
+                    Personal Information
+                  </Typography>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    value={name}
+                    onChange={handleNameChange}
+                    error={Boolean(nameErrors?.name)}
+                    fullWidth
+                    helperText={nameErrors?.name}
+                    required
+                    label='Full Name'
+                    placeholder='Rediet Demisse'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <AccountOutline />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    value={email}
+                    onChange={handleEmailChange}
+                    error={Boolean(emailErrors?.email)}
+                    helperText={emailErrors?.email}
+                    required
+                    type='email'
+                    label='Email'
+                    placeholder='ruthgd2000@gmail.com'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <EmailOutline />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                   <TextField
                     size='small'
                     fullWidth
                     required
-                    onChange={handleCityChange}
-                    error={Boolean(cityErrors?.city)}
-                    helperText={cityErrors?.city}
-                    value={city}
-                    label='City'
-                    placeholder='Addis Ababa'
+                    label='Phone Number'
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    error={Boolean(phoneErrors?.phone)}
+                    helperText={phoneErrors?.phone}
+                    placeholder='987654321'
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
-                          <CityIcon />
+                          <Phone />
+                          +251
                         </InputAdornment>
                       )
                     }}
                   />
                 </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <MobileDatePicker
+                      label='Date of Birth'
+                      openTo='year'
+                      inputFormat='MM/dd/yyyy'
+                      value={value}
+                      onChange={handleDateChange}
+                      renderInput={params => <TextField size='small' fullWidth {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <FormControl>
+                    <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
+                    <RadioGroup
+                      row
+                      aria-labelledby='demo-row-radio-buttons-group-label'
+                      name='row-radio-buttons-group'
+                      value={gender}
+                      defaultValue='female'
+                      onChange={e => {
+                        setGender(e.target.value)
+                      }}
+                    >
+                      <FormControlLabel value='female' control={<Radio />} label='Female' />
+                      <FormControlLabel value='male' control={<Radio />} label='Male' />
+                    </RadioGroup>
+                  </FormControl>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}></Grid>
+                <Grid sx={{ mb: 1, pr: 2, mt: 1 }} item xs={12} sm={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id='demo-simple-select-label'>Role</InputLabel>
+                    <Select
+                      label='Role'
+                      value={role}
+                      MenuProps={MenuProps}
+                      onChange={handleRoleChange}
+                      placeholder='Doctor'
+                      fullWidth
+                      size='small'
+                    >
+                      {roles.map(role => (
+                        <MenuItem key={role} value={role}>
+                          {role}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <FormControlLabel
+                    checked={isAdmin}
+                    control={<Switch color='primary' />}
+                    label='Is Administrator'
+                    labelPlacement='start'
+                    onChange={switchHandler}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant='body2' sx={{ fontWeight: 600, my: 3 }}>
+                    Emergency Contacts
+                  </Typography>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                   <TextField
                     size='small'
                     fullWidth
-                    label='Woreda'
-                    placeholder='04'
-                    value={woreda}
-                    onChange={handleWoredaChange}
-                    error={Boolean(woredaErrors?.woreda)}
-                    helperText={woredaErrors?.woreda}
+                    label='Full Name'
+                    value={emName}
+                    error={Boolean(emNameErrors?.emName)}
+                    helperText={emNameErrors?.emName}
+                    placeholder='Rediet Demisse'
+                    onChange={handleEmNameChange}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
-                          <HouseIcon />
+                          <AccountOutline />
                         </InputAdornment>
                       )
                     }}
                   />
                 </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
                   <TextField
                     size='small'
                     fullWidth
-                    label='Sub City'
-                    placeholder='Bole'
-                    value={subCity}
-                    onChange={handleSubCityChange}
-                    error={Boolean(subCityErrors?.subCity)}
-                    helperText={subCityErrors?.subCity}
+                    label='Phone'
+                    value={emPhone}
+                    error={Boolean(emPhoneErrors?.emPhone)}
+                    helperText={emPhoneErrors?.emPhone}
+                    onChange={handleEmPhoneChange}
+                    placeholder='+251 987654321'
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
-                          <SubcityIcon />
+                          <Phone />
                         </InputAdornment>
                       )
                     }}
                   />
                 </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    label='Kebele'
-                    placeholder='32'
-                    value={kebelle}
-                    onChange={handleKebelleChange}
-                    error={Boolean(kebelleErrors?.kebelle)}
-                    helperText={kebelleErrors?.kebelle}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <CityIcon />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
+                <Grid item xs={12} sx={{ px: 2 }}>
+                  <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
+                    Address Information
+                  </Typography>
                 </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    label='Street'
-                    value={street}
-                    onChange={handleStreetChange}
-                    error={Boolean(streetErrors?.street)}
-                    helperText={streetErrors?.street}
-                    placeholder='Mauritania street'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <StreetIcon />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
+                <Grid sx={{ px: 4 }} container spacing={5}>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      required
+                      onChange={handleCityChange}
+                      error={Boolean(cityErrors?.city)}
+                      helperText={cityErrors?.city}
+                      value={city}
+                      label='City'
+                      placeholder='Addis Ababa'
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <CityIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      label='Woreda'
+                      placeholder='04'
+                      value={woreda}
+                      onChange={handleWoredaChange}
+                      error={Boolean(woredaErrors?.woreda)}
+                      helperText={woredaErrors?.woreda}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <HouseIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      label='Sub City'
+                      placeholder='Bole'
+                      value={subCity}
+                      onChange={handleSubCityChange}
+                      error={Boolean(subCityErrors?.subCity)}
+                      helperText={subCityErrors?.subCity}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <SubcityIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      label='Kebele'
+                      placeholder='32'
+                      value={kebelle}
+                      onChange={handleKebelleChange}
+                      error={Boolean(kebelleErrors?.kebelle)}
+                      helperText={kebelleErrors?.kebelle}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <CityIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      label='Street'
+                      value={street}
+                      onChange={handleStreetChange}
+                      error={Boolean(streetErrors?.street)}
+                      helperText={streetErrors?.street}
+                      placeholder='Mauritania street'
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <StreetIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      label='House Number'
+                      placeholder='432'
+                      value={houseNo}
+                      onChange={handleHouseNoChange}
+                      error={Boolean(houseNoErrors?.houseNo)}
+                      helperText={houseNoErrors?.houseNo}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <HouseIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
+                  <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      value={zone}
+                      onChange={handleZoneChange}
+                      error={Boolean(zoneErrors?.zone)}
+                      helperText={zoneErrors?.zone}
+                      label='Zone'
+                      placeholder='zone'
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position='start'>
+                            <CityIcon />
+                          </InputAdornment>
+                        )
+                      }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    label='House Number'
-                    placeholder='432'
-                    value={houseNo}
-                    onChange={handleHouseNoChange}
-                    error={Boolean(houseNoErrors?.houseNo)}
-                    helperText={houseNoErrors?.houseNo}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <HouseIcon />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                <Grid item sx={{ mb: 1, pr: 2 }} xs={12} sm={6}>
-                  <TextField
-                    size='small'
-                    fullWidth
-                    value={zone}
-                    onChange={handleZoneChange}
-                    error={Boolean(zoneErrors?.zone)}
-                    helperText={zoneErrors?.zone}
-                    label='Zone'
-                    placeholder='zone'
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position='start'>
-                          <CityIcon />
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
+                <CardActions>
+                  <Button
+                    disabled={disableButton}
+                    size='large'
+                    type='submit'
+                    variant='contained'
+                    onClick={registerEmployee}
+                  >
+                    Register
+                  </Button>
+                </CardActions>
               </Grid>
-              <CardActions>
-                <Button
-                  disabled={disableButton}
-                  size='large'
-                  type='submit'
-                  variant='contained'
-                  onClick={registerEmployee}
-                >
-                  Register
-                </Button>
-              </CardActions>
-            </Grid>
-          </CardContent>
-        </form>
-      </Card>
-    </Grid>
+            </CardContent>
+          </form>
+        </Card>
+      </Grid>
+    </Card>
   )
 }
