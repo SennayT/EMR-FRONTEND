@@ -73,7 +73,14 @@ const PatientDiagnosis = (props: {
           <Grid container spacing={7}>
             <Grid item xs={12} sx={{ marginTop: 4.8, marginBottom: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ImgStyled src={imgSrc ? imgSrc : "https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg"} alt='Profile Pic' />
+                <ImgStyled
+                  src={
+                    imgSrc
+                      ? imgSrc
+                      : 'https://t4.ftcdn.net/jpg/03/32/59/65/240_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
+                  }
+                  alt='Profile Pic'
+                />
                 <Box sx={{ mr: 2, mb: 1, display: 'flex', flexDirection: 'column' }}>
                   <Typography variant='h3'>{props.user.name}</Typography>
                   {/* <Typography variant='subtitle2'>Last Data Entry: April 20, 2021</Typography> */}
@@ -101,6 +108,7 @@ const PatientDiagnosis = (props: {
               </Typography>
               {lastDiagnosis.diseases.map(disease => {
                 console.log('here', disease)
+
                 return (
                   <div>
                     <Typography variant='body1'>{disease.name}</Typography>
