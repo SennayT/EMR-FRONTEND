@@ -98,7 +98,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
     )
   }
 
-  if (session.role === 'Doctor') {
+  if (session.role === 'Doctor' || session.role === 'LabExpert') {
 
     pagesSection.push(
       {

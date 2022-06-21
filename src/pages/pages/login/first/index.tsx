@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardContent, FormControl, Grid, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material"
-import { useSession } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import requests from "src/utils/repository"
 import { ChangeEvent, MouseEvent, useState } from 'react'
 
@@ -68,7 +68,12 @@ const First = () => {
         .post('/user/password/update', body, session ? session.accessToken : '')
         .then(res => {
           console.log(res)
-          router.push("/")
+          // session.isPasswordReset = true
+          signIn('credentials', { email: session.email, password: values.confirmNewPassword }).then(res => {
+            router.push("/")
+          })
+
+
         })
         .catch(e => {
           setErr("server")

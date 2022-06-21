@@ -41,18 +41,18 @@ const UserLayout = ({ children }: Props) => {
    */
   const hidden = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
-  // const {data:session} = useSession()
-  const session = useSession()
-
-  if (session.status === "authenticated" && !session.isPasswordReset) {
+  const {status, data} = useSession()
+  // const session = useSession()
+  console.log("pass set" , status, data)
+  if (status === "authenticated" && data.isPasswordReset) {
     return (
       <VerticalLayout
         hidden={hidden}
         settings={settings}
         saveSettings={saveSettings}
-        verticalNavItems={VerticalNavItems(session.data)} // Navigation Items
+        verticalNavItems={VerticalNavItems(data)} // Navigation Items
         verticalAppBarContent={(
-          props // AppBar Content
+          props // AppBar C ontent
         ) => (
           <VerticalAppBarContent
             hidden={hidden}
@@ -66,10 +66,10 @@ const UserLayout = ({ children }: Props) => {
       </VerticalLayout>
     )
   }
-  else if (session.status === "authenticated" && !session.isPasswordReset) {
+  else if (status === "authenticated" && !data.isPasswordReset) {
     return <First />
   }
-  else if (session.status === "unauthenticated") {
+  else if (status === "unauthenticated") {
     return <LoginPage />
   } else {
     return <div></div>

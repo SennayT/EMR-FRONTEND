@@ -10,37 +10,40 @@ import DialogContent from '@mui/material/DialogContent'
 
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
-const InvestigativeRequestTable = () => {
+const LabResultsView = () => {
   const [open, setOpen] = useState<boolean>(false)
 
   const handleClickOpen = (param: any) => {
     // console.log(req)
     console.log(param)
-    setCurrentInvReq(param)
+    setcurrentLabTest(param)
     setOpen(true)
   }
   const { data: session } = useSession();
 
   const handleClickClose = () => setOpen(false)
+  const router = useRouter()
+  const handleViewClick = () => {
+    router.push({pathname: '/patient/view/results/list/',
+    query: {
+      invId: currentLabTest.id
+    }})
+  }
+  const [labTests, setlabTests] = useState([
+    ])
 
-  const [invReqs, setInvReqs] = useState([
-    { id: 0, date: '', note: '', labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }] }
-  ])
-
-  const [currentInvReq, setCurrentInvReq] = useState({
-    id: 0,
-    date: '',
-    note: '',
-    labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
+  const [currentLabTest, setcurrentLabTest] = useState({
   })
   useEffect(() => {
-    requests.get(`/investigation-request`,  session ? session.accessToken.toString() : "").then(response => {
-      setInvReqs(response.data)
+    requests.get(`/lab-test`,session ? session.accessToken.toString() : "").then(response => {
+      console.log(response.data)
+      setlabTests(response.data)
     })
   }, [])
 
@@ -48,26 +51,28 @@ const InvestigativeRequestTable = () => {
     { field: 'id', headerName: 'ID', width: 90 },
 
     {
-      field: 'note',
-      headerName: 'Note',
-      width: 450,
+      field: 'name',
+      headerName: 'Name',
+      width: 250,
       editable: false
     },
     {
-      field: 'date',
-      headerName: 'Date',
-      type: 'number',
+      field: 'normalRange',
+      headerName: 'Normal Range',
       width: 150,
-      editable: false,
-      renderCell: (params: GridRenderCellParams<any>) => (
-        <p> {new Date(params.value).toLocaleDateString("en-US")}</p>
-      )
+      editable: false
     },
     {
-      field: 'remainingTests',
-      headerName: 'Number of Tests',
-      type: 'number',
-      width: 150,
+      field: 'measuredIn',
+      headerName: 'Measured In',
+      width: 180,
+      editable: false,
+
+    },
+    {
+      field: 'testCategory',
+      headerName: 'Test Category',
+      width: 200,
       editable: false,
       renderCell: (params: GridRenderCellParams<Array<any>>) => (
         <Chip color='primary' label={params.value} sx={{px: 5}}/>
@@ -78,11 +83,11 @@ const InvestigativeRequestTable = () => {
       headerName: 'Action',
       description: '',
       sortable: false,
-      width: 110,
+      width: 160,
       renderCell: () => (
         <strong>
-          <Button variant='outlined' color='primary' size='small' style={{ marginLeft: 16 }}>
-            Report
+          <Button onClick={handleViewClick} variant='outlined' color='primary' size='small' style={{ marginLeft: 16 }}>
+            View Results
           </Button>
         </strong>
       )
@@ -92,33 +97,33 @@ const InvestigativeRequestTable = () => {
   return (
     <div>
       <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
-        Investigative Requests
+        Lab Tests
       </Typography>
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
-          rows={invReqs}
+          rows={labTests}
           columns={columns}
-          {...currentInvReq}
           pageSize={5}
           onCellClick={(params) => {
             console.log(params.row)
             handleClickOpen(params.row)
           }}
           rowsPerPageOptions={[5]}
+          onSelectionModelChange={newSelectionModel => {
+            console.log(
+              'new',
+              newSelectionModel,
+              labTests.find(i => i.id === newSelectionModel[0])
+            )
+            setcurrentLabTest(Number(newSelectionModel[0]))
+          }}
+          selectionModel={currentLabTest}
 
         />
       </div>
-      <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
-          <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
-          <DialogContent>
-            <LabResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id}  />
-          </DialogContent>
-          <DialogActions className='dialog-actions-dense'></DialogActions>
-        </Dialog>
-      </Fragment>
+
     </div>
   )
 }
 
-export default InvestigativeRequestTable
+export default LabResultsView
