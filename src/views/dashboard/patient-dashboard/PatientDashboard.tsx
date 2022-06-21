@@ -16,6 +16,7 @@ import PatientVitals from 'src/views/patient-details/PatientVitals'
 
 // import PatientDetail from 'src/views/patient-details/PatientDetails'
 import DiagnosisHistory from 'src/views/patient-details/DiagnosisHistory'
+import ShowRefDialog from 'src/views/shared-components/ShowRefDialog'
 
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -67,8 +68,9 @@ export default function PatientDashboard(props: any) {
   useEffect(() => {
     requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : '').then(response => {
       setUser(response.data)
+      console.log("user" , response.data)
       requests.get(`/patient/refId/$response.data.refId`).then(res => {
-        requests.get(`/vitals/patient/${res.data.id}`, session ? session.accessToken : '').then(r => {
+        requests.get(`/vitals/patient`, session ? session.accessToken : '').then(r => {
           setVitals(r.data)
         })
       })
@@ -121,6 +123,7 @@ export default function PatientDashboard(props: any) {
   return vitals.length == 0 ? (
     <Grid className='container-grid' spacing={5} container item>
       <Grid item xs={12}>
+        <ShowRefDialog refId={"5f318613-eeef-4c47-a3be-a3fe23c32a9a"}/>
         <PatientDiagnosis user={user} />
       </Grid>
       <Grid item xs={8}>

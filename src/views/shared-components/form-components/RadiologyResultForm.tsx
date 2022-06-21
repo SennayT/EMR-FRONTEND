@@ -72,9 +72,9 @@ const RadiologyResultForm = (props: any) => {
       name: currentLabTest.name,
       focalArea: 'stomach',
       report: 'some result',
-      image: [''],
+      images: "",
       comment: comment,
-      requestedById: 18,
+      image: "",
       investigationRequestId: props.invReqId
     }
 
@@ -123,8 +123,7 @@ const RadiologyResultForm = (props: any) => {
     focalArea: 'lower abdomen',
     report: '',
     comment: comment,
-    requestedById: 18,
-    image: '',
+    image: "",
     investigationRequestId: props.invReqId
   })
 

@@ -50,7 +50,7 @@ export default function SystemAdminDashboard() {
       setMohEmployeeNum(response.data.length)
     })
   }, [])
-
+  console.log(new Date())
   return (
     <ApexChartWrapper>
       <Grid container spacing={3}>
