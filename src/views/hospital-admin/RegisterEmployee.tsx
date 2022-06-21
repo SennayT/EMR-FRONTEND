@@ -97,27 +97,19 @@ export default function EmRegistrationForm(props: any) {
     nameErrors?.name ||
     !name ||
     emNameErrors?.emName ||
-    !emName ||
     emailErrors?.email ||
     !email ||
     phoneErrors?.phone ||
     !phone ||
     emPhoneErrors?.emPhone ||
-    !emPhone ||
     cityErrors?.city ||
     !city ||
     woredaErrors?.woreda ||
-    !woreda ||
     subCityErrors?.subCity ||
-    !subCity ||
     kebelleErrors?.kebelle ||
-    !kebelle ||
     streetErrors?.street ||
-    !street ||
     houseNoErrors?.houseNo ||
-    !houseNo ||
-    zoneErrors?.zone ||
-    !zone
+    zoneErrors?.zone
       ? true
       : false
 
@@ -148,11 +140,9 @@ export default function EmRegistrationForm(props: any) {
     setEmName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value == '') {
-      setEmNameErrors({ emName: 'Name field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setEmNameErrors({ emName: "Name can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmNameErrors({ emName: "Name can't be longer than 30 characters" })
     } else if (!regName) {
       setEmNameErrors({ emName: 'Name can only include alphabets' })
@@ -203,9 +193,9 @@ export default function EmRegistrationForm(props: any) {
 
     if (value == '') {
       setEmPhoneErrors({ emPhone: 'Phone field cannot be empty' })
-    } else if (value.length < 9) {
+    } else if (value.length < 9 && value.length != 0) {
       setEmPhoneErrors({ emPhone: "Phone number length can't be less than 9" })
-    } else if (value.length > 10) {
+    } else if (value.length > 10 && value.length != 0) {
       setEmPhoneErrors({ emPhone: "Phone number length can't be longer than 10" })
     } else if (!reg) {
       setEmPhoneErrors({ emPhone: "Phone number can't include alphabet" })
@@ -238,11 +228,9 @@ export default function EmRegistrationForm(props: any) {
     setWoredaErrors({ woreda: '' })
     setWoreda(value)
 
-    if (value == '') {
-      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -255,11 +243,9 @@ export default function EmRegistrationForm(props: any) {
     setSubCity(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value == '') {
-      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
     } else if (!regName) {
       setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
@@ -273,11 +259,9 @@ export default function EmRegistrationForm(props: any) {
     setKebelleErrors({ kebelle: '' })
     setKebelle(value)
 
-    if (value == '') {
-      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -289,11 +273,9 @@ export default function EmRegistrationForm(props: any) {
     setStreetErrors({ street: '' })
     setStreet(value)
 
-    if (value == '') {
-      setStreetErrors({ street: 'Street field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setStreetErrors({ street: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setStreetErrors({ street: "Street can't be longer than 30 characters" })
     }
   }
@@ -305,11 +287,9 @@ export default function EmRegistrationForm(props: any) {
     setHouseNoErrors({ houseNo: '' })
     setHouseNo(value)
 
-    if (value == '') {
-      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -321,11 +301,9 @@ export default function EmRegistrationForm(props: any) {
     setZoneErrors({ zone: '' })
     setZone(value)
 
-    if (value == '') {
-      setZoneErrors({ zone: 'Zone field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
@@ -351,6 +329,7 @@ export default function EmRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
+      image: '',
       isAdmin: isAdmin,
 
       // healthCenterId: 4,
@@ -373,6 +352,7 @@ export default function EmRegistrationForm(props: any) {
       gender: gender,
       age: age,
       role: role,
+      image: '',
       isAdmin: isAdmin
     }
     if (!router.query.user) {

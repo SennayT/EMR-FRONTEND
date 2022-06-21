@@ -52,6 +52,7 @@ export default function PatientRegistrationForm() {
     phone: '',
     address: address,
     isAdmin: false,
+    image: '',
     healthCenterId: 4
   })
   const [emName, setEmName] = useState('')
@@ -73,27 +74,19 @@ export default function PatientRegistrationForm() {
     nameErrors?.name ||
     !currentUser.name ||
     emNameErrors?.emName ||
-    !emName ||
     emailErrors?.email ||
     !currentUser.email ||
     phoneErrors?.phone ||
     !currentUser.phone ||
     emPhoneErrors?.emPhone ||
-    !emPhone ||
     cityErrors?.city ||
     !address.city ||
     woredaErrors?.woreda ||
-    !address.woreda ||
     subCityErrors?.subCity ||
-    !address.subCity ||
     kebelleErrors?.kebelle ||
-    !address.kebelle ||
     streetErrors?.street ||
-    !address.street ||
     houseNoErrors?.houseNo ||
-    !address.houseNo ||
-    zoneErrors?.zone ||
-    !address.zone
+    zoneErrors?.zone
       ? true
       : false
 
@@ -124,13 +117,11 @@ export default function PatientRegistrationForm() {
     setEmName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value == '') {
-      setEmNameErrors({ emName: 'Name field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setEmNameErrors({ emName: "Name can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmNameErrors({ emName: "Name can't be longer than 30 characters" })
-    } else if (!regName) {
+    } else if (!regName && value.length != 0) {
       setEmNameErrors({ emName: 'Name can only include alphabets' })
     }
   }
@@ -177,13 +168,11 @@ export default function PatientRegistrationForm() {
     setEmPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (value == '') {
-      setEmPhoneErrors({ emPhone: 'Phone field cannot be empty' })
-    } else if (value.length < 9) {
+    if (value.length < 9 && value.length != 0) {
       setEmPhoneErrors({ emPhone: "Phone number length can't be less than 9" })
-    } else if (value.length > 10) {
+    } else if (value.length > 10 && value.length != 0) {
       setEmPhoneErrors({ emPhone: "Phone number length can't be longer than 10" })
-    } else if (!reg) {
+    } else if (!reg && value.length != 0) {
       setEmPhoneErrors({ emPhone: "Phone number can't include alphabet" })
     }
   }
@@ -214,11 +203,9 @@ export default function PatientRegistrationForm() {
     setWoredaErrors({ woreda: '' })
     setAddress({ ...address, woreda: value })
 
-    if (value == '') {
-      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -231,11 +218,9 @@ export default function PatientRegistrationForm() {
     setAddress({ ...address, subCity: value })
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value == '') {
-      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
     } else if (!regName) {
       setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
@@ -249,11 +234,9 @@ export default function PatientRegistrationForm() {
     setKebelleErrors({ kebelle: '' })
     setAddress({ ...address, kebelle: value })
 
-    if (value == '') {
-      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -265,11 +248,9 @@ export default function PatientRegistrationForm() {
     setStreetErrors({ street: '' })
     setAddress({ ...address, street: value })
 
-    if (value == '') {
-      setStreetErrors({ street: 'Street field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setStreetErrors({ street: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setStreetErrors({ street: "Street can't be longer than 30 characters" })
     }
   }
@@ -281,11 +262,9 @@ export default function PatientRegistrationForm() {
     setHouseNoErrors({ houseNo: '' })
     setAddress({ ...address, houseNo: value })
 
-    if (value == '') {
-      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -297,11 +276,9 @@ export default function PatientRegistrationForm() {
     setZoneErrors({ zone: '' })
     setAddress({ ...address, zone: value })
 
-    if (value == '') {
-      setZoneErrors({ zone: 'Zone field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
