@@ -1,42 +1,44 @@
-import React, { useState, Component, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import React, { useState, Component, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-import axios from 'axios'
-import { useTheme } from '@emotion/react'
+import axios from 'axios';
+import { useTheme } from '@emotion/react';
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
 
+
 export default function ChartNine() {
-  const [data, setData] = useState()
-  const { data: session } = useSession()
+  const [data, setData] = useState();
+   const { data: session } = useSession()
   useEffect(() => {
     const body = {
-      healthcenter: 'Bethel Hospital'
+       healthcenter: "Bethel Hospital"
     }
-    requests
-      .post('researcher/healthcenter', body, session ? session.accessToken.toString() : '')
-      .then(function (response) {
-        //   console.log(response.data);
-        setData(response.data)
-      })
-  }, [])
+    requests.post('researcher/healthcenter',body,session ? session.accessToken.toString() : '')
+    .then(function (response) {
+                //   console.log(response.data);
+                setData(response.data)
+
+            })
+
+    }, []);
 
   if (!data) return <div>Loading...</div>
-  const h = data['user_count']
+    const h = data['user_count'];
 
-  const theme = useTheme()
+const theme = useTheme();
 
   const chartDataOne = {
     chart: {
-      type: 'line',
-      id: ''
+      type: "line",
+      id: ""
     },
     xaxis: {
-      categories: ['recep', 'radio', 'doc', 'nur', 's_admin', 'h_admin', 'lab', 'res']
-    },
-    colors: ['#FF1654'],
+        categories: ["recep", "radio", "doc", "nur", "s_admin", "h_admin", "lab", "res"],
+      },
+      colors: ['#FF1654'],
     title: {
       text: 'Users Record By Role in Specified Healthcenter',
       floating: true,
@@ -45,12 +47,13 @@ export default function ChartNine() {
         color: '#444'
       }
     },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shade: 'light',
+      fill: {
 
-        type: 'horizontal',
+        type: "gradient",
+        gradient: {
+            shade: "light",
+
+        type: "horizontal",
         shadeIntensity: 0.5,
         gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
         inverseColors: true,
@@ -67,30 +70,24 @@ export default function ChartNine() {
     },
     series: [
       {
-        name: 'User Record By Role',
-        type: 'column',
-        data: [
-          data['receptionist'],
-          data['radiologist'],
-          data['doctor'],
-          data['nurse'],
-          data['system_admin'],
-          data['hospital_admin'],
-          data['lab_technican'],
-          data['researcher']
-        ]
+        name: "User Record By Role",
+            type: "column",
+            data: [data['receptionist'], data['radiologist'], data['doctor'],
+                data['nurse'], data['system_admin'], data['hospital_admin'], data['lab_technican'],
+            data['researcher']]
       }
     ]
-  }
+  };
 
-  const chartDataTwo = {
+
+     const chartDataTwo = {
     chart: {
-      type: 'line',
-      id: ''
+      type: "line",
+      id: ""
     },
     xaxis: {
-      categories: ['male', 'female']
-    },
+      categories: ["male", "female"]
+        },
     title: {
       text: 'Users Record By Gender in Specified Healthcenter',
       floating: true,
@@ -101,10 +98,10 @@ export default function ChartNine() {
     },
     colors: ['#247BA0'],
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
-        shade: 'light',
-        type: 'horizontal',
+        shade: "light",
+        type: "horizontal",
         shadeIntensity: 0.5,
         gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
         inverseColors: true,
@@ -121,17 +118,20 @@ export default function ChartNine() {
     },
     series: [
       {
-        name: 'User Record By Gender',
-        type: 'column',
-        data: [data['male'], data['female']]
+        name: "User Record By Gender",
+        type: "column",
+            data: [data['male'], data['female']]
       }
     ]
-  }
+  };
 
-  return (
+    return (
     <div>
-      <ReactApexChart options={chartDataOne} series={chartDataOne.series} type='bar' width='700px' />
-      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type='bar' width='700px' />
-    </div>
-  )
-}
+        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar"  width='700px' />
+        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='700px' />
+
+      </div>
+)
+
+
+};

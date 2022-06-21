@@ -35,25 +35,20 @@ const navigation = (session: Session): VerticalNavItemsType => {
       sectionTitle: 'pages'
     })
     pagesSection.push({
-      title: 'Disease Stat',
+      title: 'General Stat',
       icon: SearchIcon,
-      path: '/stats/SearchingDisease/'
+      path: '/stats/'
     }),
-      pagesSection.push({
-        title: 'Medication Stat',
-        icon: SearchIcon,
-        path: '/stats/SearchingMedication/'
-      })
-
+      
     pagesSection.push({
       title: 'Searched Disease',
       icon: SIcon,
-      path: '/'
+      path: '/stats/SearchingDisease/'
     }),
       pagesSection.push({
         title: 'Searched Medication',
         icon: SIcon,
-        path: '/'
+        path: '/stats/SearchingMedication/'
       })
   }
 

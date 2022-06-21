@@ -1,36 +1,39 @@
-import React, { useState, Component, useEffect } from 'react'
-import { Theme, useTheme } from '@emotion/react'
-import dynamic from 'next/dynamic'
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import React, { useState, Component, useEffect } from 'react';
+import { Theme, useTheme } from '@emotion/react';
+import dynamic from 'next/dynamic';
+const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import useSWR from 'swr'
-import requests from 'src/utils/repository'
-import { useSession } from 'next-auth/react'
+import requests from 'src/utils/repository';
+import { useSession } from 'next-auth/react';
 
-const fetcher = (...args: any[]) => fetch(...args).then(res => res.json())
+const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
+
 
 export default function ChartTwo() {
-  const [data, setData] = useState()
-  const { data: session } = useSession()
-  useEffect(() => {
+  const [data, setData] = useState();
+ const { data: session } = useSession()
+useEffect(() => {
     requests.get(`/researcher/userRecord`, session ? session.accessToken.toString() : '').then(response => {
       setData(response.data)
     })
-  }, [])
+  },[])
+
 
   // if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
 
-  const theme = useTheme()
+
+  const theme = useTheme();
 
   const chartDataOne = {
     chart: {
-      type: 'line',
-      id: '',
-      foreColor: theme.palette.primary.main
+      type: "line",
+      id: "",
+      foreColor: theme.palette.primary.main,
     },
     xaxis: {
-      categories: ['recep', 'radio', 'doc', 'nur', 's_admin', 'h_admin', 'lab', 'res']
+      categories: ["recep", "radio", "doc", "nur", "s_admin", "h_admin", "lab", "res"],
     },
     colors: ['#FF1654'],
     title: {
@@ -42,11 +45,12 @@ export default function ChartTwo() {
       }
     },
     fill: {
-      type: 'gradient',
-      gradient: {
-        shade: 'light',
 
-        type: 'horizontal',
+      type: "gradient",
+      gradient: {
+        shade: "light",
+
+        type: "horizontal",
         shadeIntensity: 0.5,
         gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
         inverseColors: true,
@@ -63,30 +67,24 @@ export default function ChartTwo() {
     },
     series: [
       {
-        name: 'User Record By Role',
-        type: 'column',
-        data: [
-          data['receptionist'],
-          data['radiologist'],
-          data['doctor'],
-          data['nurse'],
-          data['system_admin'],
-          data['hospital_admin'],
-          data['lab_technican'],
-          data['researcher']
-        ]
+        name: "User Record By Role",
+        type: "column",
+        data: [data['receptionist'], data['radiologist'], data['doctor'],
+        data['nurse'], data['system_admin'], data['hospital_admin'], data['lab_technican'],
+        data['researcher']]
       }
     ]
-  }
+  };
+
 
   const chartDataTwo = {
     chart: {
-      type: 'line',
-      id: '',
+      type: "line",
+      id: "",
       foreColor: theme.palette.primary.main
     },
     xaxis: {
-      categories: ['male', 'female']
+      categories: ["male", "female"]
     },
     title: {
       text: 'Users Record By Gender',
@@ -98,10 +96,10 @@ export default function ChartTwo() {
     },
     colors: ['#247BA0'],
     fill: {
-      type: 'gradient',
+      type: "gradient",
       gradient: {
-        shade: 'light',
-        type: 'horizontal',
+        shade: "light",
+        type: "horizontal",
         shadeIntensity: 0.5,
         gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
         inverseColors: true,
@@ -118,17 +116,20 @@ export default function ChartTwo() {
     },
     series: [
       {
-        name: 'User Record By Gender',
-        type: 'column',
+        name: "User Record By Gender",
+        type: "column",
         data: [data['male'], data['female']]
       }
     ]
-  }
+  };
+
+
 
   return (
+
     <div>
-      <ReactApexChart options={chartDataOne} series={chartDataOne.series} type='bar' width='700px' />
-      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type='bar' width='500px' />
+      <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='700px' />
+      <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
     </div>
   )
-}
+};
