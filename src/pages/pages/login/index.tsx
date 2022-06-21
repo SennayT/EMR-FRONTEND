@@ -204,9 +204,8 @@ const LoginPage = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <FormControlLabel control={<Checkbox />} label='Remember Me' />
-              <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
+              <Link passHref href='/forgot-password'>
+                <LinkStyled>Forgot Password?</LinkStyled>
               </Link>
             </Box>
             <Button
