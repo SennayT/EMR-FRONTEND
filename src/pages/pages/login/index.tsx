@@ -35,7 +35,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import { Alert, Snackbar } from '@mui/material'
 import { useRouter } from 'next/router'
 
@@ -114,8 +114,8 @@ const LoginPage = () => {
     event.preventDefault()
   }
 
-  const [err , setErr] = useState(true)
-  const [open , setOpen] = useState(false)
+  const [err, setErr] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const loginHandler = () => {
     const credentials = {
@@ -133,17 +133,15 @@ const LoginPage = () => {
     setErr(false)
   }
 
-  const router = useRouter();
+  const router = useRouter()
 
-  useEffect(() =>{
-
-    if(router.query.callbackUrl === undefined){
+  useEffect(() => {
+    if (router.query.callbackUrl === undefined) {
       setErr(false)
     }
   }, [])
   return (
     <Box>
-
       <Card sx={{ zIndex: 1, mx: '35%' }}>
         <CardContent
           sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important`, backgroundColor: 'white', my: 8 }}
@@ -155,7 +153,9 @@ const LoginPage = () => {
             </HeaderTitle>
           </Box>
           <Box sx={{ mb: 6 }}>
-            <Typography variant='body2'>{err ? "Please enter valid credentials" : "Please sign-in to your account"}</Typography>
+            <Typography variant='body2'>
+              {err ? 'Please enter valid credentials' : 'Please sign-in to your account'}
+            </Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
@@ -227,5 +227,20 @@ const LoginPage = () => {
 }
 
 LoginPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+
+export async function getServerSideProps(context) {
+  const { req } = context
+  const session = await getSession({ req })
+
+  if (session) {
+    return {
+      redirect: { destination: '/' }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
 
 export default LoginPage
