@@ -126,7 +126,7 @@ const LoginPage = () => {
     console.log(credentials)
     console.log('here')
 
-    signIn('credentials', { email: email, password: values.password }).then(res => setErr(true))
+    signIn('credentials', { email: email, password: values.password, redirect:false }).then(res => setErr(true))
   }
 
   const handleClose = () => {

@@ -2,103 +2,130 @@
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 import Link from 'next/link';
-import { Button } from '@mui/material';
+import { Backdrop, Box, Button, Fade, Modal, TextField, Typography } from '@mui/material';
+import React,{useState} from 'react';
+import ChartSeven from 'src/views/shared-components/stat-components/disease';
 
 function SearchingDisease() {
-  var diseaseQuery = { disease_name: '', health_center: '', minAge: '', maxAge: '' };
-  var medicationQuery = { medication_name: '', health_center: '', minAge: '', maxAge: '' };
-  var diseaseRecord = {};
-  var medicationRecord = {};
+
+const [open, setOpen] = React.useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
 
 
-  const gOptions = { labels: ["Male", "Female"] };
-  const gSeries = [20, 80];
+const [data, setData] = useState({
+    healthCenter: "All",
+    disease: "",
+    startAgeGroup: 0,
+    endAgeGroup: 0,
+    gender: ""
+});
+  const clear = () => {
+    setData({
+    healthCenter: "All",
+    disease: "",
+    startAgeGroup: 0,
+    endAgeGroup: 0,
+    gender: ""
+  });
+  };
 
-  const aGOptions = { labels: ["Infants (0 - 1)", "Toddlers (2 - 4)", "Child (5 - 12)", "Teen (13 - 19)", "Adult (20 - 39)", "Middle Age Adult (40-59)", "Senior Audlt (60+)"] };
-  const aGSeries = [4, 15, 30, 10, 35, 1, 60];
 
-  const dGOptions = { labels: ["5/20/2020 - 5/20/2022", "All"] };
-  const dGSeries = [30, 70];
+  const handleSubmit = () => {
+    if (data.disease == '') {
+      alert('enter disease')
+      return;
+    }
 
-  const fromTotalOptions = { labels: ["Affected by disease", "Total Patients"] };
-  const fromTotalSeries = [20, 70];
+    if (data.startAgeGroup === 0) {
+      data.startAgeGroup = 0;
+    }
+
+    if (data.endAgeGroup === 0) {
+      data.endAgeGroup = 150;
+    }
+
+    if (data.gender === "") {
+      data.gender = "male"
+    }
+
+    if (isNaN(data.startAgeGroup)){
+       alert("Min age inputs must be a number")
+      return;
+    }
+
+    if (isNaN(data.endAgeGroup)){
+       alert("Max age inputs must be a number")
+      return;
+    }
+
+      if (data.startAgeGroup > 150 || data.startAgeGroup < 0 ) {
+        alert("Min age must be between 0 and 150");
+        return;
+    }
+
+    if (data.endAgeGroup > 150 || data.endAgeGroup < 1  ) {
+      alert("Max age must be between 1 and 150");
+      return;
+    }
+
+
+    data.startAgeGroup = Number(data.startAgeGroup);
+    data.endAgeGroup = Number(data.endAgeGroup);
+
+
+    handleOpen();
+   }
+
+
   return (
 
 
     <div>
-      <div>
+      <div >
+        <main >
+          <h1 style={{fontSize:'40px', color:'limegreen'}}>Disease Search Record</h1>
+         <div className='d-flex' >
+          <TextField style={{margin:'30px'}} label='Disease Name'  name="disease" variant='outlined'
+            value = {data.disease} onChange = {(e)=> setData({ ...data, disease: e.target.value})}/>
+          <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'
+            value = {data.gender} onChange = {(e)=> setData({ ...data, gender: e.target.value})}/>
+                </div>
         <div className='d-flex'>
 
-          <Link href='/stats/basic-charts'>
-            <Button color='primary' variant='contained' style={{ margin: '10px' }}>
-              Home
-            </Button>
-          </Link>
-          <Link href='/stats/SearchingMedication'>
-            <Button color='primary' variant='contained' style={{ margin: '10px' }}>
-              Search Medication Stat
-            </Button>
-          </Link>
-          <Link href='/stats/SearchingDisease'>
-            <Button color='primary' variant='contained' style={{ margin: '10px' }}>
-              Search Disease Stat
-            </Button>
-          </Link>
-          {/* <Link href='../'>
-                  <Button color='primary' variant='contained' style={{margin:'10px'}}>
-                      Searched Medication
-                  </Button>
-              </Link> */}
+          <TextField style={{ margin: '30px' }} label='Min Age' name="startAgeGroup" variant='outlined'
+            value = {data.startAgeGroup} onChange = {(e)=> setData({ ...data, startAgeGroup: Number(e.target.value)})} />
+
+          <TextField style={{ margin: '30px' }} label='Max Age'  name="endAgeGroup" variant='outlined'
+            value = {data.endAgeGroup} onChange = {(e)=> setData({ ...data, endAgeGroup: Number( e.target.value)})} />
         </div>
-        <h1>
-          Disease Name
-        </h1>
-        <p>
-          Disease Description
-        </p>
-
-        <div>
-          <div>
-            <h2>Age Record </h2>
-            <p>From total of 100, 30 are in between the age 20 and 50</p>
-          </div>
-
-          <div >
-            <h2>Date Record</h2>
-            <p>From total of 100, 30 are in between the age 20 and 50</p>
-          </div>
-
-          <div>
-            <h2>Gender Record </h2>
-            <p>From total of 100, 30 are in between the age 20 and 50</p>
-          </div>
-
-          <div>
-            <h2>Health Center</h2>
-            <p>All </p>
-          </div>
+        <Button style={{ margin: '30px' }} onClick={handleSubmit} variant='contained' color ='primary'>Search</Button>
+      </main>
+     <div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        // BackdropComponent={Backdrop}
+        // BackdropProps={{
+        //   timeout: 500,
+        // }}
+      >
+        <Fade in={open} style={{backgroundColor: 'white', width:'700px', marginLeft:'500px', marginTop:'20px' }}>
+          <Box >
+            <Typography id="transition-modal-title" variant="h6" component="h2" align='center'>
+              Disease Analytics Charts
+            </Typography>
+            <ChartSeven data={data}/>
+          </Box>
+        </Fade>
+      </Modal>
         </div>
-      </div>
-      <div  >
-        <h3>Record From  Total Patients</h3>
-        <Chart options={fromTotalOptions} series={fromTotalSeries} type='pie' width="500px" />
 
-      </div>
-      <div>
-        <h3>Record By Gender</h3>
-        <Chart options={gOptions} series={gSeries} type='pie' width="500px" />
-      </div>
-      <div >
-        <h3>Record By Age</h3>
-        <Chart options={aGOptions} series={aGSeries} type='pie' width="600px" />
-      </div>
-      <div >
-        <h3>Record By Date</h3>
-        <Chart options={dGOptions} series={dGSeries} type='pie' width="600px" />
+    </div>
 
-      </div>
-      <footer>
-      </footer>
     </div>
   )
 }

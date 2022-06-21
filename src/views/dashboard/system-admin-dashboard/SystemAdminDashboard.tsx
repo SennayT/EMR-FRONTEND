@@ -26,6 +26,7 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import ChartThree from 'src/views/shared-components/stat-components/analytics_charts'
 
 export default function SystemAdminDashboard() {
   const [healthCenterNum, setHealthCenterNum] = useState(0)
@@ -101,8 +102,10 @@ export default function SystemAdminDashboard() {
         </Grid>
 
         <Grid sx={{ my: 8, mx: 12 }} item xs={12}>
-          <WeeklyOverview />
+          {/* <WeeklyOverview /> */}
+        <ChartThree />
         </Grid>
+
       </Grid>
     </ApexChartWrapper>
   )

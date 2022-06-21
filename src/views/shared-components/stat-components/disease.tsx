@@ -24,7 +24,7 @@ export default function ChartSeven(props: any) {
 
     }, []);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <div> </div>
     const h = data['total_diagnoses'];
 
 const option_disease = { labels: ["Total Diagnosis", "Patients with the disease"] };
