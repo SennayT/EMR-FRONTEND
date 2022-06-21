@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import { Document } from '@react-pdf/renderer'
+import { useRouter } from 'next/router'
 type Medication = {
   name: string
   dosage: string
@@ -16,6 +17,7 @@ export default function PrescriptionForm() {
   const [medications, setMedications] = useState<Medication[]>([...sampleMedications])
   const [medication, setMedication] = useState<Medication>({ name: '', dosage: '', instructions: '' })
   const { data: session } = useSession();
+  const router = useRouter()
 
 
   const [prescriptions, setPrescriptions] = useState([
@@ -49,7 +51,7 @@ export default function PrescriptionForm() {
     //   })
 
     useEffect(() => {
-      requests.get(`/prescription`, session ? session.accessToken.toString() : "" ).then(response => {
+      requests.get(`/prescription/diagnosis/${router.query.id}`, session ? session.accessToken.toString() : "" ).then(response => {
         setPrescriptions(response.data)
       })
     },[])

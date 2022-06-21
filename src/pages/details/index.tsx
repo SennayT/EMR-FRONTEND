@@ -7,29 +7,34 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import BackIcon from '@mui/icons-material/ArrowBack'
 import IconButton from '@mui/material/IconButton'
+import { useEffect, useState } from 'react'
 
 const DetailsPage = (props: any) => {
   const router = useRouter()
+  const [title, setTitle] = useState();
+  const [desc , setDesc] = useState();
+  useEffect(() => {
+    setTitle(router.query.dName),
+    setDesc(router.query.dDesc)
+  })
 
   return (
     <Card>
       <IconButton aria-label='back' onClick={() => router.back()}>
         <BackIcon />
       </IconButton>
-      <Grid width={5 / 6} sx={{ backgroundColor: 'white', ml: 20, py: 2, px: 8 }}>
+      <Grid sx={{ backgroundColor: 'white', ml: 10, py: 2, px: 8 }}>
         <CardContent sx={{ my: 4 }}>
-          <Typography variant='h4'>{props.title}Details Title</Typography>
+          <Typography variant='h4'>{new Date(title).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}</Typography>
         </CardContent>
         <CardContent sx={{ my: 4 }}>
           <Typography variant='body1' sx={{ wordSpacing: 4 }}>
-            {props.description}Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque semper ipsum sit
-            amet elit vestibulum, in tincidunt lectus faucibus. Pellentesque ut ligula mattis, sodales risus vel, ornare
-            nibh. Pellentesque mauris nisi, rhoncus in enim nec, vestibulum pellentesque nulla. Donec pretium leo et
-            condimentum viverra. Nulla mollis purus in sem sagittis rutrum. Sed posuere orci ac eleifend blandit.
-            Vestibulum fermentum odio tortor, in interdum sapien tristique ac. Curabitur metus turpis, luctus nec
-            pharetra nec, interdum eget massa. Sed finibus, nibh placerat aliquet tempor, metus nulla aliquet ante, eu
-            vulputate velit quam non leo. Sed ut tristique libero, in iaculis sem.
-          </Typography>
+            {desc}
+            </Typography>
         </CardContent>
       </Grid>
     </Card>

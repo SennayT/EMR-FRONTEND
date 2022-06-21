@@ -42,7 +42,7 @@ const PatientDiagnosis = (props: {
       })
   }, [])
   const [lastDiagnosis, setLastDiagnosis] = useState({
-    id: 1,
+    id: 0,
     comment: '',
     createdAt: '',
     diseases: [
@@ -81,7 +81,7 @@ const PatientDiagnosis = (props: {
               </Box>
             </Grid>
             <Grid item>
-              {vitals
+              {vitals.length != 0
                 ? vitals.map(function (vital) {
                     return (
                       <div>
@@ -90,16 +90,15 @@ const PatientDiagnosis = (props: {
                       </div>
                     )
                   })
-                : ' '}
+                : <p>No Vitals Yet</p>}
 
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
-                Recent Diagnosis Note
+                Recent Diagnosis
               </Typography>
+
               <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
-              <Typography variant='h6' sx={{ marginBottom: 3.5, marginTop: 3.5 }}>
-                Diagnosed Diseases
-              </Typography>
-              {lastDiagnosis.diseases.map(disease => {
+
+              {lastDiagnosis.id != 0 ? lastDiagnosis.diseases.map(disease => {
                 console.log('here', disease)
                 return (
                   <div>
@@ -107,7 +106,7 @@ const PatientDiagnosis = (props: {
                     <Typography variant='body2'>{disease.description}</Typography>
                   </div>
                 )
-              })}
+              }) : <p>No Diagnosis Yet</p>}
             </Grid>
           </Grid>
         </form>

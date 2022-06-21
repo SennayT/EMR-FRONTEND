@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { SyntheticEvent, useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -59,9 +59,8 @@ const RadiologyResultForm = (props: any) => {
       name: currentLabTest.name,
       focalArea: 'stomach',
       report: 'some result',
-      images: ['/url'],
+      images: "",
       comment: comment,
-      requestedById: 18,
       image: "",
       investigationRequestId: props.invReqId
     }
@@ -114,7 +113,6 @@ const RadiologyResultForm = (props: any) => {
     focalArea: 'stomach',
     report: 'some result',
     comment: comment,
-    requestedById: 18,
     image: "",
     investigationRequestId: props.invReqId
   })
