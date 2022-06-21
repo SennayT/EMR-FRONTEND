@@ -83,9 +83,9 @@ const [data, setData] = useState({
 
     <div>
       <div >
-       <main >
-        <img src="https://media.istockphoto.com/photos/coronavirus-or-flu-virus-concept-picture-id1208475449?k=20&m=1208475449&s=612x612&w=0&h=ZgxDwMyxNel__M4gRzB2kcNlPleeJvQ57rpmqwKVY4U=" alt="" />
-        <div className='d-flex' >
+        <main >
+          <h1 style={{fontSize:'40px', color:'limegreen'}}>Disease Search Record</h1>
+         <div className='d-flex' >
           <TextField style={{margin:'30px'}} label='Disease Name'  name="disease" variant='outlined'
             value = {data.disease} onChange = {(e)=> setData({ ...data, disease: e.target.value})}/>
           <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'

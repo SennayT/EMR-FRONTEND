@@ -14,8 +14,6 @@ export default function Stat() {
     <div>
       <ChartOne /> 
       <ChartTwo />
-      <ChartThree />
-      <ChartNine/>
     </div>
   )
 }

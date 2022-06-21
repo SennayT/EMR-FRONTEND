@@ -81,9 +81,9 @@ const [data, setData] = useState({
   
   return (
     <div>
-         <main >
-        <img src="https://media.istockphoto.com/photos/coronavirus-or-flu-virus-concept-picture-id1208475449?k=20&m=1208475449&s=612x612&w=0&h=ZgxDwMyxNel__M4gRzB2kcNlPleeJvQ57rpmqwKVY4U=" alt="" />
-        <div className='d-flex' >
+      <main >
+        <h1 style={{fontSize:'40px', color:'limegreen'}}>Medication Search Record</h1>
+         <div className='d-flex' >
           <TextField style={{margin:'30px'}} label='medication Name'  name="medication" variant='outlined'
             value = {data.medication} onChange = {(e)=> setData({ ...data, medication: e.target.value})}/>
           <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'
@@ -114,7 +114,7 @@ const [data, setData] = useState({
         <Fade in={open} style={{ backgroundColor: 'white',width:'700px', marginLeft:'500px', marginTop:'20px' }}>
           <Box>
             <Typography id="transition-modal-title" variant="h6" component="h2" align='center'>
-              medication Analytics Charts
+              Medication Analytics Charts
             </Typography>
               <ChartEight data={data}  />
           </Box>

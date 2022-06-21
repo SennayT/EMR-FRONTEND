@@ -21,6 +21,7 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import { useEffect, useState } from 'react'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import ChartNine from 'src/views/shared-components/stat-components/healthcenter'
 
 export default function HospitalAdminDashboard() {
   const [patientNum, setPatientNum] = useState(0)
@@ -57,6 +58,7 @@ export default function HospitalAdminDashboard() {
   }, [])
 
   return (
+    
     <ApexChartWrapper>
       <Grid container spacing={3}>
         <Grid item xs={12}>
@@ -131,6 +133,8 @@ export default function HospitalAdminDashboard() {
         <Grid sx={{ my: 8, mx: 12 }} item xs={12}>
           <WeeklyOverview />
         </Grid>
+        
+        <ChartNine email={session?.user?.email} />
       </Grid>
     </ApexChartWrapper>
   )

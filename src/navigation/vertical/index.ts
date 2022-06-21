@@ -35,7 +35,7 @@ const navigation = (session: Session): VerticalNavItemsType => {
       sectionTitle: 'pages'
     })
     pagesSection.push({
-      title: 'General Stat',
+      title: 'General Statistics',
       icon: SearchIcon,
       path: '/stats/'
     }),
@@ -78,6 +78,22 @@ const navigation = (session: Session): VerticalNavItemsType => {
       icon: ReportIcon,
       path: '/system-admin/report'
     })
+    pagesSection.push({
+      title: 'General Statistics',
+      icon: SearchIcon,
+      path: '/stats/'
+    }),
+      
+    pagesSection.push({
+      title: 'Searched Disease',
+      icon: SIcon,
+      path: '/stats/SearchingDisease/'
+    }),
+      pagesSection.push({
+        title: 'Searched Medication',
+        icon: SIcon,
+        path: '/stats/SearchingMedication/'
+      })
   }
 
   if (session.role === 'Hospital Admin') {
@@ -90,7 +106,12 @@ const navigation = (session: Session): VerticalNavItemsType => {
         icon: AccountOutline,
         path: '/hospital-admin/employees'
       }
-    )
+    ),
+      pagesSection.push({
+      title: 'General Statistics',
+      icon: SearchIcon,
+      path: '/stats/'
+    })
   }
 
   if (session.role === 'Doctor') {

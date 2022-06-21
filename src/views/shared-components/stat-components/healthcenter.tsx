@@ -10,12 +10,12 @@ import { useSession } from 'next-auth/react'
 import { Grid } from '@mui/material';
 
 
-export default function ChartNine() {
+export default function ChartNine(props: { email: any; }) {
   const [data, setData] = useState();
    const { data: session } = useSession()
   useEffect(() => {
     const body = {
-       healthcenter: "Bethel Hospital edited"
+       email: props.email
     }
     requests.post('researcher/healthcenter',body,session ? session.accessToken.toString() : '')
     .then(function (response) {
@@ -45,7 +45,7 @@ const theme = useTheme();
       },
       colors: ['#FF1654'],
     title: {
-      text: 'Users Record By Role in Specified Healthcenter',
+      text: 'Users Record By Role in ' + JSON.stringify(data['hospital_name']),
       floating: true,
       align: 'center',
       style: {
@@ -94,7 +94,7 @@ const theme = useTheme();
       categories: ["male", "female"]
         },
     title: {
-      text: 'Users Record By Gender in Specified Healthcenter',
+      text: 'Users Record By Gender in ' + JSON.stringify(data['hospital_name']),
       floating: true,
       align: 'center',
       style: {
@@ -132,7 +132,7 @@ const theme = useTheme();
 
     return (
       <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={6}>
             <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar"  width='500px' />
           </Grid>
