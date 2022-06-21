@@ -79,6 +79,7 @@ const Employees = () => {
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
         console.log('value', params.value)
+
         return (
           <Chip
             label={params.value ? 'active' : 'inactive'}

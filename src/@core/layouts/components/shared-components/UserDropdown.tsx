@@ -110,7 +110,7 @@ const UserDropdown = () => {
     requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : '').then(response => {
       setUser(response.data)
     })
-  }, [])
+  })
 
   const handleLogout = () => {
     signOut({ callbackUrl: 'http://localhost:3000' })
@@ -125,12 +125,7 @@ const UserDropdown = () => {
         badgeContent={<BadgeContentSpan />}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src={user.image}
-        />
+        <Avatar alt='John Doe' onClick={handleDropdownOpen} sx={{ width: 40, height: 40 }} src={user.image} />
       </Badge>
       <Menu
         anchorEl={anchorEl}
