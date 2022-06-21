@@ -50,9 +50,9 @@ const ReportGenerationUI = () => {
     } = event
     setPersonName(typeof value === 'string' ? value.split(',') : value)
   }
-  const handleReportRender = () => {
+  const handleReportRender = (period: string) => {
     console.log('pdfdata')
-    const pdfUrl = `http://capstone-backend-0957-11-v2.herokuapp.com/prescription/export/pdf/${id}`
+    const pdfUrl = `http://capstone-backend-0957-11-v2.herokuapp.com/system-admin/report/${period}`
     const link = document.createElement('a');
     link.href = pdfUrl;
     // link.setAttribute('download', 'report.pdf');
@@ -71,20 +71,20 @@ const ReportGenerationUI = () => {
       {/* <iframe id='pdfViewer'>
 
       </iframe> */}
-       <Button sx={{mx: 2}} variant='outlined' onClick={handleReportRender}>
+       <Button sx={{mx: 2}} variant='outlined' onClick={() => handleReportRender("weekly")}>
             Generate Weekly
           </Button>
 
-          <Button sx={{mx: 2}} variant='outlined' onClick={handleReportRender}>
+          <Button sx={{mx: 2}} variant='outlined' onClick={() => handleReportRender("monthly")}>
             Generate Monthly
           </Button>
-          <Button sx={{mx: 2}} variant='outlined' onClick={handleReportRender}>
+          <Button sx={{mx: 2}} variant='outlined' onClick={() => handleReportRender("semerterly")}>
             Generate Semesterly
           </Button>
-          <Button sx={{mx: 2}} variant='outlined' onClick={handleReportRender}>
-            Generate Yearly
+          <Button sx={{mx: 2}} variant='outlined' onClick={() => handleReportRender("yearly")}>
+            Generate Annual
           </Button>
-          <Button sx={{mx: 2}} variant='outlined' onClick={handleReportRender}>
+          <Button sx={{mx: 2}} variant='outlined' onClick={() => handleReportRender("general")}>
             Generate General
           </Button>
     </Grid>
