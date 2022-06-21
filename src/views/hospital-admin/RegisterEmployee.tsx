@@ -41,7 +41,7 @@ export default function EmRegistrationForm(props: any) {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [role, setRole] = useState<string[]>(['Receptionist'])
-  const [gender, setGender] = React.useState('')
+  const [gender, setGender] = React.useState('female')
   const [age, setAge] = useState(24)
   const [isAdmin, setIsAdmin] = useState(false)
   const [emName, setEmName] = useState('')
@@ -58,6 +58,14 @@ export default function EmRegistrationForm(props: any) {
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
+  const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
+  const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
+  const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [streetErrors, setStreetErrors] = useState<{ street: string }>()
+  const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
+  const [emNameErrors, setEmNameErrors] = useState<{ emName: string }>()
+  const [emPhoneErrors, setEmPhoneErrors] = useState<{ emPhone: string }>()
 
   const { data: session } = useSession()
   const router = useRouter()
@@ -75,6 +83,7 @@ export default function EmRegistrationForm(props: any) {
       setEmPhone(us.emPhone)
       setEdit(true)
     }
+
     // setCity(us.address.city)
     // setSubCity(us.address.subCity)
     // setWoreda(us.address.woreda)
@@ -87,12 +96,28 @@ export default function EmRegistrationForm(props: any) {
   const disableButton =
     nameErrors?.name ||
     !name ||
+    emNameErrors?.emName ||
+    !emName ||
     emailErrors?.email ||
     !email ||
     phoneErrors?.phone ||
     !phone ||
+    emPhoneErrors?.emPhone ||
+    !emPhone ||
     cityErrors?.city ||
-    !city
+    !city ||
+    woredaErrors?.woreda ||
+    !woreda ||
+    subCityErrors?.subCity ||
+    !subCity ||
+    kebelleErrors?.kebelle ||
+    !kebelle ||
+    streetErrors?.street ||
+    !street ||
+    houseNoErrors?.houseNo ||
+    !houseNo ||
+    zoneErrors?.zone ||
+    !zone
       ? true
       : false
 
@@ -112,6 +137,25 @@ export default function EmRegistrationForm(props: any) {
       setNameErrors({ name: "Name can't be longer than 30 characters" })
     } else if (!regName) {
       setNameErrors({ name: 'Name can only include alphabets' })
+    }
+  }
+
+  const handleEmNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmNameErrors({ emName: '' })
+    setEmName(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setEmNameErrors({ emName: 'Name field cannot be empty' })
+    } else if (value.length <= 3) {
+      setEmNameErrors({ emName: "Name can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setEmNameErrors({ emName: "Name can't be longer than 30 characters" })
+    } else if (!regName) {
+      setEmNameErrors({ emName: 'Name can only include alphabets' })
     }
   }
 
@@ -148,6 +192,26 @@ export default function EmRegistrationForm(props: any) {
       setPhoneErrors({ phone: "Phone number can't include alphabet" })
     }
   }
+
+  const handleEmPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setEmPhoneErrors({ emPhone: '' })
+    setEmPhone(value)
+    const reg = new RegExp(/^\d{9,10}$/).test(value)
+
+    if (value == '') {
+      setEmPhoneErrors({ emPhone: 'Phone field cannot be empty' })
+    } else if (value.length < 9) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be less than 9" })
+    } else if (value.length > 10) {
+      setEmPhoneErrors({ emPhone: "Phone number length can't be longer than 10" })
+    } else if (!reg) {
+      setEmPhoneErrors({ emPhone: "Phone number can't include alphabet" })
+    }
+  }
+
   const handleCityChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -164,6 +228,105 @@ export default function EmRegistrationForm(props: any) {
       setCityErrors({ city: "City can't be longer than 30 characters" })
     } else if (!regName) {
       setCityErrors({ city: 'City can only include alphabets' })
+    }
+  }
+
+  const handleWoredaChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setWoredaErrors({ woreda: '' })
+    setWoreda(value)
+
+    if (value == '') {
+      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
+    } else if (value.length < 2) {
+      setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
+    }
+  }
+
+  const handleSubCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setSubCityErrors({ subCity: '' })
+    setSubCity(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
+
+    if (value == '') {
+      setSubCityErrors({ subCity: 'Sub City field cannot be empty' })
+    } else if (value.length <= 3) {
+      setSubCityErrors({ subCity: "Sub City can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setSubCityErrors({ subCity: "Sub City can't be longer than 10 characters" })
+    } else if (!regName) {
+      setSubCityErrors({ subCity: 'Sub City can only include alphabets' })
+    }
+  }
+
+  const handleKebelleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setKebelleErrors({ kebelle: '' })
+    setKebelle(value)
+
+    if (value == '') {
+      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
+    } else if (value.length < 2) {
+      setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
+    } else if (value.length >= 30) {
+      setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
+    }
+  }
+
+  const handleStreetChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setStreetErrors({ street: '' })
+    setStreet(value)
+
+    if (value == '') {
+      setStreetErrors({ street: 'Street field cannot be empty' })
+    } else if (value.length <= 3) {
+      setStreetErrors({ street: "Street can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setStreetErrors({ street: "Street can't be longer than 30 characters" })
+    }
+  }
+
+  const handleHouseNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setHouseNoErrors({ houseNo: '' })
+    setHouseNo(value)
+
+    if (value == '') {
+      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
+    } else if (value.length < 2) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
+    } else if (value.length >= 10) {
+      setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
+    }
+  }
+
+  const handleZoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setZoneErrors({ zone: '' })
+    setZone(value)
+
+    if (value == '') {
+      setZoneErrors({ zone: 'Zone field cannot be empty' })
+    } else if (value.length <= 3) {
+      setZoneErrors({ zone: "Zone can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
 
@@ -189,6 +352,7 @@ export default function EmRegistrationForm(props: any) {
         houseNo: houseNo
       },
       isAdmin: isAdmin,
+
       // healthCenterId: 4,
       role: role,
       gender: gender
@@ -378,6 +542,7 @@ export default function EmRegistrationForm(props: any) {
                     aria-labelledby='demo-row-radio-buttons-group-label'
                     name='row-radio-buttons-group'
                     value={gender}
+                    defaultValue='female'
                     onChange={e => {
                       setGender(e.target.value)
                     }}
@@ -428,10 +593,10 @@ export default function EmRegistrationForm(props: any) {
                   fullWidth
                   label='Full Name'
                   value={emName}
+                  error={Boolean(emNameErrors?.emName)}
+                  helperText={emNameErrors?.emName}
                   placeholder='Rediet Demisse'
-                  onChange={e => {
-                    setEmName(e.target.value)
-                  }}
+                  onChange={handleEmNameChange}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position='start'>
@@ -447,9 +612,9 @@ export default function EmRegistrationForm(props: any) {
                   fullWidth
                   label='Phone'
                   value={emPhone}
-                  onChange={e => {
-                    setEmPhone(e.target.value)
-                  }}
+                  error={Boolean(emPhoneErrors?.emPhone)}
+                  helperText={emPhoneErrors?.emPhone}
+                  onChange={handleEmPhoneChange}
                   placeholder='+251 987654321'
                   InputProps={{
                     startAdornment: (
@@ -460,12 +625,12 @@ export default function EmRegistrationForm(props: any) {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sx={{ px: 2 }}>
+              {/* <Grid item xs={12} sx={{ px: 2 }}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
                   Address Information
                 </Typography>
-              </Grid>
-              <Grid sx={{ px: 4 }} container spacing={5}>
+              </Grid> */}
+              {/* <Grid sx={{ px: 4 }} container spacing={5}>
                 <Grid item xs={12}>
                   <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
                     Personal Information
@@ -636,7 +801,7 @@ export default function EmRegistrationForm(props: any) {
                     }}
                   />
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} sx={{ px: 2 }}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
                   Address Information
@@ -670,9 +835,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Woreda'
                     placeholder='04'
                     value={woreda}
-                    onChange={e => {
-                      setWoreda(e.target.value)
-                    }}
+                    onChange={handleWoredaChange}
+                    error={Boolean(woredaErrors?.woreda)}
+                    helperText={woredaErrors?.woreda}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -689,9 +854,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Sub City'
                     placeholder='Bole'
                     value={subCity}
-                    onChange={e => {
-                      setSubCity(e.target.value)
-                    }}
+                    onChange={handleSubCityChange}
+                    error={Boolean(subCityErrors?.subCity)}
+                    helperText={subCityErrors?.subCity}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -708,9 +873,9 @@ export default function EmRegistrationForm(props: any) {
                     label='Kebele'
                     placeholder='32'
                     value={kebelle}
-                    onChange={e => {
-                      setKebelle(e.target.value)
-                    }}
+                    onChange={handleKebelleChange}
+                    error={Boolean(kebelleErrors?.kebelle)}
+                    helperText={kebelleErrors?.kebelle}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -726,9 +891,9 @@ export default function EmRegistrationForm(props: any) {
                     fullWidth
                     label='Street'
                     value={street}
-                    onChange={e => {
-                      setStreet(e.target.value)
-                    }}
+                    onChange={handleStreetChange}
+                    error={Boolean(streetErrors?.street)}
+                    helperText={streetErrors?.street}
                     placeholder='Mauritania street'
                     InputProps={{
                       startAdornment: (
@@ -746,9 +911,9 @@ export default function EmRegistrationForm(props: any) {
                     label='House Number'
                     placeholder='432'
                     value={houseNo}
-                    onChange={e => {
-                      setHouseNo(e.target.value)
-                    }}
+                    onChange={handleHouseNoChange}
+                    error={Boolean(houseNoErrors?.houseNo)}
+                    helperText={houseNoErrors?.houseNo}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position='start'>
@@ -763,9 +928,9 @@ export default function EmRegistrationForm(props: any) {
                     size='small'
                     fullWidth
                     value={zone}
-                    onChange={e => {
-                      setZone(e.target.value)
-                    }}
+                    onChange={handleZoneChange}
+                    error={Boolean(zoneErrors?.zone)}
+                    helperText={zoneErrors?.zone}
                     label='Zone'
                     placeholder='zone'
                     InputProps={{
