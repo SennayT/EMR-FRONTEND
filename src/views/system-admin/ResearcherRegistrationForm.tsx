@@ -249,6 +249,7 @@ export default function ResearcherRegistrationForm(props: any) {
       age: age,
       phone: phone,
       gender: gender,
+      image: '',
       address: {
         city: city,
         subCity: subCity,
@@ -258,7 +259,7 @@ export default function ResearcherRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
-      healthCenterId: props.edit
+      healthCenterId: 1
     }
     if (props.edit) {
       delete body.healthCenterId
