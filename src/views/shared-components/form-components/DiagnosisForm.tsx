@@ -14,7 +14,7 @@ import user from 'src/data/userData'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-const DiagnosisForm = () => {
+const DiagnosisForm = (props: any) => {
   // ** States
   const [investigationReq, setInvestigationReq] = useState([{ note: '', id: 0 }])
   const [diseases, setDiseases] = useState<Disease[]>([])
@@ -58,6 +58,7 @@ const DiagnosisForm = () => {
     }
     console.log(data)
     requests.post('/diagnosis', data, session ? session.accessToken.toString() : '')
+    props.closeHandler()
   }
 
   return (
