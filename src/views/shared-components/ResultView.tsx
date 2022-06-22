@@ -29,21 +29,17 @@ const ResultView = () => {
 
   const handleClickClose = () => setOpen(false)
   const router = useRouter()
+  const [currentInvReq, setCurrentInvReq] = useState()
   const handleViewClick = () => {
+    console.log("id", currentInvReq)
     router.push({pathname: '/patient/view/results/list/',
     query: {
-      id: currentInvReq.id
+      currId: currentInvReq
     }})
   }
   const [invReqs, setInvReqs] = useState([
     ])
 
-  const [currentInvReq, setCurrentInvReq] = useState({
-    id: 0,
-    date: '',
-    note: '',
-    labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
-  })
   useEffect(() => {
     requests.post(`/investigation-request/doctor`,{},  session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
@@ -61,7 +57,7 @@ const ResultView = () => {
       editable: false
     },
     {
-      field: 'date',
+      field: 'createdAt',
       headerName: 'Date',
       type: 'number',
       width: 150,
@@ -114,9 +110,10 @@ const ResultView = () => {
           onSelectionModelChange={newSelectionModel => {
             console.log(
               'new',
-              newSelectionModel,
+              Number(newSelectionModel[0]),
               invReqs.find(i => i.id === newSelectionModel[0])
             )
+
             setCurrentInvReq(Number(newSelectionModel[0]))
           }}
           selectionModel={currentInvReq}

@@ -55,7 +55,7 @@ const DiagnosisHistory = () => {
       .then(response => {
         setDiagnosis(response.data)
         // setLoading(true)
-        console.log(diagnosis)
+        console.log("diagnosis", diagnosis)
       })
   }, [])
 

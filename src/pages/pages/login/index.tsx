@@ -133,6 +133,10 @@ const LoginPage = () => {
     setErr(false)
   }
 
+  const forgotPassHandler = () => {
+    requests.post()
+  }
+
   const router = useRouter()
 
   useEffect(() => {
@@ -204,9 +208,9 @@ const LoginPage = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <Link passHref href='/forgot-password'>
+              <Button onClick={forgotPassHandler}>
                 <LinkStyled>Forgot Password?</LinkStyled>
-              </Link>
+              </Button>
             </Box>
             <Button
               disabled={emailErrors?.email || values.password == '' ? true : false}

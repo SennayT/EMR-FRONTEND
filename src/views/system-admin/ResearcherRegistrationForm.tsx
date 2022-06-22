@@ -276,8 +276,27 @@ export default function ResearcherRegistrationForm(props: any) {
         .catch(props.closeHandler(true, 'error'))
       // props.closeHandler(false)
     } else {
+      const payload = {
+        name: name,
+        email: email,
+        age: age,
+        phone: phone,
+        image: props.researcher.image,
+        gender: gender,
+        isResearcher: true,
+        isAdmin: false,
+        address: {
+          city: city,
+          subCity: subCity,
+          woreda: woreda,
+          zone: zone,
+          street: street,
+          kebelle: kebelle,
+          houseNo: houseNo
+        },
+      }
       requests
-        .put(`/researcher/${props.researcher.id}`, body, session ? session.accessToken.toString() : '')
+        .put(`/user/${props.researcher.id}`, payload, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
         .catch(props.closeHandler(true, 'error'))
     }

@@ -364,6 +364,7 @@ export default function EmRegistrationForm(props: any) {
         .post(`/employee`, body, session ? session.accessToken.toString() : '')
         .then(response => {
           console.log(response.data)
+          router.back()
         })
         .catch(e => {
           setErr(true)
@@ -374,6 +375,7 @@ export default function EmRegistrationForm(props: any) {
         .put(`/employee/${props.user.id}`, body, session ? session.accessToken.toString() : '')
         .then(response => {
           console.log(response.data)
+          router.back()
         })
         .catch(e => {
           setErr(true)

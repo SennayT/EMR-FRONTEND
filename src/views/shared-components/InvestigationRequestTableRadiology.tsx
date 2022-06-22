@@ -57,7 +57,7 @@ const InvestigativeRequestTableRadiology = () => {
       editable: false
     },
     {
-      field: 'date',
+      field: 'createdAt',
       headerName: 'Date',
       type: 'number',
       width: 150,
