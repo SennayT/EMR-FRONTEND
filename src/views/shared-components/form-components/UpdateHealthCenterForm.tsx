@@ -1,65 +1,55 @@
-import * as React from 'react'
-import { useState, ChangeEvent, useEffect } from 'react'
+import Box from '@mui/material/Box'
+import { Card, Typography, CardContent, TextField } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { Card, Typography, CardContent } from '@mui/material'
-import { TextField, CardActions, Button } from '@mui/material'
 import InputAdornment from '@mui/material/InputAdornment'
 
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
+import { CardActions, Button } from '@mui/material'
 
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-
-import AccountOutline from 'mdi-material-ui/AccountOutline'
 import Phone from 'mdi-material-ui/Phone'
 import EmailOutline from 'mdi-material-ui/EmailOutline'
+import HospitalIcon from 'mdi-material-ui/HospitalBox'
 
 import CityIcon from 'mdi-material-ui/City'
 import HouseIcon from 'mdi-material-ui/Home'
 import StreetIcon from 'mdi-material-ui/RoadVariant'
-
 import SubcityIcon from 'mdi-material-ui/TownHall'
+import BackIcon from '@mui/icons-material/ArrowBack'
+import IconButton from '@mui/material/IconButton'
+import { useRouter } from 'next/router'
+import * as React from 'react'
+import { ChangeEvent, useState } from 'react'
 
-// import AddressInformationForm from '../shared-components/form-components/AddressInformationForm'
-
-// import user from '../../data/userData'
 import requests from 'src/utils/repository'
-
 import { useSession } from 'next-auth/react'
 
-export default function ResearcherRegistrationForm(props: any) {
-  const [name, setName] = useState(props.edit ? props.researcher.name : '')
-  const [email, setEmail] = useState(props.edit ? props.researcher.email : '')
-  const [phone, setPhone] = useState(props.edit ? props.researcher.phone : '')
-  const [gender, setGender] = useState(props.edit ? props.researcher.gender : 'female')
-  const [age, setAge] = useState(props.edit ? props.researcher.age : 0)
-  const [city, setCity] = useState(props.edit ? props.researcher.address.city : '')
-  const [subCity, setSubCity] = useState(props.edit ? props.researcher.address.subCity : '')
-  const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : '')
-  const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : '')
-  const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : '')
-  const [street, setStreet] = useState(props.edit ? props.researcher.address.street : '')
-  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.address.houseNo : '')
+export default function UpdateHealthCenterForm(props: any) {
+  const router = useRouter()
+  const { data: session } = useSession()
+  const healthCenter = props.healthCenter
+
+  const [name, setName] = useState(healthCenter.name)
+  const [type, setType] = useState(healthCenter.type)
+  const [email, setEmail] = useState(healthCenter.email)
+  const [phone, setPhone] = useState(healthCenter.phone)
+  const [city, setCity] = useState(healthCenter.address.city)
+  const [subCity, setSubCity] = useState(healthCenter.address.subCity)
+  const [woreda, setWoreda] = useState(healthCenter.address.woreda)
+  const [kebelle, setKebelle] = useState(healthCenter.address.kebelle)
+  const [zone, setZone] = useState(healthCenter.address.zone)
+  const [street, setStreet] = useState(healthCenter.address.street)
+  const [houseNo, setHouseNo] = useState(healthCenter.address.houseNo)
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
+  const [typeErrors, setTypeErrors] = useState<{ type: string }>()
   const [phoneErrors, setPhoneErrors] = useState<{ phone: string }>()
   const [cityErrors, setCityErrors] = useState<{ city: string }>()
   const [subCityErrors, setSubCityErrors] = useState<{ subCity: string }>()
   const [woredaErrors, setWoredaErrors] = useState<{ woreda: string }>()
   const [kebelleErrors, setKebelleErrors] = useState<{ kebelle: string }>()
+  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
   const [streetErrors, setStreetErrors] = useState<{ street: string }>()
   const [houseNoErrors, setHouseNoErrors] = useState<{ houseNo: string }>()
-  const [zoneErrors, setZoneErrors] = useState<{ zone: string }>()
-
-  // const [currResearcher, setCurrResearcher] = useState(-1)
-
-  const { data: session } = useSession()
 
   const disableButton =
     nameErrors?.name ||
@@ -68,17 +58,22 @@ export default function ResearcherRegistrationForm(props: any) {
     !email ||
     phoneErrors?.phone ||
     !phone ||
+    typeErrors?.type ||
+    !type ||
     cityErrors?.city ||
     !city ||
     woredaErrors?.woreda ||
+    !woreda ||
     subCityErrors?.subCity ||
     !subCity ||
     kebelleErrors?.kebelle ||
+    !kebelle ||
     streetErrors?.street ||
+    !street ||
     houseNoErrors?.houseNo ||
-    zoneErrors?.zone
-      ? true
-      : false
+    !houseNo ||
+    zoneErrors?.zone ||
+    !zone
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
@@ -114,6 +109,23 @@ export default function ResearcherRegistrationForm(props: any) {
     }
   }
 
+  const handleTypeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setTypeErrors({ type: '' })
+    setType(value)
+    const reg = new RegExp(/^[A-Za-z]{3,10}$/).test(value)
+
+    if (!reg) {
+      setTypeErrors({ type: 'Invalid type' })
+    }
+
+    if (value == '') {
+      setTypeErrors({ type: 'Type field cannot be empty' })
+    }
+  }
+
   const handlePhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {
       target: { value }
@@ -139,14 +151,14 @@ export default function ResearcherRegistrationForm(props: any) {
     } = event
     setCityErrors({ city: '' })
     setCity(value)
-    const regName = new RegExp(/^[a-zA-Z\s]{3,20}$/).test(value)
+    const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
     if (value == '') {
       setCityErrors({ city: 'City field cannot be empty' })
     } else if (value.length <= 3) {
       setCityErrors({ city: "City can't be less than 3 characters" })
-    } else if (value.length >= 20) {
-      setCityErrors({ city: "City can't be longer than 20 characters" })
+    } else if (value.length >= 30) {
+      setCityErrors({ city: "City can't be longer than 30 characters" })
     } else if (!regName) {
       setCityErrors({ city: 'City can only include alphabets' })
     }
@@ -159,9 +171,11 @@ export default function ResearcherRegistrationForm(props: any) {
     setWoredaErrors({ woreda: '' })
     setWoreda(value)
 
-    if (value.length < 2 && value.length != 0) {
+    if (value == '') {
+      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
+    } else if (value.length < 2) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10 && value.length != 0) {
+    } else if (value.length >= 10) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -192,9 +206,11 @@ export default function ResearcherRegistrationForm(props: any) {
     setKebelleErrors({ kebelle: '' })
     setKebelle(value)
 
-    if (value.length < 2 && value.length != 0) {
+    if (value == '') {
+      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
+    } else if (value.length < 2) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30 && value.length != 0) {
+    } else if (value.length >= 30) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -206,9 +222,11 @@ export default function ResearcherRegistrationForm(props: any) {
     setStreetErrors({ street: '' })
     setStreet(value)
 
-    if (value.length <= 3 && value.length != 0) {
+    if (value == '') {
+      setStreetErrors({ street: 'Street field cannot be empty' })
+    } else if (value.length <= 3) {
       setStreetErrors({ street: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30 && value.length != 0) {
+    } else if (value.length >= 30) {
       setStreetErrors({ street: "Street can't be longer than 30 characters" })
     }
   }
@@ -220,9 +238,11 @@ export default function ResearcherRegistrationForm(props: any) {
     setHouseNoErrors({ houseNo: '' })
     setHouseNo(value)
 
-    if (value.length < 2 && value.length != 0) {
+    if (value == '') {
+      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
+    } else if (value.length < 2) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10 && value.length != 0) {
+    } else if (value.length >= 10) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -234,191 +254,136 @@ export default function ResearcherRegistrationForm(props: any) {
     setZoneErrors({ zone: '' })
     setZone(value)
 
-    if (value.length <= 3 && value.length != 0) {
+    if (value == '') {
+      setZoneErrors({ zone: 'Zone field cannot be empty' })
+    } else if (value.length <= 3) {
       setZoneErrors({ zone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30 && value.length != 0) {
+    } else if (value.length >= 30) {
       setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
 
-  const registerResearcher = () => {
-    //console.log({ name: name, phone: phone, email: email, age: age, gender: gender, city: city, subCity: subCity })
+  const registerHealthCenter = () => {
     const body = {
-      name: name,
-      email: email,
-      age: age,
-      phone: phone,
-      gender: gender,
-      image: '',
+      name,
+      type,
+      email,
+      phone,
       address: {
-        city: city,
-        subCity: subCity,
-        woreda: woreda,
-        zone: zone,
-        street: street,
-        kebelle: kebelle,
-        houseNo: houseNo
-      },
-      healthCenterId: 1
-    }
-    if (props.edit) {
-      delete body.healthCenterId
-    }
-
-    // if (props.edit) {
-    //   delete body.healthCenterId
-    // }
-    console.log('body', body)
-    if (!props.edit) {
-      requests
-        .post(`/researcher`, body, session ? session.accessToken.toString() : '')
-        .then(res => props.closeHandler(true, 'success'))
-        .catch(props.closeHandler(true, 'error'))
-      // props.closeHandler(false)
-    } else {
-      const payload = {
-        name: name,
-        email: email,
-        age: age,
-        phone: phone,
-        image: props.researcher.image,
-        gender: gender,
-        isResearcher: true,
-        isAdmin: false,
-        address: {
-          city: city,
-          subCity: subCity,
-          woreda: woreda,
-          zone: zone,
-          street: street,
-          kebelle: kebelle,
-          houseNo: houseNo
-        },
+        city,
+        subCity,
+        woreda,
+        zone,
+        street,
+        kebelle,
+        houseNo
       }
-      requests
-        .put(`/user/${props.researcher.id}`, payload, session ? session.accessToken.toString() : '')
-        .then(res => props.closeHandler(true, 'success'))
-        .catch(props.closeHandler(true, 'error'))
     }
-  }
-
-  const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
-
-  const handleDateChange = (newValue: Date | null) => {
-    setValue(newValue)
-
-    const today = new Date()
-
-    let val = today.getFullYear() - newValue.getFullYear()
-    const m = today.getMonth() - newValue.getMonth()
-    if (m < 0 || (m === 0 && today.getDate() < newValue.getDate())) {
-      val--
-    }
-    setAge(val)
+    requests
+      .put(`/health-center/${healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+      .then(res => {
+        props.changeHandler(res.data)
+        props.closeHandler()
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
-    <Grid container spacing={6}>
-      <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
-        <form onSubmit={e => e.preventDefault()}>
-          <CardContent sx={{ px: 4 }}>
-            <Grid sx={{ px: 4 }} container spacing={5}>
-              <Grid item xs={12}>
-                <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
-                  Personal Information
-                </Typography>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  value={name}
-                  onChange={handleNameChange}
-                  error={Boolean(nameErrors?.name)}
-                  fullWidth
-                  helperText={nameErrors?.name}
-                  required
-                  label='Full Name'
-                  placeholder='Rediet Demisse'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <AccountOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  value={email}
-                  onChange={handleEmailChange}
-                  error={Boolean(emailErrors?.email)}
-                  helperText={emailErrors?.email}
-                  required
-                  type='email'
-                  label='Email'
-                  placeholder='ruthgd2000@gmail.com'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <EmailOutline />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <TextField
-                  size='small'
-                  fullWidth
-                  required
-                  label='Phone Number'
-                  value={phone}
-                  onChange={handlePhoneChange}
-                  error={Boolean(phoneErrors?.phone)}
-                  helperText={phoneErrors?.phone}
-                  placeholder='987654321'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position='start'>
-                        <Phone />
-                        +251
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <MobileDatePicker
-                    label='Date of Birth'
-                    openTo='year'
-                    value={value}
-                    maxDate={new Date()}
-                    onChange={handleDateChange}
-                    inputFormat='MM/dd/yyyy'
-                    renderInput={params => <TextField size='small' fullWidth {...params} />}
-                  />
-                </LocalizationProvider>
-              </Grid>
-              <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
-                <FormControl>
-                  <FormLabel id='demo-row-radio-buttons-group-label'>Gender</FormLabel>
-                  <RadioGroup
-                    onChange={e => {
-                      setGender(e.target.value)
+    <Box>
+      <Grid container spacing={6} sx={{ backgroundColor: 'white', mt: 4 }}>
+        <Card sx={{ width: 5 / 6, mx: 18, my: 2, backgroundColor: 'white' }}>
+          <form onSubmit={e => e.preventDefault()}>
+            <CardContent sx={{ px: 4 }}>
+              <Grid sx={{ px: 4 }} container spacing={5}>
+                <Grid item xs={12}>
+                  <Typography variant='body2' sx={{ fontWeight: 600, mt: 2, mb: 3 }}>
+                    Basic Information
+                  </Typography>
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    value={name}
+                    onChange={handleNameChange}
+                    error={Boolean(nameErrors?.name)}
+                    fullWidth
+                    required
+                    label='Health Center Name'
+                    helperText={nameErrors?.name}
+                    placeholder='St. Paulos Hospital'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <HospitalIcon />
+                        </InputAdornment>
+                      )
                     }}
-                    value={gender}
-                    row
-                    aria-labelledby='demo-row-radio-buttons-group-label'
-                    name='row-radio-buttons-group'
-                  >
-                    <FormControlLabel value='female' control={<Radio />} label='Female' />
-                    <FormControlLabel value='male' control={<Radio />} label='Male' />
-                  </RadioGroup>
-                </FormControl>
+                  />
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    type='email'
+                    label='Email'
+                    required
+                    placeholder='Email'
+                    value={email}
+                    onChange={handleEmailChange}
+                    error={Boolean(emailErrors?.email)}
+                    helperText={emailErrors?.email}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <EmailOutline />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    required
+                    label='Type'
+                    value={type}
+                    error={Boolean(typeErrors?.type)}
+                    onChange={handleTypeChange}
+                    helperText={typeErrors?.type}
+                    placeholder='General Hospital'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <Phone />
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
+                <Grid sx={{ mb: 1, pr: 2 }} item xs={12} sm={6}>
+                  <TextField
+                    size='small'
+                    fullWidth
+                    required
+                    label='Phone'
+                    value={phone}
+                    error={Boolean(phoneErrors?.phone)}
+                    helperText={phoneErrors?.phone}
+                    onChange={handlePhoneChange}
+                    placeholder='987654321'
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position='start'>
+                          <Phone />
+                          +251
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </Grid>
               </Grid>
               <Grid item xs={12} sx={{ px: 2 }}>
                 <Typography variant='body2' sx={{ fontWeight: 600, mb: 7, mt: 3 }}>
@@ -562,20 +527,14 @@ export default function ResearcherRegistrationForm(props: any) {
                 </Grid>
               </Grid>
               <CardActions>
-                <Button
-                  disabled={disableButton}
-                  size='large'
-                  type='submit'
-                  variant='contained'
-                  onClick={registerResearcher}
-                >
-                  Register
+                <Button onClick={registerHealthCenter} size='large' type='submit' variant='contained'>
+                  Submit
                 </Button>
               </CardActions>
-            </Grid>
-          </CardContent>
-        </form>
-      </Card>
-    </Grid>
+            </CardContent>
+          </form>
+        </Card>
+      </Grid>
+    </Box>
   )
 }

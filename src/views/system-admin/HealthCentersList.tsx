@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { Button, Grid, Typography, IconButton, Link } from '@mui/material'
 
 // import AddHealthCenter from 'src/views/shared-components/form-components/AddHealthCenterForm'
 
-// import Dialog from '@mui/material/Dialog'
-// import DialogTitle from '@mui/material/DialogTitle'
-// import DialogActions from '@mui/material/DialogActions'
-// import DialogContent from '@mui/material/DialogContent'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
 
 // import HealthCenter from 'src/data/models/HealthCenterModel'
 // import Magnify from 'mdi-material-ui/Magnify'
@@ -19,6 +19,7 @@ import AddIcon from '@mui/icons-material/Add'
 
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import UpdateHealthCenterForm from '../shared-components/form-components/UpdateHealthCenterForm'
 
 const HealthCenters = () => {
   const [open, setOpen] = useState<boolean>(false)
@@ -44,6 +45,21 @@ const HealthCenters = () => {
     } else {
       setOpen(false)
     }
+  }
+
+  const getInput = (data: any) => {
+    console.log('data', data)
+
+    // @ts-ignore
+    setHealthCenters(
+      healthCenters.map(hc => {
+        if (hc.id !== data.id) {
+          return hc
+        }
+
+        return data
+      })
+    )
   }
 
   const handleClose = () => {
@@ -107,6 +123,8 @@ const HealthCenters = () => {
     }
   ]
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div>
       <Grid container>
@@ -150,24 +168,30 @@ const HealthCenters = () => {
           loading={loading}
         />
       </div>
-      {/* <Fragment>
+
+      <Fragment>
         <Dialog
           open={open}
           maxWidth='md'
           onClose={() => handleClickClose(false, '')}
           aria-labelledby='max-width-dialog-title'
         >
-          <DialogTitle id='max-width-dialog-title'>Health Center Registration Form </DialogTitle>
+          <DialogTitle id='max-width-dialog-title'>Update Health Center</DialogTitle>
           <DialogContent>
-            <AddHealthCenter
+            {/*<AddHealthCenterForm*/}
+            {/*  closeHandler={handleClickClose}*/}
+            {/*  edit={edit}*/}
+            {/*  healthCenter={healthCenters.find(i => i.id === currHealthCenter)}*/}
+            {/*/>*/}
+            <UpdateHealthCenterForm
               closeHandler={handleClickClose}
-              edit={edit}
+              changeHandler={getInput}
               healthCenter={healthCenters.find(i => i.id === currHealthCenter)}
             />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
-      </Fragment> */}
+      </Fragment>
     </div>
   )
 }

@@ -35,7 +35,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { signIn } from 'next-auth/react'
+import { getSession, signIn } from 'next-auth/react'
 import { Alert, Snackbar } from '@mui/material'
 import { useRouter } from 'next/router'
 
@@ -225,11 +225,26 @@ const LoginPage = () => {
           </form>
         </CardContent>
       </Card>
-      <FooterIllustrationsV1 />
+      {/* <FooterIllustrationsV1 /> */}
     </Box>
   )
 }
 
 LoginPage.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
+
+export async function getServerSideProps(context) {
+  const { req } = context
+  const session = await getSession({ req })
+
+  if (session) {
+    return {
+      redirect: { destination: '/' }
+    }
+  }
+
+  return {
+    props: {}
+  }
+}
 
 export default LoginPage
