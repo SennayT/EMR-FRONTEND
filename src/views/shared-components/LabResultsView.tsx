@@ -12,12 +12,12 @@ import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
-
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
 const LabResultsView = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const [currentLabTest, setcurrentLabTest] = useState()
 
   const handleClickOpen = (param: any) => {
     // console.log(req)
@@ -25,23 +25,22 @@ const LabResultsView = () => {
     setcurrentLabTest(param)
     setOpen(true)
   }
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   const handleClickClose = () => setOpen(false)
   const router = useRouter()
   const handleViewClick = () => {
-    router.push({pathname: '/patient/view/results/list/',
-    query: {
-      invId: currentLabTest.id
-    }})
+    router.push({
+      pathname: '/patient/view/results/list/',
+      query: {
+        invId: currentLabTest
+      }
+    })
   }
-  const [labTests, setlabTests] = useState([
-    ])
+  const [labTests, setlabTests] = useState([])
 
-  const [currentLabTest, setcurrentLabTest] = useState({
-  })
   useEffect(() => {
-    requests.get(`/lab-result/user/filled`,session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/lab-result/user/filled`, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
       setlabTests(response.data)
     })
@@ -66,8 +65,7 @@ const LabResultsView = () => {
       field: 'measuredIn',
       headerName: 'Measured In',
       width: 180,
-      editable: false,
-
+      editable: false
     },
     {
       field: 'testCategory',
@@ -75,7 +73,7 @@ const LabResultsView = () => {
       width: 200,
       editable: false,
       renderCell: (params: GridRenderCellParams<Array<any>>) => (
-        <Chip color='primary' label={params.value} sx={{px: 5}}/>
+        <Chip color='primary' label={params.value} sx={{ px: 5 }} />
       )
     },
     {
@@ -101,10 +99,10 @@ const LabResultsView = () => {
       </Typography>
       <div style={{ height: 400, width: '100%', backgroundColor: 'white' }}>
         <DataGrid
-          rows={labTests}
+          rows={labTests.map(res => ({ ...res.labTest, id: res.id }))}
           columns={columns}
           pageSize={5}
-          onCellClick={(params) => {
+          onCellClick={params => {
             console.log(params.row)
             handleClickOpen(params.row)
           }}
@@ -118,10 +116,8 @@ const LabResultsView = () => {
             setcurrentLabTest(Number(newSelectionModel[0]))
           }}
           selectionModel={currentLabTest}
-
         />
       </div>
-
     </div>
   )
 }

@@ -56,7 +56,7 @@ export default NextAuth({
       if (token.role) {
         session.role = token.role
       }
-      session.isPasswordReset = token.isPasswordReset;
+      session.isPasswordReset = token.isPasswordReset
 
       return session
     }
