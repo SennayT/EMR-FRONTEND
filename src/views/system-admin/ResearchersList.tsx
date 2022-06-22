@@ -20,21 +20,36 @@ const Researchers = () => {
   const [researchers, setResearchers] = useState([])
   const [edit, setEdit] = useState(false)
   const [errOpen, setErrOpen] = useState(false)
-  const [severity, setSeverity] = useState("success")
+  const [severity, setSeverity] = useState('success')
 
-  const handleClickOpen = () => { setEdit(false); setOpen(true); }
-  const handleClickClose = (origin: boolean, severity: string) => { if (origin) { setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false) } }
+  const handleClickOpen = () => {
+    setEdit(false)
+    setOpen(true)
+  }
+  const handleClickClose = (origin: boolean, severity: string) => {
+    if (origin) {
+      console.log(severity)
+      setSeverity(severity)
+      setErrOpen(true)
+      setOpen(false)
+    } else {
+      // console.log('here')
+      setErrOpen(false)
+      setSeverity(severity)
+      setOpen(false)
+    }
+  }
 
   const [loading, setLoading] = useState(true)
   const handleClose = () => {
-    setErrOpen(false);
+    setErrOpen(false)
   }
   const [currResearcher, setCurrResearcher] = useState()
 
   const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/researcher`, session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/researcher`, session ? session.accessToken.toString() : '').then(response => {
       setResearchers(response.data)
       console.log(response.data)
       setLoading(false)
@@ -91,7 +106,12 @@ const Researchers = () => {
         return (
           <div>
             <IconButton>
-              <EditIcon onClick={(e) => { setEdit(true); setOpen(true) }} />
+              <EditIcon
+                onClick={e => {
+                  setEdit(true)
+                  setOpen(true)
+                }}
+              />
             </IconButton>
             <IconButton>
               <DeleteIcon />
@@ -106,8 +126,8 @@ const Researchers = () => {
     <div>
       <Grid container>
         <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
-          <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
-            This is an error message!
+          <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
           </Alert>
         </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
@@ -131,24 +151,36 @@ const Researchers = () => {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          onSelectionModelChange={(newSelectionModel) => {
-            console.log("new", newSelectionModel, researchers.find(i => i.id === newSelectionModel[0]))
-            setCurrResearcher(newSelectionModel[0]);
+          onSelectionModelChange={newSelectionModel => {
+            console.log(
+              'new',
+              newSelectionModel,
+              researchers.find(i => i.id === newSelectionModel[0])
+            )
+            setCurrResearcher(newSelectionModel[0])
           }}
           selectionModel={currResearcher}
           loading={loading}
         />
       </div>
       <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
+        <Dialog
+          open={open}
+          maxWidth='md'
+          onClose={() => handleClickClose(false, '')}
+          aria-labelledby='max-width-dialog-title'
+        >
           <DialogTitle id='max-width-dialog-title'>Researcher Registration Form </DialogTitle>
           <DialogContent>
-            <AddResearcher closeHandler={handleClickClose} edit={edit} researcher={researchers.find(i => i.id === currResearcher)} />
+            <AddResearcher
+              closeHandler={handleClickClose}
+              edit={edit}
+              researcher={researchers.find(i => i.id === currResearcher)}
+            />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>
       </Fragment>
-
     </div>
   )
 }

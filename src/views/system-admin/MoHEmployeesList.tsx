@@ -16,31 +16,38 @@ import AddIcon from '@mui/icons-material/Add'
 
 import { useSession } from 'next-auth/react'
 
-
 const MoHEmployees = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [mohEmployees, setMohEmployees] = useState([])
   const [currEmployee, setCurrEmployee] = useState(-1)
   const [edit, setEdit] = useState(false)
 
-
   const [errOpen, setErrOpen] = useState(false)
-  const [severity, setSeverity] = useState("success")
+  const [severity, setSeverity] = useState('success')
 
-
-  const handleClickOpen = () => { setEdit(false); setOpen(true); }
-  const handleClickClose = (origin: boolean, severity: string) => { if (origin) { setErrOpen(true); setSeverity(severity); setOpen(false); } else { setOpen(false) } }
+  const handleClickOpen = () => {
+    setEdit(false)
+    setOpen(true)
+  }
+  const handleClickClose = (origin: boolean, severity: string) => {
+    if (origin) {
+      setErrOpen(true)
+      setSeverity(severity)
+      setOpen(false)
+    } else {
+      setOpen(false)
+    }
+  }
 
   const [loading, setLoading] = useState(true)
   const handleClose = () => {
-    setErrOpen(false);
+    setErrOpen(false)
   }
 
-  const { data: session } = useSession();
-
+  const { data: session } = useSession()
 
   useEffect(() => {
-    requests.get(`/moh-employee`, session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/moh-employee`, session ? session.accessToken.toString() : '').then(response => {
       setMohEmployees(response.data.map((res: any) => res.user))
       setLoading(false)
     })
@@ -94,7 +101,12 @@ const MoHEmployees = () => {
       renderCell: () => {
         return (
           <div>
-            <IconButton onClick={(e) => { setEdit(true); setOpen(true) }}>
+            <IconButton
+              onClick={e => {
+                setEdit(true)
+                setOpen(true)
+              }}
+            >
               <EditIcon />
             </IconButton>
             <IconButton>
@@ -109,11 +121,11 @@ const MoHEmployees = () => {
   return (
     <div>
       <Grid container>
-          <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
-            <Alert onClose={handleClose} severity={severity == "success" ? "success" : "error"} sx={{ width: '100%' }}>
-              This is an error message!
-            </Alert>
-          </Snackbar>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
+          </Alert>
+        </Snackbar>
         <Grid item xs={10} md={10} lg={9}>
           <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
             MoH Employees
@@ -134,9 +146,13 @@ const MoHEmployees = () => {
           rows={mohEmployees}
           columns={columns}
           pageSize={5}
-          onSelectionModelChange={(newSelectionModel) => {
-            console.log("new", newSelectionModel, mohEmployees.find(i => i.id === newSelectionModel[0]))
-            setCurrEmployee(newSelectionModel[0]);
+          onSelectionModelChange={newSelectionModel => {
+            console.log(
+              'new',
+              newSelectionModel,
+              mohEmployees.find(i => i.id === newSelectionModel[0])
+            )
+            setCurrEmployee(newSelectionModel[0])
           }}
           selectionModel={currEmployee}
           rowsPerPageOptions={[5]}
@@ -144,10 +160,19 @@ const MoHEmployees = () => {
         />
       </div>
       <Fragment>
-        <Dialog open={open} maxWidth='md' onClose={() => handleClickClose(false, "")} aria-labelledby='max-width-dialog-title'>
+        <Dialog
+          open={open}
+          maxWidth='md'
+          onClose={() => handleClickClose(false, '')}
+          aria-labelledby='max-width-dialog-title'
+        >
           <DialogTitle id='max-width-dialog-title'>MoH Employee Registration Form </DialogTitle>
           <DialogContent>
-            <AddMoHEmployee closeHandler={handleClickClose} edit={edit} employee={mohEmployees.find(i => i.id === currEmployee)} />
+            <AddMoHEmployee
+              closeHandler={handleClickClose}
+              edit={edit}
+              employee={mohEmployees.find(i => i.id === currEmployee)}
+            />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

@@ -520,6 +520,13 @@ export default function HospitalRegistrationForm(props: any) {
     }
   }
 
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState('success')
+
+  const handleClose = () => {
+    setErrOpen(false)
+  }
+
   const registerHealthCenter = () => {
     // const healthCenter = new HealthCenter({name: name, type: type, email: email, phone: phone, address: address} );
     // console.log({ name: name, type: type, phone: phone, email: email, city: city, subCity: subCity })
@@ -555,15 +562,32 @@ export default function HospitalRegistrationForm(props: any) {
       }
     }
     if (!props.edit) {
-      requests.post(`/health-center`, body, session ? session.accessToken.toString() : '').then(_ => {
-        router.back()
-      })
+      requests
+        .post(`/health-center`, body, session ? session.accessToken.toString() : '')
+        .then(res => {
+          setSeverity('success')
+          setErrOpen(true)
+          router.back()
+        })
+        .catch(e => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
 
       //.then(res => props.closeHandler(true, 'success'))
       //  .catch(props.closeHandler(true, 'error'))
       //props.closeHandler(false)
     } else {
-      requests.put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+      requests
+        .put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+        .then(res => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
+        .catch(e => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
 
       // .catch(props.closeHandler(true))
     }
@@ -575,11 +599,11 @@ export default function HospitalRegistrationForm(props: any) {
         <BackIcon />
       </IconButton>
       <Grid container spacing={6} sx={{ backgroundColor: 'white', mt: 4 }}>
-        {/* <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setErrOpen(false)}>
           <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
-            This is an error message!
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
           </Alert>
-        </Snackbar> */}
+        </Snackbar>
         <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
           <Typography variant='h5' sx={{ fontWeight: 600, mt: 8 }}>
             Health Center Registration
