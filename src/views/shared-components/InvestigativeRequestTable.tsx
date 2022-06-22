@@ -11,7 +11,6 @@ import DialogContent from '@mui/material/DialogContent'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 
-
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
@@ -24,7 +23,7 @@ const InvestigativeRequestTable = () => {
     setCurrentInvReq(param)
     setOpen(true)
   }
-  const { data: session } = useSession();
+  const { data: session } = useSession()
 
   const handleClickClose = () => setOpen(false)
 
@@ -39,7 +38,7 @@ const InvestigativeRequestTable = () => {
     labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }]
   })
   useEffect(() => {
-    requests.get(`/investigation-request`,  session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/investigation-request/incomplete`, session ? session.accessToken.toString() : '').then(response => {
       setInvReqs(response.data)
     })
   }, [])
@@ -54,23 +53,21 @@ const InvestigativeRequestTable = () => {
       editable: false
     },
     {
-      field: 'date',
+      field: 'createdAt',
       headerName: 'Date',
       type: 'number',
       width: 150,
       editable: false,
-      renderCell: (params: GridRenderCellParams<any>) => (
-        <p> {new Date(params.value).toLocaleDateString("en-US")}</p>
-      )
+      renderCell: (params: GridRenderCellParams<any>) => <p> {new Date(params.value).toLocaleDateString('en-US')}</p>
     },
     {
       field: 'remainingTests',
-      headerName: 'Number of Tests',
+      headerName: 'Remaining Tests',
       type: 'number',
       width: 150,
       editable: false,
       renderCell: (params: GridRenderCellParams<Array<any>>) => (
-        <Chip color='primary' label={params.value} sx={{px: 5}}/>
+        <Chip color='primary' label={params.value} sx={{ px: 5 }} />
       )
     },
     {
@@ -100,19 +97,18 @@ const InvestigativeRequestTable = () => {
           columns={columns}
           {...currentInvReq}
           pageSize={5}
-          onCellClick={(params) => {
+          onCellClick={params => {
             console.log(params.row)
             handleClickOpen(params.row)
           }}
           rowsPerPageOptions={[5]}
-
         />
       </div>
       <Fragment>
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
           <DialogContent>
-            <LabResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id}  />
+            <LabResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

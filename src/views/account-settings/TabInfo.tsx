@@ -56,20 +56,25 @@ const TabInfo = (props: any) => {
 
   const updateUser = () => {
     const data = {
-      address: {
-        city: props.user.address.city,
-        subCity: props.user.address.subCity,
-        zone: props.user.address.zone,
-        woreda: props.user.address.wereda,
-        kebelle: props.user.address.kebelle,
-        street: props.user.address.street,
-        houseNo: props.user.address.houseNo
-      }
+      city, //: props.user.address.city,
+      subCity, //: props.user.address.subCity,
+      zone, //: props.user.address.zone,
+      woreda, //: props.user.address.wereda,
+      kebelle, //: props.user.address.kebelle,
+      street, //: props.user.address.street,
+      houseNo //: props.user.address.houseNo
     }
 
-    requests.put(`/user/${props.user.id}`, data, session ? session.accessToken.toString() : '').then(response => {
-      console.log(response.data)
-    })
+    console.log('update', data)
+
+    requests
+      .put(`/user/address/update`, data, session ? session.accessToken.toString() : '')
+      .then(response => {
+        console.log(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
   return (
@@ -198,7 +203,7 @@ const TabInfo = (props: any) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }} onSubmit={updateUser}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={updateUser}>
               Save Changes
             </Button>
             <Button type='reset' variant='outlined' color='secondary'>
