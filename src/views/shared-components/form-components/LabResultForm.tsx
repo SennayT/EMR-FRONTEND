@@ -176,10 +176,10 @@ const LabResultForm = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
+                  <InputLabel id='labTest-select-label'>Lab Tests</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label='Investigative Request'
+                    label='Lab Tests'
                     value={currentLabTest}
                     defaultValue={{
                       id: 0,
