@@ -38,6 +38,7 @@ import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { getSession, signIn } from 'next-auth/react'
 import { Alert, Snackbar } from '@mui/material'
 import { useRouter } from 'next/router'
+import requests from 'src/utils/repository'
 
 const HeaderTitle = styled(Typography)<TypographyProps>(({ theme }) => ({
   fontWeight: 600,
@@ -134,7 +135,9 @@ const LoginPage = () => {
   }
 
   const forgotPassHandler = () => {
-    requests.post()
+    requests.get(`/user/password-forget/plainTextemail?toemail=${email}`).then(res => {
+      router.push('/401')
+    })
   }
 
   const router = useRouter()
@@ -208,7 +211,8 @@ const LoginPage = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <Button onClick={forgotPassHandler}>
+              <Button
+              disabled={emailErrors?.email  ? true : false} onClick={forgotPassHandler}>
                 <LinkStyled>Forgot Password?</LinkStyled>
               </Button>
             </Box>
