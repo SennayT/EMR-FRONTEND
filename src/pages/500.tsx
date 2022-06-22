@@ -50,7 +50,7 @@ const TreeIllustration = styled('img')(({ theme }) => ({
 const router = useRouter();
 
 const resetPasswordHandler = () => {
-  requests.post(`/user/password/reset` ,{email: router.query.email} , "" ).then(res => {
+  requests.post(`/user/password/reset` ,{email: router.query} , "" ).then(res => {
     router.push('/')
   })
 }
