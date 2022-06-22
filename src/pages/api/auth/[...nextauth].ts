@@ -2,8 +2,8 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import axios from 'axios'
 
-const herokuUrl = 'https://capstone-backend-0957-11-v2.herokuapp.com'
-//const herokuUrl = 'http://localhost:4000'
+//const herokuUrl = 'https://capstone-backend-0957-11-v2.herokuapp.com'
+const herokuUrl = 'http://localhost:4000'
 const url = `${herokuUrl}/auth/signin`
 
 export default NextAuth({
@@ -56,7 +56,7 @@ export default NextAuth({
       if (token.role) {
         session.role = token.role
       }
-      session.isPasswordReset = token.isPasswordReset;
+      session.isPasswordReset = token.isPasswordReset
 
       return session
     }
