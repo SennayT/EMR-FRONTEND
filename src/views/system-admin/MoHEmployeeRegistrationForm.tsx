@@ -61,25 +61,25 @@ export default function ResearcherRegistrationForm(props: any) {
 
   const disableButton =
     nameErrors?.name ||
-    !name ||
-    emailErrors?.email ||
-    !email ||
-    phoneErrors?.phone ||
-    !phone ||
-    cityErrors?.city ||
-    !city ||
-    woredaErrors?.woreda ||
-    !woreda ||
-    subCityErrors?.subCity ||
-    !subCity ||
-    kebelleErrors?.kebelle ||
-    !kebelle ||
-    streetErrors?.street ||
-    !street ||
-    houseNoErrors?.houseNo ||
-    !houseNo ||
-    zoneErrors?.zone ||
-    !zone
+      !name ||
+      emailErrors?.email ||
+      !email ||
+      phoneErrors?.phone ||
+      !phone ||
+      cityErrors?.city ||
+      !city ||
+      woredaErrors?.woreda ||
+      !woreda ||
+      subCityErrors?.subCity ||
+      !subCity ||
+      kebelleErrors?.kebelle ||
+      !kebelle ||
+      streetErrors?.street ||
+      !street ||
+      houseNoErrors?.houseNo ||
+      !houseNo ||
+      zoneErrors?.zone ||
+      !zone
       ? true
       : false
 
@@ -266,7 +266,7 @@ export default function ResearcherRegistrationForm(props: any) {
         gender: gender,
         age: age,
         image: '',
-        healthCenterId: 4,
+        healthCenterId: 1,
         address: {
           city: city,
           subCity: subCity,
@@ -277,7 +277,6 @@ export default function ResearcherRegistrationForm(props: any) {
           houseNo: houseNo
         }
       },
-      registeredBy: user.id
     }
     if (!props.edit) {
       requests
@@ -286,8 +285,29 @@ export default function ResearcherRegistrationForm(props: any) {
         .catch(props.closeHandler(true, 'error'))
       props.closeHandler(false)
     } else {
+      const payload = {
+
+        name: name,
+        email: email,
+        phone: phone,
+        gender: gender,
+        age: age,
+        image: props.employee.image,
+        isAdmin: false,
+        isResearcher: true,
+        address: {
+          city: city,
+          subCity: subCity,
+          woreda: woreda,
+          zone: zone,
+          street: street,
+          kebelle: kebelle,
+          houseNo: houseNo
+
+        },
+      }
       requests
-        .post(`/moh-employee/${props.employee.id}`, body, session ? session.accessToken.toString() : '')
+        .put(`/user/${props.employee.id}`, payload, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
         .catch(props.closeHandler(true, 'error'))
     }

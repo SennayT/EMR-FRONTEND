@@ -59,19 +59,27 @@ const Researchers = () => {
   const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 70 },
     {
+      field: 'image',
+      headerName: '',
+      width: 20,
+      editable: false,
+      renderCell: (params: GridRenderCellParams<string>) => (
+          <Grid item xs={3}>
+            <Avatar src={params.value} />
+          </Grid>
+
+      )
+    },
+    {
       field: 'name',
-      headerName: 'Researcher',
+      headerName: 'Researcher Name',
       width: 200,
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => (
-        <Grid container spacing={2} alignItems='center'>
-          <Grid item xs={3}>
-            <Avatar sx={{ backgroundColor: '#e5f7d0', padding: 1 }} />
-          </Grid>
+
           <Grid item xs={6}>
             <Typography variant='body1'>{params.value}</Typography>
           </Grid>
-        </Grid>
       )
     },
     {
@@ -112,9 +120,6 @@ const Researchers = () => {
                   setOpen(true)
                 }}
               />
-            </IconButton>
-            <IconButton>
-              <DeleteIcon />
             </IconButton>
           </div>
         )

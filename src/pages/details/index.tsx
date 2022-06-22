@@ -16,7 +16,7 @@ const DetailsPage = (props: any) => {
   useEffect(() => {
     setTitle(router.query.dName),
     setDesc(router.query.dDesc)
-  })
+  },[])
 
   return (
     <Card>

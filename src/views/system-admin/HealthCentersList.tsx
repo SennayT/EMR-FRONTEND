@@ -101,9 +101,6 @@ const HealthCenters = () => {
             >
               <EditIcon />
             </IconButton>
-            <IconButton>
-              <DeleteIcon />
-            </IconButton>
           </div>
         )
       }

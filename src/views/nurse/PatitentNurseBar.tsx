@@ -28,7 +28,7 @@ const PatientNurseBar = (props: any) => {
   const router = useRouter()
   useEffect(() => {
     setPatientId(Number(router.query.id))
-  })
+  }, [])
   const handleClose = () => {
     setErr(false);
   }

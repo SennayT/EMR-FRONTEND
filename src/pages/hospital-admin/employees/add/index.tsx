@@ -21,7 +21,7 @@ const EmployeAdd = () => {
       setAdd(false)
       setLoading(false)
     }
-  })
+  },[])
 
   return loading ? <div></div> : <EmRegistrationForm add={add} user={user} />
 }
