@@ -564,12 +564,10 @@ export default function HospitalRegistrationForm(props: any) {
     if (!props.edit) {
       requests
         .post(`/health-center`, body, session ? session.accessToken.toString() : '')
-        .then(_ => {
-          router.back()
-        })
         .then(res => {
           setSeverity('success')
           setErrOpen(true)
+          router.back()
         })
         .catch(e => {
           setSeverity('success')
