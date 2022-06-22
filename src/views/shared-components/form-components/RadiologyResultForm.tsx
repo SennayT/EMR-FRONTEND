@@ -70,13 +70,15 @@ const RadiologyResultForm = (props: any) => {
 
     const data: any = {
       name: currentLabTest.name,
-      focalArea: 'stomach',
+      focalArea,
       report: 'some result',
-      images: "",
+      //  images: '',
       comment: comment,
-      image: "",
+      image: '',
       investigationRequestId: props.invReqId
     }
+
+    console.log('rad', data)
 
     const formData = new FormData()
 
@@ -117,13 +119,14 @@ const RadiologyResultForm = (props: any) => {
   }
 
   const [comment, setComment] = useState('')
+  const [focalArea, setFocalArea] = useState('')
   const [currentLabTest, setCurrentLabTest] = useState({
     id: 0,
     name: '',
     focalArea: 'lower abdomen',
     report: '',
     comment: comment,
-    image: "",
+    image: '',
     investigationRequestId: props.invReqId
   })
 
@@ -162,10 +165,10 @@ const RadiologyResultForm = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
+                  <InputLabel id='labTest-select-label'>Radiology Tests</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label='Investigative Request'
+                    label='Radiology Test'
                     value={currentLabTest}
                     MenuProps={MenuProps}
                     onChange={e => {
@@ -187,10 +190,10 @@ const RadiologyResultForm = (props: any) => {
                 <TextField
                   size='small'
                   fullWidth
-                  value={currentLabTest.focalArea}
+                  value={focalArea}
+                  onChange={e => setFocalArea(e.target.value)}
                   label='Focal Area'
                   InputProps={{
-                    readOnly: true,
                     startAdornment: (
                       <InputAdornment position='start'>
                         <EmailOutline />

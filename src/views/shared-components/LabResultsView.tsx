@@ -41,7 +41,7 @@ const LabResultsView = () => {
   const [currentLabTest, setcurrentLabTest] = useState({
   })
   useEffect(() => {
-    requests.get(`/lab-test`,session ? session.accessToken.toString() : "").then(response => {
+    requests.get(`/lab-result/user/filled`,session ? session.accessToken.toString() : "").then(response => {
       console.log(response.data)
       setlabTests(response.data)
     })

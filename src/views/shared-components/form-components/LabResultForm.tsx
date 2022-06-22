@@ -100,13 +100,10 @@ const LabResultForm = (props: any) => {
         console.log(r)
         console.log("done", r)
         data.image = r.secure_url;
-        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(response => {
-          console.log("done", response.data)
-        })
+        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(props.closeHandler(true, 'error'))
 
   }
 
@@ -179,10 +176,10 @@ const LabResultForm = (props: any) => {
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
+                  <InputLabel id='labTest-select-label'>Lab Tests</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label='Investigative Request'
+                    label='Lab Tests'
                     value={currentLabTest}
                     defaultValue={{
                       id: 0,
