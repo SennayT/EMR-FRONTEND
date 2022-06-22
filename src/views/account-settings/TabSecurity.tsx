@@ -26,7 +26,7 @@ import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import { setServers } from 'dns/promises'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
-import { Alert, Snackbar } from '@mui/material'
+import { Alert, Snackbar, TextField } from '@mui/material'
 
 // import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
 
@@ -50,6 +50,8 @@ const TabSecurity = (props: any) => {
     showConfirmNewPassword: false
   })
 
+  const [newError, setNewError] = useState<{ newPassword: string }>()
+
   // Handle Current Password
   const handleCurrentPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -62,9 +64,25 @@ const TabSecurity = (props: any) => {
   }
 
   // Handle New Password
-  const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
+  // const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
+  //   setValues({ ...values, [prop]: event.target.value })
+  // }
+
+  const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setNewError({ newPassword: '' })
+    setValues({ ...values, newPassword: value })
+    const regName = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/).test(value)
+
+    if (value == '') {
+      setNewError({ newPassword: 'Password field cannot be empty' })
+    } else if (!regName) {
+      setNewError({ newPassword: 'Not a strong password' })
+    }
   }
+
   const handleClickShowNewPassword = () => {
     setValues({ ...values, showNewPassword: !values.showNewPassword })
   }
@@ -76,6 +94,7 @@ const TabSecurity = (props: any) => {
   const handleConfirmNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
   }
+
   const handleClickShowConfirmNewPassword = () => {
     setValues({ ...values, showConfirmNewPassword: !values.showConfirmNewPassword })
   }
@@ -124,7 +143,33 @@ const TabSecurity = (props: any) => {
           <Grid item xs={12} sm={6}>
             <Grid container spacing={5}>
               <Grid item xs={12} sx={{ marginTop: 4.75 }}>
-                <FormControl fullWidth>
+                <TextField
+                  value={values.currentPassword}
+                  onChange={handleCurrentPasswordChange('currentPassword')}
+                  fullWidth
+                  error={values.currentPassword == ''}
+                  helperText={values.currentPassword == '' ? 'Password cannot be empty' : ''}
+                  id='account-settings-current-password'
+                  type={values.showCurrentPassword ? 'text' : 'password'}
+                  required
+                  label='Current Password'
+                  placeholder=''
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowCurrentPassword}
+                          onMouseDown={handleMouseDownCurrentPassword}
+                        >
+                          {values.showCurrentPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                {/* <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-current-password'>Current Password</InputLabel>
                   <OutlinedInput
                     label='Current Password'
@@ -145,11 +190,37 @@ const TabSecurity = (props: any) => {
                       </InputAdornment>
                     }
                   />
-                </FormControl>
+                </FormControl> */}
               </Grid>
 
               <Grid item xs={12} sx={{}}>
-                <FormControl fullWidth>
+                <TextField
+                  value={values.newPassword}
+                  onChange={handleNewPasswordChange}
+                  fullWidth
+                  id='account-settings-new-password'
+                  type={values.showNewPassword ? 'text' : 'password'}
+                  required
+                  error={Boolean(newError?.newPassword)}
+                  helperText={newError?.newPassword}
+                  label='New Password'
+                  placeholder=''
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowNewPassword}
+                          onMouseDown={handleMouseDownNewPassword}
+                        >
+                          {values.showNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                {/* <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-new-password'>New Password</InputLabel>
                   <OutlinedInput
                     label='New Password'
@@ -170,11 +241,39 @@ const TabSecurity = (props: any) => {
                       </InputAdornment>
                     }
                   />
-                </FormControl>
+                </FormControl> */}
               </Grid>
 
               <Grid item xs={12}>
-                <FormControl fullWidth>
+                <TextField
+                  value={values.confirmNewPassword}
+                  onChange={handleConfirmNewPasswordChange('confirmNewPassword')}
+                  fullWidth
+                  id='account-settings-confirm-new-password'
+                  type={values.showConfirmNewPassword ? 'text' : 'password'}
+                  required
+                  label='Confirm New Password'
+                  error={Boolean(values.newPassword !== values.confirmNewPassword)}
+                  helperText={
+                    values.newPassword !== values.confirmNewPassword ? 'New password doesnt match confirm password' : ''
+                  }
+                  placeholder=''
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          edge='end'
+                          aria-label='toggle password visibility'
+                          onClick={handleClickShowConfirmNewPassword}
+                          onMouseDown={handleMouseDownConfirmNewPassword}
+                        >
+                          {values.showConfirmNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                {/* <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-confirm-new-password'>Confirm New Password</InputLabel>
                   <OutlinedInput
                     label='Confirm New Password'
@@ -195,7 +294,7 @@ const TabSecurity = (props: any) => {
                       </InputAdornment>
                     }
                   />
-                </FormControl>
+                </FormControl> */}
               </Grid>
             </Grid>
           </Grid>
@@ -208,7 +307,9 @@ const TabSecurity = (props: any) => {
             disabled={
               values.newPassword != values.confirmNewPassword ||
               values.newPassword == '' ||
-              values.confirmNewPassword == ''
+              values.confirmNewPassword == '' ||
+              values.currentPassword == '' ||
+              newError?.newPassword
             }
             sx={{ marginRight: 3.5 }}
             onClick={changePassword}
