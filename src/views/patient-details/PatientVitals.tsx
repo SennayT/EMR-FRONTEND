@@ -87,6 +87,13 @@ const PatientVitals = (props: any) => {
                 </Typography>
               </Grid>
             </Grid>
+            {/* <Typography>
+            Symptom: {props.vital.examination.symptom}
+            </Typography>
+
+            <Typography>
+            Physical Examination:  {props.vital.examination.symptom}
+            </Typography> */}
           </Grid>
         )
       })}

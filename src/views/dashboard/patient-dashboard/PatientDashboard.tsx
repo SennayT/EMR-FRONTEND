@@ -66,59 +66,16 @@ export default function PatientDashboard(props: any) {
   // const router = useRouter()
 
   useEffect(() => {
-    requests.post(`/user/profile`, {}, session ? session.accessToken.toString() : '').then(response => {
+    requests.get(`/patient/user/profile`,  session ? session.accessToken.toString() : '').then(response => {
       setUser(response.data)
       console.log("user" , response.data)
-      requests.get(`/patient/refId/$response.data.refId`).then(res => {
-        requests.get(`/vitals/patient`, session ? session.accessToken : '').then(r => {
+      requests.get(`/vitals/patient/${response.data.id}`, session ? session.accessToken : '').then(r => {
           setVitals(r.data)
         })
-      })
+
     })
   }, [])
 
-  // return vitals.length == 0 ? (
-  //   <Grid className='container-grid' spacing={5} container item>
-  //     <Grid item xs={12}>
-  //       <PatientDiagnosis user={user} />
-  //     </Grid>
-
-  //     <Grid item xs={8}>
-  //       <Box className='content-center'>
-  //         <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-  //           <BoxWrapper>
-  //             <Typography variant='h3'>No Vitals Yet </Typography>
-  //             {/* <Typography variant='body2' sx={{ mb: 1 }}>
-  //               please add data to view here ⚠️
-  //             </Typography> */}
-  //           </BoxWrapper>
-  //         </Box>
-  //       </Box>
-  //     </Grid>
-  //     <Grid item xs={12}>
-  //       <DiagnosisHistory />
-  //     </Grid>
-  //   </Grid>
-  // ) : (
-  //   <Grid className='container-grid' spacing={2} container item>
-  //     <Grid item xs={12}>
-  //       <PatientDiagnosis user={user} />
-  //     </Grid>
-  //     <Grid item xs={12}>
-  //       {vitals.map(function (vital) {
-  //         return (
-  //           <div>
-  //             <p>vital number {vital['id']}</p>
-  //             <PatientVitals vital={vital} />
-  //           </div>
-  //         )
-  //       })}
-  //     </Grid>
-  //     <Grid item xs={12}>
-  //       <DiagnosisHistory />
-  //     </Grid>
-  //   </Grid>
-  // )
 
   return vitals.length == 0 ? (
     <Grid className='container-grid' spacing={5} container item>
@@ -134,7 +91,7 @@ export default function PatientDashboard(props: any) {
               {/* <Typography variant='body2' sx={{ mb: 1 }}>
                please add data to view here ⚠️
               </Typography> */}
-            </BoxWrapper>
+             </BoxWrapper>
           </Box>
         </Box>
       </Grid>
@@ -148,14 +105,14 @@ export default function PatientDashboard(props: any) {
         <PatientDiagnosis user={user} />
       </Grid>
       <Grid item xs={12}>
-        {vitals.map(function (vital) {
+        {/* {vitals.map(function (vital) {
           return (
             <div>
               <p>vital number {vital['id']}</p>
               <PatientVitals vital={vital} />
             </div>
           )
-        })}
+        })} */}
       </Grid>
       <Grid item xs={12}>
         <DiagnosisHistory />

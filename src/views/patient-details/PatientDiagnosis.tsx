@@ -27,18 +27,48 @@ const PatientDiagnosis = (props: {
   user: { name: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined }
 }) => {
   // ** State
-  const [imgSrc] = useState<string>(props.user.image)
+  const [imgSrc, setImgSrc] = useState<string>(props.user.image)
 
   const [vitals, setVitals] = useState([])
   const { data: session } = useSession()
   const router = useRouter()
 
   useEffect(() => {
+    session.role == 'Patient' ?
+      requests
+        .get(`/patient/user/profile`, session ? session.accessToken.toString() : '')
+        .then(response => {
+          setImgSrc(response.data.image)
+          requests
+            .get(`/vitals/patient/${response.data.id}`, session ? session.accessToken.toString() : '')
+            .then(r => {
+              console.log(r.data)
+              setVitals(r.data)
+            })
+          requests
+            .get(`/diagnosis/patient/${response.data.id}`, session ? session.accessToken.toString() : '')
+            .then(response => {
+              if (response.data[0]) {
+                setLastDiagnosis(response.data[0])
+                console.log('last diagnosis', lastDiagnosis)
+                console.log('diseases', lastDiagnosis.diseases)
+              }
+            })
+        }) :
+      requests
+        .get(`/vitals/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+        .then(response => {
+          console.log(response.data)
+          setVitals(response.data)
+        })
     requests
-      .get(`/vitals/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+      .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
       .then(response => {
-        console.log(response.data)
-        setVitals(response.data)
+        if (response.data[0]) {
+          setLastDiagnosis(response.data[0])
+          console.log('last diagnosis', lastDiagnosis)
+          console.log('diseases', lastDiagnosis.diseases)
+        }
       })
   }, [])
   const [lastDiagnosis, setLastDiagnosis] = useState({
@@ -54,17 +84,17 @@ const PatientDiagnosis = (props: {
     ]
   })
 
-  useEffect(() => {
-    requests
-      .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
-      .then(response => {
-        if (response.data[0]) {
-          setLastDiagnosis(response.data[0])
-          console.log('last diagnosis', lastDiagnosis)
-          console.log('diseases', lastDiagnosis.diseases)
-        }
-      })
-  }, [])
+  // useEffect(() => {
+  //   requests
+  //     .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+  //     .then(response => {
+  //       if (response.data[0]) {
+  //         setLastDiagnosis(response.data[0])
+  //         console.log('last diagnosis', lastDiagnosis)
+  //         console.log('diseases', lastDiagnosis.diseases)
+  //       }
+  //     })
+  // }, [])
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
@@ -90,13 +120,20 @@ const PatientDiagnosis = (props: {
             <Grid item>
               {vitals.length != 0
                 ? vitals.map(function (vital) {
-                    return (
-                      <div>
-                        <p>vital number {vital['id']}</p>
-                        <PatientVitals vital={vital} />
-                      </div>
-                    )
-                  })
+                  return (
+                    <div>
+                      <p>vital number {vital['id']}</p>
+                      <PatientVitals vital={vital} />
+                      {vital.examination ? <><Typography>
+                        Symptom: {vital.examination.symptom}
+                      </Typography>
+
+                      <Typography>
+                        Physical Examination:  {vital.examination.symptom}
+                      </Typography> </>: <p></p>}
+                    </div>
+                  )
+                })
                 : <p>No Vitals Yet</p>}
 
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>

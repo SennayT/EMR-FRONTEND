@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
-import { Button, Typography, Chip } from '@mui/material'
+import { Button, Typography, Chip, Snackbar, Alert } from '@mui/material'
 import LabResultFrom from './form-components/LabResultForm'
 
 import Dialog from '@mui/material/Dialog'
@@ -16,6 +16,8 @@ import { useSession } from 'next-auth/react'
 
 const InvestigativeRequestTable = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const [errOpen , setErrOpen] = useState(false)
+  const [severity, setSeverity]  = useState('success')
 
   const handleClickOpen = (param: any) => {
     // console.log(req)
@@ -25,7 +27,22 @@ const InvestigativeRequestTable = () => {
   }
   const { data: session } = useSession()
 
-  const handleClickClose = () => setOpen(false)
+  const handleClickClose = (origin: boolean, severity: string) => {
+    if (origin) {
+      console.log(severity)
+      setSeverity(severity)
+      setOpen(false)
+      setErrOpen(true)
+    } else {
+      // console.log('here')
+      setErrOpen(false)
+      setSeverity(severity)
+      setOpen(false)
+    }
+  }
+  const handleClose = () => {
+    setErrOpen(false)
+  }
 
   const [invReqs, setInvReqs] = useState([
     { id: 0, date: '', note: '', labTests: [{ id: 0, name: '', normalRange: '', measuredIn: '', testCategory: '' }] }
@@ -88,6 +105,11 @@ const InvestigativeRequestTable = () => {
 
   return (
     <div>
+      <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
+          </Alert>
+        </Snackbar>
       <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
         Investigative Requests
       </Typography>
@@ -108,7 +130,7 @@ const InvestigativeRequestTable = () => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
           <DialogContent>
-            <LabResultFrom labTests={currentInvReq.labTests} invReqId={currentInvReq.id} />
+            <LabResultFrom closeHandler={handleClickClose} labTests={currentInvReq.labTests} invReqId={currentInvReq.id} />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

@@ -100,13 +100,10 @@ const LabResultForm = (props: any) => {
         console.log(r)
         console.log("done", r)
         data.image = r.secure_url;
-        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(response => {
-          console.log("done", response.data)
-        })
+        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(props.closeHandler(true, 'error'))
 
   }
 
