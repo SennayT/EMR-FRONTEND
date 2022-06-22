@@ -9,6 +9,7 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  TextField,
   Typography
 } from '@mui/material'
 import { signIn, useSession } from 'next-auth/react'
@@ -41,12 +42,28 @@ const First = () => {
     showConfirmNewPassword: false
   })
 
-  const disableButton = values.newPassword !== values.confirmNewPassword || !values.newPassword
-
   // Handle New Password
-  const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [prop]: event.target.value })
+  // const handleNewPasswordChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
+  //   setValues({ ...values, [prop]: event.target.value })
+  // }
+
+  const [newError, setNewError] = useState<{ newPassword: string }>()
+
+  const handleNewPasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value }
+    } = event
+    setNewError({ newPassword: '' })
+    setValues({ ...values, newPassword: value })
+    const regName = new RegExp(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/).test(value)
+
+    if (value == '') {
+      setNewError({ newPassword: 'Password field cannot be empty' })
+    } else if (!regName) {
+      setNewError({ newPassword: 'Not a strong password' })
+    }
   }
+
   const handleClickShowNewPassword = () => {
     setValues({ ...values, showNewPassword: !values.showNewPassword })
   }
@@ -64,6 +81,8 @@ const First = () => {
   const handleMouseDownConfirmNewPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
   }
+
+  const disableButton = values.newPassword !== values.confirmNewPassword || !values.newPassword || newError?.newPassword
 
   const { data: session } = useSession()
   const [err, setErr] = useState('')
@@ -111,7 +130,33 @@ const First = () => {
               Please change your password{' '}
             </Typography>
             <Grid item xs={12}>
-              <FormControl fullWidth>
+              <TextField
+                value={values.newPassword}
+                onChange={handleNewPasswordChange}
+                fullWidth
+                id='account-settings-new-password'
+                type={values.showNewPassword ? 'text' : 'password'}
+                required
+                error={Boolean(newError?.newPassword)}
+                helperText={newError?.newPassword}
+                label='New Password'
+                placeholder=''
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowNewPassword}
+                        onMouseDown={handleMouseDownNewPassword}
+                      >
+                        {values.showNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+              {/* <FormControl fullWidth>
                 <InputLabel htmlFor='account-settings-confirm-new-password'>Confirm New Password</InputLabel>
                 <OutlinedInput
                   label='Confirm New Password'
@@ -132,10 +177,38 @@ const First = () => {
                     </InputAdornment>
                   }
                 />
-              </FormControl>
+              </FormControl> */}
             </Grid>
             <Grid item xs={12} sx={{}}>
-              <FormControl fullWidth>
+              <TextField
+                value={values.confirmNewPassword}
+                onChange={handleConfirmNewPasswordChange('confirmNewPassword')}
+                fullWidth
+                id='account-settings-confirm-new-password'
+                type={values.showConfirmNewPassword ? 'text' : 'password'}
+                required
+                label='Confirm New Password'
+                error={Boolean(values.newPassword !== values.confirmNewPassword)}
+                helperText={
+                  values.newPassword !== values.confirmNewPassword ? 'New password doesnt match confirm password' : ''
+                }
+                placeholder=''
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        aria-label='toggle password visibility'
+                        onClick={handleClickShowConfirmNewPassword}
+                        onMouseDown={handleMouseDownConfirmNewPassword}
+                      >
+                        {values.showConfirmNewPassword ? <EyeOutline /> : <EyeOffOutline />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+              {/* <FormControl fullWidth>
                 <InputLabel htmlFor='account-settings-new-password'>New Password</InputLabel>
                 <OutlinedInput
                   label='New Password'
@@ -156,7 +229,7 @@ const First = () => {
                     </InputAdornment>
                   }
                 />
-              </FormControl>
+              </FormControl> */}
             </Grid>
             <Grid xs={10}></Grid>
             <Button

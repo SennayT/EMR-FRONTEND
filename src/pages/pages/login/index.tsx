@@ -7,6 +7,7 @@ import Link from 'next/link'
 // ** MUI Components
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import axios from 'axios'
 
 // import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
@@ -135,7 +136,7 @@ const LoginPage = () => {
   }
 
   const forgotPassHandler = () => {
-    requests.get(`/user/password-forget/plainTextemail?toemail=${email}`).then(res => {
+    axios.get(`http://localhost:4000/user/password-forget/plainTextemail?toemail=${email}`).then(res => {
       router.push('/401')
     })
   }
@@ -211,8 +212,7 @@ const LoginPage = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <Button
-              disabled={emailErrors?.email  ? true : false} onClick={forgotPassHandler}>
+              <Button disabled={emailErrors?.email ? true : false} onClick={forgotPassHandler}>
                 <LinkStyled>Forgot Password?</LinkStyled>
               </Button>
             </Box>

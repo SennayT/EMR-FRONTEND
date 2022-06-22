@@ -15,6 +15,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrations from 'src/views/pages/misc/FooterIllustrations'
+import requests from 'src/utils/repository'
+import { useRouter } from 'next/router'
 
 // ** Styled Components
 const BoxWrapper = styled(Box)<BoxProps>(({ theme }) => ({
@@ -45,6 +47,13 @@ const TreeIllustration = styled('img')(({ theme }) => ({
     bottom: 0
   }
 }))
+const router = useRouter();
+
+const resetPasswordHandler = () => {
+  requests.post(`/user/password/reset` ,{email: router.query} , "" ).then(res => {
+    router.push('/')
+  })
+}
 
 const Error500 = () => {
   return (
@@ -53,18 +62,17 @@ const Error500 = () => {
         <BoxWrapper>
           <Typography variant='h1'>500</Typography>
           <Typography variant='h5' sx={{ mb: 1, fontSize: '1.5rem !important' }}>
-            Internal server error 👨🏻‍💻
+            Reset Password
           </Typography>
           <Typography variant='body2'>Oops, something went wrong!</Typography>
         </BoxWrapper>
-        <Img height='487' alt='error-illustration' src='/images/pages/500.png' />
-        <Link passHref href='/'>
-          <Button component='a' variant='contained' sx={{ px: 5.5 }}>
+        {/* <Img height='487' alt='error-illustration' src='/images/pages/500.png' /> */}
+
+          <Button onClick={resetPasswordHandler} component='a' variant='contained' sx={{ px: 5.5 }}>
             Back to Home
           </Button>
-        </Link>
       </Box>
-      <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree-3.png' />} />
+      {/* <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree-3.png' />} /> */}
     </Box>
   )
 }

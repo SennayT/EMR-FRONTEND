@@ -5,8 +5,8 @@ import { getSession } from 'next-auth/react'
 // const token = JSON.parse();
 // const token = user.data.id;
 const instance = axios.create({
-  baseURL: 'http://capstone-backend-0957-11-v2.herokuapp.com/',
-  // baseURL: 'http://localhost:4000',
+  // baseURL: 'http://capstone-backend-0957-11-v2.herokuapp.com/',
+  baseURL: 'http://localhost:4000',
   timeout: 15000
   // headers: {
   //       Authorization: `Bearer ${getSession().data?.access_token}` ,
