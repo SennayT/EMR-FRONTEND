@@ -43,8 +43,8 @@ export default function ResearcherRegistrationForm(props: any) {
   const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : '')
   const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : '')
   const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : '')
-  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : '')
-  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : '')
+  const [street, setStreet] = useState(props.edit ? props.researcher.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -273,11 +273,12 @@ export default function ResearcherRegistrationForm(props: any) {
         .post(`/researcher`, body, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
         .catch(props.closeHandler(true, 'error'))
-      props.closeHandler(false)
+      // props.closeHandler(false)
     } else {
       requests
         .put(`/researcher/${props.researcher.id}`, body, session ? session.accessToken.toString() : '')
-        .catch(props.closeHandler(true))
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
     }
   }
 
