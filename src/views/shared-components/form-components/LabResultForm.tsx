@@ -3,9 +3,22 @@ import { SyntheticEvent, useImperativeHandle, useRef, useState } from 'react'
 
 import FormData from 'form-data'
 
-
 // ** MUI Imports
-import { Button, Grid, Card, CardContent, CardActions, FormControl, Select, InputLabel, MenuItem, Snackbar, Alert, Box, Link } from '@mui/material'
+import {
+  Button,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+  Snackbar,
+  Alert,
+  Box,
+  Link
+} from '@mui/material'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 
@@ -53,23 +66,18 @@ const HeadingTypography = styled(Typography)<TypographyProps>(({ theme }) => ({
   }
 }))
 
-
-
 const LabResultForm = (props: any) => {
   const [open, setOpen] = useState(false)
 
   // const [file, setFile] = useState()
-  const imageRef = useRef();
+  const imageRef = useRef()
 
-  const { data: session } = useSession();
-
-
+  const { data: session } = useSession()
 
   const [files, setFiles] = useState<File[]>([])
 
   const registerResult = () => {
     // const image = imageRef.current.getFiles();
-
 
     const data: any = {
       name: currentLabTest.name,
@@ -77,37 +85,34 @@ const LabResultForm = (props: any) => {
       result: 'some result',
       isAbnormal: true,
       comment: comment,
-      image: "",
+      image: '',
       labTestId: currentLabTest.id,
       investigationRequestId: props.invReqId
-
     }
 
+    const formData = new FormData()
 
-    const formData = new FormData();
+    formData.append('upload_preset', 'lab results')
+    formData.append('file', files[0])
 
-    formData.append('upload_preset', 'lab results');
-    formData.append('file', files[0]);
+    formData.append('cloud_name', 'capstoneemr')
 
-    formData.append("cloud_name", "capstoneemr")
-
-    fetch("https://api.cloudinary.com/v1_1/capstoneemr/image/upload", {
-      method: "post",
+    fetch('https://api.cloudinary.com/v1_1/capstoneemr/image/upload', {
+      method: 'post',
       body: formData
     })
       .then(res => res.json())
       .then(r => {
         console.log(r)
-        console.log("done", r)
-        data.image = r.secure_url;
-        requests.post(`/lab-result`, data, session ? session.accessToken : "").then(response => {
-          console.log("done", response.data)
+        console.log('done', r)
+        data.image = r.secure_url
+        requests.post(`/lab-result`, data, session ? session.accessToken : '').then(response => {
+          console.log('done', response.data)
         })
       })
       .catch(err => {
         console.log(err)
       })
-
   }
 
   // ** States
@@ -172,17 +177,17 @@ const LabResultForm = (props: any) => {
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
             <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
-              <Alert severity="error" sx={{ width: '100%' }}>
+              <Alert severity='error' sx={{ width: '100%' }}>
                 This is an error message!
               </Alert>
             </Snackbar>
             <Grid container spacing={4}>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='labTest-select-label'>Investigative Request</InputLabel>
+                  <InputLabel id='labTest-select-label'>Lab Tests</InputLabel>
                   <Select
                     labelId='labTest-select-label'
-                    label='Investigative Request'
+                    label='Lab Tests'
                     value={currentLabTest}
                     defaultValue={{
                       id: 0,
@@ -193,7 +198,7 @@ const LabResultForm = (props: any) => {
                     }}
                     MenuProps={MenuProps}
                     onChange={e => {
-                      const val = e.target.value;
+                      const val = e.target.value
                       setCurrentLabTest(val)
                     }}
                     fullWidth
@@ -233,13 +238,22 @@ const LabResultForm = (props: any) => {
                     sx={acceptedFiles.length ? { height: 450 } : { backgroundColor: '#f1f2eb' }}
                   >
                     <input {...getInputProps()} />
-                    <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center', padding: 2 }}>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: ['column', 'column', 'row'],
+                        alignItems: 'center',
+                        padding: 2
+                      }}
+                    >
                       <Img
                         alt='Upload img'
                         width='100px'
                         src='https://demos.themeselection.com/materio-mui-react-nextjs-admin-template/demo-1/images/misc/upload.png'
                       />
-                      <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
+                      <Box
+                        sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}
+                      >
                         <HeadingTypography variant='h5'>Drop result files here or click to upload.</HeadingTypography>
                         <Typography color='textSecondary'>
                           Drop files here or{' '}
