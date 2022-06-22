@@ -9,7 +9,7 @@ import ChartEight from 'src/views/shared-components/stat-components/medication';
 function medication() {
 
   const {data:session} = useSession();
-   
+
 const [open, setOpen] = React.useState(false);
 const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
@@ -29,23 +29,23 @@ const [data, setData] = useState({
     endAgeGroup: 0,
     gender: ""
   });
-}; 
-   
+};
+
 
   const handleSubmit = () => {
     if (data.medication == '') {
       alert('enter medication')
       return;
     }
-    
+
     if (data.startAgeGroup === 0) {
       data.startAgeGroup = 0;
     }
-    
+
     if (data.endAgeGroup === 0) {
       data.endAgeGroup = 150;
     }
-    
+
     if (data.gender === "") {
       data.gender = "male"
     }
@@ -53,12 +53,12 @@ const [data, setData] = useState({
     if (isNaN(data.startAgeGroup)){
        alert("Min age inputs must be a number")
       return;
-    } 
+    }
 
     if (isNaN(data.endAgeGroup)){
        alert("Max age inputs must be a number")
       return;
-    } 
+    }
 
       if (data.startAgeGroup > 150 || data.startAgeGroup < 0 ) {
         alert("Min age must be between 0 and 150");
@@ -70,20 +70,20 @@ const [data, setData] = useState({
       return;
     }
 
-      
+
     data.startAgeGroup = Number(data.startAgeGroup);
     data.endAgeGroup = Number(data.endAgeGroup);
-   
-    
+
+
     handleOpen();
    }
 
-  
+
   return (
     <div>
-         <main >
-        <img src="https://media.istockphoto.com/photos/coronavirus-or-flu-virus-concept-picture-id1208475449?k=20&m=1208475449&s=612x612&w=0&h=ZgxDwMyxNel__M4gRzB2kcNlPleeJvQ57rpmqwKVY4U=" alt="" />
-        <div className='d-flex' >
+      <main >
+        <h1 style={{fontSize:'40px', color:'limegreen'}}>Medication Search Record</h1>
+         <div className='d-flex' >
           <TextField style={{margin:'30px'}} label='medication Name'  name="medication" variant='outlined'
             value = {data.medication} onChange = {(e)=> setData({ ...data, medication: e.target.value})}/>
           <TextField style={{ margin: '30px' }} label='Gender'  name="gender" variant='outlined'
@@ -93,7 +93,7 @@ const [data, setData] = useState({
 
           <TextField style={{ margin: '30px' }} label='Min Age' name="startAgeGroup" variant='outlined'
             value = {data.startAgeGroup} onChange = {(e)=> setData({ ...data, startAgeGroup: Number(e.target.value)})} />
-          
+
           <TextField style={{ margin: '30px' }} label='Max Age'  name="endAgeGroup" variant='outlined'
             value = {data.endAgeGroup} onChange = {(e)=> setData({ ...data, endAgeGroup: Number(e.target.value)})} />
         </div>
@@ -114,14 +114,14 @@ const [data, setData] = useState({
         <Fade in={open} style={{ backgroundColor: 'white',width:'700px', marginLeft:'500px', marginTop:'20px' }}>
           <Box>
             <Typography id="transition-modal-title" variant="h6" component="h2" align='center'>
-              medication Analytics Charts
+              Medication Analytics Charts
             </Typography>
               <ChartEight data={data}  />
           </Box>
         </Fade>
       </Modal>
     </div>
-      
+
     </div>
   )
 }

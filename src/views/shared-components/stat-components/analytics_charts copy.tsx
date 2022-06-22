@@ -25,7 +25,7 @@ export default function ChartThree() {
 
 
   // if (error) return <div>Failed to load</div>
-  if (!data) return <div></div>
+  if (!data) return <div> </div>
 
 
   const theme = useTheme();
@@ -39,7 +39,7 @@ export default function ChartThree() {
     xaxis: {
       categories: ["patient", "prescription", "diagnosis", "disease", "investigation", "examination", "vitals"]
       },
-      colors: ['#56ca00'],
+      colors: ['#9C27B0'],
     title: {
       text: 'Analytics of Database Record',
       floating: true,
@@ -77,7 +77,7 @@ export default function ChartThree() {
     xaxis: {
       categories: ["healthcenter", "users"]
         },
-        colors: ['#56ca00'],
+        colors: ['#F44336'],
      title: {
       text: 'Healthcenter Vs  Users',
       floating: true,
@@ -116,9 +116,9 @@ export default function ChartThree() {
             <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar" width='500px' />
           </Grid>
           <Grid item xs = {12} md ={6} sm = {12}>
-            <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='400px' />
+            <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
           </Grid>
         </Grid>
        </div>
     )
-};
+}

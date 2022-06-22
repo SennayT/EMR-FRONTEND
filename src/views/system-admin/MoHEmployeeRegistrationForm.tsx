@@ -43,8 +43,8 @@ export default function ResearcherRegistrationForm(props: any) {
   const [woreda, setWoreda] = useState(props.edit ? props.employee.address.woreda : '')
   const [kebelle, setKebelle] = useState(props.edit ? props.employee.address.kebelle : '')
   const [zone, setZone] = useState(props.edit ? props.employee.address.zone : '')
-  const [street, setStreet] = useState(props.edit ? props.employee.name.street : '')
-  const [houseNo, setHouseNo] = useState(props.edit ? props.employee.name.houseNo : '')
+  const [street, setStreet] = useState(props.edit ? props.employee.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.employee.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -265,6 +265,7 @@ export default function ResearcherRegistrationForm(props: any) {
         phone: phone,
         gender: gender,
         age: age,
+        image: '',
         healthCenterId: 4,
         address: {
           city: city,
@@ -287,7 +288,8 @@ export default function ResearcherRegistrationForm(props: any) {
     } else {
       requests
         .post(`/moh-employee/${props.employee.id}`, body, session ? session.accessToken.toString() : '')
-        .catch(props.closeHandler(true))
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
     }
   }
 

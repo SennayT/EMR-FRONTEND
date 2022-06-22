@@ -34,6 +34,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Button, { ButtonProps } from '@mui/material/Button'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 // ** Icons Imports
 // import Close from 'mdi-material-ui/Close'
@@ -101,7 +102,7 @@ const TabAccount = (props: any) => {
 
   const { data: session } = useSession();
 
-
+  const router = useRouter()
   const updateUser = () => {
 
     const data = {
@@ -145,7 +146,9 @@ const TabAccount = (props: any) => {
           data.image = r.secure_url;
           requests.put(`/user/${props.user.id}`, data, session ? session.accessToken.toString() : '').then(response => {
             console.log(response.data)
+            router.push('/account-settings')
           })
+
         })
         .catch(err => {
           console.log(err)

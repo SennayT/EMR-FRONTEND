@@ -11,13 +11,15 @@ import DialogContent from '@mui/material/DialogContent'
 import requests from 'src/utils/repository'
 import { useSession } from 'next-auth/react'
 import ResultView from 'src/views/shared-components/ResultView'
+import LabResultsView from 'src/views/shared-components/LabResultsView'
 
 
 // import Magnify from 'mdi-material-ui/Magnify'
 // import InputAdornment from '@mui/material/InputAdornment'
 
 const Results = () => {
-  return <ResultView/>
+  const {data:session} = useSession()
+  return session.role === 'Doctor' ?  <ResultView/> : <LabResultsView/>
 }
 
 export default Results

@@ -42,7 +42,7 @@ const PatientActionsBar = (props: any) => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Diagnosis Form </DialogTitle>
           <DialogContent>
-            <DiagnosisForm />
+            <DiagnosisForm closeHandler={handleClickClose}  />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

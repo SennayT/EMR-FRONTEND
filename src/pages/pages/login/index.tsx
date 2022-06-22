@@ -126,7 +126,7 @@ const LoginPage = () => {
     console.log(credentials)
     console.log('here')
 
-    signIn('credentials', { email: email, password: values.password }).then(res => setErr(true))
+    signIn('credentials', { email: email, password: values.password, redirect: false }).then(res => setErr(true))
   }
 
   const handleClose = () => {
@@ -140,6 +140,7 @@ const LoginPage = () => {
       setErr(false)
     }
   }, [])
+
   return (
     <Box>
       <Card sx={{ zIndex: 1, mx: '35%' }}>
@@ -153,7 +154,7 @@ const LoginPage = () => {
             </HeaderTitle>
           </Box>
           <Box sx={{ mb: 6 }}>
-            <Typography variant='body2'>
+            <Typography color={err ? 'red' : 'green'} variant='body2'>
               {err ? 'Please enter valid credentials' : 'Please sign-in to your account'}
             </Typography>
           </Box>
@@ -203,9 +204,8 @@ const LoginPage = () => {
                 justifyContent: 'space-between'
               }}
             >
-              <FormControlLabel control={<Checkbox />} label='Remember Me' />
-              <Link passHref href='/'>
-                <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
+              <Link passHref href='/forgot-password'>
+                <LinkStyled>Forgot Password?</LinkStyled>
               </Link>
             </Box>
             <Button
@@ -221,7 +221,7 @@ const LoginPage = () => {
           </form>
         </CardContent>
       </Card>
-      <FooterIllustrationsV1 />
+      {/* <FooterIllustrationsV1 /> */}
     </Box>
   )
 }

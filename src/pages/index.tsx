@@ -59,6 +59,8 @@ const Dashboard = () => {
       return <RadiologistDashboard />
     case 'Researcher':
       return <ResearcherDashboard />
+    case 'Moh Employee':
+      return <ResearcherDashboard />
     case 'Patient':
       return <PatientDashboard />
     default:

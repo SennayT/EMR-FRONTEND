@@ -44,19 +44,8 @@ const ImgShoe = styled('img')(({ theme }) => ({
 
 const DiagnosisHistory = () => {
   const [diagnosis, setDiagnosis] = useState([
-    {
-      id: 1,
-      comment: '',
-      createdAt: '',
-      diseases: [
-        {
-          id: 0,
-          name: '',
-          description: ''
-        }
-      ]
-    }
   ])
+  const [loading, setLoading] = useState(false)
   const { data: session } = useSession()
 
   const router = useRouter()
@@ -65,9 +54,21 @@ const DiagnosisHistory = () => {
       .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
       .then(response => {
         setDiagnosis(response.data)
+        // setLoading(true)
         console.log(diagnosis)
       })
   }, [])
+
+  const detailDiagnosis = (diag: any) => {
+      router.push({
+        pathname: '/doctor/create-prescription',
+        query: {
+          dName: diag.createdAt.toString(),
+          dDesc: diag.comment,
+          id: diag.id
+        }
+      })
+  }
 
   return (
     <Card sx={{ marginTop: 5 }}>
@@ -75,7 +76,7 @@ const DiagnosisHistory = () => {
         <Typography variant='h6'>Diagnosis History</Typography>
 
         <Timeline>
-          {diagnosis.map(singleDiagnosis => {
+          {diagnosis.length != 0 ? diagnosis.map(singleDiagnosis => {
             return (
               <TimelineItem>
                 <TimelineSeparator>
@@ -128,14 +129,14 @@ const DiagnosisHistory = () => {
                   {/* <Typography variant='caption'>6:30 AM</Typography> */}
                   <Box>
                     {/* <img width={28} height={28} alt='invoice.pdf' src='/materio-mui-react-nextjs-admin-template/demo-1/images/icons/file-icons/pdf.png' /> */}
-                    <Button variant='text' color='primary' size='small' style={{ float: 'right' }}>
+                    <Button onClick={() => detailDiagnosis(singleDiagnosis)}  variant='text' color='primary' size='small' style={{ float: 'right' }}>
                       More
                     </Button>
                   </Box>
                 </TimelineContent>
               </TimelineItem>
             )
-          })}
+          }) : <p>No Diagnosis Yet</p>}
         </Timeline>
       </CardContent>
     </Card>

@@ -27,7 +27,7 @@ export default function ChartEight(props: any) {
 
     }, []);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <div> </div>
     const h = data['total_prescriptions'];
 
 const option_medication = { labels: ["Total prescriptions", "Prescriptions with the specified medication"] };

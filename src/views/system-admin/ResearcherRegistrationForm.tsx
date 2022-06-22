@@ -43,8 +43,8 @@ export default function ResearcherRegistrationForm(props: any) {
   const [woreda, setWoreda] = useState(props.edit ? props.researcher.address.woreda : '')
   const [kebelle, setKebelle] = useState(props.edit ? props.researcher.address.kebelle : '')
   const [zone, setZone] = useState(props.edit ? props.researcher.address.zone : '')
-  const [street, setStreet] = useState(props.edit ? props.researcher.name.street : '')
-  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.name.houseNo : '')
+  const [street, setStreet] = useState(props.edit ? props.researcher.address.street : '')
+  const [houseNo, setHouseNo] = useState(props.edit ? props.researcher.address.houseNo : '')
 
   const [nameErrors, setNameErrors] = useState<{ name: string }>()
   const [emailErrors, setEmailErrors] = useState<{ email: string }>()
@@ -71,17 +71,12 @@ export default function ResearcherRegistrationForm(props: any) {
     cityErrors?.city ||
     !city ||
     woredaErrors?.woreda ||
-    !woreda ||
     subCityErrors?.subCity ||
     !subCity ||
     kebelleErrors?.kebelle ||
-    !kebelle ||
     streetErrors?.street ||
-    !street ||
     houseNoErrors?.houseNo ||
-    !houseNo ||
-    zoneErrors?.zone ||
-    !zone
+    zoneErrors?.zone
       ? true
       : false
 
@@ -164,11 +159,9 @@ export default function ResearcherRegistrationForm(props: any) {
     setWoredaErrors({ woreda: '' })
     setWoreda(value)
 
-    if (value == '') {
-      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -199,11 +192,9 @@ export default function ResearcherRegistrationForm(props: any) {
     setKebelleErrors({ kebelle: '' })
     setKebelle(value)
 
-    if (value == '') {
-      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -215,11 +206,9 @@ export default function ResearcherRegistrationForm(props: any) {
     setStreetErrors({ street: '' })
     setStreet(value)
 
-    if (value == '') {
-      setStreetErrors({ street: 'Street field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setStreetErrors({ street: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setStreetErrors({ street: "Street can't be longer than 30 characters" })
     }
   }
@@ -231,11 +220,9 @@ export default function ResearcherRegistrationForm(props: any) {
     setHouseNoErrors({ houseNo: '' })
     setHouseNo(value)
 
-    if (value == '') {
-      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -247,11 +234,9 @@ export default function ResearcherRegistrationForm(props: any) {
     setZoneErrors({ zone: '' })
     setZone(value)
 
-    if (value == '') {
-      setZoneErrors({ zone: 'Zone field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
@@ -264,6 +249,7 @@ export default function ResearcherRegistrationForm(props: any) {
       age: age,
       phone: phone,
       gender: gender,
+      image: '',
       address: {
         city: city,
         subCity: subCity,
@@ -273,7 +259,7 @@ export default function ResearcherRegistrationForm(props: any) {
         kebelle: kebelle,
         houseNo: houseNo
       },
-      healthCenterId: props.edit
+      healthCenterId: 1
     }
     if (props.edit) {
       delete body.healthCenterId
@@ -288,11 +274,12 @@ export default function ResearcherRegistrationForm(props: any) {
         .post(`/researcher`, body, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
         .catch(props.closeHandler(true, 'error'))
-      props.closeHandler(false)
+      // props.closeHandler(false)
     } else {
       requests
         .put(`/researcher/${props.researcher.id}`, body, session ? session.accessToken.toString() : '')
-        .catch(props.closeHandler(true))
+        .then(res => props.closeHandler(true, 'success'))
+        .catch(props.closeHandler(true, 'error'))
     }
   }
 

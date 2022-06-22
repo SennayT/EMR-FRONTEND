@@ -102,7 +102,6 @@ export default function HospitalRegistrationForm(props: any) {
     empNameErrors?.empName ||
     !empName ||
     emEmpNameErrors?.emEmpName ||
-    !emEmpName ||
     emailErrors?.email ||
     !email ||
     empEmailErrors?.empEmail ||
@@ -112,7 +111,6 @@ export default function HospitalRegistrationForm(props: any) {
     empPhoneErrors?.empPhone ||
     !empPhone ||
     emEmpPhoneErrors?.emEmpPhone ||
-    !emEmpPhone ||
     typeErrors?.type ||
     !type ||
     cityErrors?.city ||
@@ -120,31 +118,21 @@ export default function HospitalRegistrationForm(props: any) {
     empCityErrors?.empCity ||
     !empCity ||
     woredaErrors?.woreda ||
-    !woreda ||
     empWoredaErrors?.empWoreda ||
-    !empWoreda ||
     subCityErrors?.subCity ||
     !subCity ||
     empSubCityErrors?.empSubCity ||
-    !empSubCity ||
-    kebelleErrors?.kebelle ||
-    !kebelle ||
-    empKebelleErrors?.empKebelle ||
-    !empKebelle ||
-    streetErrors?.street ||
-    !street ||
-    empStreetErrors?.empStreet ||
-    !empStreet ||
-    houseNoErrors?.houseNo ||
-    !houseNo ||
-    empHouseNoErrors?.empHouseNo ||
-    !empHouseNo ||
-    zoneErrors?.zone ||
-    !zone ||
-    empZoneErrors?.empZone ||
-    !empZone
-      ? true
-      : false
+    !empSubCity
+  kebelleErrors?.kebelle ||
+  empKebelleErrors?.empKebelle ||
+  streetErrors?.street ||
+  empStreetErrors?.empStreet ||
+  houseNoErrors?.houseNo ||
+  empHouseNoErrors?.empHouseNo ||
+  zoneErrors?.zone ||
+  empZoneErrors?.empZone
+    ? true
+    : false
 
   const [value, setValue] = React.useState<Date | null>(new Date('2014-08-18T21:11:54'))
 
@@ -205,13 +193,11 @@ export default function HospitalRegistrationForm(props: any) {
     setEmEmpName(value)
     const regName = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
-    if (value == '') {
-      setEmEmpNameErrors({ emEmpName: 'Name field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setEmEmpNameErrors({ emEmpName: "Name can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmEmpNameErrors({ emEmpName: "Name can't be longer than 30 characters" })
-    } else if (!regName) {
+    } else if (!regName && value.length != 0) {
       setEmEmpNameErrors({ emEmpName: 'Name can only include alphabets' })
     }
   }
@@ -252,14 +238,16 @@ export default function HospitalRegistrationForm(props: any) {
     } = event
     setTypeErrors({ type: '' })
     setType(value)
-    const reg = new RegExp(/^[A-Za-z]{3,10}$/).test(value)
-
-    if (!reg) {
-      setTypeErrors({ type: 'Invalid type' })
-    }
+    const reg = new RegExp(/^[a-zA-Z\s]{3,30}$/).test(value)
 
     if (value == '') {
       setTypeErrors({ type: 'Type field cannot be empty' })
+    } else if (value.length <= 3) {
+      setTypeErrors({ type: "Type can't be less than 3 characters" })
+    } else if (value.length >= 30) {
+      setTypeErrors({ type: "Type can't be longer than 30 characters" })
+    } else if (!reg) {
+      setTypeErrors({ type: 'Type can only include alphabets' })
     }
   }
 
@@ -309,13 +297,11 @@ export default function HospitalRegistrationForm(props: any) {
     setEmEmpPhone(value)
     const reg = new RegExp(/^\d{9,10}$/).test(value)
 
-    if (value == '') {
-      setEmEmpPhoneErrors({ emEmpPhone: 'Phone field cannot be empty' })
-    } else if (value.length < 9) {
+    if (value.length < 9 && value.length != 0) {
       setEmEmpPhoneErrors({ emEmpPhone: "Phone number length can't be less than 9" })
-    } else if (value.length > 10) {
+    } else if (value.length > 10 && value.length != 0) {
       setEmEmpPhoneErrors({ emEmpPhone: "Phone number length can't be longer than 10" })
-    } else if (!reg) {
+    } else if (!reg && value.length != 0) {
       setEmEmpPhoneErrors({ emEmpPhone: "Phone number can't include alphabet" })
     }
   }
@@ -365,11 +351,9 @@ export default function HospitalRegistrationForm(props: any) {
     setWoredaErrors({ woreda: '' })
     setWoreda(value)
 
-    if (value == '') {
-      setWoredaErrors({ woreda: 'Woreda field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setWoredaErrors({ woreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -381,11 +365,9 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpWoredaErrors({ empWoreda: '' })
     setEmpWoreda(value)
 
-    if (value == '') {
-      setEmpWoredaErrors({ empWoreda: 'Woreda field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setEmpWoredaErrors({ empWoreda: "Woreda can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setEmpWoredaErrors({ empWoreda: "Woreda can't be longer than 10 characters" })
     }
   }
@@ -435,11 +417,9 @@ export default function HospitalRegistrationForm(props: any) {
     setKebelleErrors({ kebelle: '' })
     setKebelle(value)
 
-    if (value == '') {
-      setKebelleErrors({ kebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setKebelleErrors({ kebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -451,11 +431,9 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpKebelleErrors({ empKebelle: '' })
     setEmpKebelle(value)
 
-    if (value == '') {
-      setEmpKebelleErrors({ empKebelle: 'Kebelle field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setEmpKebelleErrors({ empKebelle: "Kebelle can't be less than 2 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmpKebelleErrors({ empKebelle: "Kebelle can't be longer than 30 characters" })
     }
   }
@@ -467,11 +445,9 @@ export default function HospitalRegistrationForm(props: any) {
     setStreetErrors({ street: '' })
     setStreet(value)
 
-    if (value == '') {
-      setStreetErrors({ street: 'Street field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setStreetErrors({ street: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setStreetErrors({ street: "Street can't be longer than 30 characters" })
     }
   }
@@ -483,11 +459,9 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpStreetErrors({ empStreet: '' })
     setEmpStreet(value)
 
-    if (value == '') {
-      setEmpStreetErrors({ empStreet: 'Street field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setEmpStreetErrors({ empStreet: "Street can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmpStreetErrors({ empStreet: "Street can't be longer than 30 characters" })
     }
   }
@@ -499,11 +473,9 @@ export default function HospitalRegistrationForm(props: any) {
     setHouseNoErrors({ houseNo: '' })
     setHouseNo(value)
 
-    if (value == '') {
-      setHouseNoErrors({ houseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setHouseNoErrors({ houseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -515,11 +487,9 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpHouseNoErrors({ empHouseNo: '' })
     setEmpHouseNo(value)
 
-    if (value == '') {
-      setEmpHouseNoErrors({ empHouseNo: 'HouseNo field cannot be empty' })
-    } else if (value.length < 2) {
+    if (value.length < 2 && value.length != 0) {
       setEmpHouseNoErrors({ empHouseNo: "HouseNo can't be less than 2 characters" })
-    } else if (value.length >= 10) {
+    } else if (value.length >= 10 && value.length != 0) {
       setEmpHouseNoErrors({ empHouseNo: "HouseNo can't be longer than 10 characters" })
     }
   }
@@ -531,11 +501,9 @@ export default function HospitalRegistrationForm(props: any) {
     setZoneErrors({ zone: '' })
     setZone(value)
 
-    if (value == '') {
-      setZoneErrors({ zone: 'Zone field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setZoneErrors({ zone: "Zone can't be longer than 10 characters" })
     }
   }
@@ -547,13 +515,18 @@ export default function HospitalRegistrationForm(props: any) {
     setEmpZoneErrors({ empZone: '' })
     setEmpZone(value)
 
-    if (value == '') {
-      setEmpZoneErrors({ empZone: 'Zone field cannot be empty' })
-    } else if (value.length <= 3) {
+    if (value.length <= 3 && value.length != 0) {
       setEmpZoneErrors({ empZone: "Zone can't be less than 3 characters" })
-    } else if (value.length >= 30) {
+    } else if (value.length >= 30 && value.length != 0) {
       setEmpZoneErrors({ empZone: "Zone can't be longer than 10 characters" })
     }
+  }
+
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState('success')
+
+  const handleClose = () => {
+    setErrOpen(false)
   }
 
   const registerHealthCenter = () => {
@@ -591,15 +564,32 @@ export default function HospitalRegistrationForm(props: any) {
       }
     }
     if (!props.edit) {
-      requests.post(`/health-center`, body, session ? session.accessToken.toString() : '').then(_ => {
-        router.back()
-      })
+      requests
+        .post(`/health-center`, body, session ? session.accessToken.toString() : '')
+        .then(res => {
+          setSeverity('success')
+          setErrOpen(true)
+          router.back()
+        })
+        .catch(e => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
 
       //.then(res => props.closeHandler(true, 'success'))
       //  .catch(props.closeHandler(true, 'error'))
       //props.closeHandler(false)
     } else {
-      requests.put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+      requests
+        .put(`/health-center/${props.healthCenter.id}`, body, session ? session.accessToken.toString() : '')
+        .then(res => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
+        .catch(e => {
+          setSeverity('success')
+          setErrOpen(true)
+        })
 
       // .catch(props.closeHandler(true))
     }
@@ -611,11 +601,11 @@ export default function HospitalRegistrationForm(props: any) {
         <BackIcon />
       </IconButton>
       <Grid container spacing={6} sx={{ backgroundColor: 'white', mt: 4 }}>
-        {/* <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+        <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setErrOpen(false)}>
           <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
-            This is an error message!
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
           </Alert>
-        </Snackbar> */}
+        </Snackbar>
         <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
           <Typography variant='h5' sx={{ fontWeight: 600, mt: 8 }}>
             Health Center Registration
@@ -678,6 +668,7 @@ export default function HospitalRegistrationForm(props: any) {
                     value={type}
                     error={Boolean(typeErrors?.type)}
                     onChange={handleTypeChange}
+                    helperText={typeErrors?.type}
                     placeholder='General Hospital'
                     helperText={typeErrors?.type}
                     InputProps={{

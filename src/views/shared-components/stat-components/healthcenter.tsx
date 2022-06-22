@@ -7,25 +7,30 @@ import { useTheme } from '@emotion/react';
 import requests from 'src/utils/repository'
 
 import { useSession } from 'next-auth/react'
+import { Grid } from '@mui/material';
 
 
-export default function ChartNine() {
+export default function ChartNine(props: { email: any; }) {
   const [data, setData] = useState();
    const { data: session } = useSession()
   useEffect(() => {
     const body = {
-       healthcenter: "Bethel Hospital"
+       email: props.email
     }
     requests.post('researcher/healthcenter',body,session ? session.accessToken.toString() : '')
     .then(function (response) {
-                //   console.log(response.data);
+                  console.log(response.data);
                 setData(response.data)
 
             })
 
-    }, []);
+  }, []);
 
-  if (!data) return <div>Loading...</div>
+
+
+
+
+  if (!data) return <div> </div>
     const h = data['user_count'];
 
 const theme = useTheme();
@@ -36,11 +41,11 @@ const theme = useTheme();
       id: ""
     },
     xaxis: {
-        categories: ["recep", "radio", "doc", "nur", "s_admin", "h_admin", "lab", "res"],
+        categories: ["receptionists", "radiologists", "doctors", "nurses", "system admins", "hosptial admins", "lab experts", "researchers"],
       },
-      colors: ['#FF1654'],
+      colors: ['#56ca00'],
     title: {
-      text: 'Users Record By Role in Specified Healthcenter',
+      text: 'Users Record By Role in ' + JSON.stringify(data['hospital_name']),
       floating: true,
       align: 'center',
       style: {
@@ -49,19 +54,8 @@ const theme = useTheme();
     },
       fill: {
 
-        type: "gradient",
-        gradient: {
-            shade: "light",
+        type: "solid",
 
-        type: "horizontal",
-        shadeIntensity: 0.5,
-        gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 50, 100]
-        // colorStops: []
-      }
     },
     legend: {
       // position: '',
@@ -89,27 +83,17 @@ const theme = useTheme();
       categories: ["male", "female"]
         },
     title: {
-      text: 'Users Record By Gender in Specified Healthcenter',
+      text: 'Users Record By Gender in ' + JSON.stringify(data['hospital_name']),
       floating: true,
       align: 'center',
       style: {
         color: '#444'
       }
     },
-    colors: ['#247BA0'],
+    colors: ['#56ca00'],
     fill: {
-      type: "gradient",
-      gradient: {
-        shade: "light",
-        type: "horizontal",
-        shadeIntensity: 0.5,
-        gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0, 50, 100]
-        // colorStops: []
-      }
+      type: "solid",
+
     },
     legend: {
       // position: '',
@@ -126,9 +110,15 @@ const theme = useTheme();
   };
 
     return (
-    <div>
-        <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar"  width='700px' />
-        <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='700px' />
+      <div>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={12} md={6}>
+            <ReactApexChart options={chartDataOne} series={chartDataOne.series} type="bar"  width='500px' />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <ReactApexChart options={chartDataTwo} series={chartDataTwo.series} type="bar" width='500px' />
+          </Grid>
+        </Grid>
 
       </div>
 )

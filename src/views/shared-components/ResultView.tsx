@@ -32,7 +32,7 @@ const ResultView = () => {
   const handleViewClick = () => {
     router.push({pathname: '/patient/view/results/list/',
     query: {
-      invId: currentInvReq.id
+      id: currentInvReq.id
     }})
   }
   const [invReqs, setInvReqs] = useState([

@@ -5,6 +5,7 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 import axios from 'axios';
 import requests from 'src/utils/repository';
 import { useSession } from 'next-auth/react';
+import { CardContent } from '@mui/material';
 
 // "deserunt deserunt ipsa corporis voluptates dolore aut dolores assumenda unde"
 
@@ -30,7 +31,7 @@ export default function ChartSeven(props: any) {
 
     }, []);
 
-  if (!data) return <div>Loading...</div>
+  if (!data) return <div></div>
     const h = data['total_diagnoses'];
 
 const option_disease = { labels: ["Total Diagnosis", "Patients with the disease"] };
@@ -43,10 +44,10 @@ const option_gender = {labels:['Total Patients with in the age group', 'Patients
 const series_gender = [data['by_age'], data['by_gender']];
     return (
 
-        <div>
-        <ReactApexChart options={option_disease}  series={series_disease} type='pie' width='430px' />
-        <ReactApexChart options={option_age} series={series_age} type='pie' width='460px' />
-        <ReactApexChart options={option_gender} series={series_gender} type='pie' width='480px' />
-       </div>
+        <CardContent>
+        <ReactApexChart options={option_disease}  series={series_disease} type='pie' width='400px' />
+        {data['by_age'] ? <ReactApexChart options={option_age} series={series_age} type='pie' width='430px' /> : <div></div>}
+        {data['by_gender'] ? <ReactApexChart options={option_gender} series={series_gender} type='pie' width='450px' /> : <div></div>}
+       </CardContent>
     )
 };

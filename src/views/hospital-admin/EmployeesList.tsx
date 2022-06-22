@@ -79,6 +79,7 @@ const Employees = () => {
       editable: false,
       renderCell: (params: GridRenderCellParams<string>) => {
         console.log('value', params.value)
+
         return (
           <Chip
             label={params.value ? 'active' : 'inactive'}
@@ -124,9 +125,7 @@ const Employees = () => {
           <Link
             href={{
               pathname: '/hospital-admin/employees/add',
-              query: {
-                userId: ""
-              }
+              query: {}
             }}
           >
             <Button startIcon={<AddIcon />} variant='outlined' color='primary' size='small'>

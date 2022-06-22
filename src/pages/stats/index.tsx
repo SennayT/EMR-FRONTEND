@@ -1,7 +1,6 @@
 import ChartThree from "src/views/shared-components/stat-components/analytics_charts"
 import ChartNine from "src/views/shared-components/stat-components/healthcenter"
 import ChartOne from "src/views/shared-components/stat-components/patient_charts"
-import SearchDiseaseRecord from "src/views/shared-components/stat-components/searchDiseaseRecord"
 import ChartTwo from "src/views/shared-components/stat-components/user_charts"
 
 const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json())
@@ -12,13 +11,8 @@ export default function Stat() {
 
   return (
     <div>
-      <div style={{width:50}}>
-       <ChartOne /> 
-      </div>
-      
+      <ChartOne />
       <ChartTwo />
-      <ChartThree />
-      {/* <ChartNine/> */}
     </div>
   )
 }
