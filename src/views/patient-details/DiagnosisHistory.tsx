@@ -51,7 +51,7 @@ const DiagnosisHistory = () => {
   const router = useRouter()
   useEffect(() => {
     requests
-      .get(`/diagnosis`, session ? session.accessToken.toString() : '')
+      .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
       .then(response => {
         setDiagnosis(response.data)
         // setLoading(true)
