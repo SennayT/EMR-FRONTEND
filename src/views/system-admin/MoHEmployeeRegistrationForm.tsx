@@ -282,7 +282,7 @@ export default function ResearcherRegistrationForm(props: any) {
       requests
         .post(`/moh-employee`, body, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
-        .catch(props.closeHandler(true, 'error'))
+        .catch(err => props.closeHandler(true, 'error'))
       props.closeHandler(false)
     } else {
       const payload = {
@@ -309,7 +309,7 @@ export default function ResearcherRegistrationForm(props: any) {
       requests
         .put(`/user/${props.employee.id}`, payload, session ? session.accessToken.toString() : '')
         .then(res => props.closeHandler(true, 'success'))
-        .catch(props.closeHandler(true, 'error'))
+        .catch(err => props.closeHandler(true, 'error'))
     }
   }
 

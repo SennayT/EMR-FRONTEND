@@ -3,11 +3,12 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import { Button, Card, CardContent, CardActions, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import requests from 'src/utils/repository'
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const ExaminationAndSymptomsForm = (props: any) => {
   const ITEM_HEIGHT = 48
@@ -21,11 +22,25 @@ const ExaminationAndSymptomsForm = (props: any) => {
     }
   }
 
+  const router = useRouter();
   const [examination, setExamination] = useState('')
   const [symptoms, setSymptoms] = useState('')
   const [vitals, setVitals] = useState([{ id: 0, requestedDate: '' }])
   const [vital, setVital] = useState<number>()
   const { data: session } = useSession()
+
+  const [errOpen, setErrOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const handleClose = () => setErrOpen(false)
+  const handleClickClose = (origin: boolean, severity: string) => {
+    if (origin) {
+      console.log(severity)
+      setErrOpen(true)
+    } else {
+      // console.log('here')
+      setErrOpen(false)
+    }
+  }
 
   useEffect(() => {
     console.log('props', props)
@@ -44,11 +59,18 @@ const ExaminationAndSymptomsForm = (props: any) => {
     console.log(data)
     requests.post(`/examination`, data, session ? session.accessToken.toString() : '').then(response => {
       console.log(response.data)
-    })
+      router.back()
+    }).catch(e => setErrOpen(true))
   }
+
 
   return (
     <Grid container>
+       <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={'error'} sx={{ width: '100%' }}>
+            {'There has been an error, please try again or check vitals'}!
+          </Alert>
+        </Snackbar>
       <Card sx={{ marginTop: 2, paddingRight: 2, backgroundColor: 'white' }}>
         <form onSubmit={e => e.preventDefault()}>
           <CardContent>
@@ -126,3 +148,7 @@ const ExaminationAndSymptomsForm = (props: any) => {
 }
 
 export default ExaminationAndSymptomsForm
+function setOpen(arg0: boolean): void {
+  throw new Error('Function not implemented.')
+}
+

@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { Grid, Button, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material'
+import { Grid, Button, Dialog, DialogTitle, DialogActions, DialogContent, Snackbar, Alert } from '@mui/material'
 import { Fragment, useState } from 'react'
 import DiagnosisForm from 'src/views/shared-components/form-components/DiagnosisForm'
 import Link from 'next/link'
@@ -14,12 +14,33 @@ const PatientActionsBar = (props: any) => {
 
   const [open, setOpen] = useState<boolean>(false)
 
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState('success')
+
   const handleClickOpen = () => setOpen(true)
-  const handleClickClose = () => setOpen(false)
+  const handleClose = () => setErrOpen(false)
+  const handleClickClose = (origin: boolean, severity: string) => {
+    if (origin) {
+      console.log(severity)
+      setSeverity(severity)
+      setErrOpen(true)
+      setOpen(false)
+    } else {
+      // console.log('here')
+      setErrOpen(false)
+      setSeverity(severity)
+      setOpen(false)
+    }
+  }
   const router = useRouter()
 
   return (
     <div>
+      <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
+          <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
+          </Alert>
+        </Snackbar>
       <Grid className='container-grid' container alignItems='flex-end'>
         {actions.map(function (action) {
           return (
