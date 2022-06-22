@@ -47,15 +47,15 @@ const TreeIllustration = styled('img')(({ theme }) => ({
     bottom: 0
   }
 }))
-const router = useRouter();
-
-const resetPasswordHandler = () => {
-  requests.post(`/user/password/reset` ,{email: router.query} , "" ).then(res => {
-    router.push('/')
-  })
-}
 
 const Error500 = () => {
+  const router = useRouter()
+
+  const resetPasswordHandler = () => {
+    requests.post(`/user/password/reset`, { email: router.query.email }, '').then(res => {
+      router.push('/')
+    })
+  }
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
@@ -68,9 +68,9 @@ const Error500 = () => {
         </BoxWrapper>
         {/* <Img height='487' alt='error-illustration' src='/images/pages/500.png' /> */}
 
-          <Button onClick={resetPasswordHandler} component='a' variant='contained' sx={{ px: 5.5 }}>
-            Back to Home
-          </Button>
+        <Button onClick={resetPasswordHandler} component='a' variant='contained' sx={{ px: 5.5 }}>
+          Back to Home
+        </Button>
       </Box>
       {/* <FooterIllustrations image={<TreeIllustration alt='tree' src='/images/pages/tree-3.png' />} /> */}
     </Box>

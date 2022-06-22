@@ -136,7 +136,7 @@ const LoginPage = () => {
   }
 
   const forgotPassHandler = () => {
-    axios.get(`http://localhost:4000/user/password-forget/plainTextemail?toemail=${email}`).then(res => {
+    requests.get(`/user/password-forget/plainTextemail?toemail=${email}`, '').then(res => {
       router.push('/401')
     })
   }
