@@ -47,15 +47,17 @@ const TreeIllustration = styled('img')(({ theme }) => ({
     bottom: 0
   }
 }))
-const router = useRouter();
 
-const resetPasswordHandler = () => {
-  requests.post(`/user/password/reset` ,{email: router.query} , "" ).then(res => {
-    router.push('/')
-  })
-}
 
 const Error500 = () => {
+
+  const router = useRouter();
+
+  const resetPasswordHandler = () => {
+    requests.post(`/user/password/reset` ,{email: router.query} , "" ).then(res => {
+      router.push('/')
+    })
+  }
   return (
     <Box className='content-center'>
       <Box sx={{ p: 5, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>

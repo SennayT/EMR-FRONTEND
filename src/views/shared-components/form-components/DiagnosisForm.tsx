@@ -46,7 +46,7 @@ const DiagnosisForm = (props: any) => {
         console.log('requests', respose.data)
         setInvestigationReq(respose.data)
       })
-      .catch(err => console.log(err))
+      // .catch(err => props.closeHandler(true, 'error'))
   }, [])
 
   const registerDiagnosis = () => {
@@ -57,8 +57,9 @@ const DiagnosisForm = (props: any) => {
       diseases: currDisease
     }
     console.log(data)
-    requests.post('/diagnosis', data, session ? session.accessToken.toString() : '')
-    props.closeHandler()
+    requests.post('/diagnosis', data, session ? session.accessToken.toString() : '').then(res => {props.closeHandler(true, 'success')
+  })
+  .catch(err => props.closeHandler(true, 'error'))
   }
 
   return (
