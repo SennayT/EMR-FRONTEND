@@ -292,16 +292,8 @@ export default function UpdateHealthCenterForm(props: any) {
 
   return (
     <Box>
-      <Card>
-        <IconButton aria-label='back' onClick={() => router.back()}>
-          <BackIcon />
-        </IconButton>
-      </Card>
       <Grid container spacing={6} sx={{ backgroundColor: 'white', mt: 4 }}>
-        <Card sx={{ width: 5 / 6, mx: 18, my: 4, backgroundColor: 'white' }}>
-          <Typography variant='h5' sx={{ fontWeight: 600, mt: 8 }}>
-            Health Center Update
-          </Typography>
+        <Card sx={{ width: 5 / 6, mx: 18, my: 2, backgroundColor: 'white' }}>
           <form onSubmit={e => e.preventDefault()}>
             <CardContent sx={{ px: 4 }}>
               <Grid sx={{ px: 4 }} container spacing={5}>
