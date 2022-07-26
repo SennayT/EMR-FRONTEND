@@ -12,7 +12,7 @@ const ViewList = () => {
     session.role == 'Doctor'
       ? requests
           .get(
-            `/investigation-request/${router.query.invId}/lab-results`,
+            `/investigation-request/${router.query.currId}/lab-results`,
             session ? session.accessToken.toString() : ''
           )
           .then(response => {
