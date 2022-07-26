@@ -39,14 +39,13 @@ const navigation = (session: Session): VerticalNavItemsType => {
       icon: SearchIcon,
       path: '/stats/'
     }),
-
-    pagesSection.push({
-      title: 'Searched Disease',
-      icon: SIcon,
-      path: '/stats/SearchingDisease/'
-    }),
       pagesSection.push({
-        title: 'Searched Medication',
+        title: 'Search Disease',
+        icon: SIcon,
+        path: '/stats/SearchingDisease/'
+      }),
+      pagesSection.push({
+        title: 'Search Medication',
         icon: SIcon,
         path: '/stats/SearchingMedication/'
       })
@@ -83,14 +82,13 @@ const navigation = (session: Session): VerticalNavItemsType => {
       icon: SearchIcon,
       path: '/stats/'
     }),
-
-    pagesSection.push({
-      title: 'Searched Disease',
-      icon: SIcon,
-      path: '/stats/SearchingDisease/'
-    }),
       pagesSection.push({
-        title: 'Searched Medication',
+        title: 'Search Disease',
+        icon: SIcon,
+        path: '/stats/SearchingDisease/'
+      }),
+      pagesSection.push({
+        title: 'Search Medication',
         icon: SIcon,
         path: '/stats/SearchingMedication/'
       })
