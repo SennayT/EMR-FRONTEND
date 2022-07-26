@@ -16,8 +16,8 @@ import { useSession } from 'next-auth/react'
 
 const InvestigativeRequestTable = () => {
   const [open, setOpen] = useState<boolean>(false)
-  const [errOpen , setErrOpen] = useState(false)
-  const [severity, setSeverity]  = useState('success')
+  const [errOpen, setErrOpen] = useState(false)
+  const [severity, setSeverity] = useState('success')
 
   const handleClickOpen = (param: any) => {
     // console.log(req)
@@ -28,6 +28,9 @@ const InvestigativeRequestTable = () => {
   const { data: session } = useSession()
 
   const handleClickClose = (origin: boolean, severity: string) => {
+    requests.get(`/investigation-request/incomplete`, session ? session.accessToken.toString() : '').then(response => {
+      setInvReqs(response.data)
+    })
     if (origin) {
       console.log(severity)
       setSeverity(severity)
@@ -106,10 +109,10 @@ const InvestigativeRequestTable = () => {
   return (
     <div>
       <Snackbar open={errOpen} autoHideDuration={600} onClose={() => setOpen(false)}>
-          <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
-            {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
-          </Alert>
-        </Snackbar>
+        <Alert onClose={handleClose} severity={severity == 'success' ? 'success' : 'error'} sx={{ width: '100%' }}>
+          {severity == 'success' ? 'Changes Made successfully' : 'There has been an error, please try again'}!
+        </Alert>
+      </Snackbar>
       <Typography variant='h5' sx={{ marginLeft: 2, marginBottom: 4 }}>
         Investigative Requests
       </Typography>
@@ -130,7 +133,11 @@ const InvestigativeRequestTable = () => {
         <Dialog open={open} maxWidth='md' onClose={handleClickClose} aria-labelledby='max-width-dialog-title'>
           <DialogTitle id='max-width-dialog-title'>Lab Result Form </DialogTitle>
           <DialogContent>
-            <LabResultFrom closeHandler={handleClickClose} labTests={currentInvReq.labTests} invReqId={currentInvReq.id} />
+            <LabResultFrom
+              closeHandler={handleClickClose}
+              labTests={currentInvReq.labTests}
+              invReqId={currentInvReq.id}
+            />
           </DialogContent>
           <DialogActions className='dialog-actions-dense'></DialogActions>
         </Dialog>

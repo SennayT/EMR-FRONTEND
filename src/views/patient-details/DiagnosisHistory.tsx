@@ -41,33 +41,43 @@ const ImgShoe = styled('img')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
 }))
 
-
 const DiagnosisHistory = () => {
-  const [diagnosis, setDiagnosis] = useState([
-  ])
+  const [diagnosis, setDiagnosis] = useState([])
   const [loading, setLoading] = useState(false)
   const { data: session } = useSession()
 
   const router = useRouter()
   useEffect(() => {
-    requests
-      .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
-      .then(response => {
-        setDiagnosis(response.data)
-        // setLoading(true)
-        console.log("diagnosis", diagnosis)
-      })
+    session.role == 'Patient'
+      ? requests.get(`/patient/user/profile`, session ? session.accessToken.toString() : '').then(response => {
+          console.log('id', response.data.id)
+
+          requests
+            .get(`/diagnosis/patient/${response.data.id}`, session ? session.accessToken.toString() : '')
+            .then(response => {
+              setDiagnosis(response.data)
+              // setLoading(true)
+              console.log('diagnosis', diagnosis)
+            })
+        })
+      : requests
+          .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+          .then(response => {
+            setDiagnosis(response.data)
+            // setLoading(true)
+            console.log('diagnosis', diagnosis)
+          })
   }, [])
 
   const detailDiagnosis = (diag: any) => {
-      router.push({
-        pathname: '/doctor/create-prescription',
-        query: {
-          dName: diag.createdAt.toString(),
-          dDesc: diag.comment,
-          id: diag.id
-        }
-      })
+    router.push({
+      pathname: '/doctor/create-prescription',
+      query: {
+        dName: diag.createdAt.toString(),
+        dDesc: diag.comment,
+        id: diag.id
+      }
+    })
   }
 
   return (
@@ -76,67 +86,77 @@ const DiagnosisHistory = () => {
         <Typography variant='h6'>Diagnosis History</Typography>
 
         <Timeline>
-          {diagnosis.length != 0 ? diagnosis.map(singleDiagnosis => {
-            return (
-              <TimelineItem>
-                <TimelineSeparator>
-                  <TimelineDot color='error' variant='outlined' />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <Box
-                    sx={{
-                      mb: 2,
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      alignItems: 'center',
-                      justifyContent: 'space-between'
-                    }}
-                  >
-                    <Typography variant='body1' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
-                      {singleDiagnosis.comment}
-                    </Typography>
-                    <Typography variant='caption'>
-                      Created At{' '}
-                      {new Date(singleDiagnosis.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </Typography>
-                  </Box>
-                  <Box
-                    sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'start', justifyContent: 'stretch' }}
-                  >
-                    <div>
-                      {new Date(singleDiagnosis.createdAt).toLocaleDateString('en-US')}
-                      <ArrowRight fontSize='small' sx={{ verticalAlign: 'bottom', mx: 4 }} />
-                    </div>
+          {diagnosis.length != 0 ? (
+            diagnosis.map(singleDiagnosis => {
+              return (
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot color='error' variant='outlined' />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Box
+                      sx={{
+                        mb: 2,
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <Typography variant='body1' sx={{ mr: 2, fontWeight: 600, color: 'text.primary' }}>
+                        {singleDiagnosis.comment}
+                      </Typography>
+                      <Typography variant='caption'>
+                        Created At{' '}
+                        {new Date(singleDiagnosis.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </Typography>
+                    </Box>
+                    <Box
+                      sx={{ mb: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'start', justifyContent: 'stretch' }}
+                    >
+                      <div>
+                        {new Date(singleDiagnosis.createdAt).toLocaleDateString('en-US')}
+                        <ArrowRight fontSize='small' sx={{ verticalAlign: 'bottom', mx: 4 }} />
+                      </div>
 
-                    <div>
-                      Diagnosed Diseases
-                      {singleDiagnosis.diseases.map(disease => {
-                        console.log('here', disease)
-                        return (
-                          <div>
-                            <Typography variant='body1'>{disease.name}</Typography>
-                            <Typography variant='body2'>{disease.description}</Typography>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </Box>
-                  {/* <Typography variant='caption'>6:30 AM</Typography> */}
-                  <Box>
-                    {/* <img width={28} height={28} alt='invoice.pdf' src='/materio-mui-react-nextjs-admin-template/demo-1/images/icons/file-icons/pdf.png' /> */}
-                    <Button onClick={() => detailDiagnosis(singleDiagnosis)}  variant='text' color='primary' size='small' style={{ float: 'right' }}>
-                      More
-                    </Button>
-                  </Box>
-                </TimelineContent>
-              </TimelineItem>
-            )
-          }) : <p>No Diagnosis Yet</p>}
+                      <div>
+                        Diagnosed Diseases
+                        {singleDiagnosis.diseases.map(disease => {
+                          console.log('here', disease)
+                          return (
+                            <div>
+                              <Typography variant='body1'>{disease.name}</Typography>
+                              <Typography variant='body2'>{disease.description}</Typography>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </Box>
+                    {/* <Typography variant='caption'>6:30 AM</Typography> */}
+                    <Box>
+                      {/* <img width={28} height={28} alt='invoice.pdf' src='/materio-mui-react-nextjs-admin-template/demo-1/images/icons/file-icons/pdf.png' /> */}
+                      <Button
+                        onClick={() => detailDiagnosis(singleDiagnosis)}
+                        variant='text'
+                        color='primary'
+                        size='small'
+                        style={{ float: 'right' }}
+                      >
+                        More
+                      </Button>
+                    </Box>
+                  </TimelineContent>
+                </TimelineItem>
+              )
+            })
+          ) : (
+            <p>No Diagnosis Yet</p>
+          )}
         </Timeline>
       </CardContent>
     </Card>

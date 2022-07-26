@@ -30,21 +30,19 @@ const PatientDiagnosis = (props: {
   const [imgSrc, setImgSrc] = useState<string>(props.user.image)
 
   const [vitals, setVitals] = useState([])
+  const [refId, setRefId] = useState('')
   const { data: session } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    session.role == 'Patient' ?
-      requests
-        .get(`/patient/user/profile`, session ? session.accessToken.toString() : '')
-        .then(response => {
+    session.role == 'Patient'
+      ? requests.get(`/patient/user/profile`, session ? session.accessToken.toString() : '').then(response => {
+          setRefId(response.data.refId)
           setImgSrc(response.data.image)
-          requests
-            .get(`/vitals/patient/${response.data.id}`, session ? session.accessToken.toString() : '')
-            .then(r => {
-              console.log(r.data)
-              setVitals(r.data)
-            })
+          requests.get(`/vitals/patient/${response.data.id}`, session ? session.accessToken.toString() : '').then(r => {
+            console.log(r.data)
+            setVitals(r.data)
+          })
           requests
             .get(`/diagnosis/patient/${response.data.id}`, session ? session.accessToken.toString() : '')
             .then(response => {
@@ -54,13 +52,13 @@ const PatientDiagnosis = (props: {
                 console.log('diseases', lastDiagnosis.diseases)
               }
             })
-        }) :
-      requests
-        .get(`/vitals/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
-        .then(response => {
-          console.log(response.data)
-          setVitals(response.data)
         })
+      : requests
+          .get(`/vitals/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
+          .then(response => {
+            console.log(response.data)
+            setVitals(response.data)
+          })
     requests
       .get(`/diagnosis/patient/${router.query.pid}`, session ? session.accessToken.toString() : '')
       .then(response => {
@@ -118,23 +116,26 @@ const PatientDiagnosis = (props: {
               </Box>
             </Grid>
             <Grid item>
-              {vitals.length != 0
-                ? vitals.map(function (vital) {
+              {vitals.length != 0 ? (
+                vitals.map(function (vital) {
                   return (
                     <div>
                       <p>vital number {vital['id']}</p>
                       <PatientVitals vital={vital} />
-                      {vital.examination ? <><Typography>
-                        Symptom: {vital.examination.symptom}
-                      </Typography>
-
-                      <Typography>
-                        Physical Examination:  {vital.examination.symptom}
-                      </Typography> </>: <p></p>}
+                      {vital.examination ? (
+                        <>
+                          <Typography>Symptom: {vital.examination.symptom}</Typography>
+                          <Typography>Physical Examination: {vital.examination.symptom}</Typography>{' '}
+                        </>
+                      ) : (
+                        <p></p>
+                      )}
                     </div>
                   )
                 })
-                : <p>No Vitals Yet</p>}
+              ) : (
+                <p>No Vitals Yet</p>
+              )}
 
               <Typography variant='h6' sx={{ marginBottom: 3.5 }}>
                 Recent Diagnosis
@@ -142,16 +143,20 @@ const PatientDiagnosis = (props: {
 
               <Typography variant='body2'>{lastDiagnosis.comment}</Typography>
 
-              {lastDiagnosis.id != 0 ? lastDiagnosis.diseases.map(disease => {
-                console.log('here', disease)
+              {lastDiagnosis.id != 0 ? (
+                lastDiagnosis.diseases.map(disease => {
+                  console.log('here', disease)
 
-                return (
-                  <div>
-                    <Typography variant='body1'>{disease.name}</Typography>
-                    <Typography variant='body2'>{disease.description}</Typography>
-                  </div>
-                )
-              }) : <p>No Diagnosis Yet</p>}
+                  return (
+                    <div>
+                      <Typography variant='body1'>{disease.name}</Typography>
+                      <Typography variant='body2'>{disease.description}</Typography>
+                    </div>
+                  )
+                })
+              ) : (
+                <p>No Diagnosis Yet</p>
+              )}
             </Grid>
           </Grid>
         </form>

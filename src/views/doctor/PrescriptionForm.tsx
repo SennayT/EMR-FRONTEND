@@ -16,57 +16,70 @@ const sampleMedications: Medication[] = []
 export default function PrescriptionForm() {
   const [medications, setMedications] = useState<Medication[]>([...sampleMedications])
   const [medication, setMedication] = useState<Medication>({ name: '', dosage: '', instructions: '' })
-  const { data: session } = useSession();
+  const { data: session } = useSession()
   const router = useRouter()
-
 
   const [prescriptions, setPrescriptions] = useState([
     {
       id: 0,
-      createdAt: "",
+      createdAt: '',
       medications: [
         {
           id: 0,
-          name: "",
-          dosage: "",
-          instructions: "",
-          prescription: ""
+          name: '',
+          dosage: '',
+          instructions: '',
+          prescription: ''
         }
-      ],
-    }])
+      ]
+    }
+  ])
 
-    // const [prescription, setPrescription] = useState(
-    //   {
-    //     id: 0,
-    //     createdAt: "",
-    //     medications: [
-    //       {
-    //         id: 0,
-    //         name: "",
-    //         dosage: "",
-    //         instructions: "",
-    //         prescription: ""
-    //       }
-    //     ],
-    //   })
+  // const [prescription, setPrescription] = useState(
+  //   {
+  //     id: 0,
+  //     createdAt: "",
+  //     medications: [
+  //       {
+  //         id: 0,
+  //         name: "",
+  //         dosage: "",
+  //         instructions: "",
+  //         prescription: ""
+  //       }
+  //     ],
+  //   })
 
-    useEffect(() => {
-      requests.get(`/prescription/diagnosis/${router.query.id}`, session ? session.accessToken.toString() : "" ).then(response => {
+  useEffect(() => {
+    console.log('the query id is', router.query.id)
+    requests
+      .get(`/prescription/diagnosis/${router.query.id}`, session ? session.accessToken.toString() : '')
+      .then(response => {
+        console.log('prescriptions', response.data)
         setPrescriptions(response.data)
       })
-    },[])
-
+  }, [])
 
   const addButtonDisabled = medication.name === '' || medication.dosage === ''
   const submitDisabled = medications.length === 0
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
     try {
-      const res = await requests.post('/prescription', {
-        diagnosisId: 1,
-        medications
-      }, session ? session.accessToken.toString() : "")
+      const res = await requests.post(
+        '/prescription',
+        {
+          diagnosisId: Number(router.query.id),
+          medications
+        },
+        session ? session.accessToken.toString() : ''
+      )
       console.log(res.data)
+      requests
+        .get(`/prescription/diagnosis/${router.query.id}`, session ? session.accessToken.toString() : '')
+        .then(response => {
+          console.log('prescriptions', response.data)
+          setPrescriptions(response.data)
+        })
     } catch (err) {
       console.log(err)
     }
@@ -78,12 +91,13 @@ export default function PrescriptionForm() {
   }
 
   const exportPdf = (id: string) => {
-    const pdfUrl = `http://capstone-backend-0957-11-v2.herokuapp.com/prescription/export/pdf/${id}`
-    const link = document.createElement('a');
-    link.href = pdfUrl;
+    const pdfUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/prescription/export/pdf/${id}`
+    //const pdfUrl = `http://localhost:4000/prescription/export/pdf/${id}`
+    const link = document.createElement('a')
+    link.href = pdfUrl
     // link.setAttribute('download', 'report.pdf');
-    document.body.appendChild(link);
-    link.click();
+    document.body.appendChild(link)
+    link.click()
   }
 
   return (
@@ -98,9 +112,7 @@ export default function PrescriptionForm() {
               <CardContent sx={{ px: 4 }}>
                 <Grid sx={{ px: 4 }} container spacing={5}>
                   <Grid item xs={12}>
-                    <Typography variant='subtitle1' >
-                      Prescription Add
-                    </Typography>
+                    <Typography variant='subtitle1'>Prescription Add</Typography>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
@@ -138,7 +150,13 @@ export default function PrescriptionForm() {
               <CardActions>
                 <Grid sx={{ px: 4 }} container spacing={5}>
                   <Grid item xs={4}>
-                    <Button disabled={addButtonDisabled} variant='contained' size='large' onClick={addItemHandler} sx={{}}>
+                    <Button
+                      disabled={addButtonDisabled}
+                      variant='contained'
+                      size='large'
+                      onClick={addItemHandler}
+                      sx={{}}
+                    >
                       Add
                     </Button>
                   </Grid>
@@ -160,32 +178,35 @@ export default function PrescriptionForm() {
           <Card sx={{ my: 4, backgroundColor: 'white' }}>
             <CardContent>
               <Box>
-                <Typography variant="subtitle1">Previous Prescriptions</Typography>
+                <Typography variant='subtitle1'>Previous Prescriptions</Typography>
               </Box>
-                {prescriptions.map((prescription) => {
-                  return (
-              <Box sx={{ display: 'flex', alignItems: 'center', my: 4, justifyContent: 'space-between' }}>
-                    <Box  >
-                      <Typography variant="subtitle1">
-                     {new Date(prescription.createdAt).toLocaleDateString("en-US")}
+              {prescriptions.map(prescription => {
+                return (
+                  <Box sx={{ display: 'flex', alignItems: 'center', my: 4, justifyContent: 'space-between' }}>
+                    <Box>
+                      <Typography variant='subtitle1'>
+                        {new Date(prescription.createdAt).toLocaleDateString('en-US')}
                       </Typography>
                       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        {prescription.medications.map((medication) => {
-                          return (<Typography variant='caption'>
-                            {medication.name}
-                          </Typography>)
-                        })
-                        }
-
-
+                        {prescription.medications.map(medication => {
+                          return <Typography variant='caption'>{medication.name}</Typography>
+                        })}
                       </Box>
                     </Box>
 
-                <Box>
-                  <Button variant="outlined" sx={{ float: 'right' }} size='small' onClick={() => exportPdf(prescription.id.toString())}>Export</Button>
-                </Box>
-              </Box>
-                  )})}
+                    <Box>
+                      <Button
+                        variant='outlined'
+                        sx={{ float: 'right' }}
+                        size='small'
+                        onClick={() => exportPdf(prescription.id.toString())}
+                      >
+                        Export
+                      </Button>
+                    </Box>
+                  </Box>
+                )
+              })}
             </CardContent>
           </Card>
         </Grid>

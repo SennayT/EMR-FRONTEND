@@ -9,7 +9,7 @@ import requests from 'src/utils/repository'
 import { useRouter } from 'next/router'
 
 // import NoDataView from 'src/views/shared-components/NoDataView'
-import { Box, Typography, BoxProps } from '@mui/material'
+import { Box, Typography, BoxProps, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 import PatientVitals from 'src/views/patient-details/PatientVitals'
@@ -62,25 +62,25 @@ export default function PatientDashboard(props: any) {
 
   const { data: session } = useSession()
   const [vitals, setVitals] = useState([])
+  const [refId, setRefId] = useState('')
 
   // const router = useRouter()
 
   useEffect(() => {
-    requests.get(`/patient/user/profile`,  session ? session.accessToken.toString() : '').then(response => {
+    requests.get(`/patient/user/profile`, session ? session.accessToken.toString() : '').then(response => {
       setUser(response.data)
-      console.log("user" , response.data)
+      setRefId(response.data.refId)
+      console.log('user', response.data)
       requests.get(`/vitals/patient/${response.data.id}`, session ? session.accessToken : '').then(r => {
-          setVitals(r.data)
-        })
-
+        setVitals(r.data)
+      })
     })
   }, [])
-
 
   return vitals.length == 0 ? (
     <Grid className='container-grid' spacing={5} container item>
       <Grid item xs={12}>
-        <ShowRefDialog refId={"5f318613-eeef-4c47-a3be-a3fe23c32a9a"}/>
+        <TextField value={refId} />
         <PatientDiagnosis user={user} />
       </Grid>
       <Grid item xs={8}>
@@ -91,7 +91,7 @@ export default function PatientDashboard(props: any) {
               {/* <Typography variant='body2' sx={{ mb: 1 }}>
                please add data to view here ⚠️
               </Typography> */}
-             </BoxWrapper>
+            </BoxWrapper>
           </Box>
         </Box>
       </Grid>
